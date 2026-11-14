@@ -1,11 +1,3 @@
-[17:45:55] skip LT_CLERK_d4da (already done on d4daa6326c81c2ba7a57c266235dec49cd7b5ab6)
-[17:45:55] skip XS_REAL_perf_r2 (already done on 8d459e6226513748c198013c2a4dc0730fa609f7)
-[17:45:55] skip TZ_REAL_perf (already done on 257e05a852adb29ec5851db99cebfa24b8f967cc)
-[17:45:55] skip TZ_REAL_perf_night (already done on 257e05a852adb29ec5851db99cebfa24b8f967cc)
-[17:45:55] skip TZ_REAL_perf_old (already done on fcbc3aab3117c1fec2c1c833b3d44813684e18fd)
-[17:45:55] skip BB0719_exit (already done on 42c493ca277073a91d87dca7f971f6625a56d6a0)
-[17:45:55] skip BB0719_flk_1b (already done on 42c493ca277073a91d87dca7f971f6625a56d6a0)
-[17:45:55] skip SSB_gg1 (already done on b4706662f3a882d5bfd7c72aca65c845754dde8a)
 [17:45:55] skip SSB_gg2 (already done on b4706662f3a882d5bfd7c72aca65c845754dde8a)
 [17:45:55] skip SSB_gg3a (already done on b4706662f3a882d5bfd7c72aca65c845754dde8a)
 [17:45:55] skip SSB_gg3b (already done on c77fa6520d0813478ed4caf063481ebd4b3f6c9e)
@@ -1998,3 +1990,11 @@
 [20:20:17] [res] cpu=4% mem=48% (15.1/31.4 GB) chrome_testing=10  START AA_SCENES_GIFT_r3_yt
 [20:20:55] 正在跑：DATE35_PS_ARR_r2（已跑 22 分／上限 30 分）、AA_SCENES_DATE_r2（已跑 13 分／上限 30 分）、AA_SCENES_GIFT_r3_yt（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [20:22:10] [res] cpu=4% mem=47% (14.9/31.4 GB) chrome_testing=10  END AA_SCENES_GIFT_r3_yt
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       55db182c9a..21fe3266b1  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:22:18] ==== END   AA_SCENES_GIFT_r3_yt  exit=0  116s   ====
+[20:22:33] memory 51% before starting CANON458_BOOKSTORE_r6_rc2e (2 running)
+[20:22:33] ==== START CANON458_BOOKSTORE_r6_rc2e  (probe @ 1404d5f2d4cb740d50df75741764be18ee746992) ====
+[20:22:36] [res] cpu=1% mem=51% (16.1/31.4 GB) chrome_testing=10  START CANON458_BOOKSTORE_r6_rc2e
+[20:24:41] [res] cpu=7% mem=48% (15.4/31.4 GB) chrome_testing=10  END CANON458_BOOKSTORE_r6_rc2e
