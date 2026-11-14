@@ -1,12 +1,3 @@
-[17:45:55] skip CANON_NEWGAME_FULL (already done on 8c7ed865600a085f283e1db9698ba18513cfafc8)
-[17:45:55] skip DN_PROGRAMS_3414 (already done on 341436a25ed53942df4059d634d953a93e6ed988)
-[17:45:55] skip RONGENDIAN_glass (already done on 341436a25ed53942df4059d634d953a93e6ed988)
-[17:45:55] skip SHAOLA_sign_2330 (already done on 21a0319ca1c56ff22e8c15cd1b1db9fc87dddd49)
-[17:45:55] skip FIRST_gg_desk_r2 (already done on 21a0319ca1c56ff22e8c15cd1b1db9fc87dddd49)
-[17:45:55] skip FIRST_gg_touch_r2 (already done on 21a0319ca1c56ff22e8c15cd1b1db9fc87dddd49)
-[17:45:55] skip FIRST_sunny_desk_r2 (already done on 21a0319ca1c56ff22e8c15cd1b1db9fc87dddd49)
-[17:45:55] skip FIRST_sunny_touch_r2 (already done on 21a0319ca1c56ff22e8c15cd1b1db9fc87dddd49)
-[17:45:55] skip SHUT_TZ_door_14_r3 (already done on 9f331db43858fe6c58021a3419820c81efeb7bb4)
 [17:45:55] skip SHUT_TZ_door_2330_r3 (already done on 9f331db43858fe6c58021a3419820c81efeb7bb4)
 [17:45:55] skip TZ_ARCADE_WALK_9f33 (already done on 9f331db43858fe6c58021a3419820c81efeb7bb4)
 [17:45:55] skip L118_SEAT_dian_tea (already done on 9f331db43858fe6c58021a3419820c81efeb7bb4)
@@ -1998,3 +1989,12 @@
 [21:13:20] ==== START HL1_CIRCLE_1028_r2  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
 [21:13:23] [res] cpu=3% mem=52% (16.4/31.4 GB) chrome_testing=10  START HL1_CIRCLE_1028_r2
 [21:14:52] [res] cpu=12% mem=49% (15.6/31.4 GB) chrome_testing=10  END AA358_22_24_cafe_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       60f022e984..093087db19  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:15:00] ==== END   AA358_22_24_cafe_r2  exit=0  378s   ====
+[21:15:14] memory 51% before starting AA355_6_sports_r2 (2 running)
+[21:15:14] ==== START AA355_6_sports_r2  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
+[21:15:17] [res] cpu=11% mem=51% (16.0/31.4 GB) chrome_testing=10  START AA355_6_sports_r2
+[21:15:55] 正在跑：LIMAO_DOOR_r2（已跑 6 分／上限 45 分）、HL1_CIRCLE_1028_r2（已跑 2 分／上限 40 分）、AA355_6_sports_r2（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:17:13] [res] cpu=12% mem=49% (15.7/31.4 GB) chrome_testing=10  END LIMAO_DOOR_r2
