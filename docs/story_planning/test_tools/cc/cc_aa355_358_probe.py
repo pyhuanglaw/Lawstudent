@@ -15,7 +15,7 @@ PARTS（逗號分隔，預設 NOODLE,CAFE,JP,SPORTS）：
     「訂同一班飛機」：jp3d.js 只有註解、找不到對應的程式，只記 G.flags 裡含 FLIGHT／SAME 的鍵，交 BB。
   SPORTS（AA_355 6，classes3d.js dayLabel、calendar.js MARK）：Y2 2026-11-20（五）08:00 宿舍 → 手機「今天」那行要有「全校運動會」、今天有課（CLS.dayItems）、一鍵「到下一堂課」上得了（出席有記）；
     對照 Y1 2025-11-21（五）08:00 → 那行是「運動會（停課）」、今天沒課。基底存檔照 cc_study_play_probe 的 FIX（使用者存檔）。
-CC-B 11-14：CAFE ② 讀書區第一次點頭後再說一次；JP_CTRL 的 romance 'none' 算沒有；CAFE 補 SOCIAL.meet 捷徑、① 改找劇情的 an（椰影大道 18:30）。
+CC-B 11-14：SPORTS 一鍵前先關手機；CAFE ② 讀書區第一次點頭後再說一次；JP_CTRL 的 romance 'none' 算沒有；CAFE 補 SOCIAL.meet 捷徑、① 改找劇情的 an（椰影大道 18:30）。
 CC_02 清單 2026-11-14：1✓（日期照 BB_462 與 src：mainDay 用 STORY.mainDay 驗；阿哲的時段照 characters.js；小安的時段用 STORY.schedEnt 掃；6/9 21:00 照 jp3d.js） 2✓（字、旗標、座位、互動點都從遊戲讀：eat==='noodle'、GAME.npc.zhe、PHONE.sent、CLS） 3✓（座位挑離阿哲最近、不是他坐的那張、2.5 m 內） 4✓（按之前確認互動鍵的字；選項照字比對） 5✓（走路用 go_to／use_exit 到站得住的點） 6✓（每句對話等 650 ms；手機等遊戲時間過 21:06；上課最多等 6 分鐘） 7✓（lint、canon） 8✓（只記不判；對話用 MutationObserver＋GAME.say 兩份） 9✓（每一路、每一步截圖） 10✓（每一路先演完插進來的劇情再往下；B2 讓遊戲自己的 tick 記 anMissed） 11✓（佇列 probe、SHA 40 碼） 12✓（FAIL_SETUP：每一路先驗日期、區域、旗標真的成立，阿哲在場、小安在場才往下） 13✓（走路途中有對話就先點完）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [PARTS=NOODLE,CAFE,JP,SPORTS] [ROUTES=A,B1,B2] [FIX=tests/fixtures/user_save_day51b_1110.json] python3 cc_aa355_358_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
@@ -295,7 +295,8 @@ CLS_JS = r"""(()=>{ const G=GAME.G; let lab=null, line=null, its=[], rec=null; t
 
 
 async def onetap_cls(pg, cdp):
-    await L.tap(pg, cdp, '#btnGo'); await pg.wait_for_timeout(700)
+    await L.close_panels(pg, cdp); await pg.wait_for_timeout(500)   # CC-B 11-14（AA355_6_sports 第一次跑：goPop 是空的）：前一步讀手機首頁字、手機還開著，點 #btnGo 點到手機上；先關面板
+    await L.tap(pg, cdp, '#btnGo'); await pg.wait_for_timeout(900)
     ok = await pg.evaluate("""(()=>{ const pop=document.getElementById('goPop'); if(!pop) return 'no-pop'; const e=pop.querySelector('[data-gok="cls"]'); if(!e) return 'none: '+(pop.textContent||'').slice(0,200);
       const t=(e.textContent||'').trim(); if(e.classList.contains('dim')){ e.click(); return 'dim: '+t; } e.click(); return 'ok: '+t; })()""")
     if ok.startswith('ok'): await pg.wait_for_timeout(700); ok += '｜確定=%s' % await L.tap(pg, cdp, '#goCfYes'); await pg.wait_for_timeout(1500)   # onetap3d.js 防誤觸確認框
