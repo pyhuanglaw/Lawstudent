@@ -411,7 +411,7 @@ pj = LAY['projector']
 # v7（LAWWW2-C P2：原本是一整塊純黑的立式方箱）：深色木頭展示台＋黃銅收邊＋Poly Haven 掃描的舊放映機（filmstrip_projector_8mm）放在上面；佔的地方和原本一樣
 pro = Mesh('PROJECTOR', m_wood); pro.rbox(pj['x'] - 0.25, pj['x'] + 0.25, 0.0, 0.95, pj['z'] - 0.3, pj['z'] + 0.3, r=0.02, seg=2); pro.finish(root, smooth=True)
 Mesh('PROJECTOR_TRIM', m_brass).rbox(pj['x'] - 0.27, pj['x'] + 0.27, 0.95, 0.98, pj['z'] - 0.32, pj['z'] + 0.32, r=0.01, seg=1).finish(root)
-K.ph_put('filmstrip_projector_8mm', pj['x'], 0.98, pj['z'], math.pi, height=0.42, decimate=0.08)
+K.ph_put('filmstrip_projector_8mm', pj['x'], 0.98, pj['z'], math.pi, height=0.62, decimate=0.2)
 seats = Mesh('RED_CHAIRS', m_maroon); seatl = Mesh('RED_CHAIRS_LEGS', m_iron)
 for k in range(2):
     z = pj['z'] - 1.0 - k * 0.6
@@ -440,12 +440,14 @@ def _remap_uv(obname, u0, u1, v0, v1):
     for d_ in me.uv_layers.active.data: d_.uv = (u0 + d_.uv[0] * (u1 - u0), v0 + d_.uv[1] * (v1 - v0))
 _remap_uv('CHALK_FACE', 0.0, 512 / 848, 1 - 444 / 512, 1.0)
 sx_, sz_ = 2.2, 0.0
-stn = Mesh('STANDEE_FRAME', m_iron)
+stn = Mesh('STANDEE_FRAME', m_wood)   # v7（LAWWW2-C P2：從店裡看是一塊純黑的立式方箱）：框改深色木頭，背面也貼海報
 stn.rbox(sx_ - 0.36, sx_ + 0.36, 0.55, 2.0, sz_ - 0.03, sz_ + 0.0, r=0.01, seg=1)
 for dx in (-0.3, 0.3): stn.box(sx_ + dx - 0.015, sx_ + dx + 0.015, 0.0, 0.6, sz_ - 0.02, sz_ + 0.0); stn.box(sx_ + dx - 0.02, sx_ + dx + 0.02, 0.0, 0.02, sz_ - 0.25, sz_ + 0.2)
 stn.finish(root)
 uvquad('STANDEE_FACE', (sx_ - 0.32, 0.6, sz_ + 0.003), (sx_ + 0.32, 0.6, sz_ + 0.003), (sx_ + 0.32, 1.96, sz_ + 0.003), (sx_ - 0.32, 1.96, sz_ + 0.003), IM['standee'])   # 面向入口（+z）
 _remap_uv('STANDEE_FACE', 512 / 848, 1.0, 0.0, 1.0)
+uvquad('STANDEE_FACE_BACK', (sx_ + 0.32, 0.6, sz_ - 0.033), (sx_ - 0.32, 0.6, sz_ - 0.033), (sx_ - 0.32, 1.96, sz_ - 0.033), (sx_ + 0.32, 1.96, sz_ - 0.033), IM['standee'])   # v7：背面（朝店裡）也是同一張海報
+_remap_uv('STANDEE_FACE_BACK', 512 / 848, 1.0, 0.0, 1.0)
 EXTRA.append([sx_, sz_ - 0.02, 0.8, 0.5, '本日放映立牌'])
 # 2) 排隊的地方：兩支紅龍柱（銅柱、深紅絨繩）——櫃檯前排隊那一條（x −3.2～−2.0）和中間走道中間；售票窗口在外觀那一面（LAWWW2），大廳裡排隊的是爆米花櫃檯
 qx, qz0, qz1 = -1.95, -1.4, 0.6
