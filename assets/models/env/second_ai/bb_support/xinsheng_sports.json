@@ -1,8 +1,8 @@
 {
- "objects": 589,
- "unique_meshes": 112,
- "tris": 48824,
- "tris_drawn": 93788,
+ "objects": 604,
+ "unique_meshes": 116,
+ "tris": 50970,
+ "tris_drawn": 103758,
  "materials": [
   "xs_alpha",
   "xs_ceiling",
@@ -10,22 +10,30 @@
   "xs_floor_tile",
   "xs_glass",
   "xs_goods",
+  "xs_ph_CashRegister_01_01_glass",
+  "xs_ph_CashRegister_01_ister_01",
+  "xs_ph_cardboard_box_01",
+  "xs_ph_football",
   "xs_plaster",
   "xs_sign",
   "xs_stone",
   "xs_vc",
+  "xs_vc_fabric",
+  "xs_vc_leather",
   "xs_vc_metal",
+  "xs_vc_metal_tex",
+  "xs_vc_plastic",
   "xs_wood"
  ],
  "out": "assets/models/env/second_ai/bb_support/xinsheng_sports.glb",
- "bytes": 3799984,
+ "bytes": 4889928,
  "texres": 1024,
  "shop": "xinsheng_sports",
  "layout": 3,
- "drawn_tris": 93788,
+ "drawn_tris": 103758,
  "per_level_tris": {
-  "0": 59994,
-  "1": 33794
+  "0": 69400,
+  "1": 34358
  },
  "per_level_mats": {
   "0": [
@@ -35,11 +43,19 @@
    "xs_floor_tile",
    "xs_glass",
    "xs_goods",
+   "xs_ph_CashRegister_01_01_glass",
+   "xs_ph_CashRegister_01_ister_01",
+   "xs_ph_cardboard_box_01",
+   "xs_ph_football",
    "xs_plaster",
    "xs_sign",
    "xs_stone",
    "xs_vc",
+   "xs_vc_fabric",
+   "xs_vc_leather",
    "xs_vc_metal",
+   "xs_vc_metal_tex",
+   "xs_vc_plastic",
    "xs_wood"
   ],
   "1": [
@@ -51,13 +67,14 @@
    "xs_plaster",
    "xs_sign",
    "xs_vc",
+   "xs_vc_fabric",
    "xs_vc_metal",
    "xs_wood"
   ]
  },
  "per_level_mat_count": {
-  "0": 12,
-  "1": 10
+  "0": 20,
+  "1": 11
  },
  "protos": {
   "bball": 32,
@@ -109,10 +126,10 @@
   "shorts_black_l": 3,
   "shorts_grey_l": 3,
   "shorts_royal_l": 3,
-  "jersey_navy_l": 33,
+  "jersey_navy_l": 34,
   "jersey_white_l": 28,
   "jersey_royal_l": 16,
-  "jersey_sky_l": 9,
+  "jersey_sky_l": 10,
   "jersey_royal": 7,
   "jersey_sky": 4,
   "jersey_white": 3,

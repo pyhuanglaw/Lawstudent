@@ -16,10 +16,6 @@
   "assets/models/env/second_ai/bb_support/tongxian.glb": {
    "task": "SHOP-REALISM-1112",
    "why": "沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 31%（零件 62 個，要 <25%）"
-  },
-  "assets/models/env/second_ai/bb_support/xinsheng_sports.glb": {
-   "task": "SHOP-REALISM-1112",
-   "why": "沒有 Poly Haven 掃描模型（LICENSES.md「Poly Haven 模型」沒有一列寫到它）；沒貼圖的純色零件 62%（零件 112 個，要 <25%）"
   }
  }
 }

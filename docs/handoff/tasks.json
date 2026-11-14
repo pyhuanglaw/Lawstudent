@@ -56777,7 +56777,8 @@
      "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）",
      "closed": "2026-11-14 00:1x LAWWW-C：第④群六間（燒臘、林家、花序、阿德 v2.1、南洋 v6、洋洋 v2b）全部 LAWWW2 PASS、已整合（最後一包 d58846ba9a）；g4 最後 SHA dddc6a19d、HANDOFF.md 列下一版 P2 四點（南洋瓶子／紅杯／入口黑方箱、洋洋層架瓶罐）——要做 P2 再另開"
     }
-   ]
+   ],
+   "note": "｜11-14 01:5x 新生運動廣場 CC0（g3 252bc3765a＋LAWWW2 3073f2ee07）已整合：純色 62%→5%。"
   },
   {
    "id": "KX-GF-PLACES-1113",
@@ -56957,6 +56958,19 @@
    "first": {
     "term": "Y1S1",
     "confirmed": true
+   }
+  },
+  {
+   "id": "OFFBEAT-VIEW-P3-1114",
+   "title": "日常失速前窗：對面整片平灰泥牆太單調；offbeat_view_front_day／night 最下面約 60 px 是天空色",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P3",
+   "source": "BB_379（BB-C 11-14，日常失速 21:00 PASS 附註）",
+   "note": "LAWWW2：wz_street 那棟加窗、冷氣、雨遮；前窗兩張重拍（地面畫到底）。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
    }
   }
  ]

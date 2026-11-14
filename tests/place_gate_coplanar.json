@@ -132,7 +132,7 @@
   "top": "WALL_back_plaster×WALL_back_metal 0.364 m² @[-2.13,0.87,-5.26]"
  },
  "assets/models/env/second_ai/bb_support/xinsheng_sports.glb": {
-  "sha1": "ec29b76884c1973d14211e645e3965489ed480aa",
+  "sha1": "1c536cbc0c044f3b7ae613983b98663ad2a5c5c3",
   "wall": 2.12,
   "always": 48.06,
   "top": "WALL_left_L1_xs_goods×WALL_left_L1_xs_goods 1.2 m² @[-8.2,4.67,0.23]"
