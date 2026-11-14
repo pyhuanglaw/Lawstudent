@@ -1,0 +1,12 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_shop_func_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\XILE_FUNC\out
+CC 店內功能（xile）：SHA 5b7c5ce1243746453a74cb9c984514bc134475ef；2025-10-22 14.00；Windows＋GPU ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [洗樂 2025-10-22 14:00] 【前置／捷徑】讀檔進洗樂洗衣坊 tz_xile（出生點）
+PASS FAIL_SETUP 檢查：[洗樂 2025-10-22 14:00] 在店裡  {"zone": "tz_xile", "x": 0.85, "z": 2.8, "y": 0, "lv": 0, "seat": false, "busy": true, "dlg": true, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.01}
+PASS FAIL_SETUP 檢查：[洗樂 2025-10-22 14:00] ① 找得到互動點 /^洗衣機/
+  [  43.6s] 到達「洗衣機」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [  44.3s] [洗樂 2025-10-22 14:00] ① 走到「洗衣機」(-1.85, -0.60)：人在 [-1.71, -0.42]、互動鍵「洗衣機」
+FAIL 沒有中斷  Error('Page.evaluate: ReferenceError: __BBF is not defined\n    at eval (eval at evaluate (:370:30), <anonymous>:1:11)\n    at UtilityScript.evaluate (<anonymous>:377:18)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)')
+PASS 沒有 JS 例外  []
+FAILED 1: 沒有中斷
