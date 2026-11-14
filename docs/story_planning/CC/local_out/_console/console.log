@@ -1767,3 +1767,12 @@
 [18:19:40] ==== START VACGAP_C_r2  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
 [18:19:43] [res] cpu=0% mem=56% (17.8/31.4 GB) chrome_testing=8  START VACGAP_C_r2
 [18:20:18] [res] cpu=7% mem=45% (14.1/31.4 GB) chrome_testing=9  END LIVE_X364_deploy_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       de592c59cd..c313495637  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:20:24] ==== END   LIVE_X364_deploy_r2  exit=0  414s   ====
+[18:20:27] memory 40% before starting SHOP_US_v2_r2 (2 running)
+[18:20:27] ==== START SHOP_US_v2_r2  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
+[18:20:30] [res] cpu=13% mem=41% (12.7/31.4 GB) chrome_testing=4  START SHOP_US_v2_r2
+[18:20:35] [res] cpu=1% mem=43% (13.3/31.4 GB) chrome_testing=4  END KOREA_ORDER_1400_r2
+[18:20:55] 正在跑：KOREA_ORDER_1400_r2（已跑 2 分／上限 15 分）、VACGAP_C_r2（已跑 1 分／上限 60 分）、SHOP_US_v2_r2（已跑 0 分／上限 70 分）——還沒測完，請不要關 (tests still running - please do not close)
