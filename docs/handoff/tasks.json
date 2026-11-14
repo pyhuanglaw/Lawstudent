@@ -57153,10 +57153,10 @@
    "id": "LAWCLUB-GROUP-1114",
    "title": "法服旗標全部拿掉、也沒去社博，大二上群組裡還是有 lawclub_study——查是哪裡加進來的",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P2",
    "source": "BB-C 2026-11-14 09:47（STUDY_FA05；BB_458）",
-   "note": "是正常劇情就請 BB 改探針；不是就是 bug。",
+   "note": "是正常劇情就請 BB 改探針；不是就是 bug。｜11-14 10:1x 結論：不是遊戲 bug。唯一加入點 story3d.js:1754（要 fafuJoined），沒有退群的程式；探針在加入之後才拿掉旗標＝群組還在。BB 同意改判 TEST_BUG（BB_458 b6498a0641），CC 改 STUDY_FA05_r2 重跑。替代：BB 探針修正（BB_458）。",
    "first": {
     "term": "Y2S1",
     "confirmed": false
