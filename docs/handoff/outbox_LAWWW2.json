@@ -10252,10 +10252,10 @@
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "7243580f6a",
    "receiver": "LAWWW-C",
-   "ack": "SENT",
-   "state": "已交付",
+   "ack": "ACTIONED",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "task": "SHOP-REALISM-1112",
    "title": "SHOP_CC0_HOWTO.md 加「疊面先查、後寫」＋不准自己加 --allow-grow（接 8f1b338c22）",
@@ -10266,14 +10266,15 @@
    "at": "2026-11-14T00:47Z",
    "tests": "git apply 乾淨；canon_scan 0",
    "notDone": "LAWWW 套進開發分支",
-   "next": "LAWWW 套 patch；幫手照新順序"
+   "next": "LAWWW 套 patch；幫手照新順序",
+   "integrated": "582eb7d807"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "b5410f8654",
    "receiver": "LAWWW-C、幫手 g3",
-   "ack": "SENT",
-   "state": "已交付",
+   "ack": "ACTIONED",
+   "state": "已整合",
    "noDirectIntegrate": false,
    "task": "SHOP-REALISM-1112",
    "title": "驗收 PASS 好拍運動 CC0（g3 6da531c6ee；三項成立、純色 12%、疊面沒增加；bake_xs.sh 好拍段照 fd585f9915）",
@@ -10284,14 +10285,15 @@
    "base": "582eb7d807",
    "at": "2026-11-14T00:56Z",
    "tests": "place_gate 先查後寫 ALL PASS、shop_cc0、xs 系列 13 支、xs9 check ALL PASS",
-   "notDone": "LAWWW 整合；CC 第二層；BB 判；v2 層架貨箱",
-   "next": "LAWWW 套 patch"
+   "notDone": "CC 第二層；BB 判；v2 層架貨箱（g3 排在新生運動後）",
+   "next": "LAWWW 套 patch",
+   "integrated": "0a8fae3f52"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "3e99e148e8",
    "receiver": "LAWWW-C、BB-C",
-   "ack": "SENT",
+   "ack": "DELIVERED",
    "state": "已交付",
    "noDirectIntegrate": false,
    "task": "WINVIEW-AUDIT-1105",
