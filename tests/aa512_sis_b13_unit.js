@@ -124,13 +124,13 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
   const row611=D523.split('\n').find(l=>l.startsWith('| 6-11 |'))||'', NEW611=['禮拜四家聚！','歡迎學姊回來 118 巷那家'];
   check('0. AA_523 6-11：Kevin 舊的兩則（「學姊回來了！！」「禮拜四家聚 歡迎回來 118 巷那家」）不在遊戲裡；新的兩則在遊戲裡、一字不差在 AA_523 第 6 節 6-11 那一列（0d7b5388b）',
     !!row611&&['學姊回來了！！','禮拜四家聚 歡迎回來 118 巷那家'].every(t=>!GS.has(t)&&QUOTES.some(q=>q.t===t))&&NEW611.every(t=>GS.has(t)&&row611.includes('「'+t+'」')),J({row611:!!row611,miss:NEW611.filter(t=>!(GS.has(t)&&row611.includes('「'+t+'」')))}));
-  const lostQ=QUOTES.filter(q=>!GS.has(q.t)&&!SUPER[q.t]&&!GONE591.has(q.t)&&!GS.has(A591.MAP[q.t])&&!GS.has(A593.MAP[q.t])&&!GS.has(A591x[q.t])).map(q=>q.who+'：'+q.t), lostO=OPTS.filter(o=>!GS.has(o)&&!GS.has(unq(o))&&!GONE591.has(o)), lostG=GREET.filter(t=>!GS.has(t));
+  const lostQ=QUOTES.filter(q=>!GS.has(q.t)&&!SUPER[q.t]&&!GONE591.has(q.t)&&!GS.has(A591.MAP[q.t])&&!GS.has(A593.MAP[q.t])&&!GS.has(A591x[q.t])&&!(q.t!==require('./aa959_map.js').map(q.t,'sis_b13_events.js')&&GS.has(require('./aa959_map.js').map(q.t,'sis_b13_events.js')))/* RC2-PORT-DEV-1114：AA_959 第 747 列，稿上的舊句照表換成新的再找 */).map(q=>q.who+'：'+q.t), lostO=OPTS.filter(o=>!GS.has(o)&&!GS.has(unq(o))&&!GONE591.has(o)), lostG=GREET.filter(t=>!GS.has(t));
   check('0. 稿 → 遊戲：第 1、2、5、6 節每一句（'+QUOTES.length+' 句「>」）都在遊戲裡',QUOTES.length>=150&&!lostQ.length,J(lostQ));
   check('0. 稿 → 遊戲：每個選項（'+OPTS.length+' 個）、13-6 三句短招呼都在遊戲裡',OPTS.length===37&&GREET.length===3&&!lostO.length&&!lostG.length,J({lostO,lostG}));
   const INLINE=['你說過要來吃。','（把學姊的筆記傳給她）','去。','好','（愛心貼圖）','燒臘店？說好的。']   /* AA_612 A-217：麵店改燒臘店（稿照 tools/story/aa612_fix.json 換）*/;   /* 稿寫在說明句裡的（「」括起來）：13-2 私訊、第 2 節第 1 點的選項、回「去。」、媽媽那則的回覆鍵、6-1 (c) 換上的選項 */
   check('0. 稿寫在說明裡的句子（13-2 私訊、佳穎那則的選項、回「去。」、回覆鍵「好」「（愛心貼圖）」）都在稿裡、也在遊戲裡',INLINE.every(t=>DOC.indexOf('「'+t+'」')>=0&&GS.has(t)),J(INLINE.filter(t=>!(DOC.indexOf('「'+t+'」')>=0&&GS.has(t)))));
   /* 遊戲 → 稿 */
-  const notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(unq(t))<0&&!NEW611.includes(t)&&!A590.has(t)&&!A591.has(t)&&!A593.has(t)&&!NEW584.includes(t)&&!NEW609.includes(t)&&!['……我知道。','其實我也是。考試那時候就有一點了，只是那時候不想想這個。'].includes(t));   /* confess_lines.js 第一次答應的兩句：AA_591 拿掉重新開始那一版以後，帶 aa512 的那一行只剩它們（不是 AA_512 的稿）*/   /* AA_590 改過的句子：在 AA_590 的表上 */   /* AA_523 6-11 換上的兩則：上面對 AA_523 */
+  const P959=t=>DOC.indexOf(t)<0&&DOC.indexOf(unq(t))<0&&!NEW611.includes(t)&&!A590.has(t)&&!A591.has(t)&&!A593.has(t)&&!NEW584.includes(t)&&!NEW609.includes(t)&&!['……我知道。','其實我也是。考試那時候就有一點了，只是那時候不想想這個。'].includes(t); const notIn=[...new Set(G0)].filter(t=>P959(t)&&P959(require('./aa959_map.js').unmap(t,'sis_b13_events.js')));   /* confess_lines.js 第一次答應的兩句：AA_591 拿掉重新開始那一版以後，帶 aa512 的那一行只剩它們（不是 AA_512 的稿）*/   /* AA_590 改過的句子：在 AA_590 的表上 */   /* AA_523 6-11 換上的兩則：上面對 AA_523 */   /* RC2-PORT-DEV-1114：AA_959 783 列換過的字，換回舊字再對稿 */
   check('0. 遊戲 → 稿：新檔的每一句、各檔帶 aa512 的行、SMALLTALK 的三句（'+new Set(G0).size+' 句）都在稿裡（一字不差；SMALLTALK 說的話加「」、手機選項不加「」）',G0.length>=150&&!notIn.length,J(notIn));
   /* 改在現有檔的字 */
   const yes=(typeof CONFESS_LINES!=='undefined'&&CONFESS_LINES.heroine_05&&CONFESS_LINES.heroine_05.yes)||null, rs=SISB4.restartYes; SISB4.restartYes=()=>true; let yl=null; try{ yl=yes?yes({flags:{}}):null; } finally { SISB4.restartYes=rs; }
@@ -215,7 +215,7 @@ await sec(5,async()=>{ const d=D('2028-06-02');
   check('5. 日本路線、朋友、沒交往：6/2（當地 13:00）傳「生日快樂」→ 那一句先不回；排視訊 6/2 當地 22:00（臺灣 21:00；接起來／先不接）',tp&&r&&r.ok&&!!q&&q.day===d&&q.h===22&&q.verb==='接起來'&&q.no==='先不接'&&q.ev==='ev_sis13_jp_bday'&&!txt('p:'+ID).includes('謝謝。研究室的人買了一個小蛋糕。')&&H.G.flags.SIS_BDAY_Y3==='msg',J({q,t:txt('p:'+ID)}));
   at(d,21.9); await goOut('sisb13_jp_bday',[1]);
   check('5. 接起來：蛋糕的旁白、「研究室的人買的。我吃不完。」「你那邊十點了吧。」（AA_591 第 17 列）祐廷「十點。」「那你早點睡。我只打十分鐘。」；「許了什麼願？」→「一個。跟論文有關。……你不要笑。」；「好。十分鐘到了。謝謝你接。」；SIS13_JP_BDAY',
-    seq(['（視訊。她把一個小蛋糕拿到鏡頭前，上面插著一根蠟燭，已經吹熄了。）','研究室的人買的。我吃不完。','你那邊十點了吧。','十點。','那你早點睡。我只打十分鐘。','一個。跟論文有關。……你不要笑。','好。十分鐘到了。謝謝你接。'])&&H.said.find(x=>x.t==='十點。').who===H.G.name&&J(H.opts[0])===J(['「生日快樂。」','「許了什麼願？」'])&&H.G.flags.SIS13_JP_BDAY===true&&(phAt(d,23),!txt('p:'+ID).includes('謝謝。研究室的人買了一個小蛋糕。')),J(said()));
+    seq(['（視訊。她把一個小蛋糕拿到鏡頭前，上面插著一根蠟燭，已經吹熄了。）','研究室的人買的。我吃不完。','你那邊十點了吧。','十點。','那你早點睡。我只打十分鐘。','一個。跟論文有關。……不能再多講了。'/* RC2-PORT-DEV-1114：AA_959 第 747 列 */,'好。十分鐘到了。謝謝你接。'])&&H.said.find(x=>x.t==='十點。').who===H.G.name&&J(H.opts[0])===J(['「生日快樂。」','「許了什麼願？」'])&&H.G.flags.SIS13_JP_BDAY===true&&(phAt(d,23),!txt('p:'+ID).includes('謝謝。研究室的人買了一個小蛋糕。')),J(said()));
   jp('friend',13); MSG.send(H.G,ID,'bday'); at(d,23); expire(); ph(); ph();
   check('5. 沒接（過了時間）：照現有那一句「謝謝。研究室的人買了一個小蛋糕。」；沒有 SIS13_JP_BDAY',txt('p:'+ID).includes('謝謝。研究室的人買了一個小蛋糕。')&&!H.G.flags.SIS13_JP_BDAY&&OUT.get(H.G,'sisb13_jp_bday').state==='missed',J(txt('p:'+ID)));
   jp('friend',13); MSG.send(H.G,ID,'bday'); at(d,21.8); H.picks=[2]; await OUT.prompt(GM,OUT.get(H.G,'sisb13_jp_bday')); ph();

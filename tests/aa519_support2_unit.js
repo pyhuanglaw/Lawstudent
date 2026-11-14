@@ -360,7 +360,7 @@ await sec('4-2',async()=>{
 /* ===================== 5 阿凱（大二以後）===================== */
 await sec('5-1',async()=>{
   const T51=table(S51), K5={}; for(const m of (T51.find(r=>/KAI_K5/.test(r[1]))||['',''])[1].matchAll(/`(\w+)`：「([^」]+)」/g)) K5[m[1]]=m[2];
-  const docR=T51.map(r=>/KAI_K5/.test(r[1])?{k5:K5}:{t:qs(r[1])[0]}), gameR=LN().kai.rows.map(r=>r.k5?{k5:r.k5}:{t:r.t}), SH=qs(part('之後短句：','| 時期',S51));
+  const docR=T51.map(r=>/KAI_K5/.test(r[1])?{k5:K5}:{t:qs(r[1])[0]}), gameR=require('./aa959_map.js').unmapDeep(LN().kai.rows.map(r=>r.k5?{k5:r.k5}:{t:r.t}),'aa519_lines.js')/* RC2-PORT-DEV-1114：AA_959 第 538 列換過的字，換回舊字再對稿 */, SH=qs(part('之後短句：','| 時期',S51));
   check('5-1 對稿：表七列（照順序；K5 以後照 KAI_K5 五種）＝kai.rows；短句兩句',T51.length===7&&J(docR)===J(gameR)&&J(SH)===J(LN().kai.shorts),J({SH}));
   const e0=CHARACTERS.kai.daily_schedule[0];
   check('5-1 作息：大二下～大四下每學期週五 17:00～18:00 在校園（資工系館前＝醉月湖南岸那張長椅，抱著筆電坐著；放在作息最前面）；大二上照現有和子晴同框（不另外排）',
@@ -654,7 +654,7 @@ await sec('10',async()=>{
   const out=[]; (function walk(v,key){ if(v==null) return; if(typeof v==='string'){ if(/[一-鿿]/.test(v)) out.push(v); return; }
     if(Array.isArray(v)){ if(v.length===2&&(v[0]==null||typeof v[0]==='string')&&typeof v[1]==='string'&&!/[，。？！]/.test(v[0]||'')){ out.push(v[1]); return; } v.forEach(x=>walk(x)); return; }
     if(typeof v==='object') for(const k in v){ if(['src','k','id','who','from','until','heard'].includes(k)) continue; walk(v[k],k); } })(LN());
-  const miss=out.filter(s=>!DOC.includes(s));
+  const P959=s=>!DOC.includes(s); const miss=out.filter(s=>P959(s)&&P959(require('./aa959_map.js').unmap(s,'aa519_lines.js')));   /* RC2-PORT-DEV-1114：AA_959 783 列換過的字，換回舊字再對稿 */
   check('10 遊戲 → 稿：aa519_lines.js 的每一句（'+out.length+' 句）都在稿裡',out.length>=90&&!miss.length,J(miss.slice(0,6)));
   /* (b) 各檔帶 AA_519 註解的行、sup519_3d.js：程式裡玩家看得到的字（去掉註解以後的字串）都在稿裡；照舊的半句、系統字、別份稿的句子列出原因 */
   const WHY={ '兩點半 Café':'存檔 key（EAT.count／EAT.choose 的店名，2026-11-04 AA_655：key 留舊字、畫面換 2:30 AM；稿照換字表讀成新名）',

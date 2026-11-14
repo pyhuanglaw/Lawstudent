@@ -92,7 +92,7 @@ const ROWS = [
 ];   /* 第 7C 列（noodle_table.js 大二「考試前的燒臘店」的 if:{weeks:[14,15]}）：AA_684 第 11 項整則刪了（換不了），改在下面那一項查不在 */
 for (const [row, f, oldS, newS] of ROWS) {
   const s = R(f);
-  check('(a) 第 ' + row + ' 列 ' + f + '：有「' + newS.slice(0, 40) + '」' + (oldS ? '、沒有「' + oldS.slice(0, 30) + '」' : ''), !!s && s.includes(newS) && (!oldS || !s.includes(oldS)), JSON.stringify({有新: s.includes(newS), 舊還在: oldS ? cnt(s, oldS) : 0}));
+  check('(a) 第 ' + row + ' 列 ' + f + '：有「' + newS.slice(0, 40) + '」' + (oldS ? '、沒有「' + oldS.slice(0, 30) + '」' : ''), !!s && (s.includes(newS) || s.includes(require('./aa959_map.js').map(newS, f.split('/').pop()))/* RC2-PORT-DEV-1114：AA_959 783 列又換過的（第 516 列：隨堂作業），稿上的新句照表換完再找 */) && (!oldS || !s.includes(oldS)), JSON.stringify({有新: s.includes(newS), 舊還在: oldS ? cnt(s, oldS) : 0}));
 }
 { const s = R('src/data/noodle_table.js');
   check('(a) 第 7C 列 src/data/noodle_table.js：舊的「if:{weeks:[6,7,14,15]}」不在；那一則（考試前的燒臘店）AA_684 第 11 項整則刪了', !!s && !s.includes('if:{weeks:[6,7,14,15]}') && !s.includes("text:'考試前的燒臘店，長桌比平常安靜。")); }

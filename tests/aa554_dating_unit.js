@@ -181,7 +181,7 @@ await sec('2-Q6',async()=>{ const d=STORY.termDay('Y1S2',11,1);
 await sec('2-Q5',async()=>{ const d=STORY.termDay('Y1S2',14,3);
   setup(d,19.5,'wancai',{dh:ZQ}); const L=await play('ev_ziqing_show',['拍手']);
   check('2. Q5 和她交往中：後台那句之後多「'+Q5a+'」；拍手：謝幕後、貼紙之前多「'+Q5b.join('」「')+'」（AA_554：B館→大廳）；貼紙直接貼在手機殼上',has(L,['我寫程式從來不抖。',Q5a])&&has(L,Q5b.concat(['（她把一張插座貓貼紙，直接貼在你的手機殼上。）']))&&!L.some(t=>/B館都聽到/.test(t))&&SOCIAL.has(ZQ,'CLAPPED'),J(L));
-  check('2. Q5 和她交往中拍手那句不說兩次（AA-B 11-01；AA_665 第 1 列）：「我有看到你。很丟臉。……不過謝啦。」→「你拍超大聲欸。整個大廳都聽到了。」，沒有「你拍超大聲，」',L.includes('我有看到你。很丟臉。……不過謝啦。')&&!L.some(t=>/你拍超大聲，/.test(t))&&L.indexOf('我有看到你。很丟臉。……不過謝啦。')<L.indexOf(Q5b[0]),J(L));
+  check('2. Q5 和她交往中拍手那句不說兩次（AA-B 11-01；AA_665 第 1 列）：「我有看到你。很丟臉。……不過謝啦。」→「你拍超大聲欸。整個大廳都聽到了。」，沒有「你拍超大聲，」',L.includes('我有看到你，很丟臉。……不過謝啦。'/* RC2-PORT-DEV-1114：AA_959 第 541 列 */)&&!L.some(t=>/你拍超大聲，/.test(t))&&L.indexOf('我有看到你，很丟臉。……不過謝啦。')<L.indexOf(Q5b[0]),J(L));
   setup(d,19.5,'wancai',{gf:ZQ}); const L2=await play('ev_ziqing_show',['拍手']);
   check('2. Q5 和別人交往中：沒有那三句、貼紙遞給你（照舊）',!L2.includes(Q5a)&&!L2.includes(Q5b[0])&&L2.includes('（她遞給你一張插座貓貼紙。）'),J(L2.slice(-3)));
 });

@@ -84,7 +84,7 @@ const ROWS=[
 ];
 const SRC={}; const code=f=>SRC[f]||(SRC[f]=noC(rd(f)));
 { const bad=[];
-  for(const [n,f,o,v] of ROWS){ const s=code(f); if(!hasLit(s,v)) bad.push('#'+n+' 沒有新句「'+v+'」（'+f+'）');
+  for(const [n,f,o,v] of ROWS){ const s=code(f); if(!hasLit(s,v)&&!hasLit(s,require('./aa959_map.js').map(v,f.split('/').pop()))/* RC2-PORT-DEV-1114：AA_959 783 列又換過的（第 540 列），稿上的新句照表換完再找 */) bad.push('#'+n+' 沒有新句「'+v+'」（'+f+'）');
     const old=v.includes(o)?!(hasLit(s,o)||hasLit(s,'「'+o+'」')):gone(s,o);   /* 只補句號的（新句包著舊句）：舊句不能再是一整個字串 */
     if(!old) bad.push('#'+n+' 舊句還在「'+o+'」（'+f+'）'); }
   check('A. 逐列 '+ROWS.length+' 列：新的句子是一整個字串（外面沒有「」）、舊的句子（有沒有「」都算）不在那個檔的程式裡',!bad.length,J(bad)); }

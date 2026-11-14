@@ -148,11 +148,11 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i5=sc('src
     if(!S||!md){ check('0. '+term+' 對稿（'+(term==='Y3S2'?SHA508:SHA)+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
     /* ① 遊戲 → 稿 */
     const LR=require('./line_rows_expect.js'), FF='src/data/feed_'+term.toLowerCase()+'.js';   /* 2026-11-11（X327 漏改，AA_807@551786903／AA_808@0806059b7）：沛珊大三下 ps1f～ps5f、大四上 ps1g～ps3g 句尾「～」改掉、多一拍（AA_808 feed_y3s2 第 60～64 列、feed_y4s1 第 47～49 列）——①遊戲字先換回稿上的舊句（toOldS）再在稿裡找；②稿那一列往前換成新句（fwdDeep）再和遊戲比；舊稿不改。舊期望：遊戲字本身在稿裡、稿那一列原樣和遊戲比 */
-    const L=strs(S), bad=L.filter(t=>!require('./kx885_expect.js').has(t)/* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）可昕那幾則改比 tests/kx885_expect.js */&&!md.includes(LR.toOldS(t,FF))&&!AA518_T.has(t));
+    const L=strs(S), bad=L.filter(t=>!require('./kx885_expect.js').has(t)/* （CANON-NO-ECON-1112 第四批：照 AA_885 換字）可昕那幾則改比 tests/kx885_expect.js */&&!md.includes(LR.toOldS(t,FF))&&!AA518_T.has(t)&&!md.includes(require('./aa959_map.js').unmap(t,FF.split('/').pop()))/* RC2-PORT-DEV-1114：AA_959 783 列換過的字，換回舊字再對稿 */);
     check('0. '+term+' ① 遊戲裡每一句都在稿裡（'+(term==='Y3S2'?SHA508:SHA)+'，一字不差；'+L.length+' 句）',L.length>=(term==='Y3S2'?200:160)&&!bad.length,J(bad.slice(0,8)));
     /* ② 稿 → 遊戲：動態表每一列（表下面才寫的另一版：比一般的那一版）*/
     const rows=rowsOf(md).filter(r=>!PSRW.feedSkip(term,expectRow(term,r).id)&&!require('./kx885_expect.js').skip(expectRow(term,r).id)), wrong=[], wd=[], went={};
-    for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id), w=whenOf(term,r.when); for(const k of ['pic','say','cm','dm']) e[k]=LR.fwdDeep(e[k],FF);   /* AA_808 往前換（見上）*/ if(AA518_ROW[e.id]) AA518_ROW[e.id](e);   /* AA_518 改的 */
+    for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id), w=whenOf(term,r.when); for(const k of ['pic','say','cm','dm']) e[k]=require('./aa959_map.js').mapDeep(LR.fwdDeep(e[k],FF),FF.split('/').pop())/* RC2-PORT-DEV-1114：AA_959 783 列（第 697 列…）稿那一列再照表往前換 */;   /* AA_808 往前換（見上）*/ if(AA518_ROW[e.id]) AA518_ROW[e.id](e);   /* AA_518 改的 */
       if(!w||!w.wdOk) wd.push(r.sec+'-'+r.n+' '+r.when); if(p&&p.went) went[p.id]=p.went;
       const got=p&&HAS()?FEED.when(H.G||{flags:{}},p.t,term):null, nw=p&&NOTE_WENT[p.id];
       const same=!!p&&p.who===e.who&&p.st===e.st&&C(nw?base(p.pic):p.pic)===C(e.pic)&&(nw?base(p.say):p.say)===e.say&&C(nw?base(p.cm):p.cm)===C(e.cm)&&C(nw?base(p.dm):p.dm)===C(e.dm)
