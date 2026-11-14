@@ -5418,6 +5418,34 @@
    "status": "進行中",
    "task": "TAKEOVER-VERIFY-B-1114",
    "src": "使用者對 LAWWW-B"
+  },
+  {
+   "id": "UA-LAWWW-1114-13",
+   "at": "2026-11-14T13:1xZ",
+   "quote": "你要我刪的分支，你直接跟我講",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "BRANCH-CLEAN-1114",
+   "src": "使用者對 LAWWW-B"
+  },
+  {
+   "id": "UA-LAWWW-1114-14",
+   "at": "2026-11-14T13:1xZ",
+   "quote": "你們所有人都還不能確定已經完成接班，結果已經用了10%的每週使用額度這個接班規則到底有什麼問題？為什麼大家都很像不知道接下來要幹嘛",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "HANDOFF-RULE-GAPS-1114",
+   "src": "使用者對 LAWWW-B"
+  },
+  {
+   "id": "UA-LAWWW-1114-15",
+   "at": "2026-11-14T13:1xZ",
+   "quote": "（LAWWW 決定）接班改成一個指令印一頁「接下來做什麼」、十四步文字從規則檔拿掉；這一班四職位停止補做十四步，只回上一班交代的事每條一行",
+   "kind": "AI解讀",
+   "status": "進行中",
+   "task": "HANDOFF-RULE-GAPS-1114",
+   "src": "使用者對 LAWWW-B",
+   "confirmed": false
   }
  ]
 }
