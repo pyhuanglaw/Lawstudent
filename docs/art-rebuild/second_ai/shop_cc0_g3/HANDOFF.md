@@ -12,7 +12,7 @@
 | 好拍運動 haopai | 烘焙中（排第 4） | 腳本 11dd2b9e42 | （還沒有） | 要做 11-09 BACKFACE-HAOPAI 洞洞板兩步（已對新原檔做好，在本機 scratchpad）；`xs_lm_unit` instancing 64→65；`xs9_haopai_shanlan_check.py` 烘完才能跑 |
 | 同弦樂器 tongxian | 烘焙中（排第 5） | 腳本 11dd2b9e42 | （還沒有） | 要挖樓梯間地板洞（`glb_floor_hole.py`，已對新原檔做好）；`xs_lm_unit` instancing 29→30；第一次烘的沒挖洞，已丟掉 |
 | 新生運動廣場 xinsheng_sports | 烘焙中（排最後：第一次烘好 23:28，看截圖發現足球用到洩氣的舊球，改充飽的白球後重烘） | 腳本 252bc3765a | （還沒有） | 烘完：拍新版（鏡頭 cams.json＋cams2.json 近景）、並排圖、測試（xs_lm_unit instancing 56→57 已改）、patch |
-| 大口漢堡一樓 dakou_1f | LAWWW2 PASS（11-14 00:38；LAWWW2 在開發分支 10aa10ed32 上重出 patch 給 LAWWW） | 69755b5546 | `docs/art-rebuild/second_ai/cc0_help/g3/dakou.patch` | v2（LAWWW2，排在好拍、同弦、新生運動之後）：①一樓櫃檯後層架的彩色方塊改印刷包裝盒／罐子，大小顏色錯開；對照圖加「一樓櫃檯後層架近看」 |
+| 大口漢堡一樓 dakou_1f | 退回要改（00:41 LAWWW2：LAWWW 整合時 place_gate 牆疊面 5.13→6.81）→ 已修（7b0eb8a714：直框縮 2 mm、拿掉門邊重複直框；一定會閃 10.20→7.25 m²），重烘中（好拍之後），二樓也照新腳本重烘 | 69755b5546 | `docs/art-rebuild/second_ai/cc0_help/g3/dakou.patch` | v2（LAWWW2，排在好拍、同弦、新生運動之後）：①一樓櫃檯後層架的彩色方塊改印刷包裝盒／罐子，大小顏色錯開；對照圖加「一樓櫃檯後層架近看」 |
 | 大口漢堡二樓 dakou_2f | LAWWW2 PASS（同上） | 69755b5546 | 同上 | v2：②二樓長桌課本改 Poly Haven book 模型或有書脊書口的印刷書；紙袋改有提把、摺邊；筆電換掃描模型；對照圖加「二樓長桌近看」 |
 
 五間的建模腳本都已經改好、推上去（`tools/blender/env_second/bb_support/*_interior.py`＋共用 `cc0_kit.py`）；用腳本重建、還沒烘的原檔都過了店自己的單元測試、`shop_cc0_unit` 三項（LICENSES 列加上以後）。
