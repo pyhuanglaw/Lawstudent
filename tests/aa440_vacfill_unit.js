@@ -100,7 +100,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
   await sec(0,async()=>{
     const all=[]; const walk=v=>{ if(typeof v==='string') all.push(v); else if(Array.isArray(v)) v.forEach(walk); else if(v&&typeof v==='object') Object.values(v).forEach(walk); };
     walk(L()); const ids=/^(econ_[a-z]+|zhe|yu|classmate_bohan|heroine_0\d|kexin|kai|mom|dad|sister)$/;
-    const bad=all.map(b532).filter(t=>!ids.test(t)&&DOC.indexOf(t)<0&&!POOL443.home.winter.concat(POOL443.home.summer,POOL443.dorm.winter,POOL443.dorm.summer).includes(t)&&!(DOC507&&NEW507.some(n=>t.indexOf(n)>=0&&DOC507.indexOf(n)>=0)&&DOC.indexOf(back507(t))>=0)&&!ok519(t));
+    const P959=t=>!ids.test(t)&&DOC.indexOf(t)<0&&!POOL443.home.winter.concat(POOL443.home.summer,POOL443.dorm.winter,POOL443.dorm.summer).includes(t)&&!(DOC507&&NEW507.some(n=>t.indexOf(n)>=0&&DOC507.indexOf(n)>=0)&&DOC.indexOf(back507(t))>=0)&&!ok519(t); const bad=all.map(b532).filter(t=>P959(t)&&P959(require('./aa959_map.js').unmap(t,'vacfill_events.js')));   /* RC2-PORT-DEV-1114：AA_959 783 列換過的字，換回舊字再對稿 */
     check('0. AA_592 第 11～13、50 列：AA_440 稿上那四句都找得到（剛好一次），讀稿時換成改成欄',!AN592_BAD.length,JSON.stringify(AN592_BAD));
     check('0. VACFILL_LINES 的每一句都在 AA_440（摘要池加寫的在 AA_443 第 2 節；人物 id 除外；1/16 那一句照 AA_519 1-3 拆兩句）',bad.length===0,bad.join('｜'));
     check('0. 稿沒有寫字的兩則照片（VACFILL_UI）：括號裡的字取自稿',['上海下大雨','燈'].every(t=>DOC.indexOf(t)>=0)&&VACFILL_UI.photoTyphoon==='📷（上海下大雨）'&&VACFILL_UI.photoLantern==='📷（燈）');
@@ -132,7 +132,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     G=lawG('2027-07-24',21.55,{date:[AN]}); rules(); const q22=Q(S22), r22=rows(S22).slice(1);
     check('2-2. 7/24（六）21:30 和以安交往中（她在台中家的第一個週六＝7/24）：三則（稿 2-2 引文）＋「在家，也在讀書。」「在想妳。」',X().anTcSat(G)===D('2027-07-24')&&J(pairs('vf_y2_0724'))===J(qPairs(q22))&&J(optsOf('vf_y2_0724'))===J(r22.map(r=>qs(r[0])[0])),J(pairs('vf_y2_0724')));
     rep=answer('vf_y2_0724',0); const w22a=r22[0][1];
-    check('2-2. 「在家，也在讀書。」→「讀哪一科？」→（你說了。）→「好。我也讀那一科。明天對進度。」（旁白是對話串裡的一行）',J(rep)===J([AN+':'+qs(w22a)[0],'-:'+nar(w22a)[0],AN+':'+qs(w22a)[1]])&&msgs('p:'+AN).some(m=>m.text==='（你說了。）'&&m.who===null&&!m.from),J(rep));
+    check('2-2. 「在家，也在讀書。」→「讀哪一科？」→（你說了。）→「好。我也讀那一科。明天對進度。」（旁白是對話串裡的一行）',J(rep)===J([AN+':'+qs(w22a)[0],'-:'+nar(w22a)[0],AN+':'+require('./aa959_map.js').map(qs(w22a)[1],'vacfill_events.js')/* RC2-PORT-DEV-1114：AA_959 第 551 列，稿上的字照表換完再比 */])&&msgs('p:'+AN).some(m=>m.text==='（你說了。）'&&m.who===null&&!m.from),J(rep));
     G=lawG('2027-07-24',21.55,{date:[AN]}); rules(); rep=answer('vf_y2_0724',1); rules(); const before=tagged('vf_y2_0724_photo').length; setT('2027-07-24',22.55); rules(); const w22b=r22[1][1];
     check('2-2. 「在想妳。」→「……嗯。」「……看不太下去了。」；22:30（十點半她傳了一張課本的照片，旁邊空白處畫了一個小小的箭頭。）',J(rep)===J(qs(w22b).map(t=>AN+':'+t))&&before===0&&J(tagged('vf_y2_0724_photo').map(m=>m.text))===J(nar(w22b))&&tagged('vf_y2_0724_photo')[0].h>=22.5&&tagged('vf_y2_0724_photo')[0].h<22.6,J(rep));
     G=lawG('2027-07-24',21.55,{fam:[AN]}); rules(); check('2-2. 沒交往：沒有',!tagged('vf_y2_0724').length);

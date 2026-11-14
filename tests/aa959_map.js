@@ -31,7 +31,7 @@ for (const r of T.rows) {
 function rows(file, who) {
   let b = file ? path.basename(file) : null; const w = (who && who !== '(共用)') ? who : null; const b0 = b;
   for (const [src, fs_] of Object.entries(LINKED)) if (b && fs_.includes(b)) b = src;
-  return T.rows.concat(SYN).filter(r => !code(r) && (!w || r.speaker === w || !r.speaker || /見檔/.test(r.speaker)/* speaker 寫「（見檔）」的列（AA_994～）＝不分人 */) && r.files.some(f => (!b || f === b || f === b0) && !skip(f, r.old)))   /* b0：表上直接標這個檔的列（AA_997 aa555_3d.js）也算 */.sort((a, c) => c.old.length - a.old.length);
+  return T.rows.concat(SYN).filter(r => !code(r) && (!w || r.speaker === w || !r.speaker || /見檔|^（/.test(r.speaker)/* speaker 寫「（見檔）」「（室友）」「（課堂同學）」這種括號註記的列（AA_994～）＝不分人 */) && r.files.some(f => (!b || f === b || f === b0) && !skip(f, r.old)))   /* b0：表上直接標這個檔的列（AA_997 aa555_3d.js）也算 */.sort((a, c) => c.old.length - a.old.length);
 }
 /* 一句被換兩次的（AA_953 砍「今天」→ AA_1020 再換句尾）：map／unmap 換到不動為止（最多三輪） */
 const fix3 = f => (s, file, who) => { for (let i = 0; i < 3; i++) { const t = f(s, file, who); if (t === s) break; s = t; } return s; };

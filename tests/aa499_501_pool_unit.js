@@ -101,7 +101,7 @@ await sec(0,()=>{ const B={B2:typeof POOL_STORY_B2!=='undefined'?POOL_STORY_B2:n
   const greet5=b=>{ const S=new Set(); for(const id in (b.LINES||{})) for(const g of (b.LINES[id].greet||[])) if(typeof g==='string'&&g[0]!=='（'&&/（[^（）]*）$/.test(g)) S.add(g); return S; };
   const q5=t=>{ const m=/^([^（「」]+)(（[^（）]*）)$/.exec(t); return m?'「'+m[1]+'」'+m[2]:null; };
   for(const k of ['B2','B3','B4']){ if(!B[k]){ check('0. '+DOCS[k][0]+'：資料檔不存在',false); continue; } const G=[...new Set(strs(B[k]))], d=DOC[k], G5=greet5(B[k]);
-    const bad=G.filter(t=>d.indexOf(t)<0&&!(DERIVED[t]&&d.indexOf(t.replace(/^「|」$/g,''))>=0)&&!(OTHERDOC[t]&&D514.indexOf(t)>=0)&&!(AA519[t]&&d.indexOf(AA519[t])>=0)&&!(k==='B2'&&AA528_9.has(t))&&!(G5.has(t)&&q5(t)&&d.indexOf(q5(t))>=0)&&!(A799.toOld(t)!==t&&d.indexOf(A799.toOld(t))>=0));   /* AA_799（tests/aa799_expect.js）：「其實……」那 12 句換成新的，換回舊句在稿裡就算對 */
+    const bad=G.filter(t=>d.indexOf(t)<0&&!(DERIVED[t]&&d.indexOf(t.replace(/^「|」$/g,''))>=0)&&!(OTHERDOC[t]&&D514.indexOf(t)>=0)&&!(AA519[t]&&d.indexOf(AA519[t])>=0)&&!(k==='B2'&&AA528_9.has(t))&&!(G5.has(t)&&q5(t)&&d.indexOf(q5(t))>=0)&&!(A799.toOld(t)!==t&&d.indexOf(A799.toOld(t))>=0)&&d.indexOf(require('./aa959_map.js').unmap(t,'pool_story_'+k.toLowerCase()+'.js'))<0/* RC2-PORT-DEV-1114：AA_959 783 列換過的字，換回舊字再對稿 */);   /* AA_799（tests/aa799_expect.js）：「其實……」那 12 句換成新的，換回舊句在稿裡就算對 */
     check('0. 遊戲 → 稿：'+DOCS[k][0]+' 的每一句台詞、旁白、選項、手機訊息、人物頁一行'+(k==='B4'?'、personality':'')+'都在稿裡（一字不差；例外：房間物品兩句，寫在 DERIVED）',G.length>150&&!bad.length,G.length+' 句；不在稿裡：'+J(bad)); }
   /* 稿 → 遊戲：抽出稿上的每一句 */
   const NOTE=/（(?:原句[^）]*|後[一兩]句是原句|接原句[^）]*|認識[^）]{1,12}|有 `[^）]*|沒有[^）]*)）\s*$/;
@@ -133,6 +133,7 @@ await sec(0,()=>{ const B={B2:typeof POOL_STORY_B2!=='undefined'?POOL_STORY_B2:n
       if(EXC[u.t]){ used.add(u.t); continue; }
       { const r7=(require('./aa799_expect.js').rows||[]).find(r=>r.old===u.t); if(r7){ if(!S1.has(r7.new)) miss.push((u.i+1)+' ['+u.k+'] '+u.t+'（AA_799 換成 '+r7.new+'）'); continue; } }   /* AA_799（X324 G 區）：稿上的舊句換成新的 */
       { const r923=(A799.rows||[]).find(r=>r.old===String(u.t).replace(/^「|」$/g,'')&&/好問題/.test(r.old)); if(r923){ if(!S1.has(r923.new)) miss.push((u.i+1)+' ['+u.k+'] '+u.t+'（AA_923 換成 '+r923.new+'）'); continue; } }   /* 2026-11-12（CANON-NO-ECON-1112 第五批）：AA_923 第 3 節換掉的「好問題」兩句 */
+      { const o9=norm(String(u.t)), n9=require('./aa959_map.js').map(o9,'pool_story_'+k.toLowerCase()+'.js'); if(n9!==o9){ if(!S1.has(n9)) miss.push((u.i+1)+' ['+u.k+'] '+u.t+'（AA_959 換成 '+n9+'）'); continue; } }   /* RC2-PORT-DEV-1114：AA_959 783 列換過的句子（第 686～688、762、775 列），稿上的舊句照表換成新的再找 */
       if(AA519R[u.t]){ if(!S1.has(AA519R[u.t])) miss.push((u.i+1)+' ['+u.k+'] '+u.t+'（AA_519 換成 '+AA519R[u.t]+'）'); continue; }   /* AA_519 2-1：換成新的字 */
       if(u.k==='q') ok=all.indexOf(u.t)>=0||SRCALL.indexOf(u.t)>=0;   /* 段落裡「」引的：遊戲裡哪裡都可以（人物頁、房間物品、引別的事件的題目）*/
       else if(u.k==='opt'||u.k==='greet'||u.k==='rowq') ok=S1.has(u.t)||SN.has(norm(u.t));   /* 選項：手機的回覆沒有引號 */
@@ -454,14 +455,14 @@ await sec('11 游振宇',async()=>{ const d=TD('Y1S1',4,2); fresh(d,10,'campus')
 await sec('12 蕭乃文',async()=>{ const d=TD('Y1S1',4,2); fresh(d,20,'library_b1'); spawn(NW);
   check('12. 蕭乃文：認識前「和筆記借人看的人說話」（總圖 B1，平日 19～22）',GM.npc[NW].name==='筆記借人看的人',GM.npc[NW].name);
   await talk(NW,['謝謝學姊']); const due=P().rec(H.G).nw&&P().rec(H.G).nw.due;
-  check('12. 蕭乃文 6-1 認識：拍筆記、「週五以前還我。」、說名字；「謝謝學姊。」＝借到筆記（房間物品「乃文學姊的民總筆記」、有聯絡方式）、週五以前要還',has('我拍一下。……好。借你。週五以前還我。')&&whoOf('（在一本小本子上寫下你的名字和日期）蕭乃文，大二。')==='蕭乃文'&&INV.hasContact(H.G,NW)&&due===TD('Y1S1',4,5)&&STORY.roomItemList(H.G).some(x=>x[0]==='乃文學姊的民總筆記'),J([said(),due&&keyOf(due)]));
+  check('12. 蕭乃文 6-1 認識：拍筆記、「週五以前還我。」、說名字；「謝謝學姊。」＝借到筆記（房間物品「乃文學姊的民總筆記」、有聯絡方式）、週五以前要還',has('我拍一下。……好，借你。週五以前還我。'/* RC2-PORT-DEV-1114：AA_959 第 775 列 */)&&whoOf('（在一本小本子上寫下你的名字和日期）蕭乃文，大二。')==='蕭乃文'&&INV.hasContact(H.G,NW)&&due===TD('Y1S1',4,5)&&STORY.roomItemList(H.G).some(x=>x[0]==='乃文學姊的民總筆記'),J([said(),due&&keyOf(due)]));
   phAt(due+1,9.1);
   check('12. 蕭乃文 晚還：週六 09:00 那三則（AA_500 第 7 節第 5 點）',J(msgs(NW))===J(L(NW).late),J(msgs(NW)));
   await again(NW,[],due+3,20,'library_b1');
   check('12. 蕭乃文：之後在 B1 還＝「下次準時，我會比較好睡。」；筆記不在房間了',has(L(NW).backLate)&&!has(L(NW).back)&&!STORY.roomItemList(H.G).some(x=>x[0]==='乃文學姊的民總筆記'),J(said()));
   /* 秘密（大一下第 8 週起，B1）*/
   rel(NW,25,3); await again(NW,['陪妳去散步'],TD('Y1S2',8,2),20,'library_b1');
-  check('12. 蕭乃文 秘密：「其實……我很容易焦慮。」接原句「考前我都睡不著。…」、再三個選項（「我陪妳去散步？」→ NW_WALK）',has('其實……我很容易焦慮。')&&has('考前我都睡不著。所以才一直寫筆記，寫下來比較不怕。')&&H.G.flags.NW_WALK===true&&SOCIAL.has(NW,'SHARED_SECRET'),J(said()));
+  check('12. 蕭乃文 秘密：「其實……我很容易焦慮。」接原句「考前我都睡不著。…」、再三個選項（「我陪妳去散步？」→ NW_WALK）',has(require('./aa959_map.js').map('其實……我很容易焦慮。','pool_story_b3.js')/* RC2-PORT-DEV-1114：AA_959 第 687 列，照表換完再找 */)&&has('考前我都睡不著。所以才一直寫筆記，寫下來比較不怕。')&&H.G.flags.NW_WALK===true&&SOCIAL.has(NW,'SHARED_SECRET'),J(said()));
   /* 6-3 網拍（大二上第 5～9 週，週二 23:10）：選「阿凱」→ 一週以後那三則 */
   meet('kai'); let x=TD('Y2S1',5,2); phAt(x,23.2); const m=tagged('pool_nw_sold').find(q=>q.ask);
   check('12. 蕭乃文 6-3 筆記被拿去賣（大二上第 5 週週二 23:10，焦慮的時候一次傳很多則）：六則；回覆三個（認識阿凱多「阿凱也很常問這個。」）',J(msgs(NW).slice(-6))===J(L(NW).sold)&&!!m&&m.ask.opts.length===3,J(msgs(NW).slice(-6)));
@@ -506,7 +507,7 @@ await sec('14 施孟儒',async()=>{ const d=TD('Y1S1',4,5); fresh(d,17.5,'campus
   /* 秘密「我幫你佔一次。」→ 2-3 早上六點的球場 → 阿哲那一句（AA_501 第 5 節第 6 點）*/
   const d2=TD('Y1S2',4,5); fresh(d2,17.5,'campus'); meet(MR); rel(MR,25,3); spawn(MR); await talk(MR,['我幫你佔一次','好']);
   const r=quest('PQ_SMR');
-  check('14. 施孟儒 秘密（大一下第 4 週起，球場）：「其實……我常常翹課。」選「我幫你佔一次。」→ 接 2-3：「好。」＝掛事（下週五早上六點）',has('其實……我常常翹課。')&&has('……真的？那這週五早上六點。')&&r.state==='open'&&r.day0===d2+7&&SOCIAL.has(MR,'SHARED_SECRET'),J([r,said()]));
+  check('14. 施孟儒 秘密（大一下第 4 週起，球場）：「其實……我常常翹課。」選「我幫你佔一次。」→ 接 2-3：「好。」＝掛事（下週五早上六點）',has(require('./aa959_map.js').map('其實……我常常翹課。','pool_story_b4.js')/* RC2-PORT-DEV-1114：AA_959 第 688 列，照表換完再找 */)&&has('……真的？那這週五早上六點。')&&r.state==='open'&&r.day0===d2+7&&SOCIAL.has(MR,'SHARED_SECRET'),J([r,said()]));
   H.G.flags.ZHE_CALLS_GE=true; set(r.day0,6.1,'campus'); E.player.obj.position={x:-4,y:0,z:-112}; GM.npc={}; const ev=P().AUTO.map(f=>f(GM)).find(Boolean);
   H.said=[]; if(ev) await EVENTS.run(ev);
   check('14. 施孟儒 那個週五 06:00～06:30 到球場（映月湖東側）＝早上六點的球場：系服外套、七點阿哲「哥……你六點就在這裡？」（ZHE_CALLS_GE）；交換聯絡方式、做完、時間到 07:00',!!ev&&ev.id==='ev_pool_smr_court'&&has('哥……你六點就在這裡？')&&!has('……你六點就在這裡？')&&INV.hasContact(H.G,MR)&&r.state==='done'&&deeds(MR).includes('幫系籃佔過一次早上的球場')&&H.G.hour>6.99,J([ev&&ev.id,said(),H.G.hour]));

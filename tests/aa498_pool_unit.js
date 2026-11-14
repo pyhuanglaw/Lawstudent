@@ -93,7 +93,7 @@ await sec(0,()=>{ check('0. pool_story.js、pool3d.js 載得到；第一批五�
   /* 閒聊（talk 的 t、old）、之後的招呼說的話：遊戲裡不加外面的「」（TEXT-QUOTE-UNIFY-1108 第四批），稿上有——加回外面那一對再找（一字不差）*/
   const SPOKEN=new Set(); for(const id of Object.keys(PS().LINES)){ const P0=PS().LINES[id]; for(const e of (P0.talk||[])){ SPOKEN.add(e.t); if(e.old) SPOKEN.add(e.old); } for(const g of (P0.greet||[])) if(!/^（/.test(g)) SPOKEN.add(g); }
   const inDoc=t=>SPOKEN.has(t)?doc.indexOf('「'+t+'」')>=0:doc.indexOf(t)>=0;
-  const bad=[...new Set(out)].filter(t=>!inDoc(t)&&!JY(t)&&!(DERIVED[t]&&doc.indexOf(DERIVED[t][0])>=0&&DERIVED[t][0].replace(DERIVED[t][1],'')===t)&&!(COMPOSED[t]&&COMPOSED[t].join('')===t&&COMPOSED[t].every(p=>doc.indexOf(p)>=0)));
+  const P959=t=>!inDoc(t)&&!JY(t)&&!(DERIVED[t]&&doc.indexOf(DERIVED[t][0])>=0&&DERIVED[t][0].replace(DERIVED[t][1],'')===t)&&!(COMPOSED[t]&&COMPOSED[t].join('')===t&&COMPOSED[t].every(p=>doc.indexOf(p)>=0)); const bad=[...new Set(out)].filter(t=>P959(t)&&P959(require('./aa959_map.js').unmap(t,'pool_story.js')));   /* RC2-PORT-DEV-1114：AA_959 783 列換過的字，換回舊字再對稿 */
   check('0. 每一句台詞、旁白、選項、手機訊息、人物頁一行都在 AA_498 稿裡（'+SRC+'，一字不差）',!!doc&&out.length>250&&!bad.length,out.length+' 句；不在稿裡：'+J(bad));
   const P3=PS().PEOPLE, ids=Object.keys(P3), rows=ids.map(id=>{ const p=P3[id]; return [id,p.card,p.personality].concat(p.where.map(e=>e.desc)).concat(p.cls?[p.cls.desc]:[]); });
   const badT=[]; for(const r of rows){ const id=r[0]; for(const t of r.slice(1)){ if(t&&doc.indexOf(t)<0) badT.push(id+':'+t); } }
@@ -211,7 +211,7 @@ await sec('4 黃郁婷',async()=>{ const d0=TD('Y1S1',4,1); fresh(d0,9+10/60-0.1
   check('4. 黃郁婷：隔天在霖澤館一樓「看補給的桌子」＝「（郁婷從桌子後面抽出一包…「第三題不會就先寫第四題。」）」；房間物品「考前補給包的小卡」',!!it&&has(L()[Y].tableYes)&&STORY.roomItemList(H.G).some(x=>x[0]==='考前補給包的小卡'),J(said()));
   /* 秘密 */
   const s1=TD('Y1S2',10,1); set(s1,9+10/60-0.1,'classroom'); rel(Y,25,10); GM.npc={}; spawn(Y); await talk(Y,['不考司法官嗎']);
-  check('4. 黃郁婷 5-4 秘密（大一下第 10 週起、教室門口、有點熟）：選「不考司法官嗎？」→ YT_JUDGE',has('其實……書記官的考試科目，我偷偷查過了。……還沒跟家裡講。')&&has('大家都會這樣問。……我就是想坐在旁邊那個位子。')&&H.G.flags.YT_JUDGE===true&&SOCIAL.has(Y,'SHARED_SECRET'),J(said()));
+  check('4. 黃郁婷 5-4 秘密（大一下第 10 週起、教室門口、有點熟）：選「不考司法官嗎？」→ YT_JUDGE',has(require('./aa959_map.js').map('其實……書記官的考試科目，我偷偷查過了。……還沒跟家裡講。','pool_story.js')/* RC2-PORT-DEV-1114：AA_959 第 682 列（秘密不用「其實……」開頭），稿上的字照表換完再找 */)&&has('大家都會這樣問。……我就是想坐在旁邊那個位子。')&&H.G.flags.YT_JUDGE===true&&SOCIAL.has(Y,'SHARED_SECRET'),J(said()));
   const pd=D('2029-10-19'); phAt(pd,18.2);
   check('4. 黃郁婷 5-6（2029-10 司法特考放榜，有聯絡方式）：「上了。四等書記官。」「榜單我數了三次。」＋多出來的一句（YT_JUDGE 版）',J(msgs(Y).slice(-3))===J(['上了。四等書記官。','榜單我數了三次。','你大一問我為什麼不考司法官。現在可以回答你了：我想坐的就是這個位子。']),J(msgs(Y).slice(-4))); });
 
@@ -230,7 +230,7 @@ await sec('4 黃郁婷 報到桌',async()=>{ const d1=TD('Y2S1',1,1); fresh(d1-2
 await sec('4 林采潔',async()=>{ const a=ACTIVITIES.list.find(x=>x.id==='lib_tour_y1s1'); fresh(TD('Y1S1',1,1),15.5,'library_hall'); const d=onDay(a,TD('Y1S1',1,1)); set(d,15.5,'library_hall'); H.said=[]; H.picks=['法律系的課本']; await CLS.attendActivity(GM,a);
   check('4. 林采潔：總圖新生導覽走完 → 導覽版認識（「……這本的兇手，我猜到了。可是我還是要借。」…），選「法律系的課本算嗎？」',has('……這本的兇手，我猜到了。可是我還是要借。')&&has('算。兇手都寫在條文裡，只是要自己找。')&&SOCIAL.has(C,'FIRST_MET')&&whoOf('我叫林采潔。你看推理小說嗎？')==='林采潔',J(said()));
   const s0=TD('Y1S1',12,2); set(s0,14,'bookstore'); rel(C,25,6); GM.npc={}; spawn(C); await talk(C,[]);
-  check('4. 林采潔 秘密（大一上第 12 週起、有點熟）：「其實……我在寫一篇推理小說。」接「我寫的那篇卡在第三章…」；不加選項；這時還不開口（第三章在大一下）',has('其實……我在寫一篇推理小說。')&&has('我寫的那篇卡在第三章：兇手的動機，連我自己都不信。……法律系的課，會教怎麼判斷動機嗎？')&&!H.opts.length&&!SIDEQ.get(H.G,'PQ_CJ'),J(said()));
+  check('4. 林采潔 秘密（大一上第 12 週起、有點熟）：「其實……我在寫一篇推理小說。」接「我寫的那篇卡在第三章…」；不加選項；這時還不開口（第三章在大一下）',has(require('./aa959_map.js').map('其實……我在寫一篇推理小說。','pool_story.js')/* RC2-PORT-DEV-1114：AA_959 第 683 列 */)&&has('我寫的那篇卡在第三章：兇手的動機，連我自己都不信。……法律系的課，會教怎麼判斷動機嗎？')&&!H.opts.length&&!SIDEQ.get(H.G,'PQ_CJ'),J(said()));
   const s1=TD('Y1S2',3,2); set(s1,14,'bookstore'); GM.npc={}; spawn(C); await talk(C,[0]); const r=SIDEQ.get(H.G,'PQ_CJ');
   check('4. 林采潔 6-3（大一下第 2～12 週、舊路書房）：「好，我看看。」＝檔案傳給你、加好友、掛「第三章」',has('我的第三章卡住了。兇手被抓到以後，在警察局自白。可是我不確定那個自白在法庭上能不能用。')&&has('檔案傳給你。只看第三章，你不要往後翻……後面還沒寫，翻了也沒有。')&&!!r&&r.state==='open'&&INV.hasContact(H.G,C),J(said()));
   set(s1+1,14,'bookstore'); GM.npc={}; spawn(C); await talk(C,['不能用']);
@@ -258,7 +258,7 @@ await sec('4 鄭元碩',async()=>{ const d=TD('Y1S1',6,3); fresh(d,16.5,'campus'
 await sec('4 邱家齊',async()=>{ const d=TD('Y1S1',5,7); fresh(d,21.5,'dorm_hall'); spawn(Q); await talk(Q,[1]);
   check('4. 邱家齊 認識（男一舍交誼廳，週日 21～23）：魚丸、QJQ_FISH、房間的冰箱多一包',has('學弟，你那層的冰箱還有位子嗎？……我媽又寄了。')&&has('虱目魚丸。我們台南的。……你沒吃過？那你今天先拿一包。')&&H.G.flags.QJQ_FISH===true&&STORY.roomItemList(H.G).some(x=>x[1]==='（虱目魚丸。袋子上用麥克筆寫著「家齊」。）'),J(said()));
   const th=TD('Y1S2',4,4); set(th-2,21.5,'dorm_hall'); rel(Q,25,3); GM.npc={}; spawn(Q); await talk(Q,[0]);
-  check('4. 邱家齊 秘密（大一上第 10 週起、交誼廳、有點熟）：週二先聽秘密「其實……我很想家。」；同一場不開口代收',has('其實……我很想家。')&&SOCIAL.has(Q,'SHARED_SECRET')&&!SIDEQ.get(H.G,'PQ_QJQ'),J(said()));
+  check('4. 邱家齊 秘密（大一上第 10 週起、交誼廳、有點熟）：週二先聽秘密「其實……我很想家。」；同一場不開口代收',has(require('./aa959_map.js').map('其實……我很想家。','pool_story.js')/* RC2-PORT-DEV-1114：AA_959 第 685 列 */)&&SOCIAL.has(Q,'SHARED_SECRET')&&!SIDEQ.get(H.G,'PQ_QJQ'),J(said()));
   set(th,21.5,'dorm_hall'); GM.npc={}; spawn(Q); await talk(Q,[0]); const r=SIDEQ.get(H.G,'PQ_QJQ');
   check('4. 邱家齊 8-3（大一下第 4～10 週，交誼廳，週四晚上）：「我幫你領。」＝加好友、掛「代收媽媽的箱子」（週六 10～18 門廳）',has('這禮拜六我媽寄的箱子會到，可是我要回台南看阿公。')&&!!r&&r.state==='open'&&r.satDay===th+2&&INV.hasContact(H.G,Q),J(said()));
   set(th+2,11,'dorm_hall'); E.interactables=[]; P().populate('dorm_hall',GM); const pick=E.interactables.find(x=>x.poolAct==='qjqPick');

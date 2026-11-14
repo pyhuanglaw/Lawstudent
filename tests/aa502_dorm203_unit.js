@@ -86,6 +86,7 @@ const knowAll=()=>{ for(const id of ['kai','zhe','classmate_bohan']){ H.rel(id,2
   await sec(0,()=>{ check('0. 拿得到稿（git show 7ad5fee84＝AA_528 第 3 節改字以後的版本；有第 6 節「實作時定的」）',DOC.length>1000&&DOC.indexOf('## 4. 203 群組')>0&&DOC.indexOf('## 6. 實作時定的')>0,'長度 '+DOC.length);
     if(!L||!DOC){ for(const n of ['0. 遊戲裡的每一句都在稿裡','0. 反過來：稿第 1～4 節的每一句遊戲裡都有']) check(n,false,!L?'沒有 DORM203_LINES':'拿不到稿'); return; }
     const bad=[], inDoc=t=>DOC.indexOf(t)>=0;
+    return (L=>{   /* RC2-PORT-DEV-1114：AA_959 783 列換過的字（第 567、773 列），這一節把資料換回舊字再和稿雙向對 */
     /* 遊戲 → 稿：每一句都在稿裡；說話的人對（「名字：」接在前面，或在那個人的表裡）*/
     for(const id in L.walkIn) for(const t of L.walkIn[id]) if(!inDoc('- '+t)) bad.push('walkIn '+t);
     for(const id in L.room){ const sect=DOC.slice(DOC.indexOf('### 2-'+({zhe:1,classmate_bohan:2,kai:3})[id]),DOC.indexOf(id==='kai'?'## 3.':'### 2-'+({zhe:2,classmate_bohan:3})[id]));
@@ -121,7 +122,7 @@ const knowAll=()=>{ for(const id of ['kai','zhe','classmate_bohan']){ H.rel(id,2
           if(!L.room[id].rows.some(r=>r.t===t)&&!(L.room[id].after||[]).some(a=>a.text===t)) miss.push('房間 '+id+' '+t); } } }
     for(const e of E4) if(!GI.some(it=>it.text===e.t&&(it.from?NAME[it.from]:null)===e.sp)) miss.push('群組 '+(e.sp||'')+' '+e.t);
     if(E4.length<25) miss.push('第 4 節只讀到 '+E4.length+' 則');
-    check('0. 反過來：稿第 1～4 節的每一句（走進來、房間、六件小事和選項、3-7、群組）遊戲裡都有',!miss.length,J(miss.slice(0,6))); });
+    check('0. 反過來：稿第 1～4 節的每一句（走進來、房間、六件小事和選項、3-7、群組）遊戲裡都有',!miss.length,J(miss.slice(0,6))); })(require('./aa959_map.js').unmapDeep(L,'dorm203_lines.js')); });
 
   /* ================= 1 作息 ================= */
   await sec(1,()=>{

@@ -54,7 +54,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這
   await sec(0,async()=>{
     const all=[]; const walk=v=>{ if(typeof v==='string') all.push(v); else if(Array.isArray(v)) v.forEach(walk); else if(v&&typeof v==='object') Object.values(v).forEach(walk); };
     walk(L()); const ids=/^(dad|mom|sister|heroine_01|yu|classmate_xinci|zhe|abroad|home|20\d\d-\d\d-\d\d)$/;
-    const bad=all.filter(t=>!ids.test(t)&&DOC.indexOf(t)<0&&DOC466.indexOf(t)<0);   /* AA_466 第 1 節加的六則、第 4 則國外版在 AA_466 */
+    const P959=t=>!ids.test(t)&&DOC.indexOf(t)<0&&DOC466.indexOf(t)<0; const bad=all.filter(t=>P959(t)&&P959(require('./aa959_map.js').unmap(t,'jpprep_events.js')));   /* AA_466 第 1 節加的六則、第 4 則國外版在 AA_466 */   /* RC2-PORT-DEV-1114：AA_959 783 列換過的字，換回舊字再對稿 */
     check('0. JPPREP_LINES 的每一句都在 AA_442 或 AA_466（人物 id、日期、國外／在家的標記除外）',bad.length===0,bad.join('｜'));
     check('0. 事件進了 STORY_EVENTS；JP.SCH 多了這一包的列；JP.STOPS、PHONE_RULES 掛上',JPPREP_EVENTS.every(e=>STORY_EVENTS.includes(e))&&X().SCH.every(s=>JP.SCH.includes(s))&&JP.STOPS.length>0&&STORY.PHONE_RULES.length>0);
     const days=['2028-02-21',1,'2028-02-25',5,'2028-02-26',6,'2028-02-29',2,'2028-03-01',3,'2028-03-04',6,'2028-03-05',0,'2028-03-08',3,'2028-03-10',5,'2028-03-11',6,'2028-03-12',0,'2028-03-14',2,'2028-03-17',5,'2028-03-18',6,'2028-03-19',0,'2028-03-21',2,'2028-03-22',3,'2028-03-23',4];
@@ -133,7 +133,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這
     /* 2-2 日文電話 */
     const ask=Q(part('- **2/25（五）21:00 以安私訊**','- 選項：'));
     G=jpG('2028-02-25',21.05); rules();
-    check('2-2 2/25（五）21:00 以安私訊（交往中）：「出發前，平日晚上講十分鐘日文。」「電話。九點。連假完開始。」＋三個選項',J(tagged('jpp_0225_call').map(m=>m.text))===J(ask.map(x=>x.text))&&J(optsOf('jpp_0225_call'))===J(['好。','十分鐘夠嗎？','我自己練就好。']));
+    check('2-2 2/25（五）21:00 以安私訊（交往中）：「出發前，平日晚上講十分鐘日文。」「電話。九點。連假完開始。」＋三個選項',J(tagged('jpp_0225_call').map(m=>m.text))===J(ask.map(x=>require('./aa959_map.js').map(x.text,'jpprep_events.js')/* RC2-PORT-DEV-1114：AA_959 第 769 列，稿上的字照表換完再比 */))&&J(optsOf('jpp_0225_call'))===J(['好。','十分鐘夠嗎？','我自己練就好。']));
     for(const [k,r,v] of [[0,'好。',true],[1,'不夠再加。',true],[2,'好。',false]]){ G=jpG('2028-02-25',21.05); rules(); rep=answer('jpp_0225_call',k);
       check('2-2 回第 '+(k+1)+' 個 → 以安「'+r+'」，AN_JP_CALL='+v,J(rep)===J([AN+':'+r])&&G.flags.AN_JP_CALL===v&&part('- 選項：','- **有 `AN_JP_CALL`').indexOf('以安：'+r)>=0); }
     G=jpG('2028-02-25',21.05,{repair:true}); rules(); check('2-2 挽回中：沒有這一則',!tagged('jpp_0225_call').length);

@@ -101,11 +101,11 @@ const inDoc=t=>DOC.indexOf(t)>=0||X547.indexOf(t)>=0;
       '走出總圖。':'4-1「「走到校門口」改「走出總圖」」（原句的句號照舊）','宥辰：法律系館A的電梯':'順手的事的標題（介面的字）','總圖 B1 討論室':'介面的字',
       '（轉貼宥辰）':'AA_527 2-4（企劃線 bfede0a62）：阿哲在桌遊團再貼一次宥辰的邀請＝顯示成轉貼（後面接宥辰原文）' };
     const QUOTED=t=>inDoc('「'+t+'」')||(/^「[^「」]+」$/.test(t)&&inDoc(t.slice(1,-1)));   /* 手機的回覆選項：稿寫成「…」，遊戲的按鈕不加引號；閒聊（SMALLTALK 的寫法是「…」）稿寫成「> 芯慈：…」 */
-    const bad=[...new Set(out)].filter(t=>!(inDoc(t)||B7B.indexOf(t)>=0||BB113.indexOf(t)>=0||QUOTED(t)||DERIVED[t]||require('./libq_out_lines.js').added(t)));   /* libq_out_lines：AA_595 1-B55 B1 版前兩句改便條（AA 11-02 22:30 定稿）*/
+    const P959=t=>!(inDoc(t)||B7B.indexOf(t)>=0||BB113.indexOf(t)>=0||QUOTED(t)||DERIVED[t]||require('./libq_out_lines.js').added(t)); const bad=[...new Set(out)].filter(t=>P959(t)&&P959(require('./aa959_map.js').unmap(t,'sup497_lines.js')));   /* libq_out_lines：AA_595 1-B55 B1 版前兩句改便條（AA 11-02 22:30 定稿）*/   /* RC2-PORT-DEV-1114：AA_959 783 列換過的字，換回舊字再對稿 */
     check('0a. sup497_lines.js 每一句（台詞、旁白、選項、手機訊息）都在稿裡：AA_497 60fc3b9a3（學妹照第 8 節第 5 點叫佳穎）／BB_70 7b／BB_113（一字不差；推導的 '+Object.keys(DERIVED).length+' 句另外列）',out.length>350&&!bad.length,out.length+' 句；不在稿裡：'+J(bad));
     const dv=Object.keys(DERIVED).filter(t=>t.length>4&&!/總圖 B1|順手/.test(t)).filter(t=>!out.includes(t));
     check('0a. 推導的句子都真的用到（沒有多餘的例外）',!dv.length,J(dv));
-    check('0a. 地下室那一場照 BB_70 7b：邀請、三個站位的那一句、散場的問題和三個回答一字不差',['週六晚上八點。公館。地下室。不用買票，有捐款箱。','……前排。好。不能出錯了。','站這裡最好，看得到所有人的臉。','一千二。夠付場地費。你顧得很好。','聽得出來是哪裡嗎？','對。法律系唯一有節奏的地方。','我錄了三天。要等到沒有人的時候，才錄得到那一聲。','B館太安靜。我要錄的是吵。','那首用A館電梯做的歌，版權是我自己的。我查過了。'].every(t=>B7B.indexOf(t)>=0&&out.includes(t)));
+    check('0a. 地下室那一場照 BB_70 7b：邀請、三個站位的那一句、散場的問題和三個回答一字不差',['週六晚上八點。公館。地下室。不用買票，有捐款箱。','……前排。好。不能出錯了。','站這裡最好，看得到所有人的臉。','一千二。夠付場地費。你顧得很好。','聽得出來是哪裡嗎？','對。法律系唯一有節奏的地方。','我錄了三天。要等到沒有人的時候，才錄得到那一聲。','B館太安靜。我要錄的是吵。','那首用A館電梯做的歌，版權是我自己的。我查過了。'].every(t=>B7B.indexOf(t)>=0&&out.includes(require('./aa959_map.js').map(t,'sup497_lines.js')/* RC2-PORT-DEV-1114：AA_959 第 548、704、781 列換過的三句，稿上的字照表換完再找 */)));
     check('0a. 大四的兩則照 BB_113 原句（第 1-8 節「之後接 BB_113 原句」）',BB113.indexOf(L().yc.deal.y4a)>=0&&BB113.indexOf(L().yc.deal.y4b)>=0&&inDoc(L().yc.deal.y4a)&&inDoc(L().yc.deal.y4b));
     /* 改在其他檔的句子 */
     const SRC=['src/data/events.js','src/data/r2y3b_events.js','src/y2r2_3d.js','src/data/r2y3a_events.js','src/data/multirel_lines.js','src/story3d.js','src/data/sis_b12_events.js','src/y34b3d.js','src/data/y1fill_events.js'].map(f=>fs.readFileSync(path.join(H.ROOT,f),'utf8')).join('\n');
