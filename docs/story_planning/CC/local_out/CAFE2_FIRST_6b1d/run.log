@@ -1,0 +1,31 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_xs_inside_perf_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\CAFE2_FIRST_6b1d\out
+CC SHOP-REAL-INSIDE 效能：TAG cafe2_first_6b1d；SHA 6b1d2a2b2594c43875fea820a45fd28956ec8aee；PAIR ['l118_cafe2', 'l118_noodle2']；DESKTOP=True；Windows＋GPU ≠ 使用者那台
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 lane118 2025-10-22 14.00（條件事件關掉）
+PASS 讀到 lane118  {"zone": "lane118", "x": 0, "z": 31, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.05}
+  [  45.1s] 觸控偵測與畫質（LAWWW-C 10:20：lite＝low 或觸控）：{"maxTouchPoints": 0, "ontouchstart": true, "q": "medium", "lite": null, "desktop": true}
+PASS lane118 有 l118_cafe2、l118_noodle2 兩個門  [{"label": "進118牛排（夜市鐵板牛排）", "to": "l118_dian", "x": -4.3, "z": 25}, {"label": "進水上便當（雞腿、雞排便當）", "to": "l118_self", "x": -4.3, "z": 17.5}, {"label": "進辛亥韓食（韓式鍋物、鐵板烤肉）", "to": "l118_tea", "x": -4.3, "z": 11.5}, {"label": "進五湖四海（水餃店）", "to": "l118_home", "x": -4.3, "z": -2}, {"label": "進大學食堂（秤重自助餐）", "to": "l118_cafe2", "x": -4.3, "z": -12.5}, {"label": "進義大麵屋（平價義大利麵）", "to": "l118_pasta", "x": 4.3, "z": 24}, {"label": "進清州刀削麵（刀削麵館）", "to": "l118_korea", "x": 4.3, "z": 15.5}, {"label": "進奈良咖哩（日式咖哩飯）", "to": "l118_omu", "x": 4.3, "z": 1.5}, {"label": "進迪倫窯烤披薩（個人窯烤披薩）", "to": "l118_noodle2", "x": 4.3, "z": -10.5}, {"label": "回到首都帝大（後門）", "to": "campus", "x": 0, "z": 48.4}]
+PASS FAIL_SETUP 檢查：中間點、遠點站得住（≥30 m）  {"mid": {"x": 0, "z": -11.5}, "far": {"x": 0, "z": 48.5, "d": 60}}
+  [  45.1s] 門 [{"label": "進大學食堂（秤重自助餐）", "to": "l118_cafe2", "x": -4.3, "z": -12.5}, {"label": "進迪倫窯烤披薩（個人窯烤披薩）", "to": "l118_noodle2", "x": 4.3, "z": -10.5}]；中間點 {"x": 0, "z": -11.5}；遠點 {"x": 0, "z": 48.5, "d": 60}（離中間點 60 m）
+  [前置／捷徑] 【前置／捷徑】先讀檔站到遠點
+  [  58.1s] ②b 站 10 秒的長幀當下事件（前 30 ms 到幀結束）：[{"t": 50277.8, "ms": 66.7, "events": []}, {"t": 52660.9, "ms": 66.6, "events": []}, {"t": 55244.2, "ms": 66.7, "events": []}, {"t": 56960.8, "ms": 66.7, "events": []}]；這 10 秒事件總數 7 {"programs": 7}
+  [  58.7s] ② 進區域後站 10 秒：每幀 {"n": 587, "fps": 58.6, "p50": 16.7, "p95": 16.8, "max": 66.7, "gt50": 4}；tex 96→96、geoms 97→98、heap 527.4→527.4
+  [  58.7s] ③ zone.shopReal：剛進來 null；10 秒後 null
+  [  65.3s] ① 遠點（基準） 站 5 秒：{"n": 291, "fps": 58.2, "p50": 16.7, "p95": 16.8, "max": 66.6, "gt50": 3}；{"calls": 77, "tris": 124654, "tex": 96, "geoms": 98, "programs": 90, "objs": 1539, "heapMB": 527.4}
+  [  79.6s] 到達「②／④ 第 1 趟走到中間點」附近（0.17 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，14 秒
+  [  79.6s] ②／④ 第 1 趟走到中間點 長幀（>50 ms）當下事件（前 30 ms 內：shopReal 狀態、prof 各步、CHAR.build、scene.add、貼圖數、程式數）：{"long": [{"t": 64543.8, "ms": 166.7, "events": []}, {"t": 64677.2, "ms": 66.7, "events": []}, {"t": 65577.1, "ms": 66.6, "events": [[65482.2, "tex", "105→109"], [65504.5, "tex", "109→110"], [65523.7, "tex", "110→111"]]}, {"t": 72426.9, "ms": 100.1, "events": [[72310.3, "tex", "157→158"]]}, {"t": 73426.8, "ms": 66.7, "events": [[73361.7, "tex", "160→161"]]}, {"t": 75243.4, "ms": 66.6, "events": []}, {"t": 76126.7, "ms": 116.6, "events": [[76003.3, "tex", "185→209"]]}], "n_events": 31, "kinds": {"tex": 31}}
+  [  79.7s] ②／④ 第 1 趟走到中間點（14.3 秒，到了=True，位置 -0.0,-11.328）每幀：{"n": 816, "fps": 57.3, "p50": 16.7, "p95": 16.8, "max": 166.7, "gt50": 7}
+  [  79.7s] 第 1 趟走近：shopReal.prof（走之前 reset=False）"ERR TypeError: Cannot read properties of undefined (reading 'prof')"
+  [  79.7s] 第 1 趟走近 prof 各格 max／who：{}
+  [  85.3s] ① 第 1 趟中間點（兩間室內都載入） 站 5 秒：{"n": 285, "fps": 56.8, "p50": 16.7, "p95": 16.8, "max": 116.7, "gt50": 3}；{"calls": 129, "tris": 270656, "tex": 234, "geoms": 228, "programs": 90, "objs": 1539, "heapMB": 527.4}
+  [  85.3s] ③ 第 1 趟中間點 zone.shopReal null
+  [  99.4s] 到達「③／④ 第 1 趟走回遠點」附近（0.21 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，14 秒
+  [  99.4s] ③／④ 第 1 趟走回遠點 長幀（>50 ms）當下事件（前 30 ms 內：shopReal 狀態、prof 各步、CHAR.build、scene.add、貼圖數、程式數）：{"long": [{"t": 90159.5, "ms": 133.3, "events": []}, {"t": 91976, "ms": 116.6, "events": []}, {"t": 93709.3, "ms": 100, "events": []}, {"t": 95442.6, "ms": 100, "events": []}, {"t": 97642.4, "ms": 66.6, "events": []}], "n_events": 0, "kinds": {}}
+  [  99.4s] ③／④ 第 1 趟走回遠點（14.1 秒，到了=True，位置 -0.0,48.294）每幀：{"n": 816, "fps": 57.9, "p50": 16.7, "p95": 16.8, "max": 133.3, "gt50": 5}
+  [ 106.5s] ③ 第 1 趟回到遠點 站 5 秒：{"n": 294, "fps": 58.8, "p50": 16.7, "p95": 16.7, "max": 66.7, "gt50": 2}；{"calls": 77, "tris": 124654, "tex": 234, "geoms": 228, "programs": 90, "objs": 1539, "heapMB": 527.4}
+  [ 106.5s] 【預載】進區域 10 秒最長一幀 66.7 ms、>50 ms 4 次；常駐 tex 96、geoms 98
+  [ 106.5s] 【總表】第一次走近最長一幀 166.7 ms（>50 ms 7 次）；中間點 fps 56.8、calls 129、tris 270656、tex 234；遠點基準 tex 96 → 第一趟回遠點 tex 234；三趟回遠點 heap [527.4]、tex [234]、objs [1539]
+PASS 三趟都真的走到中間點、走回遠點  [[true, true]]
+PASS 沒有 JS 例外  []
+ALL PASS

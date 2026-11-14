@@ -1,12 +1,3 @@
-[22:42:42] ==== END   STUDY_fix_a  exit=0  894s   ====
-[22:42:45] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
-[22:42:45] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
-[22:42:45] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
-[22:42:45] memory 49% before starting STUDY_fix_c (2 running)
-[22:42:45] ==== START STUDY_fix_c  (probe @ 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d) ====
-[22:42:48] [res] cpu=9% mem=49% (15.6/31.4 GB) chrome_testing=5  START STUDY_fix_c
-[22:43:21] [res] cpu=14% mem=45% (13.9/31.4 GB) chrome_testing=4  END STUDY_fix_b
-    To https://github.com/pyhuanglaw/Lawstudent.git
        9400277b34..9912b6a1bb  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [22:43:27] ==== END   STUDY_fix_b  exit=1  915s   ====
@@ -1998,3 +1989,12 @@
 [11:31:55] 正在跑：CANON458_DATE_ZR（已跑 28 分／上限 45 分）——還沒測完，請不要關 (tests still running - please do not close)
 [11:36:55] 正在跑：CANON458_DATE_ZR（已跑 33 分／上限 45 分）——還沒測完，請不要關 (tests still running - please do not close)
 [11:40:00] [res] cpu=2% mem=32% (10.1/31.4 GB) chrome_testing=0  END CANON458_DATE_ZR
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       221308b146..126763619b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[11:40:09] ==== END   CANON458_DATE_ZR  exit=0  2203s   ====
+[11:40:12] memory 32% before starting CAFE2_FIRST_6b1d (0 running)
+[11:40:12] ==== START CAFE2_FIRST_6b1d  (probe @ 6b1d2a2b2594c43875fea820a45fd28956ec8aee) ====
+[11:40:15] [res] cpu=1% mem=32% (10.3/31.4 GB) chrome_testing=0  START CAFE2_FIRST_6b1d
+[11:41:55] 正在跑：CAFE2_FIRST_6b1d（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[11:42:35] [res] cpu=1% mem=30% (9.5/31.4 GB) chrome_testing=0  END CAFE2_FIRST_6b1d
