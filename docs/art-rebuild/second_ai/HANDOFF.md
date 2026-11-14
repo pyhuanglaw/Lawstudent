@@ -11,6 +11,10 @@
 - PHONE-MAP-ART-1113（LAWWW-C 11-13 20:2x 開、暫停五欄在 tasks.json）：手機「地點」正式美術地圖；恢復條件：SHOP-REALISM-1112 剩下的店交完或下一次發布，取早的；下次檢查 11-20。
 
 ### 下一班第一件事（任務 ID，照順序）
+0o. **（11-14 00:3x UTC）**
+  - LAWWW 已整合：南洋 v6＋阿德 v2.1（292929800d）、六包合成（5d88e515d8：knownfail、第九批＋前院 P3、ZQ-C504、花序 P2、木曜日 v2.1、Daybreak）。
+  - 交了等整合：洋洋 v2b（g4，ab5129cb37）、日常失速 v2.1（g1，7db3174dd4）、**GG-STREET-TREES**（ee53e06709，公館四間窗景照遊戲 103 棵樹重拍；`wip/gg_street_trees_1114/`；任務 ID 待 LAWWW 開）。
+  - 幫手：g4 第④群六間全部 PASS（請它收尾）；g1 木曜日 v2.2（層板＋書櫃頂三盆垂藤）重烘中；g2 Daybreak v2.1（義式機）、頁間 v3、單車、唱片、山嵐；g3 五間。
 0n. **（11-13 23:3x UTC）這一段交的**
   - **SHOP-REALISM-1112 日和便利店 CC0**（接手 g2）交 6ecd6495c8：`wip/cvs_cc0_1113/cvs_cc0.patch`（底 4556c4be0c；61,906 面；三項過）。cc0_kit.py 的 vc_tex 和青木 patch 重複，套第二包時 `--exclude` 掉那段。
   - **SHOP-REALISM-1112 花序花束 P2**（g4 轉交）交 b774ec3f17：`wip/flower_notes_p2_1113/flower_notes_p2.patch`（拿掉綠球、花瓣根暗尖亮；72,707→76,795 面；apply --check 過 bf9d623e69）。下一步（不擋）：換 Poly Haven 花／葉片，先量面數；用 bb_support/cc0kit.py 時要拿 g4 的 181e2a27c（ph_obj 照高度分快取）。
