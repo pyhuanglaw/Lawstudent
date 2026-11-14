@@ -1,0 +1,25 @@
+{
+  "rerun": "",
+  "id": "T1_SEED4_SAVE_stuck",
+  "sha": "1404d5f2d4cb740d50df75741764be18ee746992",
+  "kind": "node",
+  "script": "docs/story_planning/test_tools/cc/random_play_sim.js",
+  "env": "XARGS=--track law --seed 4 --from 2025-08-22 --to 2025-11-11 --root . --out {out} --save-out {out}/seed4_stuck.json",
+  "machine": "MSI",
+  "start": "2026-11-14T18:00:04",
+  "end": "2026-11-14T18:05:38",
+  "seconds": 334,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "21",
+  "url": "http://127.0.0.1:8800/index.html",
+  "res_peak": {
+    "cpu": 60,
+    "mem": 47,
+    "used_gb": 15.0,
+    "chrome_testing": 4
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false
+}
