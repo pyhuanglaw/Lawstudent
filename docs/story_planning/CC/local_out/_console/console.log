@@ -1,11 +1,3 @@
-[22:57:03] [res] cpu=53% mem=46% (14.6/31.4 GB) chrome_testing=5  END STUDY_SE06
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       333b460e5f..c46a5185fb  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[22:57:28] ==== END   STUDY_SE06  exit=1  215s   ====
-[22:57:33] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
-[22:57:33] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
-[22:57:33] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
 [22:57:33] memory 47% before starting STUDY_FA01 (2 running)
 [22:57:33] ==== START STUDY_FA01  (probe @ 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d) ====
 [22:57:35] [res] cpu=9% mem=47% (14.9/31.4 GB) chrome_testing=5  START STUDY_FA01
@@ -1998,3 +1990,11 @@
 [11:47:30] [res] cpu=12% mem=43% (13.4/31.4 GB) chrome_testing=9  START SHOP_B5_limao_ce2f
 [11:51:55] 正在跑：TZ_SEAT_5b7c（已跑 6 分／上限 120 分）、SHOP_B5_ce2f（已跑 5 分／上限 40 分）、SHOP_B5_limao_ce2f（已跑 4 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [11:53:12] [res] cpu=8% mem=43% (13.7/31.4 GB) chrome_testing=10  END SHOP_B5_limao_ce2f
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       4edc533c45..2004daaf4d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[11:53:34] ==== END   SHOP_B5_limao_ce2f  exit=1  346s   ====
+[11:53:37] memory 44% before starting SHOP_B5_limao_study_ce2f (2 running)
+[11:53:37] ==== START SHOP_B5_limao_study_ce2f  (probe @ 4896dc480cd6747c2910f7b979984e24732e5251) ====
+[11:53:40] [res] cpu=2% mem=44% (14.0/31.4 GB) chrome_testing=10  START SHOP_B5_limao_study_ce2f
+[11:55:10] [res] cpu=19% mem=43% (13.5/31.4 GB) chrome_testing=10  END SHOP_B5_ce2f
