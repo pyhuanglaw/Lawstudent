@@ -6,6 +6,7 @@
   ② 結帳：記錢（前、後、差）、每一句對話（誰＋字）、選單；買完 GG3_OWN、GIFTH.bag 有沒有多。竹葉先遇到月餅那一句（④）→ 選拿一顆 → 一起結。草原的袋子選「不用了」。
   ③ 錢不夠：重新讀檔（新的一趟＝新推車）、錢設 MONEY_LOW（預設 10 元）、草原拿香蕉（48 元）、竹葉拿豆腐（64 元）→ 結帳 → 記那一句（草原 no_money、竹葉沒有水餃＝no_money_other）、錢有沒有動、推車清了沒。
   ④ 竹葉月餅：2028-09-16（9/15～中秋 10/3 之間）結帳時那一句＋「月餅 $5.00」選項——選了以後有沒有進推車、結帳後進包包。
+CC-B 11-14（BB-B 12:22，AA_850）：PARTS=3b＝③b 草原／③c 竹葉 推車一貴一便宜、錢＝便宜的＋1 元——草原照設計要拿掉貴的、付便宜的；竹葉只記實際。
 CC_02 清單 2026-11-14：1✓（美國期間 2028-09-16 13:00＋美國路線旗標 EXCHANGE_ROUTE=US、US_DEPARTED、US_ARRIVED；竹葉週日公休，這天是週六） 2✓（互動點照 usMarket id 從 GAME.E.interactables 讀，貨品照 USMKT.goodsAt） 3✓（指定貨架、指定貨品，不挑第一個） 4✓（按 #interact、點 #choices 第 n 個，L.tap 觸控） 5✓（站位找互動點 0.5 m 內站得住的點，CC_02 乙5 SHOP_US_r4b；點地走不到改搖桿 joy_to、看互動鍵的字） 6✓（對話一句一句點，每下等 450 ms） 7✓（lint） 8✓（錢、推車、GG3_OWN、GIFTH.bag 前後逐欄比） 9✓（每個選單、結帳完都截圖） 10✓（捷徑：讀檔、旗標、錢都寫【捷徑】） 11✓（佇列 probe、SHA 40 碼） 12✓（FAIL_SETUP：在店裡、inUS、互動點和貨品在、走到以後互動鍵是那個點） 13✓（走到互動點用 go_to，走完確認 nearestInteractable）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [ZONES=us_market,us_asian_market] [DAY=2028-09-16] [HOUR=13] [MONEY_LOW=10] python3 cc_us_buy_probe.py <url> <out>"""
 import os, sys, json, asyncio
@@ -21,6 +22,7 @@ SHA = os.environ.get('SHA') or ''
 ZONES = [z for z in (os.environ.get('ZONES') or 'us_market,us_asian_market').split(',') if z]
 DAY = os.environ.get('DAY') or '2028-09-16'; HOUR = float(os.environ.get('HOUR') or 13)
 MONEY_LOW = int(os.environ.get('MONEY_LOW') or 10)
+PARTS = set((os.environ.get('PARTS') or '1,2,3').split(','))   # CC-B 11-14（BB-B 12:22，AA_850）：3b＝推車兩樣（一貴一便宜）、錢只夠便宜的；PARTS=3b 只跑這一段
 R = L.Run('us_buy', OUT); D.setup(R, OUT); F.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 PLAN = {   # 區域：貨架、要拿的貨、結帳點、錢不夠那一次的貨架和貨
@@ -164,6 +166,65 @@ async def shop_zone(pg, cdp, z):
     return res
 
 
+TWO_JS = r"""(z=>{ const ids=(GAME.E.interactables||[]).filter(i=>i.usMarket&&!i.hidden).map(i=>i.usMarket); const out=[];
+  for(const id of ids){ let gs=[]; try{ gs=USMKT.goodsAt(GAME.G,z,id); }catch(e){} for(const g of gs) out.push({shelf:id, id:g.id, n:USMKT.nm(g), p:g.p, kind:g.kind}); }
+  return out; })"""
+
+
+async def take(pg, cdp, tag, z, shelf, good):
+    """走到貨架、按、選那一樣（其他選不用了）；回傳推車"""
+    if not await walk_to(pg, cdp, tag, shelf): return None
+    await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
+    t = [0]
+    def pk(ch):
+        if t[0] == 0:
+            k = next((i for i, x in enumerate(ch) if good['n'] in x), None)
+            if k is not None: t[0] = 1; return k
+        return next((i for i, x in enumerate(ch) if '不用了' in x), None)
+    await play(pg, cdp, tag, pk, 'usbuy_%s_3b_%s' % (z, good['id']))
+    return (await pg.evaluate(STATE_JS, z))['cart']
+
+
+async def two_items(pg, cdp, z):
+    """③b／③c：推車兩樣（一貴一便宜，不同貨架也可以），錢只夠付便宜的那一樣（便宜的價錢＋1），結帳——記拿掉了哪樣、付了哪樣、錢、物品、原文"""
+    tag = '[%s] ③b' % z if z == 'us_market' else '[%s] ③c' % z; res = {}
+    if not await enter(pg, cdp, tag, z, 5000): return res
+    allg = await pg.evaluate(TWO_JS, z)
+    cand = [g for g in allg if g['kind'] != 'eat' and not (z == 'us_asian_market' and 'dumpling' in g['id'])]   # 竹葉不放水餃（水餃有專門那一句）
+    cand.sort(key=lambda g: g['p'])
+    cheap = cand[0] if cand else None
+    exp = next((g for g in reversed(cand) if cheap and g['p'] > cheap['p'] and g['id'] != cheap['id']), None)
+    R.note('%s 這一趟所有貨：%s' % (tag, J(allg)))
+    if not R.check('%s FAIL_SETUP 檢查：找得到一貴一便宜（不是吃的；竹葉不是水餃）' % tag, bool(cheap and exp), J([cheap, exp])): return res
+    c1 = await take(pg, cdp, tag + ' 拿貴的', z, exp['shelf'], exp)
+    c2 = await take(pg, cdp, tag + ' 拿便宜的', z, cheap['shelf'], cheap)
+    if not R.check('%s FAIL_SETUP 檢查：推車有兩樣 %s、%s' % (tag, exp['id'], cheap['id']), bool(c2) and exp['id'] in c2 and cheap['id'] in c2, J([c1, c2])): return res
+    money = cheap['p'] + 1
+    await pg.evaluate("(m=>{ GAME.G.money=m; })", money)
+    R.setup('%s 【捷徑】錢設 %d（只夠付便宜的 %s %d 元；貴的 %s %d 元）' % (tag, money, cheap['id'], cheap['p'], exp['id'], exp['p']))
+    if not await walk_to(pg, cdp, tag, PLAN[z]['pay']): return res
+    s0 = await pg.evaluate(STATE_JS, z)
+    await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
+    def pk(ch):
+        if any(t.startswith('結帳') for t in ch): return next(i for i, t in enumerate(ch) if t.startswith('結帳'))
+        return next((i for i, t in enumerate(ch) if '不用了' in t), None)   # 月餅、袋子：不用了
+    lg = await play(pg, cdp, tag + ' 結帳', pk, 'usbuy_%s_3b_pay' % z)
+    await pg.screenshot(path=os.path.join(OUT, 'usbuy_%s_3b_after.png' % z))
+    s1 = await pg.evaluate(STATE_JS, z); res = {'log': lg, 'before': s0, 'after': s1, 'cheap': cheap, 'exp': exp}
+    paid = s0['money'] - s1['money']
+    got_cheap = (s1['own'] or {}).get(cheap['id'], 0) > (s0['own'] or {}).get(cheap['id'], 0) or s1['bag'].count(cheap['id']) > s0['bag'].count(cheap['id'])
+    got_exp = (s1['own'] or {}).get(exp['id'], 0) > (s0['own'] or {}).get(exp['id'], 0) or s1['bag'].count(exp['id']) > s0['bag'].count(exp['id'])
+    R.note('%s 結帳：錢 %d → %d（扣 %d）；推車 %s → %s；便宜的進物品／包包 %s；貴的 %s；USMKT.last %s；原文 %s' % (tag, s0['money'], s1['money'], paid, J(s0['cart']), J(s1['cart']), got_cheap, got_exp, J(s1['last']), J([v for k_, v in lg if k_ == '對話'])))
+    if z == 'us_market':   # 設計：拿掉最貴的一樣，剩下付得起就付
+        R.check('%s 拿掉貴的、便宜的付掉：錢只扣便宜的 %d 元' % (tag, cheap['p']), paid == cheap['p'], J([s0['money'], s1['money']]))
+        R.check('%s 便宜的進了物品（貴的沒有）' % tag, got_cheap and not got_exp, J([s0['own'], s1['own']]))
+        R.check('%s 推車清空' % tag, not s1['cart'], J(s1['cart']))
+        R.check('%s 有說錢不夠那一句' % tag, any(k_ == '對話' for k_, _ in lg) or any(k_ == '旁白字幕' for k_, _ in lg), J(lg))
+    else:   # 竹葉：只記實際行為（設計＝從便宜的拿起、付得起的買走、其他放回去）
+        R.note('%s 竹葉實際：扣 %d、便宜的 %s、貴的 %s、推車 %s（設計：便宜的付掉、貴的放回）' % (tag, paid, got_cheap, got_exp, J(s1['cart'])))
+    return res
+
+
 async def main():
     print('CC SHOP_US_BUY：SHA %s；%s %s %.2f；Windows＋GPU ≠ iPhone' % (SHA or '?', ','.join(ZONES), DAY, HOUR), flush=True)
     out = {'sha': SHA, 'day': DAY, 'hour': HOUR, 'zones': {}}
@@ -172,7 +233,9 @@ async def main():
         await pg.goto(URL)
         if not R.check('FAIL_SETUP 檢查：遊戲載入', await L.wait_loaded(pg), ''): await b.close(); sys.exit(R.finish())
         for z in ZONES:
-            try: out['zones'][z] = await shop_zone(pg, cdp, z)
+            try:
+                if PARTS & {'1', '2', '3'}: out['zones'][z] = await shop_zone(pg, cdp, z)
+                if '3b' in PARTS: out['zones'].setdefault(z, {})['two'] = await two_items(pg, cdp, z)
             except Exception as e: R.check('[%s] 沒有中斷' % z, False, repr(e)[:300])
             open(os.path.join(OUT, 'us_buy.json'), 'w', encoding='utf-8').write(J(out))
         R.check('沒有 pageerror／JS 例外', not errs, J(errs[:5]))
