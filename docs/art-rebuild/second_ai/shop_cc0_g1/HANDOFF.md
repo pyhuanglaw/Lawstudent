@@ -48,3 +48,9 @@
 - 做的：一盞 v1.2——`aa_cc0.enable(..., tiles={'vc': 0.15})`（只有一盞用；其他四間不動），霧面紋路 0.6 m → 0.15 m 一格。腳本已推；烘焙中（scratchpad/bake/yizhan12，沒有遠端備份）。
 - 10:0x 烘完、交件（一盞 v1.2）。
 - 10:1x 一盞 v1.2 LAWWW2 PASS；停工。教訓（LAWWW2-C）：出 patch 要用開發分支 `claude/adoring-meitner-mqzst8` 最新那一筆當底，不要用發布樹（1a7d7e1994 那種，裡面的模型比較舊）——fetch 以後先看 `git log -1` 的訊息確認。
+
+## 交班（2026-11-14 11:5x，使用者「現在交班」，第二次）
+- 停工：不再寫入 `claude/shop-cc0-g1`。本機沒有沒 commit、沒推的東西；背景烘焙、截圖、本機伺服器都停了；暫用 worktree 已移除。
+- 全部待辦：無。五間（小路、SUNNY SIDE、一盞 v1.2、木曜日 v2.2、日常失速 v2.1）全部 LAWWW2-C PASS、交 LAWWW。
+- 只剩 P3：小路、SUNNY SIDE、木曜日、日常失速的霧面雲狀斑（一盞已用 tiles={'vc': 0.15} 修掉，做法照抄即可；每間要重建、重烘），等 BB 或使用者提到再做。
+- 只在容器裡、沒有遠端備份（可重做）：scratchpad 的烘焙中間檔、截圖、出 patch 的小腳本（deliver.sh 等）。
