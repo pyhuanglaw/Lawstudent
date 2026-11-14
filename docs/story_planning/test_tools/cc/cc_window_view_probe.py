@@ -33,7 +33,8 @@ J = lambda o: json.dumps(o, ensure_ascii=False)
 SETTLED = "(async()=>{ for(let i=0;i<120;i++){ const A=ASSETS; const n=Object.keys(A.status).filter(k=>!A.cache[k]&&!A.errors.some(e=>e.startsWith(k+':'))).length; if(!n) return i; await new Promise(r=>setTimeout(r,250)); } return -1; })()"
 SNAP = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new THREE.PerspectiveCamera(a.fov||60, c.width/c.height, 0.05, 400); cam.position.set(...a.from); cam.lookAt(...a.at); cam.updateMatrixWorld(true);
   const z=E.zone, P=E.player&&E.player.obj; if(z&&z.fadeWalls){ try{ z.fadeWalls(cam,P?P.position:cam.position); if(E.hideFaded) E.hideFaded(); }catch(e){} }
-  try{ r.render(E.scene,cam); return c.toDataURL('image/png'); } finally { if(z&&z.fadeWalls&&E.camera){ try{ z.fadeWalls(E.camera,P.position); if(E.hideFaded) E.hideFaded(); }catch(e){} } } })"""   # 同 cc_shop_view_probe.py
+  const pv=P?P.visible:true; if(P) P.visible=false;   /* BB-C 01:41（WINVIEW_GG3 card1 被主角的頭擋住）：拍窗景時把玩家藏起來 */
+  try{ r.render(E.scene,cam); return c.toDataURL('image/png'); } finally { if(P) P.visible=pv; if(z&&z.fadeWalls&&E.camera){ try{ z.fadeWalls(E.camera,P.position); if(E.hideFaded) E.hideFaded(); }catch(e){} } } })"""   # 同 cc_shop_view_probe.py
 CAMST = r"""(()=>{ const E=GAME.E, c=E.camera, bg=E.scene.background; return {pitch:+E.cam.pitch.toFixed(3), dist:+(+E.cam.distTarget).toFixed(2), camY:+c.position.y.toFixed(2), ceil:(E.zone&&E.zone.h)||null, bg:bg&&bg.isColor?[Math.round(bg.r*255),Math.round(bg.g*255),Math.round(bg.b*255)]:null}; })()"""
 BGPCT = r"""(async a=>{ const im=await new Promise(res=>{ const q=new Image(); q.onload=()=>res(q); q.src=a.u; }); const W=160, H=Math.round(160*im.height/im.width);
   const k=document.createElement('canvas'); k.width=W; k.height=H; const g=k.getContext('2d'); g.drawImage(im,0,0,W,H); const d=g.getImageData(0,0,W,Math.floor(H/2)).data; let n=0,m=0;
@@ -55,7 +56,13 @@ CARDS_JS = r"""(a=>{ const E=GAME.E, z=E.zone, root=(z&&z.group)||E.scene, f=v=>
   root.traverse(o=>{ if(!o.isMesh) return; const ms=[].concat(o.material||[]); const mn=ms.map(m=>m&&m.name||'').join('|');
     if(RX.test(o.name||'')||RX.test(mn)){ box.setFromObject(o); if(box.isEmpty()) return; box.getCenter(v); const sz=new THREE.Vector3(); box.getSize(sz);
       const m0=ms[0]||{}; const url=(m0.map&&m0.map.userData&&m0.map.userData.url)||(m0.map&&m0.map.image&&m0.map.image.src&&String(m0.map.image.src).split('/').slice(-1)[0])||null;
-      out.push({mesh:o.name||'', mat:mn, visible:o.visible!==false, c:[f(v.x),f(v.y),f(v.z)], size:[f(sz.x),f(sz.y),f(sz.z)], map:url, emissive:m0.emissiveIntensity!=null?f(m0.emissiveIntensity):null}); }
+      const mp=m0.map||null, im=mp&&mp.image, iw=im&&(im.naturalWidth||im.width), ih=im&&(im.naturalHeight||im.height);
+      const uv=o.geometry&&o.geometry.attributes&&o.geometry.attributes.uv; let uvr=null; if(uv){ let a0=1e9,a1=-1e9,b0=1e9,b1=-1e9; for(let i=0;i<uv.count;i++){ const x=uv.getX(i), y=uv.getY(i); a0=Math.min(a0,x); a1=Math.max(a1,x); b0=Math.min(b0,y); b1=Math.max(b1,y); } uvr={u:[f(a0),f(a1)],v:[f(b0),f(b1)]}; }
+      const wide=Math.max(sz.x,sz.z), cardAsp=sz.y>0?f(wide/sz.y):null, imgAsp=iw&&ih?f(iw/ih):null;
+      /* BB-C 01:41：窗景圖邊緣被橫向拉成一條一條——記 UV 範圍、貼圖 repeat／offset／wrap、卡片寬高比、照片寬高比 */
+      out.push({mesh:o.name||'', mat:mn, visible:o.visible!==false, c:[f(v.x),f(v.y),f(v.z)], size:[f(sz.x),f(sz.y),f(sz.z)], map:url, emissive:m0.emissiveIntensity!=null?f(m0.emissiveIntensity):null,
+        tex:mp?{repeat:[f(mp.repeat.x),f(mp.repeat.y)], offset:[f(mp.offset.x),f(mp.offset.y)], wrapS:mp.wrapS, wrapT:mp.wrapT, center:[f(mp.center.x),f(mp.center.y)], rotation:f(mp.rotation||0)}:null,
+        img:iw?[iw,ih]:null, uv:uvr, cardAspect:cardAsp, imgAspect:imgAsp, stretch:(cardAsp&&imgAsp&&uvr)?f(cardAsp/(imgAsp*Math.max(1e-6,(uvr.u[1]-uvr.u[0])*(mp?mp.repeat.x:1))/Math.max(1e-6,(uvr.v[1]-uvr.v[0])*(mp?mp.repeat.y:1)))):null}); }
     if(a.yard&&(YX.test(o.name||'')||YX.test(mn))){ box.setFromObject(o); if(!box.isEmpty()){ box.getCenter(v); yard.push({n:o.name||'', c:[f(v.x),f(v.y),f(v.z)]}); } } });
   return {cards:out.slice(0,12), yard:yard.slice(0,40), yardN:yard.length, zone:GAME.G.zone, hour:f(GAME.G.hour)}; })"""
 
