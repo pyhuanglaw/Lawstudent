@@ -57721,7 +57721,7 @@
    "id": "BG-128-INTEG-1114",
    "title": "接三張 2D 背景進遊戲：yt_home（語彤家餐桌廚房・晚上，情人節兩場）、xinsheng_vday_night、yt_building_gate_cny",
    "owner": "LAWWW",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -57733,7 +57733,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "來源 claude/elegant-brown-fcos7n 509a2430fc docs/story_planning/bg_approved/；接在哪幾場照 BB_432 第 1 點（BLACK-BG-AUDIT-1018）。",
+   "next": "【11-14 LAWWW-B 已整合（見 sha）】ev_yt_vday_y2 她家→yt_home、新生南路→xinsheng_vday_night；ev_yt_vday_y4 她家→yt_home、她家樓下→yt_building_gate_cny；OUT.BG、LICENSES 登記；bg_* 六支＋aa416／aa524／cg24／aa685 雲端 ALL PASS。沒動：ev_yt_vday_y2 事件開頭那 1 句（底色 dark）、ev_yt_home_first／aa667「新生南路・她家」兩場（BB 沒指定；要不要也用 yt_home 請 BB 決定）。等 CC 拍、BB 看圖。｜來源 claude/elegant-brown-fcos7n 509a2430fc docs/story_planning/bg_approved/；接在哪幾場照 BB_432 第 1 點（BLACK-BG-AUDIT-1018）。",
    "sha": null,
    "xai": {
     "spec": "BB-B 11-14 交付（第 128 組，BB 通過）",

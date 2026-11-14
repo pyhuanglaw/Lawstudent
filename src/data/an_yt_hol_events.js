@@ -158,7 +158,7 @@ const ANYTHOL_EVENTS=(function(){
       dialogue:[
         /* 交往中但還沒去過她家（YT_HOME_SEEN）：這一場就是第一次去她家——開頭多一句、記 YT_HOME_SEEN */
         {if:{custom:G=>dating(G,YT)&&!(G.flags&&G.flags.YT_HOME_SEEN)},speaker:null,text:'（新生南路、學校對面的大樓。電梯到七樓。兩房一廳。）',set:{YT_HOME_SEEN:true}},
-        {if:{custom:G=>dating(G,YT)},scene:'她家',bg:'dark'},
+        {if:{custom:G=>dating(G,YT)},scene:'她家',bg:'yt_home'},
         {if:{custom:G=>dating(G,YT)},speaker:null,text:'（她家。餐桌上擺了兩副碗筷，一鍋湯還在冒煙。）'},
         {if:{custom:G=>dating(G,YT)},speaker:YT,text:'秀琴姨今天放假。……她教了我一個禮拜。'},
         {if:{custom:G=>dating(G,YT)},speaker:YT,text:'只會這一道。'},
@@ -168,7 +168,7 @@ const ANYTHOL_EVENTS=(function(){
         {label:'b'},N('（你們吃得很慢。語彤一直沒有看手機。）'),
         {label:'c'},Y('下班的時候，蘇姨問我要去哪裡。'),
         Y('……我說回家煮飯。她笑了很久。'),{goto:'e'},
-        {label:'n'},{scene:'新生南路',bg:'dark'},
+        {label:'n'},{scene:'新生南路',bg:'xinsheng_vday_night'},
         N('（茶屋下班。你們沿著新生南路走，路邊的店都貼了紅色的情人節海報。）'),
         Y('蘇姨叫我早點走。……她說今天情人節。'),
         {choice:[{text:'「替我謝謝蘇姨。」',goto:'na'},{text:'（陪她走）',goto:'nb'}]},
@@ -195,9 +195,9 @@ const ANYTHOL_EVENTS=(function(){
     /* ---------- 2-4 2029-02-14（三，初二）19:00（AA_630 H-018：過年她在淡水，晚上帶年糕回台北；交往中＝她家、還沒交往＝她家大樓樓下）---------- */
     { id:'ev_yt_vday_y4', title:'情人節', participants:[YT], location:'any', trigger:'outing', once:true, get background(){ return BG('dark'); }, hours:1,
       dialogue:[
-        {if:{custom:G=>dating(G,YT)},scene:'她家',bg:'dark'},
+        {if:{custom:G=>dating(G,YT)},scene:'她家',bg:'yt_home'},
         {if:{custom:G=>dating(G,YT)},speaker:null,text:'（她家。廚房的燈亮著，平底鍋裡煎著兩片年糕。）'},
-        {unless:{custom:G=>dating(G,YT)},scene:'新生南路・她家樓下',bg:'dark'},
+        {unless:{custom:G=>dating(G,YT)},scene:'新生南路・她家樓下',bg:'yt_building_gate_cny'},
         {unless:{custom:G=>dating(G,YT)},speaker:null,text:'（新生南路，她家大樓樓下。過年的街上很少車，警衛室的電視在播特別節目。）'},
         /* AA_524 Y4：2028 情人節她說「想帶你去一個地方」，拒絕（no）或答應了沒到（missed）的多三句（沒回 noreply 不算）*/
         {if:{flagIs:{YT_VDAY_Y3:['no','missed']}},speaker:YT,text:'去年想帶你去的那個地方，我後來自己去了。'},
