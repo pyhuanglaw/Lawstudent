@@ -497,7 +497,7 @@ def floor_slab():
         for (a, b, c, d_) in ((X0, SH['x0'], Z0, Z1), (SH['x0'], X1, Z0, SH['z0']), (SH['x0'], X1, SH['z1'], Z1)): fm.box(a, b, Y0 - 0.05, Y0, c, d_)
     fm.finish(root)
     if FL == 1:   # 樓梯口的樓板邊（一樓抬頭看得到）
-        e = Mesh('STAIRHOLE_EDGE', m_wall); e.box(SH['x0'] - 0.02, SH['x0'], 3.4, 3.62, SH['z0'], SH['z1']); e.box(SH['x0'], X1, 3.4, 3.62, SH['z1'], SH['z1'] + 0.02); e.finish(root)
+        e = Mesh('STAIRHOLE_EDGE', m_wall); e.box(SH['x0'] - 0.02, SH['x0'], 3.402, 3.62, SH['z0'], SH['z1']); e.box(SH['x0'], X1, 3.402, 3.62, SH['z1'], SH['z1'] + 0.02); e.finish(root)   # SHOP-CC0-HELP-1113：疊面錯開（place_gate）：底面離天花板 2 mm
 
 
 def glass_wall(side, a0, a1, y0, y1, solid_runs=(), door=None):
@@ -535,8 +535,8 @@ def solid_wall(side):
     elif side == 'back': w.box(X0, X1, Y0, Y0 + HH, Z0 - T, Z0)
     w.finish(g)
     b = Mesh(f'WALL_{side}_base', m_base)   # 踢腳板（CC0 塑膠）
-    if side == 'right': b.box(X1 - 0.015, X1, Y0, Y0 + 0.1, Z0, Z1)
-    else: b.box(X0, X1, Y0, Y0 + 0.1, Z0, Z0 + 0.015)
+    if side == 'right': b.box(X1 - 0.015, X1 - 0.002, Y0 + 0.001, Y0 + 0.1, Z0, Z1)   # SHOP-CC0-HELP-1113：疊面錯開（place_gate）：離牆 2 mm、離地 1 mm
+    else: b.box(X0, X1, Y0 + 0.001, Y0 + 0.1, Z0 + 0.002, Z0 + 0.015)
     b.finish(g); return g
 
 
@@ -666,13 +666,13 @@ if FL == 1:
     for k in range(6): kp.add_bm(L.lathe([(0.0, 0.0), (0.04, 0.0), (0.05, 0.14), (0.0, 0.14)], seg=10), Matrix.Translation(g2b(-4.9 + k * 0.11, 1.0, ct['z0'] - 0.5)))
     st.finish(root); kp.finish(root, smooth=True)
     # 員工通道的牆＋門
-    sf = F['staff']; sw = Mesh('STAFF_WALL', m_wall); sw.box(sf['x0'], sf['x0'] + 0.1, 0.0, YC, Z0, sf['z1']); sw.box(sf['x0'], sf['x1'], 0.0, YC, sf['z1'] - 0.1, sf['z1']); sw.box(sf['x1'] - 0.1, sf['x1'], 0.0, YC, sf['z1'], ST['za']); sw.finish(root)
+    sf = F['staff']; sw = Mesh('STAFF_WALL', m_wall); sw.box(sf['x0'], sf['x0'] + 0.1, 0.0, YC, Z0, sf['z1'] - 0.1); sw.box(sf['x0'], sf['x1'], 0.0, YC, sf['z1'] - 0.1, sf['z1']); sw.box(sf['x1'] - 0.1, sf['x1'], 0.0, YC, sf['z1'], ST['za']); sw.finish(root)
     # （員工通道後面 x 4.55～6、z −8～−1.6 整塊關著：倉庫、廁所，這一版不做室內）
     props.crbox(3.55, 4.4, 0.0, 2.1, sf['z1'] + 0.0, sf['z1'] + 0.03, '#d8d4cc', r=0.01); props.cbox(4.25, 4.3, 0.95, 1.05, sf['z1'] + 0.03, sf['z1'] + 0.07, '#9a9c9e')
     zcard('STAFF_SIGN', sf['z1'] + 0.035, 3.7, 4.25, 1.6, 1.78, IM['staff'], +1)
     # 點餐櫃檯：檯面、正面貼圖、收銀機、取餐區
     Mesh('COUNTER_TOP', L.flat('dk_quartz', '#f2e4cc', rough=0.25)).rbox(ct['x0'], ct['x1'], ct['h'] - 0.04, ct['h'], ct['z0'], ct['z1'] + 0.04, r=0.01, seg=2).finish(root)
-    Mesh('COUNTER_BODY', m_wall).box(ct['x0'], ct['x1'], 0.0, ct['h'] - 0.04, ct['z0'], ct['z1'] - 0.02).box(ct['x1'] - 0.02, ct['x1'], 0.0, ct['h'] - 0.04, ct['z0'], ct['z1']).finish(root)
+    Mesh('COUNTER_BODY', m_wall).box(ct['x0'], ct['x1'] - 0.02, 0.0, ct['h'] - 0.04, ct['z0'], ct['z1'] - 0.02).box(ct['x1'] - 0.02, ct['x1'], 0.0, ct['h'] - 0.04, ct['z0'], ct['z1']).finish(root)
     zcard('COUNTER_FACE', ct['z1'] + 0.001 - 0.02, ct['x0'], ct['x1'], 0.0, ct['h'] - 0.04, IM['counter'], +1)
     for x in (-2.6, 0.2):
         props.crbox(x - 0.18, x + 0.18, ct['h'], ct['h'] + 0.06, ct['z0'] + 0.2, ct['z0'] + 0.5, '#2a2c30', r=0.01)
