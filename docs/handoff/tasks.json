@@ -57146,7 +57146,7 @@
    "status": "已整合待測試",
    "priority": "P1",
    "source": "BB-C 2026-11-14 09:47（T1_76f8 種子 4；BB_458）",
-   "note": "重現：random_play_sim.js --seed 4 --from 2025-08-22 --to 2026-06-30 @76f8。2025-11-10 12:00 出房門跳「12:10 和阿凱約在新體育館羽球場」→選「自己走過去」→ dorm_hall busy 沒放開。rc2e 同一份程式＝發布版也有；有提示、讀檔救得回來，不擋 X364。｜11-14 10:1x LAWWW-C：開發分支 f29278a926 跑 random_play_sim --seed 4 --from 2025-08-22 --to 2025-11-11：PASS（到 11-12、113 秒、0 FAIL）。不能當成已修：開發分支程式和 76f8 不同，同一個種子走的路不一樣，沒走到那一刻。下一步：76f8 上重現（要 worktree，磁碟剩約 300 MB 先不做），或在開發分支寫直接重現的小測（存檔放在 11-10 11:59、接受阿凱羽球邀約、出房門選「自己走過去」，看 dorm_hall 的 busy）。程式線索：invites3d.js S.goPrompt（k=1 只關選單、sceneBegin／sceneEnd 有成對）→ 卡住大概在出房門換區域那一段。｜11-14 10:2x：CC 在 76f8 重現（同第 7361 步）；存檔 cc-local docs/story_planning/CC/local_out/T1_SEED4_SAVE_76f8/out/seed4_pre_1110.json（停在 11-10 開始）。重現：random_play_sim.js --seed 4 --start-save <檔> --to 2025-11-11。LAWWW-C 在開發分支跑中。｜11-14 LAWWW-C：根因＝src/door3d.js 推門演完把 P.busy 還原成推門前的值；推門前 INV.goPrompt 選單開著（sceneBegin，busy=true），推門途中選「自己走過去」（sceneEnd，busy=false），演完又還原成 true＝沒段落卻永遠鎖住（CC 卡住時 sceneDepth=0、busy=true 對得上）。修：演完看 GM.sceneDepth()——還有段落＝鎖；推門前有段落、現在沒了＝放開；其他照舊。tests/door_busy_restore_1114_unit.js（舊碼 ①② FAIL、新碼全過）。請 CC 用 T1 種子 4 存檔在開發分支重跑。",
+   "note": "重現：random_play_sim.js --seed 4 --from 2025-08-22 --to 2026-06-30 @76f8。2025-11-10 12:00 出房門跳「12:10 和阿凱約在新體育館羽球場」→選「自己走過去」→ dorm_hall busy 沒放開。rc2e 同一份程式＝發布版也有；有提示、讀檔救得回來，不擋 X364。｜11-14 10:1x LAWWW-C：開發分支 f29278a926 跑 random_play_sim --seed 4 --from 2025-08-22 --to 2025-11-11：PASS（到 11-12、113 秒、0 FAIL）。不能當成已修：開發分支程式和 76f8 不同，同一個種子走的路不一樣，沒走到那一刻。下一步：76f8 上重現（要 worktree，磁碟剩約 300 MB 先不做），或在開發分支寫直接重現的小測（存檔放在 11-10 11:59、接受阿凱羽球邀約、出房門選「自己走過去」，看 dorm_hall 的 busy）。程式線索：invites3d.js S.goPrompt（k=1 只關選單、sceneBegin／sceneEnd 有成對）→ 卡住大概在出房門換區域那一段。｜11-14 10:2x：CC 在 76f8 重現（同第 7361 步）；存檔 cc-local docs/story_planning/CC/local_out/T1_SEED4_SAVE_76f8/out/seed4_pre_1110.json（停在 11-10 開始）。重現：random_play_sim.js --seed 4 --start-save <檔> --to 2025-11-11。LAWWW-C 在開發分支跑中。｜11-14 LAWWW-C：根因＝src/door3d.js 推門演完把 P.busy 還原成推門前的值；推門前 INV.goPrompt 選單開著（sceneBegin，busy=true），推門途中選「自己走過去」（sceneEnd，busy=false），演完又還原成 true＝沒段落卻永遠鎖住（CC 卡住時 sceneDepth=0、busy=true 對得上）。修：演完看 GM.sceneDepth()——還有段落＝鎖；推門前有段落、現在沒了＝放開；其他照舊。tests/door_busy_restore_1114_unit.js（舊碼 ①② FAIL、新碼全過）。請 CC 用 T1 種子 4 存檔在開發分支重跑。｜11-14 10:3x CC：T1_SEED4_FIX_save PASS（參考，76f8 從存檔也不卡）、T1_SEED4_FIX_full @928690d709 PASS 7449 步（76f8 第 7361 步卡；路可能不同＝沒有重現，不算證明）；等 T1_928690 八顆種子一整年。",
    "first": {
     "term": "Y1S1",
     "week": 11,
@@ -57183,10 +57183,10 @@
    "id": "US-MARKET-CLERK-1114",
    "title": "美國兩間超市沒有店員：草原（us_market）整間沒人；竹葉（us_asian_market）有客人、結帳台沒有阿姨、點餐選單沒出來",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "等待其他AI／素材",
    "priority": "P1",
    "source": "BB_379 c4d29eaf55（SHOP_US_v2 @625fefcf1e 13:00）；D99 ② 美國交換",
-   "note": "LAWWW-C 11-14 10:1x 查：story3d.js 251 行草原 clerk 要 sh831('us_market')；Node 算 PLACES.isOpen／SH831.staffed 在 2028-09-12、09-16、10-03、11-15 13:00 都是 true（營業時間 08–22 每天、不在颱風清單）。竹葉 252 行 clerk(-4.5,2.7,0,63) 沒條件，卻沒出現，客人（254 行）有出現＝populate 有跑、clerk() 有呼叫，但 NPC 不見——懷疑 E.addNPC 之後被別的東西拿掉／藏起來（國外的 extra 過濾？站點在碰撞裡？）。下一步：請 CC 在瀏覽器進兩間店 13:00，記 GM.E.npcs（clerk 旗標、位置、visible）、SH831.staffed('us_market',GM.G)、GM.G.hour／day，就能分辨。",
+   "note": "LAWWW-C 11-14 10:1x 查：story3d.js 251 行草原 clerk 要 sh831('us_market')；Node 算 PLACES.isOpen／SH831.staffed 在 2028-09-12、09-16、10-03、11-15 13:00 都是 true（營業時間 08–22 每天、不在颱風清單）。竹葉 252 行 clerk(-4.5,2.7,0,63) 沒條件，卻沒出現，客人（254 行）有出現＝populate 有跑、clerk() 有呼叫，但 NPC 不見——懷疑 E.addNPC 之後被別的東西拿掉／藏起來（國外的 extra 過濾？站點在碰撞裡？）。下一步：請 CC 在瀏覽器進兩間店 13:00，記 GM.E.npcs（clerk 旗標、位置、visible）、SH831.staffed('us_market',GM.G)、GM.G.hour／day，就能分辨。｜11-14 10:4x LAWWW-C：CC SHOP_US_v2_r2（cc-local f5b2c559f5）＝兩間店員 NPC 都在 E.npcs、hidden:false、obj.visible:false。engine3d.js 456 行 visible＝!hidden&&（近或非路人）&&主鏡頭視錐內——最可能是那一刻在鏡頭外（草原整間都看不見＝鏡頭朝外）。已請 CC r3 記鏡頭位置朝向、轉向收銀台後 visible、竹葉走近阿姨互動鍵字和點餐選單（BB「點餐選單沒出來」另一件事）。看得到＝TEST_SETUP；選單不出來＝真 bug。",
    "first": {
     "term": "Y4S1",
     "confirmed": true
