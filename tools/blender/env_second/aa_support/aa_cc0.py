@@ -242,3 +242,23 @@ def cleanup():
 
 def used():
     print('CC0_USED', USED, flush=True); return USED
+
+
+def fern_plants(sh, small=0.7):
+    """這間店的小盆栽（sh.plant 高度 < small，aa_kit 會畫成黃金葛葉片卡）、垂吊黃金葛（sh.hanging_pothos）
+    一律改成 Poly Haven 掃描：planter_pot_clay＋fern_02 單株（a／d 輪流）；大落地盆栽（plants.py 的模型葉子）照舊。
+    蕨類減面到 0.45（木曜日畫出三角形要 ≤ 8 萬）。木曜日 v2.2（LAWWW2-C 11-14：「小盆栽一律用 planter_pot_clay＋fern_02 單株；垂吊的就用 fern_02 掛在盆上，不要葉片卡」）"""
+    orig = sh.plant; n = [0]
+
+    def plant(x, z, h=1.0, r=0.2, pot_col='#b0653e', y0=0.0, lvl='', seed=0):
+        if h >= small: return orig(x, z, h=h, r=r, pot_col=pot_col, y0=y0, lvl=lvl, seed=seed)
+        k = n[0]; n[0] += 1; ph = max(0.09, r * 1.6)
+        ph_put(sh, 'planter_pot_clay', x, y0, z, yaw=k * 1.3, s=ph / 0.12, height=0.12, decimate=0.25, lvl=lvl)
+        p = (k % 2) * 3; ph_put(sh, 'fern_02', x, y0 + ph * 0.65, z, yaw=k * 2.1 + 0.4, s=max(0.45, h * 1.7), part=p, tag=f'_p{p}', decimate=0.45, lvl=lvl)
+
+    def hanging(leaf_mat_key, x, y, z, n_=9, drop=0.6, lvl='', size=0.16, n=None):
+        k = plant_n[0]; plant_n[0] += 1; p = (k % 2) * 3
+        ph_put(sh, 'fern_02', x, y - 0.03, z, yaw=k * 1.7 + 0.9, s=0.65 + 0.35 * min(drop, 1.0), part=p, tag=f'_p{p}', decimate=0.45, lvl=lvl)
+    plant_n = [0]
+    sh.plant = plant; sh.hanging_pothos = lambda leaf_mat_key, x, y, z, n=9, drop=0.6, lvl='', size=0.16: hanging(leaf_mat_key, x, y, z, drop=drop, lvl=lvl, size=size)
+    return sh
