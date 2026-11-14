@@ -349,6 +349,9 @@ HOOK = r"""(()=>{ if(!window.__ZQH){ window.__ZQH=1; window.__ZE=[]; const n=()=
   if(GAME.caption){ const p0=GAME.caption; GAME.caption=function(a,b){ try{ window.__ZE.push({k:'cap',i:n(),t:String(b==null?a:b),h:+(+GAME.G.hour).toFixed(3),d:GAME.G.day}); }catch(e){} return p0.apply(this,arguments); }; }
   const c0=GAME.choose; GAME.choose=function(o){ const rec={k:'ch',i:n(),opts:(o||[]).map(x=>typeof x==='string'?x:((x&&x.t)||'')),dim:(o||[]).map(x=>!!(x&&x.dim)),h:+(+GAME.G.hour).toFixed(3),pick:null};
     try{ window.__ZE.push(rec); }catch(e){} const p=c0.apply(this,arguments); try{ Promise.resolve(p).then(k=>{ rec.pick=k; }); }catch(e){} return p; }; }
+  /* CC-B 11-14（DATE35_PS_ARR_r3：抵達、收尾切不開）：約會互動點走 DATELAYER.choose（2D 熱點層）不經 GAME.choose——一樣記成 ch，段落才切得開 */
+  if(typeof DATELAYER!=='undefined'&&DATELAYER.choose&&!DATELAYER.__cc){ const d0=DATELAYER.choose; DATELAYER.__cc=1; DATELAYER.choose=function(GM,o){ const rec={k:'ch',i:n(),opts:(o||[]).map(x=>typeof x==='string'?x:((x&&x.t)||'')),dim:(o||[]).map(x=>!!(x&&x.dim)),h:+(+GAME.G.hour).toFixed(3),pick:null,layer:true};
+    try{ window.__ZE.push(rec); }catch(e){} const p=d0.apply(this,arguments); try{ Promise.resolve(p).then(k=>{ rec.pick=k; }); }catch(e){} return p; }; }
   window.__ZE=[]; return true; })()"""
 
 ST = r"""(()=>{ const D=GAME.D||{}, ch=document.getElementById('choices'), tx=document.getElementById('dlgText'), nm=document.getElementById('dlgName');
