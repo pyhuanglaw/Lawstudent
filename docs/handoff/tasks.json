@@ -57263,10 +57263,10 @@
    "id": "WINVIEW-TREE-BLOB-1114",
    "title": "afar、日和窗外的樹看起來像綠球",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "source": "BB-C 11-14（經 LAWWW2-C 10:25）",
-   "note": "",
+   "note": "11-14 10:5x LAWWW2-C 交件（e5ac3a7b57）：afar、Daybreak 日夜 4 張 webp＋wz_window_view.py --tree-min-w（矮樟樹不縮成細桿小球、每三棵換一棵榕樹），對照圖 tree_blob_cmp.jpg。LAWWW-C 整合。請 BB 看窗景。",
    "first": {
     "term": "Y1S1",
     "confirmed": false
@@ -57294,6 +57294,19 @@
    "priority": "P2",
    "source": "BB-C 11-14 10:22（BB_379 6735490ac4，STUDY_fix_c_r3）",
    "note": "根因：換區域時 NPC 拆掉＝walkTo 放到目的地→leadReached 在新區域找不到椅子→leadRepick 把 iv.lead 清成 noLead→下一格記 missed（70f8f658d4 的保護看 iv.lead，已經被清掉）。修：leadWalk 的 done、leadRepick 開頭看 G.zone!==L.z＝S.leadDrop。tests/inv_sit_together_unit.js 8c（舊碼重現 missed、新碼 cancelled）。請 CC 重跑 STUDY_fix_c（r4 用開發分支）。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "LIMAO-REAL-VIEW-1114",
+   "title": "禮貌生財從店外看進去是平面窗卡，不是立體店內（D155 第 1 點）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "BB-C 11-14（經 LAWWW2-C 10:52）",
+   "note": "wz_street.py limao 的 cards；不在汀州路 shopInsideReal 清單。照溫特寶邸做法：玻璃後面放立體店內模型（S.REAL_VIEW＋REAL_DEP）。",
    "first": {
     "term": "Y1S1",
     "confirmed": false

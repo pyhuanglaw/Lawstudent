@@ -300,7 +300,14 @@ if opt('--trees') and os.path.exists(opt('--trees')):
         sp = t.get('sp', 'camphor'); cands = [k for k in _tpl if k.startswith('tree_' + sp)] or [k for k in _tpl if k.startswith('tree_camphor')]
         if not cands: continue
         k = sorted(cands)[i % len(cands)]; h0 = float(_TJ.get(k[5:], {}).get('h0', 12.0)); sk = float(t.get('h', h0)) / h0
-        r = _dup(_tpl[k]); r.matrix_world = _Mx.Translation(g2b((t['x'], 0, t['z']))) @ _Mx.Rotation(float(t.get('ry', 0)), 4, 'Z') @ _Mx.Scale(sk, 4); _nt += 1
+        # --tree-min-w W（TREE-BALL-1114，BB_379：afar／日和窗外「樹冠像一顆一顆浮在牆上的綠球、樹幹很細」）：矮的樟樹（h 5.8～7.7）原本整顆等比縮到 0.5 倍，
+        #   樹冠變小圓球、樹幹細得像竹籤。改成橫向至少 W 倍（樹冠攤開、樹幹變粗；高度照 h），每三棵換一棵榕樹範本，形狀不會整排一樣
+        mw = float(opt('--tree-min-w', '0'))
+        if mw > 0 and sp != 'palm' and sk < mw:
+            if i % 3 == 1 and 'tree_banyan_a' in _tpl: k = 'tree_banyan_a'; h0 = float(_TJ.get('banyan_a', {}).get('h0', 10.0)); sk = float(t.get('h', h0)) / h0
+            sx = max(sk, mw * (0.92 + 0.16 * ((i * 37) % 11) / 10.0)); S_ = _Mx.Diagonal((sx, sx, sk, 1.0))
+        else: S_ = _Mx.Scale(sk, 4)
+        r = _dup(_tpl[k]); r.matrix_world = _Mx.Translation(g2b((t['x'], 0, t['z']))) @ _Mx.Rotation(float(t.get('ry', 0)), 4, 'Z') @ S_; _nt += 1
     print('trees', _nt, flush=True)
 # --lamps <json：[{x,z,ry}]>：路燈（street_props.glb 的 lamp_post＋lamp_post_lens 範本；遊戲 W3.lampPost，燈臂朝 +z，ry＝遊戲的 rotation.y）——XS-WINCARD-1105
 if opt('--lamps') and os.path.exists(opt('--lamps')):
