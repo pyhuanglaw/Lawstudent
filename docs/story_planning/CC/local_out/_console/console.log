@@ -1635,3 +1635,12 @@
 [18:02:24] ==== START ART_SWEEP_A_putong_l_rc2e  (probe @ 1404d5f2d4cb740d50df75741764be18ee746992) ====
 [18:02:27] [res] cpu=7% mem=43% (13.5/31.4 GB) chrome_testing=0  START ART_SWEEP_A_putong_l_rc2e
 [18:03:10] [res] cpu=37% mem=46% (14.4/31.4 GB) chrome_testing=4  END T1_SEED4_SAVE
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       44a6ccde6e..bf864c745e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:03:16] ==== END   T1_SEED4_SAVE  exit=0  218s   ====
+[18:03:28] memory 40% before starting LIVE_X364_deploy (2 running)
+[18:03:28] ==== START LIVE_X364_deploy  (game @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
+[18:03:31] [res] cpu=53% mem=40% (12.9/31.4 GB) chrome_testing=0  START LIVE_X364_deploy
+[18:03:33] worktree add 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35: invalid reference - fetching main and the commit itself
+[18:03:35] [res] cpu=12% mem=39% (12.7/31.4 GB) chrome_testing=0  END ART_SWEEP_A_putong_l_rc2e
