@@ -219,6 +219,9 @@ async def sit_all(pg, cdp, tag, shot_prefix, max_walk=300, before_each=None, onl
             except Exception as e: res_hit = {'err': repr(e)[:120]}
         if SEAT_TAP == 'visible' and not tapped: R.check('FAIL_SETUP 檢查：%s 轉了 4 次鏡頭都找不到椅面露出來的點（不點被擋住的中心）' % t, False, '')
         b = await settle(pg, ms=800, max_s=15)
+        tst = await pg.evaluate("((document.getElementById('toast')||{}).innerText||'').trim()")
+        if '有人' in tst:   # BB-C 01:32（木曜日 #1 TEST_SETUP）：那一張已經有客人（遊戲跳「有人了」）＝不是坐不下，記下來換下一張
+            R.note('%s 點下去跳「%s」：這一張有人坐，跳過（不算 FAIL）' % (t, tst[:40])); res.append([k + 1, 'occupied_toast', s['sx'], s['sz']]); continue
         await pg.screenshot(path=os.path.join(OUT, '%s_tap%02d_stopped.png' % (shot_prefix, k + 1)))   # BB-C 21:20：停下來那一刻（大學食堂 #5、#6、#8 停的位置很怪）
         ni = await pg.evaluate(NEAR_IT)
         mine = bool(ni and ni['seat'] and abs(ni['seat'][0] - s['sx']) < 0.01 and abs(ni['seat'][1] - s['sz']) < 0.01)
