@@ -72,9 +72,9 @@
   "top": "bk_wheel3_0_alpha_inst×WALL_left_wheel4_0_alpha_inst 0.547 m² @[0.16,-0.22,0]"
  },
  "assets/models/env/second_ai/bb_support/corner.glb": {
-  "sha1": "b3b547ce9142cf7aa14443a79fbe3bad61b907c4",
-  "wall": 11.87,
-  "always": 18.63,
+  "sha1": "a3d2c9783e0177ce72312ded17066f247686ee05",
+  "wall": 10.81,
+  "always": 13.31,
   "top": "WALL_left_cr_wood×WALL_left_cr_wood 4.116 m² @[-3.45,0.64,4.32]"
  },
  "assets/models/env/second_ai/bb_support/cvs_interior.glb": {
