@@ -383,8 +383,13 @@ async def part_fa05(pg, cdp, sv0, res):
         F = sv.setdefault('flags', {})
         for k in ('SIS_CLUB_EXPO', 'lawclub', 'LAWCLUB_NOTICE', 'CLUB_lawclub_study', 'FAFU_SHIFT_N'): F.pop(k, None)
         sv['notes'] = [n for n in (sv.get('notes') or []) if not (isinstance(n, dict) and n.get('id') == 'club_law')]
+        # 11-14 BB-C 09:53（BB_458 TEST_BUG）：群組只在 story3d.js fafuJoined 時加、加了不會退——已入社的存檔只拿旗標，群組本來就在；一併拿掉
+        GS = (sv.get('phone') or {}).get('groups')
+        if isinstance(GS, dict): GS.pop('lawclub_study', None)
     r = await load(pg, sv0, '2025-11-08', 10.0, 'wancai', mods=fresh)
-    R.setup('%s 【前置】大一上 %s 10:00 法律系館B（wancai）一樓，沒去社博（法服旗標都拿掉）' % (tag, r['key']))
+    R.setup('%s 【前置】大一上 %s 10:00 法律系館B（wancai）一樓，沒去社博（法服旗標都拿掉、G.phone.groups.lawclub_study 拿掉）' % (tag, r['key']))
+    g0 = await pg.evaluate("(()=>{ try{ const GS=PHONE.rec(GAME.G).groups||{}; return Object.keys(GS).map(k=>({id:k, name:(GS[k]&&GS[k].name)||'', day:GS[k]&&GS[k].day})); }catch(e){ return String(e); } })()")
+    if not R.check('FAIL_SETUP 檢查：%s 讀檔以後、看公告以前沒有 lawclub_study 群組' % tag, isinstance(g0, list) and not any(g['id'] == 'lawclub_study' for g in g0), J(g0)): res['FA05'] = {'g0': g0}; return
     it = await pg.evaluate("(()=>{ const i=GAME.E.interactables.find(q=>q.notice==='lawclub'&&!q.hidden); return i?{x:i.x,z:i.z,lv:i.lv|0,label:i.label}:null; })()")
     if not R.check('%s 找得到「看公告：法律服務社招募」' % tag, bool(it), J(await pg.evaluate("GAME.E.interactables.filter(i=>!i.hidden).map(i=>i.label).slice(0,30)"))): res['FA05'] = {}; return
     await L.go_to(pg, cdp, R, it['x'], it['z'], 0.8, it['label'], max_s=90, lv=it['lv'])
