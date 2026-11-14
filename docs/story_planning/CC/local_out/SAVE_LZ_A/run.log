@@ -1,0 +1,53 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_save_lz_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SAVE_LZ_A\out
+CC SAVE-LZ：SHA ed70b6d358；FIXES [['A', 'tests/fixtures/user_save_day54_1110.json']]；MODES ['plain', 'lz']；RATES [1, 4]；N 5；Playwright ≠ iPhone
+  [   1.1s] [A] tests/fixtures/user_save_day54_1110.json：檔案 147348 字元、壓成一行 JSON 99002 字元、day 54
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS [A plain CPU×1] 遊戲載入
+  [前置／捷徑] [A plain CPU×1] 【前置／捷徑】讀檔（applySave，條件事件關掉）：day 54 campus；GAME.lzSave=False
+PASS [A plain CPU×1] 模式對（lzSave=False）
+  [  54.1s] [A plain CPU×1] ①② 自動存檔：最長一幀 {"max": 183.3, "med": 133.4, "all": [183.3, 133.4, 66.7, 116.6, 133.4]}；>50ms {"max": 4, "med": 3, "all": [4, 3, 2, 1, 4]}；GAME.autosave 本身 {"max": 2.6, "med": 2.1, "all": [2.1, 2, 2, 2.6, 2.3]} ms；觸發到 [True, True, True, True, True]；saveErr None
+PASS [A plain CPU×1] 自動存檔真的觸發了 5 次  [true, true, true, true, true]
+PASS [A plain CPU×1] ⑤ 存→讀 GAME.readSave 和存的那一份完全一樣（存 99040 字元、JSON 99040 字元、LZ1:=False）  null
+  [  54.2s] [A plain CPU×1] ③ 每一欄 [{"k": "fatiao3d_auto", "chars": 99040, "lz": false, "json": 99040}]；7 欄全滿 {"one": 99040, "json": 99040, "ratio": 1, "wrote": 7, "err": null, "totalChars": 693382, "encMs": 0, "decMs": 0}
+  [ 164.8s] [A plain CPU×1] ④ 標題「繼續」到能走動 {"max": 9792, "med": 7598, "all": [7908, 7342, 7586, 9792, 7598]} ms；GAME.readSave 本身 {"max": 2.1, "med": 2, "all": [2, 2.1, 2, 1.9, 2.1]} ms；存的字元數 99038
+PASS [A plain CPU×1] ④ 讀得進來 5 次  [7908, 7342, 7586, 9792, 7598]
+PASS [A plain CPU×4] 遊戲載入
+  [前置／捷徑] [A plain CPU×4] 【前置／捷徑】讀檔（applySave，條件事件關掉）：day 54 campus；GAME.lzSave=False
+PASS [A plain CPU×4] 模式對（lzSave=False）
+  [ 235.8s] [A plain CPU×4] ①② 自動存檔：最長一幀 {"max": 433.2, "med": 283.3, "all": [433.2, 283.3, 216.8, 283.3, 183.4]}；>50ms {"max": 16, "med": 13, "all": [10, 13, 14, 12, 16]}；GAME.autosave 本身 {"max": 9.4, "med": 8.6, "all": [9.4, 7.9, 8.2, 8.6, 9.4]} ms；觸發到 [True, True, True, True, True]；saveErr None
+PASS [A plain CPU×4] 自動存檔真的觸發了 5 次  [true, true, true, true, true]
+PASS [A plain CPU×4] ⑤ 存→讀 GAME.readSave 和存的那一份完全一樣（存 99040 字元、JSON 99040 字元、LZ1:=False）  null
+  [ 461.5s] [A plain CPU×4] ④ 標題「繼續」到能走動 {"max": 32428, "med": 31624, "all": [29179, 29026, 32428, 31862, 31624]} ms；GAME.readSave 本身 {"max": 11.2, "med": 10.1, "all": [8.8, 11.2, 10.1, 10.7, 9.7]} ms；存的字元數 99038
+PASS [A plain CPU×4] ④ 讀得進來 5 次  [29179, 29026, 32428, 31862, 31624]
+PASS [A lz CPU×1] 遊戲載入
+  [前置／捷徑] [A lz CPU×1] 【前置／捷徑】讀檔（applySave，條件事件關掉）：day 54 campus；GAME.lzSave=True
+PASS [A lz CPU×1] 模式對（lzSave=True）
+  [ 499.2s] [A lz CPU×1] ①② 自動存檔：最長一幀 {"max": 116.7, "med": 83.3, "all": [83.3, 83.3, 116.7, 66.5, 66.6]}；>50ms {"max": 4, "med": 1, "all": [4, 1, 1, 1, 1]}；GAME.autosave 本身 {"max": 57.9, "med": 43.5, "all": [38.8, 43.5, 41, 49.6, 57.9]} ms；觸發到 [True, True, True, True, True]；saveErr None
+PASS [A lz CPU×1] 自動存檔真的觸發了 5 次  [true, true, true, true, true]
+PASS [A lz CPU×1] ⑤ 存→讀 GAME.readSave 和存的那一份完全一樣（存 21870 字元、JSON 99040 字元、LZ1:=True）  null
+PASS [A lz CPU×1] ⑤ lz 模式存的是 LZ1: 開頭
+  [ 499.4s] [A lz CPU×1] ③ 每一欄 [{"k": "fatiao3d_auto", "chars": 21870, "lz": true, "json": 99040}]；7 欄全滿 {"one": 21870, "json": 99040, "ratio": 0.221, "wrote": 7, "err": null, "totalChars": 153192, "encMs": 24.1, "decMs": 6.1}
+  [ 586.2s] [A lz CPU×1] ④ 標題「繼續」到能走動 {"max": 5887, "med": 5811, "all": [5887, 5880, 5811, 5798, 5668]} ms；GAME.readSave 本身 {"max": 17.4, "med": 13, "all": [17.4, 13, 12.6, 11.1, 13.6]} ms；存的字元數 21870
+PASS [A lz CPU×1] ④ 讀得進來 5 次  [5887, 5880, 5811, 5798, 5668]
+PASS [A lz CPU×1] ⑦ 沒壓過的舊存檔在 ?lzsave 讀得進來（day 54 campus）  {"ms": 5810, "day": 54, "zone": "campus"}
+PASS [A lz CPU×1] ⑦ 存一次以後變壓縮（LZ1:）  {"rawLen": 21846, "jsonLen": 99040}
+PASS [A lz CPU×1] ⑦ 讀回來和存的一樣  null
+PASS [A lz CPU×1] ⑦ 再重新整理按「繼續」日期地點一樣  [{"ms": 5810, "day": 54, "zone": "campus"}, {"ms": 6980, "day": 54, "zone": "campus"}]
+PASS [A lz CPU×4] 遊戲載入
+  [前置／捷徑] [A lz CPU×4] 【前置／捷徑】讀檔（applySave，條件事件關掉）：day 54 campus；GAME.lzSave=True
+PASS [A lz CPU×4] 模式對（lzSave=True）
+  [ 703.4s] [A lz CPU×4] ①② 自動存檔：最長一幀 {"max": 616.7, "med": 450, "all": [616.7, 450, 466.5, 433.3, 400]}；>50ms {"max": 12, "med": 8, "all": [7, 7, 8, 10, 12]}；GAME.autosave 本身 {"max": 264, "med": 254.1, "all": [261.7, 254.1, 264, 248.4, 247.1]} ms；觸發到 [True, True, True, True, True]；saveErr None
+PASS [A lz CPU×4] 自動存檔真的觸發了 5 次  [true, true, true, true, true]
+PASS [A lz CPU×4] ⑤ 存→讀 GAME.readSave 和存的那一份完全一樣（存 21865 字元、JSON 99040 字元、LZ1:=True）  null
+PASS [A lz CPU×4] ⑤ lz 模式存的是 LZ1: 開頭
+  [ 922.8s] [A lz CPU×4] ④ 標題「繼續」到能走動 {"max": 32012, "med": 31140, "all": [32012, 31140, 31845, 30236, 30653]} ms；GAME.readSave 本身 {"max": 74.8, "med": 66.5, "all": [74.8, 56.2, 66.8, 66.5, 61.1]} ms；存的字元數 21865
+PASS [A lz CPU×4] ④ 讀得進來 5 次  [32012, 31140, 31845, 30236, 30653]
+PASS 沒有 JS 例外  []
+  [ 924.6s] 總表
+| 存檔 | 模式 | CPU | 自動存檔最長一幀 max/med | >50ms | autosave 本身 ms | 繼續到能走動 ms | readSave ms | 存的字元 |
+|---|---|---|---|---|---|---|---|---|
+| A | plain | ×1 | 183.3/133.4 | 4/3 | 2.6/2.1 | 9792/7598 | 2.1/2 | 99038 |
+| A | plain | ×4 | 433.2/283.3 | 16/13 | 9.4/8.6 | 32428/31624 | 11.2/10.1 | 99038 |
+| A | lz | ×1 | 116.7/83.3 | 4/1 | 57.9/43.5 | 5887/5811 | 17.4/13 | 21870 |
+| A | lz | ×4 | 616.7/450 | 12/8 | 264/254.1 | 32012/31140 | 74.8/66.5 | 21865 |
+ALL PASS
