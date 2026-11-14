@@ -23,7 +23,10 @@ R = L.Run('layout_window', OUT); D.setup(R, OUT)
 
 FIND = r"""((a)=>{ let Lay=null; try{ Lay=(0,eval)(a.lay); }catch(e){}   /* 全域 const 不掛在 window 上：用間接 eval 讀 */ if(!Lay) return {err:'沒有 '+a.lay}; const q=(Lay.shops||[]).find(s=>s.id===a.id); if(!q) return {err:'配置裡沒有 '+a.id, ids:(Lay.shops||[]).map(s=>s.id)};
   const w=q.side==='W', F=Lay.facade||{}; return {name:q.name||'', side:q.side, x:w?F.west:F.east, z:(q.z0+q.z1)/2, nx:w?1:-1, w:Math.abs(q.z1-q.z0)}; })"""
-MESH = r"""((id)=>{ const E=GAME.E; let n=0, vis=0; E.scene.traverse(o=>{ if(o.name&&o.name.indexOf('sk_in_'+id)===0){ n++; let v=true; for(let q=o; q; q=q.parent) if(q.visible===false) v=false; if(v) vis++; } }); let lit=0; E.scene.traverse(o=>{ if(o.isLight&&o.visible&&o.intensity>0) lit++; }); return {sk_in:n, visible:vis, lights:lit, hour:+(+GAME.G.hour).toFixed(2)}; })"""
+MESH = r"""((a)=>{ const E=GAME.E, id=a.id; let n=0, vis=0, rn=0, rvis=0; const P=new THREE.Vector3(); const isVis=o=>{ for(let q=o; q; q=q.parent) if(q.visible===false) return false; return true; };
+  E.scene.traverse(o=>{ if(!o.name) return; if(o.name.indexOf('sk_in_'+id)===0){ n++; if(isVis(o)) vis++; }
+    else if(o.isMesh&&o.name.indexOf('shopreal_')===0&&a.x!=null){ o.getWorldPosition(P); if(Math.hypot(P.x-a.x,P.z-a.z)<=a.r){ rn++; if(isVis(o)) rvis++; } } });   /* 11-14 BB-C（BB_379 TZ_WENTE TEST_BUG）：v9.10.26 起溫特寶邸玻璃後面是正式室內模型（Z3.shopInsideReal，網格名 shopreal_＊），不再是 sk_in_＊——門面附近的 shopreal_ 也算 */
+  let lit=0; E.scene.traverse(o=>{ if(o.isLight&&o.visible&&o.intensity>0) lit++; }); return {sk_in:n+rn, visible:vis+rvis, sk_in_old:n, shopreal:rn, shopreal_visible:rvis, lights:lit, hour:+(+GAME.G.hour).toFixed(2)}; })"""
 
 
 async def main():
@@ -40,8 +43,8 @@ async def main():
         await D.load_zone(pg, cdp, ZONE, DAY, HOUR, x=x + nx * 3, z=z, yaw=0.0, wait=8000)
         R.setup('【前置／捷徑】讀檔到 %s %s 門面前 3 m (%.2f, %.2f) %s %.2f（條件事件關掉）' % (ZONE, f['name'], x + nx * 3, z, DAY, HOUR))
         await pg.wait_for_timeout(4000)
-        m = await pg.evaluate(MESH, SHOP); res['mesh'] = m
-        R.check('FAIL_SETUP 檢查：場景裡有 sk_in_%s 網格' % SHOP, m['sk_in'] > 0, J(m))
+        m = await pg.evaluate(MESH, {'id': SHOP, 'x': f.get('x'), 'z': f.get('z'), 'r': max(6.0, (f.get('w') or 4) + 3)}); res['mesh'] = m
+        R.check('FAIL_SETUP 檢查：場景裡有店內模型（sk_in_／門面附近的 shopreal_）%s 網格' % SHOP, m['sk_in'] > 0, J(m))
         shots = []
         for nm, d, h, look_in, offs in (('across', DIST, 1.7, 0, (0, -1.5, 1.5)), ('near', 4.0, 1.6, 0, (0, -1.0, 1.0)), ('glass', 1.5, 1.5, 2.0, (0,))):
             for o in offs:

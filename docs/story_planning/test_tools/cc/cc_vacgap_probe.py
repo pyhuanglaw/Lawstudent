@@ -296,6 +296,14 @@ async def c_others(pg, cdp, tag):
     back = await to_dorm(pg, cdp, tag + '_kai_0209')
     await pg.wait_for_timeout(4000); await pg.screenshot(path=os.path.join(OUT, '%s_kai_0209_room203.png' % tag))
     pr = await pg.evaluate("(()=>STORY.presence('kai',GAME.G))()"); w = await P.who(pg, 'kai'); c = await P.clock(pg)
+    # BB-C 10:16（BB_379 VACGAP_C P1）：多收 presence 完整物件、G.zone、這一區全部 NPC、阿凱的 schedEnt／作息表
+    dg = await pg.evaluate("""(()=>{ const G=GAME.G, f=v=>+(+v).toFixed(2), J=o=>{ try{ return JSON.parse(JSON.stringify(o)); }catch(e){ return String(o); } };
+      let pres=null, ent=null, sched=null; try{ pres=J(STORY.presence('kai',G)); }catch(e){ pres='ERR '+e.message; } try{ ent=J(STORY.schedEnt(CHARACTERS.kai,G)); }catch(e){ ent='ERR '+e.message; }
+      try{ sched=J((CHARACTERS.kai&&CHARACTERS.kai.daily_schedule)||null); }catch(e){ sched='ERR'; }
+      const N=Object.entries(GAME.npc||{}).map(([k,n])=>({key:k, id:n&&(n.id||n.charId)||null, x:n&&n.obj?f(n.obj.position.x):null, z:n&&n.obj?f(n.obj.position.z):null, hidden:!!(n&&n.hidden), vis:n&&n.obj?n.obj.visible!==false:null}));
+      return {zone:G.zone, key:CALENDAR.dateOf(G.day).key, h:f(G.hour), presence:pres, schedEnt:ent, npcs:N, sched:sched}; })()""")
+    R.note('[%s] 2027-02-09 診斷（BB-C 10:16）：zone %s %s %s；presence %s；schedEnt %s；這一區 NPC %s' % (tag, dg['zone'], dg['key'], dg['h'], J(dg['presence']), J(dg['schedEnt']), J(dg['npcs'])))
+    open(os.path.join(OUT, 'kai_0209_diag.json'), 'w', encoding='utf-8').write(J(dg))
     R.note('[%s] 2027-02-09 走回 203（%s）：%s %.2f %s；STORY.presence(kai) %s；這一區的阿凱 %s' % (tag, back, c['key'], c['h'], (await st(pg)).get('zone'), J(pr), J(w)))
     R.check('[%s] 2027-02-09 阿凱傳完「宵夜」、回 203 他在房間（BB-C 11-14 6b1d：不在＝FAIL）' % tag, bool(back) and bool(w), J({'back': back, 'npc': w, 'presence': pr}))
     extra.append(dict(day='2027-02-09', who='kai', back=back, presence=pr, npc=w, **k))
