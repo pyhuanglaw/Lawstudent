@@ -36,3 +36,9 @@
 ## 工具（這一班新加，都在 repo）
 - `tools/blender/env_second/aa_support/aa_cc0.py`：AA 店（aa_kit）的 CC0 化——頂點色零件乘 ambientCG 紋路（vary 0.015～0.025、法線 0.08～0.12；太強會有雲狀斑、條紋）、照顏色分材質組、`ph_put` 放 Poly Haven 模型。
 - `tools/blender/env_second/aa_support/glb_swap_images.py`：烘焙過的 GLB 只換貼圖和法線強度（不重烘），照材質名比對，`--rename` 給改名的材質。
+
+## 交班（2026-11-14，使用者「現在交班」）
+- 停工：幫手 g1 收到使用者「現在交班」後停止寫入 `claude/shop-cc0-g1`；本機沒有沒 commit、沒推的東西（`git status` 乾淨、本機＝遠端），背景烘焙、截圖、本機伺服器都已停，暫用的 worktree 已移除。
+- 全部待辦：無。第①群五間（含 v2.1／v2.2／v1.1、LICENSES 補登）全部 LAWWW2-C PASS、交 LAWWW。
+- 只剩 P3（LAWWW2-C 記）：霧面紋路雲狀斑，等 BB 或使用者提到再做（做法見上面「目前做到哪」）。
+- 下一班：要不要再開幫手由下一班的 LAWWW 決定（D163）；若要接手這條分支，先讀這份 HANDOFF.md。
