@@ -74,7 +74,7 @@ async def part_ev(pg, cdp, res):
         if not R.check('%s 遊戲裡有這一場' % tag, bool(info), ''): continue
         if info.get('retired'): R.note('%s 已作廢：%s——不演' % (tag, info['retired'])); continue
         day, h = EVDAY.get(ev, (info.get('day') or '2026-10-14', (info.get('time') or [19])[0]))
-        zone = next((z for z in info['loc'] if z), 'campus')
+        zone = next((z for z in info['loc'] if z and z != 'any'), 'dorm')   # 11-14 BB-C（BB_379 027fc1a3b4 TEST_BUG）：location 'any'＝哪裡都可以演，不是區域 id——用宿舍
         s = await D.load_zone(pg, cdp, zone, day, float(h), wait=6000)
         await pg.evaluate("(a=>{ const G=GAME.G; G.flags=G.flags||{}; for(const id of a.P){ G.flags['met_'+id]=true; try{ SOCIAL.meet(id,G.zone); }catch(e){}  if(!G.contacts) G.contacts={}; if(G.contacts[id]==null) G.contacts[id]=2; if(a.gf) G.flags['dating_'+id]=true; } })", {'P': info['participants'], 'gf': ev.endswith('_gf')})   # _gf 那一場＝交往中的版本
         R.setup('%s 【前置／捷徑】讀檔到 %s %s %.2f（location 第一個、條件事件關掉）、認識參與的人 → 【捷徑】EVENTS.run（不等觸發條件）：%s' % (tag, zone, day, float(h), J({k: info[k] for k in ('title', 'trigger', 'background', 'participants', 'n')})))

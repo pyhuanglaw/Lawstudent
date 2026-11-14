@@ -55,7 +55,9 @@ async def one(pg, cdp, tag):
     ok = await to_bed(pg, cdp, tag)
     if not R.check('FAIL_SETUP 檢查：[%s] 9/17 晚上床的選單出來' % tag, ok, ''): return {'case': tag, 'skip': 'bed'}
     got, opts = await pick(pg, cdp, '睡到明天中午')
+    if got is None: got, opts = await pick(pg, cdp, '睡覺')   # 11-14 BB-C（BB_379 027fc1a3b4 TEST_BUG）：v9.10.26 床的選單是「睡覺／明天早上醒來」（標題＋說明連在一起），沒有「睡到明天中午」
     R.note('[%s] 9/17 床的選單 %s → %s' % (tag, J(opts), got))
+    if not R.check('FAIL_SETUP 檢查：[%s] 床的選單點到「睡覺」那一項' % tag, got is not None, J(opts)): return {'case': tag, 'skip': 'sleep_pick'}
     # 等醒來的選單（9/18 12:00）
     wake = None; t0 = time.time()
     while time.time() - t0 < 180:
