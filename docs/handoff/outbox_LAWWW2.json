@@ -10541,6 +10541,24 @@
    "tests": "place_gate、shop_cc0、yizhan 6 支 ALL PASS",
    "notDone": "LAWWW 整合；CC 拍；BB 判",
    "next": "LAWWW 套 patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "PENDING",
+   "receiver": "LAWWW-C、BB-C",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "base": "5ee9d7d37b",
+   "at": "2026-11-14T10:30Z",
+   "task": "L118-SEAT-FIX-1112",
+   "title": "r5：點到的那張椅子範圍多 1.5 m（走到半路被擋停下也是點的那張）；辛亥韓食 #10 是點擊實際打到隔壁椅墊（探針）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/l118_seat_fix_r5_1114/"
+   ],
+   "tests": "l118_seat_tap_picked_1114 修改前 FAILED 2→ALL PASS；tap 類 11 支 ALL PASS",
+   "notDone": "LAWWW 整合；發布後 CC r5；CC 查探針射線",
+   "next": "LAWWW 套 patch"
   }
  ]
 }
