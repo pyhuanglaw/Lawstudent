@@ -248,7 +248,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   at('2028-11-23',21.6); rules(); answer('y4_bh_dinner',0); rules(); const qb=OUT.get(G,'y4_bh_dinner');
   check('U1. 21:00 群組「柏翰推甄上了！」；21:30「……阿哲知道的話，會叫我請全部人。」→ 11/24 18:30 麵店', txt('g:noodle_team').includes('yu:柏翰推甄上了！')&&txt('p:classmate_bohan').includes('classmate_bohan:……阿哲知道的話，會叫我請全部人。')&&!!qb&&qb.h===18.5&&qb.day===D('2028-11-24'));
   at('2028-11-24',18.3); picks=[0]; said=[]; await OUT.go(GM,qb);
-  check('U1. 11/24 麵店：「最貴的是一百一。」；兩個都上了＝教授點頭那段；「下次換你請。」', has('最貴的是一百一。我查過了。')&&has('面試的時候，我說完，有一個教授點頭。')&&has('……嗯。我也這樣想。只是想聽別人說。')&&G.flags.BH_DINNER==='went');   /* 2026-11-11（X324 G 區，AA_803_y4_postgrad.json@7c0cc967a）：r2y4a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……最貴的是一百一。我查過了。」 */
+  check('U1. 11/24 麵店：「最貴的是一百一。」；兩個都上了＝教授點頭那段；「下次換你請。」', has('最貴的是一百一。菜單我拍下來了。'/* RC2-PORT-DEV-1114：AA_959 第 700 列（AA_1019：「我查過了」留給以安）*/)&&has('面試的時候，我說完，有一個教授點頭。')&&has('……嗯。我也這樣想。只是想聽別人說。')&&G.flags.BH_DINNER==='went');   /* 2026-11-11（X324 G 區，AA_803_y4_postgrad.json@7c0cc967a）：r2y4a_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……最貴的是一百一。我查過了。」 */
   fresh('2028-11-23',15.2,'dorm',TWF({Y4_PATH:'grad'})); R('classmate_bohan','FRI'); EXAMS(3); rules(); answer('y4_push_bh',0);
   check('U2. 成績中、沒有教授記得你：未錄取；「……二月還有考試。我陪你念。順便。」', G.flags.Y4_PUSH==='fail'&&!G.flags.GRAD_ADMIT&&(G.msgs||[]).some(m=>m.text==='推甄放榜：法律學研究所，未錄取。')&&txt('p:classmate_bohan').includes('classmate_bohan:……二月還有考試。我陪你念。順便。'));
   fresh('2028-11-23',15.05,'dorm',TWF({Y4_PATH:'grad'})); EXAMS(3); G.social.prof={prof_lin:{part:10,perf:10,office:0,research:0}}; rules(); const u2b=G.flags.Y4_PUSH;
@@ -331,7 +331,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   const libOk=entered.includes('library')&&EVENTS.check(ev('ev_kexin_study_really_lib')); picks=[0]; said=[]; await run('ev_kexin_study_really_lib'); await tick();
   check('K1. 選總圖：帶到 3D 總圖，到了就演（auto）；「可以。……先去吃東西，我餓了。」；演完不再問「出發」', !!qlib&&!!qlib.goto&&libOk&&has('可以。……先去吃東西，我餓了。')&&G.flags.KX_STUDY_PLAN==='went'&&qlib.state==='done');
   fresh('2028-09-20',21.1,'dorm',TWF()); date('kexin'); rules(); at('2028-09-23',14.3); rules(); at('2028-09-23',16.1); rules();
-  check('K2. 沒回＝沒去：16:00「今天我自己讀完了。」「你沒來。我一個人讀得比較快。……騙你的。」；記 KX_STUDY_PLAN', G.flags.KX_STUDY_PLAN==='missed'&&txt('p:kexin').includes('kexin:你沒來。我一個人讀得比較快。……騙你的。'));
+  check('K2. 沒回＝沒去：16:00「今天我自己讀完了。」「你沒來。我一個人讀得比較快。……騙你的。」；記 KX_STUDY_PLAN', G.flags.KX_STUDY_PLAN==='missed'&&txt('p:kexin').includes('kexin:你沒來。我一個人讀得比較快。……才怪。'/* RC2-PORT-DEV-1114：AA_959 第 526、527 列 */));
   fresh('2028-09-20',9.1,'us_apartment',US()); date('kexin'); rules(); const qv=OUT.get(G,'y4_kx21v');
   check('K3. 美國路線：9/20 當地 09:00「……時差也一樣。」「台灣晚上九點，你那邊早上九點。剛好。」；9/23 當地 09:00 視訊', txt('p:kexin').includes('kexin:台灣晚上九點，你那邊早上九點。剛好。')&&!PHONE.byAsk(G,'y4_kx21')&&!!qv&&qv.day===D('2028-09-23')&&Math.abs(qv.h-9)<1e-6&&qv.verb==='接起來');
   at('2028-09-23',8.9); picks=[2]; said=[]; await OUT.go(GM,qv);

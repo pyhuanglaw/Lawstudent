@@ -78,7 +78,8 @@ sec(1,()=>{ check('1. 讀得到企劃線的 AA_705（git show 44af68368）、AA_
   check('1. 芷若：週二不是她的休假（2:30 AM 週二晚上有班、週二下午在總圖多媒體中心）＝照稿「給 LAWWW」改成她沒排班的那一天下午（週日）',/芷若：2:30 AM 的班表裡週二如果不是休假，那一列改成她沒排班的那一天下午/.test(DOC)&&J(row('wz_offbeat_zr').days)===J([0])&&CHARACTERS.heroine_02.daily_schedule.some(e=>e.act==='barista'&&e.days.includes(2))&&!CHARACTERS.heroine_02.daily_schedule.some(e=>e.act==='barista'&&e.days.includes(0)));
   /* AA_615 第 4 節 */
   const s4=(DOC615.split('## 4.')[1]||'').split('\n## ')[0]; const A=SHOP_NPC.alison, miss=[];
-  for(const l of A.first){ if(l.text&&!(l.speaker?(s4.includes('Alison：'+l.text)||s4.includes('Alison「'+l.text+'」')):s4.includes(l.text))) miss.push(l.text); if(l.choice) for(const c of l.choice) if(!s4.includes(c.text)) miss.push(c.text); }
+  const in4=(l,t)=>l.speaker?(s4.includes('Alison：'+t)||s4.includes('Alison「'+t+'」')):s4.includes(t);   /* RC2-PORT-DEV-1114：AA_959 第 529 列換過的字，換回舊字再對稿 */
+  for(const l of A.first){ if(l.text&&!in4(l,l.text)&&!in4(l,require('./aa959_map.js').unmap(l.text,'shop_npc.js'))) miss.push(l.text); if(l.choice) for(const c of l.choice) if(!s4.includes(c.text)) miss.push(c.text); }
   for(const t of A.again) if(!s4.includes('Alison「'+t+'」')) miss.push(t);
   if(!s4.includes('「'+A.sis+'」')) miss.push(A.sis); if(!s4.includes('「'+A.movieLine+'」')) miss.push(A.movieLine);
   if(!s4.includes('「謝啦。」→ Alison「好好看喔。第二部比較好看。」')||!s4.includes('「這樣可以嗎？」→ Alison「多做的本來就要丟。拿去。」')) miss.push('選項的回話');
@@ -280,7 +281,7 @@ sec(9,()=>{ const DOC3=git('2c62cdf1e','AA_705_新店面裡遇得到的人_第�
     const days=[...c[3].matchAll(/週([日一二三四五六])/g)].map(m=>WD[m[1]]); if(J(days)!==J(r.days)) bad.push(r.id+' 星期');
     const tm=/^(\d+:\d+)～(\d+:\d+)/.exec(c[4]); if(!tm||Math.abs(hm(tm[1])-r.from)>1e-6||Math.abs(hm(tm[2])-r.to)>1e-6) bad.push(r.id+' 時間 '+c[4]);
     if(c[5]!==r.place) bad.push(r.id+' 在哪 '+c[5]+'≠'+r.place);
-    const sm=/^([^（：]+)：(.+)$/.exec(c[6]); if(!sm||NAME[r.hear.who]!==sm[1]||r.hear.t!==sm[2]||!r.hearAny) bad.push(r.id+' 聽一句 '+c[6]); }
+    const sm=/^([^（：]+)：(.+)$/.exec(c[6]); if(!sm||NAME[r.hear.who]!==sm[1]||(r.hear.t!==sm[2]&&require('./aa959_map.js').unmap(r.hear.t,'shop_npc.js')!==sm[2]/* RC2-PORT-DEV-1114：AA_959 第 757 列（「不要笑」留給沛珊），換回舊字再對稿 */)||!r.hearAny) bad.push(r.id+' 聽一句 '+c[6]); }
   check('9. 三列的店、誰、學期起點、星期、時間（大步阿凱照 09:25、好拍柏翰照 10:06 換過的）、在哪、聽一句（一次＝hearAny）照稿一字不差',!bad.length,bad.join('｜'));
   /* 撞時段（全部學期；撞到＝原本優先）*/
   const info=[]; let shown=0; const wrong=[];
@@ -347,7 +348,7 @@ sec(10,()=>{ const D4=git('4f71f7719','AA_705_新店面裡遇得到的人_第一
 await asec(5,async()=>{ const r=row('xs_nanyang_yu'); const fri=daysOf(r).find(d=>wdOf(d)===5&&CALENDAR.termOf(d).week===5);
   const enc=async(d,h,flags,picks)=>{ const G=fresh(d,h,flags); G.zone='xs_nanyang'; GM.npc={}; H.rel('yu',20,5,5); npcAt('yu',r.at[0],r.at[1],0); putPlayer(-2.6,-2.8,0); GM.D.active=false; H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); return G; };
   let G=await enc(fri,19,{},['「這樣可以嗎？」']); const due=SHOPNPC.alisonDue(GM); await SHOPNPC.alison(GM); const s1=H.said.map(s=>(s.who?s.who+'：':'')+s.t);
-  const A=SHOP_NPC.alison, want=['（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，是 Alison。）','Alison：欸！你怎麼來了？','Alison：我禮拜五禮拜六都在這裡。……你看哪一場？','（她把一桶爆米花推過來。）','Alison：剛剛多做的，不用錢。不要跟別人說。','Alison：多做的本來就要丟。拿去。','（你拿到一桶爆米花。）'];
+  const A=SHOP_NPC.alison, want=['（爆米花櫃檯後面的人戴著戲院的帽子。抬頭，是 Alison。）','Alison：欸！你怎麼來了？','Alison：我禮拜五禮拜六都在這裡。……你看哪一場？','（她把一桶爆米花推過來。）','Alison：剛剛多做的，不用錢。小聲一點。'/* RC2-PORT-DEV-1114：AA_959 第 529 列 */,'Alison：多做的本來就要丟。拿去。','（你拿到一桶爆米花。）'];
   check('5. 第一次：走到櫃檯前（她 2.6 m 內）、認識她＝那一段；選「這樣可以嗎？」的回話；拿到爆米花（NY_POPCORN、SHOPNPC.popcorn）',due&&J(s1)===J(want)&&J(H.opts[0])===J(['「謝啦。」','「這樣可以嗎？」'])&&G.flags.NY_POPCORN===fri&&SHOPNPC.popcorn(G),J(s1));
   const F=G.flags.NY_ALISON;
   G=await enc(fri,19,{NY_ALISON:F},['「謝啦。」']); check('5. 同一學期再去＝不再演',!SHOPNPC.alisonDue(GM));

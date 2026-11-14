@@ -269,7 +269,7 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   fresh('2027-11-01',20,'campus',{KX_MET:true}); R('kexin','FAM'); check('10. 只有熟悉：還沒有',!EVENTS.checkAt(ev('ev_kexin_call_helper')));
   fresh('2027-11-01',20,'campus',{KX_MET:true}); R('kexin','FRI'); await play('ev_kexin_call_helper',[0]);
   check('10. C1 照 AA_873 ④ 逐字：飲料、三句問、「……是我自己。」→「我知道。我只是想聽你自己講。」、收尾三句；KX_HELPER_CALL admit',JSON.stringify(all())===JSON.stringify(['（她在路燈下等你。手上拿著兩杯飲料，一杯遞過來。）','你這禮拜幫了幾個人？','搬東西、改報告、修電腦。我都有聽說。','那你自己的事，誰幫？','我知道。我只是想聽你自己講。','（她把吸管插好，喝了一口。）','我沒有在念你。','我看到一個人一直在幫別人，會想知道他自己好不好。這樣而已。'])&&JSON.stringify(opts[0])===JSON.stringify(['「……是我自己。」','（轉移話題）','「那妳呢？誰幫妳？」'])&&G.flags.KX_HELPER_CALL==='admit',JSON.stringify(all()));
-  fresh('2027-11-01',20,'campus'); await play('ev_kexin_call_helper',[1]); check('10. C2 轉移話題：「好。今天先不問。飲料喝完再走。」；dodge',has('好。今天先不問。飲料喝完再走。')&&G.flags.KX_HELPER_CALL==='dodge');
+  fresh('2027-11-01',20,'campus'); await play('ev_kexin_call_helper',[1]); check('10. C2 轉移話題：「好。今天先不問。飲料喝完再走。」；dodge',has('好，今天先不問。飲料喝完再走。'/* RC2-PORT-DEV-1114：AA_959 第 542 列 */)&&G.flags.KX_HELPER_CALL==='dodge');
   fresh('2027-11-01',20,'campus'); await play('ev_kexin_call_helper',[2]); check('10. C3「那妳呢？誰幫妳？」→ 室友、沛珊那兩句；ask_back',has('我？我會開口。我室友、沛珊，被我煩過的都知道。')&&has('你也可以開口。我不一定幫得上，可是我會罵你為什麼不早講。')&&G.flags.KX_HELPER_CALL==='ask_back');
   { fresh('2027-10-23',8,'dorm',{KX_HELPER_CALL:'admit'}); date('heroine_03'); date('kexin'); const O=[]; GM.choose=async o=>{ O.push(o.map(q=>q.t)); return o.length-1; }; await STORY.coldWeekSneeze(GM); GM.choose=async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; };
     check('10. C1 10/23 起床：「（傳訊息跟可昕說：我好像感冒了。）」排第一（admit）',!!O[0]&&O[0][0]==='（傳訊息跟可昕說：我好像感冒了。）',JSON.stringify(O));
@@ -328,8 +328,8 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   check('13. 不認識阿哲：沒有阿哲那兩段；「一個人對兩台筆電？」→「嗯。可是法官一直讓他講完。」（她把開庭表摺起來。）「……我在想，那是規定，還是那個法官。」',!any(/刑訴的作業不是要去地院嗎|明星/)&&has('嗯。可是法官一直讓他講完。')&&has('（她把開庭表摺起來。）')&&has('……我在想，那是規定，還是那個法官。'));
   fresh('2027-10-21',17.75,'noodle'); R('heroine_01','FAM'); await play('ev_an_admin_court',[2]); check('13. 「下次我也想去。」→「好。開庭表我傳給你。……要早到，旁聽席很小。」',has('好。開庭表我傳給你。……要早到，旁聽席很小。'));
   fresh('2027-10-21',21,'dorm'); join('noodle_team'); meet('heroine_01'); run('2027-10-21',21.75,22.25);
-  check('13. A3 沒去麵店：22:00 桌遊團兩則（有句號；AA_462 第 1 節換字「我先去了一趟……自己想看的。」）；AN14 group；記 AN_ADMIN_COURT',JSON.stringify(txt('g:noodle_team').slice(-2))===JSON.stringify(['heroine_01:今天下午我先去了一趟行政法院。自己想看的。','heroine_01:是一個人告區公所。'])&&G.flags.AN14==='group'&&SOCIAL.has('heroine_01','AN_ADMIN_COURT'));
-  fresh('2027-10-21',21,'dorm'); R('heroine_01','FRI'); run('2027-10-21',21.75,22.25); check('13. 不在群組、FRIEND 以上：私訊同兩句',JSON.stringify(txt('p:heroine_01').slice(-2))===JSON.stringify(['heroine_01:今天下午我先去了一趟行政法院。自己想看的。','heroine_01:是一個人告區公所。']));
+  check('13. A3 沒去麵店：22:00 桌遊團兩則（有句號；AA_462 第 1 節換字「我先去了一趟……自己想看的。」）；AN14 group；記 AN_ADMIN_COURT',JSON.stringify(txt('g:noodle_team').slice(-2))===JSON.stringify(['heroine_01:下午我先去了一趟行政法院。自己想看的。'/* RC2-PORT-DEV-1114：AA_959 第 84 列（「今天」開頭砍半）*/,'heroine_01:是一個人告區公所。'])&&G.flags.AN14==='group'&&SOCIAL.has('heroine_01','AN_ADMIN_COURT'));
+  fresh('2027-10-21',21,'dorm'); R('heroine_01','FRI'); run('2027-10-21',21.75,22.25); check('13. 不在群組、FRIEND 以上：私訊同兩句',JSON.stringify(txt('p:heroine_01').slice(-2))===JSON.stringify(['heroine_01:下午我先去了一趟行政法院。自己想看的。'/* RC2-PORT-DEV-1114：AA_959 第 84 列（「今天」開頭砍半）*/,'heroine_01:是一個人告區公所。']));
   fresh('2027-10-21',21,'dorm',{AN14:'there'}); join('noodle_team'); meet('heroine_01'); run('2027-10-21',21.75,22.25); check('13. 演過了：沒有群組那兩則',!PHONE.sent(G,'y3_an14_msg'));
 
   // ===== 14. 2-Y3-14 翰 4（AA_343 B7，569621e0 改四樓：標題「四樓的樓梯間」、4F 樓梯間、「（他看著那扇刷卡的門很久。）」；「台階」、選項、「走了兩階」照原文）=====
