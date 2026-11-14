@@ -2517,6 +2517,10 @@ AA358_21_noodle | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_
 AA358_22_24_cafe | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_aa355_358_probe.py | index.html | 30 | PARTS=CAFE;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 AA355_4c_jp | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_aa355_358_probe.py | index.html | 30 | PARTS=JP;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 AA355_6_sports | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_aa355_358_probe.py | index.html | 20 | PARTS=SPORTS;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+# BB-C 10:24（BB_468 0fbb6cda94，P1，使用者 10-28「女主角感覺都沒有自己的生活」X122★）：HEROINE-LIFE-1028 實玩驗收，對 main；新探針 cc_heroine_life1028_probe（第一次跑）＋random_play_sim --dump-msgs
+HL1_CIRCLE_1028 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+HL2_FEED_1028 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 30 | PARTS=HL2;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+HL3_DMS_1028 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | node | docs/story_planning/test_tools/cc/random_play_sim.js | index.html | 90 | XARGS=--track law --seed-list 1,2 --jobs 2 --from 2025-09-01 --to 2026-01-31 --root . --out {out} --dump-msgs {out}/msgs.json
 # BB-C 10:22（BB_379 6735490ac4，P3）：YUE_MEAL TEST_BUG——查 src：學姊照 yueMeal.sis 規則來（met_sis、人在臺灣、祐廷越好吃的班蓋到晚餐、每學期第一次符合那天；交往中一學期兩次隔 3 週），r3 那一班其實有演「你在這裡。幾點下班？」，探針在打字中讀到（少「？」）逐字比對不上→改開頭相同也算；對 main
 YUE_MEAL_r4 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_yue_meal_probe.py | index.html | 25 | CASES=SIS,SISD;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 REL76_social_r2_heroine_01_rc2e | 1404d5f2d4cb740d50df75741764be18ee746992 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 45 | TAG=social_r2_heroine_01;CASES=heroine_01;SHA=1404d5f2d4cb740d50df75741764be18ee746992
