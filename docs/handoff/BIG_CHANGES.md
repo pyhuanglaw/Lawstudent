@@ -13,6 +13,7 @@
 - 2026-11-14｜UA-BB-1114-06｜跟使用者要校園 2D 背景原本只給文字 → 玩家在 3D 走得到的地方一律附「遊戲 3D 同位置截圖」（CC 在電腦拍），文字只寫時間、天氣、氣氛｜不要再只用文字跟使用者要校園背景｜企劃線 BB_132 第 128 組
 - 2026-11-14｜BB_00「判截圖前先查三件事」｜判截圖原本看拼圖就判 → 先查拍的是哪個 SHA、場景載完沒、看原圖；對線上版一律用 GitHub 讀 main SHA 的檔，不用本機 origin/main｜不要拿拼圖或本機舊 main 下判定｜企劃線 BB_00 最上面
 - 2026-11-14｜WZ-REAL-LITE-EMPTY-1114｜溫州街店內實景 lite 模式一次只建「離玩家最近的一間」｜拍店外看進去要站在那間門口 1 m；站路中間拍到空的不是那間壞掉｜企劃線 BB_379
+- 2026-11-14｜CC-B cb9283f6f0、2f4185ece3｜地點關卡探針量房間原本寫死第 0 層 → 量「玩家那一層」；二樓的店視差那兩項標 N/A｜二樓的店以前的 ①～③ 鏡頭結果（量成一樓樓梯間）不要拿來判｜cc-testing CC_01 2026-11-14
 - 2026-11-13｜D161、D160、D159｜店面道具原本程式拼方塊 → 一律 CC0 掃描模型＋材質組，三項驗收（tests/shop_cc0_unit.js）；全部店面重做中｜不要再交方塊店面、不要加大 baseline｜CLAUDE.md §12、SHOP-REALISM-1112
 - 2026-11-13｜D163｜幫手工作階段（create_session 開的）也要交接檔、換班先收幫手｜不要跨帳號叫醒幫手｜CLAUDE.md §4
 - 2026-11-13｜AA_959（RC2-PORT-DEV-1114）｜改台詞原本直接改源稿 → 很多句改成「源稿不動、匯入工具最後一步照覆寫表換」（783 列，企劃線 9b8fd62148；開發分支 cc10767480 已套）｜不要只改源稿或只改遊戲檔，改到表上有的句子要連表一起改｜docs/handoff/AA_959_overlay.json、tools/story/aa959.py
@@ -21,16 +22,21 @@
 - 2026-11-12｜D155、D154｜每一間進得去的店要過「店面標準」七點＋地點關卡才算驗收｜不要只修使用者點名的那一間｜CLAUDE.md §12、docs/handoff/SHOP_STANDARD_STATUS.md
 - 2026-11-12｜D99 修訂｜鎖定的優先項目從三個變兩個（寒暑假系統、美國交換）；舊序章流程那一項使用者取消｜不要再排舊序章相關工作｜CLAUDE.md §6
 - 2026-11-12｜D153｜AA 改稿原本直接交 LAWWW → 每一批先給 BB 看、聽過第二意見再定案｜不要跳過 BB 直接給 SHA｜docs/rules/ROLE_AA.md 3.1
+- 2026-11-12｜CC_02 丁、乙｜探針原本寫完就排 → 每支新寫／改過的探針檔頭要有 CC_02 清單、要有 FAIL_SETUP 前置自檢，tools/cc_local/probe_lint.py 過了才排；捷徑一律標【前置／捷徑】｜不要排沒過 lint 的探針、不要把捷徑結果當真實流程｜cc-testing docs/story_planning/CC/CC_02
 - 2026-11-10｜規則改版｜規則原本散在 CLAUDE.md、AI_SESSION_HANDOFF、PROJECT_DECISIONS → 共同規則只在 CLAUDE.md、各職位做法在 docs/rules/ROLE_<職位>.md；被取代的舊規則直接刪｜不要照舊檔的章節號找規則｜CLAUDE.md §0
 - 2026-11-10｜D85、D128、D149｜發布由 LAWWW 決定、美術驗收不經使用者、規格書寫「先給我看」的照分工決定｜不要為這些停下來等使用者｜CLAUDE.md §1
 - 2026-11-10｜D119、D131｜新增第五個職位 CC（測試執行）；瀏覽器測試一律排使用者電腦、Node 全量交 GitHub Actions｜不要在雲端跑整套測試｜CLAUDE.md §8、docs/rules/ROLE_CC.md
 - 2026-11-10｜X327｜沛珊原本溫柔、家裡台中早餐店 → 有趣、聰明、會接梗，家裡是台中的小型連鎖餐廳；台詞整批重寫（PEISHAN-VOICE-1110）｜不要再寫早餐店、四點半起來幫忙那些｜FACTS.md 第 4 節、企劃線 00_人物口氣表
 - 2026-11-07｜D137｜寫台詞的規則原本散在好幾份 → 只有企劃線 00_台詞寫作規則.md 一份，口氣照 00_人物口氣表｜不要照舊的 AA_188、AA_662 等單獨文件寫｜CLAUDE.md §7 第 4 點
 - 2026-11-05｜（日期約）TONGXIAN-REF-1105｜照參考圖做場景原本直接建模 → 一律走 2D→3D 流程：拆圖清單、反推鏡頭、同角度疊圖（tools/art/same_angle_check.py）、四格對照、BB 判｜不要沒拆圖、沒疊圖就交照參考圖做的場景｜docs/rules/ROLE_LAWWW2.md §3
+- 2026-11-05｜（日期約）gpu_wrap｜電腦上的探針不直接開 Chromium → 一律經 tools/cc_local/gpu_wrap.py（用真的 GPU、印 WEBGL_RENDERER）｜不要在探針裡自己開瀏覽器繞過 gpu_wrap；結果要寫「Windows＋GPU ≠ iPhone」｜cc-testing tools/cc_local/gpu_wrap.py
 - 2026-11-03｜AA_624、AA_610｜語彤原本是麵店的女兒、在店裡幫忙 → 淡水人、媽媽是牙醫、一個人住學校對面、在一盞茶屋打工，祐廷在茶屋當同事才認識她｜不要再寫她在店裡端麵、備料、阿姨是她家人；舊字還有殘留（AA_1026，還沒整合）｜企劃線 AA_624、00_現行設定總表
 - 2026-11-03｜X182、AA_623、AA_612｜麵店團 → 桌遊團；那家店 → 公館燒臘（內部代號照舊 noodle_team、阿鳳麵店）｜對使用者、文件、台詞都說桌遊團、燒臘店｜FACTS.md 第 4 節
 - 2026-11-03｜AA_609、AA_611｜學姊和 Alison 是親姊妹（Alison 原本叫小語，10-21 改名）｜不要把兩人寫成不認識；學姊的爸爸不提｜企劃線 00_現行設定總表 第 81 列
 - 2026-11-02｜D118｜法律系沒有期中考、不是讀書打卡；成績看實際答題、考前一鍵總複習；法律服務社純劇情｜不要寫期中考週、每天讀書的懲罰、法服的反覆值班｜CLAUDE.md §7 第 3 點
+- 2026-11-02｜D123（BB_229、CC_29）｜瀏覽器測試原本在雲端（1～4 fps）跑 → 一律排使用者電腦（Windows＋RX 6600M），雲端只做探針自己的驗證｜不要在雲端跑整套瀏覽器測試、不要叫使用者手動貼指令重啟（電腦自動更新）｜cc-testing docs/story_planning/CC/CC_29_新runner_操作卡.md
+- 2026-11-02｜D123（CC_29）｜電腦上的 runner 原本 PowerShell → Python `tools/cc_local/run_queue.py --parallel 2`（入口 run_forever.ps1、桌面捷徑）；推到 claude/cc-testing 電腦自己換新版｜不要直接改電腦上的檔；改 runner 先在雲端驗｜cc-testing tools/cc_local/run_queue.py 開頭
+- 2026-11-02｜D119／D123｜佇列＝claude/cc-testing 的 tools/cc_local/queue.txt（一行：ID、SHA 40 碼、種類、腳本、index.html、逾時分、ENV），結果＝claude/cc-local 的 docs/story_planning/CC/local_out/＜ID＞/｜要重跑一定換新 ID（同 ID 有結果就不會再跑）；ENV 不能有分隔符號；不要整條 fetch cc-local（雲端磁碟小）｜cc-testing tools/cc_local/README.md
 - 2026-10-30｜（日期約）D115｜校名、館名原本用真實名稱 → 虛構的首都帝國大學／首都帝大等（招牌、匾額、名牌的字都改過）｜新做的招牌、匾額、背景不要寫舊校名｜docs/WORLD_NAMING.md
 - 2026-10-28｜（起）INTERIOR-AAA／LM-*｜室內光影原本全部即時光 → 地板、牆、天花板用 Cycles 烘成光照貼圖（白天／晚上各一張）｜重新匯出有烘焙的室內 GLB 以後一定要重烘；不要手改 lightbake/*_lm.json｜tools/blender/env_second/lightbake/、tests/xs_lm_unit.js
 - 2026-10-25｜（日期約）D112｜室內地板原本很多深色木地板 → 全遊戲換成淺色木或其他材質｜新場景不要用深色木地板｜CLAUDE.md §9
