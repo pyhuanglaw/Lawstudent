@@ -105,7 +105,7 @@ async def part_arc(pg, cdp, res):
         res.setdefault('arc', {})[who] = {'beat': b, 'lines': lines, 'r': r}
 
 
-GIFT_PREP = r"""(a=>{ const G=GAME.G, X=GIFT_HOLIDAY; G.flags=G.flags||{}; G.flags['met_'+a.who]=true; try{ SOCIAL.meet(a.who,G.zone); }catch(e){}  if(!G.contacts) G.contacts={}; if(G.contacts[a.who]==null) G.contacts[a.who]=2;
+GIFT_PREP = r"""(a=>{ const G=GAME.G, X=GIFT_HOLIDAY; G.flags=G.flags||{}; G.flags['met_'+a.who]=true; if(a.who==='heroine_03') G.flags.YT_MET_JOB=true;   /* CC-B 11-14：語彤要在一盞認識（YT_MET_JOB）才算見過，不然 SOCIAL.stage 一直 STRANGER、GIFTH.canGet false（AA_SCENES_GIFT_r2 TEST_BUG）*/ try{ SOCIAL.meet(a.who,G.zone); }catch(e){}  if(!G.contacts) G.contacts={}; if(G.contacts[a.who]==null) G.contacts[a.who]=2;
   const ids=Object.keys(X.items); const love=ids.find(g=>(X.items[g].love||[]).includes(a.who)&&!X.items[g].made&&!(X.items[g].only&&!X.items[g].only.includes(a.who)));
   const ok=ids.find(g=>!(X.items[g].love||[]).includes(a.who)&&!(X.items[g].no||[]).includes(a.who)&&!X.items[g].made&&!X.items[g].only);
   try{ GIFTH.bag(G); }catch(e){}   /* 先讀一次，讓遊戲把 G.flags.GIFTH 建好（gifthol3d.js 的 F(G)）*/
@@ -122,6 +122,7 @@ async def part_gift(pg, cdp, res):
         await D.load_zone(pg, cdp, 'campus', day, 15.0, wait=6000)
         await pg.evaluate("(()=>{ try{ GIFTH.bag(GAME.G); }catch(e){} })()")
         g = await pg.evaluate(GIFT_PREP, {'who': who})
+        if who == 'heroine_03': R.setup('%s 【前置／捷徑】flags.YT_MET_JOB＝true（語彤在一盞認識才算見過）' % tag)
         R.setup('%s 【前置／捷徑】讀檔到 campus %s 15:00、她站到前面、包包放她 love 的「%s」＋ok 的「%s」：%s' % (tag, day, g.get('loveName'), g.get('okName'), J(g)))
         if not R.check('%s 今天是她的節日、包包有東西（GIFTH.state）' % tag, bool(g.get('state')) and bool((g.get('state') or {}).get('items')), J(g)): continue
         await L.go_to(pg, cdp, R, g['npc'][0], g['npc'][1], 1.1, who, max_s=30)
