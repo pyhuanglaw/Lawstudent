@@ -46,3 +46,10 @@
 26. WINVIEW-EDGE-STRIPE（開發分支 fc1813e4f2，視差窗照片外鏡像取樣）：CC 藏玩家重拍安泰、鮮果、榮恩典、Daybreak、afar、青木、頁間 14:00＋20:00，看窗邊不再有拉長條紋。
 27. OFFBEAT-VIEW-P3（64b0301754）：日常失速前窗 14:00＋21:00（對面牆有窗、鐵窗、夜亮；最下面沒有天空色帶）。一盞 v1.1 一起四鏡頭。
 28. T1 種子 4 卡住（邀約「自己走過去」→ dorm_hall busy 沒放開，P1，LAWWW 修後）：random_play_sim --seed 4 重跑要 PASS。
+
+### rc2e 1404d5f2d4 先跑的結果（不用線上版的那幾支，2026-11-14 09:5x 判）
+- SIS_LIB_LOAD_rel_rc2e：PASS（9/05、9/24 讀檔到閱覽室，學姊都在、坐著讀書；0 例外）
+- ART_GYM_BG1_rel_rc2e：PASS（ntu_gym_ceremony 背景圖讀得到）
+- ANNIV_Y2_rel_rc2e：PASS（前一週私訊、週年出遊排上、演完、D158 字表 0 處）
+- REL76_ladder_r2_rc2e：PASS（橫向、直向的選項都在畫面裡、≥44px，階梯往前一層、玩家能動）
+- 這四支發布以後不用重跑線上版（發布樹＝rc2e）；只剩線上 deploy_check＋p0 確認部署。其餘 25 支照 CC 佇列跑，回來再判。
