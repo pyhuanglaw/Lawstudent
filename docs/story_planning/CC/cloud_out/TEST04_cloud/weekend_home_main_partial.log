@@ -1,0 +1,8 @@
+CC WEEKEND_HOME：SHA 6106fae2d2；2025-10-17 19.0；Windows＋GPU ≠ iPhone
+PASS FAIL_SETUP 檢查：遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到宿舍房間 2025-10-17 19.0（條件事件關掉）：{"day": 31, "key": "2025-10-17", "wd": 5, "cwd": 5, "hour": 19.01, "zone": "dorm", "home": false, "canGo": true}
+PASS FAIL_SETUP 檢查：週五、在宿舍、可以回家（HOME.canGo）  {"day": 31, "key": "2025-10-17", "wd": 5, "cwd": 5, "hour": 19.01, "zone": "dorm", "home": false, "canGo": true}
+  [  22.3s] 週五 室友 ["zhe", "classmate_bohan", "kai"]；這裡的人 ["kai"]；DORM203.allIn false；誰在哪 {"zhe": {"zone": "gongguan", "away": null, "what": "走走"}, "classmate_bohan": {"zone": "library", "away": null, "what": "看書"}, "kai": {"zone": "dorm", "away": null, "what": "在書桌前"}, "heroine_01": {"zone": "campus", "away": null, "what": "走走"}, "heroine_05": {"zone": "gongguan", "away": null, "what": "走走"}, "yu": {"zone": "xs_nanyang", "away": null, "what": "待一下"}, "heroine_02": {"zone": "cafe", "away": null, "what": "打工"}, "heroine_03": null, "heroine_04": null, "kexin": null}
+  [  22.3s] 週一（第 34 天）的課：[{"id": "const_1", "name": "憲法（上）", "req": true, "t0": 9.166666666666666, "t1": 12.166666666666666, "status": "upcoming", "exam": null}, {"id": "pe_y1s1", "name": "體育", "req": false, "t0": 15.5, "t1": 17.333333333333332, "status": "upcoming", "exam": null}]
+PASS FAIL_SETUP 檢查：手機「地點」有「回家」  "回家 捷運＋公車 約 40 分鐘 回家"
+  [  30.8s] 到家：{"day": 31, "key": "2025-10-17", "wd": 5, "cwd": 5, "hour": 19.71, "zone": "dorm", "home": true, "canGo": true}

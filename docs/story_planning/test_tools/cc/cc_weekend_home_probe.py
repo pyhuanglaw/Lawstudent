@@ -46,6 +46,7 @@ def pick(ch, st, log):
     for w in order:
         k = next((i for i, t in enumerate(ch) if t.startswith(w)), None)
         if k is not None: return k
+    if not any(t.startswith('存檔') for t in ch): return 0   # 雲端 r1：晚餐媽媽問「錢夠用嗎？」這種回答選單（不是家裡的主選單）＝照玩家點第一個
     return None
 
 
