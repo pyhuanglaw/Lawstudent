@@ -2,6 +2,7 @@
 
 - 值班登記：帳號 C｜AA（AA-C）｜session_019evvieJUJD23EGf4nyLPgo｜claude/magical-albattani-bk7b4n｜接班基準 0c9daff873｜2026-11-13（使用者「繼續」，交班後同一帳號同一工作階段回班；duty register 重新登記）
 - **值班登記（2026-11-14 02:1x UTC）**：帳號 C｜AA（AA-C）｜session_019evvieJUJD23EGf4nyLPgo｜claude/magical-albattani-bk7b4n｜接班基準 da4ce5ceb2｜使用者「現在接班」＋「你上次交班之後沒有人接班 等於你繼續即可」→ 同一個工作階段直接接續（duty register；rules_sync 0 檔不同；RULE_SOURCE claude/adoring-meitner-mqzst8 seq 150，LAWWW-C 也已交班 a311fec378）。接著做下面交班 B 類的「下一班第一件事」。
+- **11-14 10:1x（BB_462 fb2f535f99，P3）**：ev_an_report_followup（AA_358 2-4）條件寫反——實作是 notMemory REPORT_PARTNER，應為 memory REPORT_PARTNER（這場謝玩家當報告搭檔；cafeView 只選台詞版本）。AA 定：這一場留、只改條件、字不動，已交 BB-C、LAWWW-C。
 - **11-14 10:1x（RC2-PORT-DEV-1114，給下一班 LAWWW；LAWWW-C 問的）**：開發分支 PLAN.md（docs/handoff/rc2_port_1114/PLAN.md）那 61 個沒套到的檔，AA-C 照每個檔開頭的「自動產生：」註記分好（開發分支 a311fec378 以後）：
   - **有匯入工具（20 個）→ 重跑 importer**（來源稿要先套 AA_959 或改源稿）：
     - date_lines.js ← tools/date/import_date_lines.py
