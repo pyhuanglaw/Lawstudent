@@ -1,8 +1,8 @@
 {
- "objects": 840,
- "unique_meshes": 99,
- "tris": 39326,
- "tris_drawn": 57504,
+ "objects": 888,
+ "unique_meshes": 100,
+ "tris": 39520,
+ "tris_drawn": 76686,
  "materials": [
   "hp_alpha",
   "hp_ceiling",
@@ -11,6 +11,7 @@
   "hp_glass",
   "hp_goods",
   "hp_ph_cardboard_box_01",
+  "hp_ph_cardboard_box_01.001",
   "hp_plaster",
   "hp_sign",
   "hp_vc",
@@ -19,11 +20,11 @@
   "hp_wood"
  ],
  "out": "assets/models/env/second_ai/bb_support/haopai.glb",
- "bytes": 3282004,
+ "bytes": 3282520,
  "texres": 1024,
  "shop": "haopai",
  "layout": 2,
- "drawn_tris": 57504,
+ "drawn_tris": 76686,
  "protos": {
   "bad000": 15,
   "bad001": 18,
