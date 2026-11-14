@@ -19,11 +19,12 @@ SHA = (os.environ.get('SHA') or '')[:10]; TERM = os.environ.get('TERM_ID') or 'Y
 R = L.Run('yizhan_take', OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 ZONE = 'wz_teahouse'; YT = 'heroine_03'
-SCAN = r"""(a=>{ const G=GAME.G, keep={day:G.day,hour:G.hour,zone:G.zone,weekday:G.weekday}; const R=CALENDAR.termDays(a.term); let on=null, off=null;
+# 11-14 YIZHAN_DINE_0c49_r2 [ON] TEST_BUG：STORY.schedEnt 對 heroine_03 要 G.flags.YT_MET_JOB（在一盞認識她）才有作息；掃描、讀檔都沒設＝永遠掃不到當班（CC_02 乙）
+SCAN = r"""(a=>{ const G=GAME.G, keep={day:G.day,hour:G.hour,zone:G.zone,weekday:G.weekday}; G.flags=G.flags||{}; const hadJob=G.flags.YT_MET_JOB; G.flags.YT_MET_JOB=true; const R=CALENDAR.termDays(a.term); let on=null, off=null;
   try{ for(let d=R.from+7; d<(R.to||R.from+120)&&(!on||!off); d++){ const wd=CALENDAR.dateOf(d).wd%7; if(wd===1||wd===2) continue;   /* 一盞週一、週二公休（places.js），只掃開門的日子 */
       for(let h=12.5; h<19.5; h+=0.5){ G.day=d; G.weekday=wd; G.zone=a.zone; G.hour=h; const s=SHIFTT.onShift(G,a.who); if(s&&!on) on={key:CALENDAR.dateOf(d).key,h}; if(!s&&!off&&h>=14&&h<=17) off={key:CALENDAR.dateOf(d).key,h}; if(on&&off) break; } } }
-  finally{ Object.assign(G,keep); } return {on, off}; })"""
-MEET = r"""(w=>{ const G=GAME.G; G.flags=G.flags||{}; G.flags['met_'+w]=true; if(!G.contacts) G.contacts={}; if(G.contacts[w]==null) G.contacts[w]=2; try{ SOCIAL.meet(w,G.zone); if(SOCIAL.talkedTo) SOCIAL.talkedTo(w); }catch(e){} return {shift:SHIFTT.onShift(G,w), npc:!!(GAME.npc&&GAME.npc[w])}; })"""
+  finally{ Object.assign(G,keep); if(hadJob===undefined) delete G.flags.YT_MET_JOB; else G.flags.YT_MET_JOB=hadJob; } return {on, off}; })"""
+MEET = r"""(w=>{ const G=GAME.G; G.flags=G.flags||{}; G.flags['met_'+w]=true; if(w==='heroine_03') G.flags.YT_MET_JOB=true; if(!G.contacts) G.contacts={}; if(G.contacts[w]==null) G.contacts[w]=2; try{ SOCIAL.meet(w,G.zone); if(SOCIAL.talkedTo) SOCIAL.talkedTo(w); }catch(e){} return {shift:SHIFTT.onShift(G,w), npc:!!(GAME.npc&&GAME.npc[w])}; })"""
 ST = r"""(()=>{ const d=document.getElementById('dlg'); return {dlg:!!(d&&d.offsetParent), t:(document.getElementById('dlgText')||{}).textContent||'', who:(document.getElementById('dlgName')||{}).textContent||'',
   choices:[...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent).map(b=>b.textContent.trim()), busy:!!(GAME.E.player&&GAME.E.player.busy), interact:(document.getElementById('interact')||{}).textContent||'', money:GAME.G.money|0}; })()"""
 
@@ -34,7 +35,7 @@ async def talk(pg, cdp, tag, prefix, prefs):
         st = await pg.evaluate(ST)
         if st['choices']:
             i = next((n for p_ in prefs for n, t in enumerate(st['choices']) if p_ in t), None)
-            if i is None: i = next((n for n, t in enumerate(st['choices']) if any(w in t for w in ('算了', '再見', '離開', '沒事'))), None)
+            if i is None: i = next((n for n, t in enumerate(st['choices']) if any(w in t for w in ('算了', '再見', '離開', '沒事', '先不要', '不用了'))), None)
             if i is None: R.note('選單沒有想要的、也沒有退出的選項：%s → 選第一個' % J(st['choices'])); i = 0
             menus.append(st['choices']); lines.append('▶ ' + st['choices'][i]); await pg.screenshot(path=os.path.join(OUT, '%s_menu_%02d.png' % (prefix, len(menus))))
             await pg.evaluate("(i=>{ const b=[...document.querySelectorAll('#choices button')].filter(x=>x.offsetParent); (b[i]||b[0]).click(); })(%d)" % i); await pg.wait_for_timeout(900); continue
@@ -53,7 +54,7 @@ async def one(pg, cdp, case, slot, res):
     await pg.goto(URL); await L.wait_loaded(pg)
     s = await D.load_zone(pg, cdp, ZONE, slot['key'], slot['h'], wait=7000)
     m = await pg.evaluate(MEET, YT)
-    R.setup('%s 【前置／捷徑】讀檔進一盞 %s %.1f（條件事件關掉）、認識語彤：當班=%s、語彤在場景=%s' % (tag, slot['key'], slot['h'], m['shift'], m['npc']))
+    R.setup('%s 【前置／捷徑】讀檔進一盞 %s %.1f（條件事件關掉）、認識語彤（met＋YT_MET_JOB）：當班=%s、語彤在場景=%s' % (tag, slot['key'], slot['h'], m['shift'], m['npc']))
     if s['zone'] != ZONE and '一盞' in (s.get('interact') or ''):   # 讀檔停在溫州街門口：照玩家按「進去一盞」
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
         for _ in range(20):
