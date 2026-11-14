@@ -1,0 +1,26 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_rc_title_smoke_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\RC2E_TITLE_SMOKE\out
+CC X364 rc2e 煙霧：SHA 1404d5f2d4cb740d50df75741764be18ee746992；網址 http://127.0.0.1:8800/index.html；Windows＋GPU ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS FAIL_SETUP 檢查：遊戲載入
+  [  33.9s] 標題（橫）：{"title": true, "buttons": [{"id": "btnNewLaw", "t": "從法律系開始2025 年 8 月・迎新宿營、搬進法律系宿舍"}, {"id": "btnLoadMenu", "t": "讀取／匯入存檔"}], "btnNew": {"visible": false, "text": "", "cls": "btn pri hide"}, "btnNewLaw": {"visible": true, "text": "從法律系開始2025 年 8 月・迎新宿營、搬進法律系宿舍"}, "version": ["版本 v9.10.25（2026-11-11）"]}
+PASS FAIL_SETUP 檢查：標題畫面看得到  {"title": true, "buttons": [{"id": "btnNewLaw", "t": "從法律系開始2025 年 8 月・迎新宿營、搬進法律系宿舍"}, {"id": "btnLoadMenu", "t": "讀取／匯入存檔"}], "btnNew": {"visible": false, "text": "", "cls": "btn pri hide"}, "btnNewLaw": {"visible": true, "text": "從法律系開始2025 年 8 月・迎新宿營、搬進法律系宿舍"}, "version": ["版本 v9.10.25（2026-11-11）"]}
+PASS ① #btnNew 藏著、沒有字（rc2e 的修改）  {"visible": false, "text": "", "cls": "btn pri hide"}
+PASS ① 「從法律系開始」（#btnNewLaw）看得到  {"visible": true, "text": "從法律系開始2025 年 8 月・迎新宿營、搬進法律系宿舍"}
+PASS ① 看得到的標題按鈕裡沒有空白字的按鈕  [{"id": "btnNewLaw", "t": "從法律系開始2025 年 8 月・迎新宿營、搬進法律系宿舍"}, {"id": "btnLoadMenu", "t": "讀取／匯入存檔"}]
+  [  35.0s] 標題（直 390×844）：[{"id": "btnNewLaw", "t": "從法律系開始2025 年 8 月・迎新宿營、搬進法律系宿舍"}, {"id": "btnLoadMenu", "t": "讀取／匯入存檔"}]
+PASS ① 直向標題：「從法律系開始」看得到、#btnNew 沒出現  [{"visible": true, "text": "從法律系開始2025 年 8 月・迎新宿營、搬進法律系宿舍"}, {"visible": false, "text": "", "cls": "btn pri hide"}]
+PASS ② 點「從法律系開始」
+  [ 134.0s] 開局點了 {"dlg": 148, "choice": 8, "busy": 38, "free": 13}；現在 {"stage": "law", "day": -18, "key": "2025-08-29", "hour": 22.69, "zone": "dorm", "name": "測試玩家", "running": true}
+PASS FAIL_SETUP 檢查：開局以後離開標題、遊戲在跑  [{"stage": "law", "day": -18, "key": "2025-08-29", "hour": 22.69, "zone": "dorm", "name": "測試玩家", "running": true}, false]
+PASS ② 開局的不是舊章節（stage 不是 econ）  {"stage": "law", "day": -18, "key": "2025-08-29", "hour": 22.69, "zone": "dorm", "name": "測試玩家", "running": true}
+PASS ② 對話點得完、玩家能動（連續 6 次 free）  {"dlg": 148, "choice": 8, "busy": 38, "free": 13}
+PASS ② 搖桿推 1.2 秒有走動（>0.3 m）  {"joy": true, "from": {"x": -0.55, "z": 0.14}, "to": {"x": -0.58, "z": -2.74}, "m": 2.88}
+PASS ③ 自動存檔有寫出來  len=3378
+PASS ③ 重新整理後點「繼續（自動存檔）」
+  [ 163.5s] 存檔前 {"stage": "law", "day": -18, "key": "2025-08-29", "hour": 22.71, "zone": "dorm", "name": "測試玩家", "running": true}；繼續以後 {"stage": "law", "day": -18, "key": "2025-08-29", "hour": 22.73, "zone": "dorm", "name": "測試玩家", "running": true}
+PASS ③ 繼續以後日期、區域、名字和存的一樣、標題收掉  [{"stage": "law", "day": -18, "key": "2025-08-29", "hour": 22.71, "zone": "dorm", "name": "測試玩家", "running": true}, {"stage": "law", "day": -18, "key": "2025-08-29", "hour": 22.73, "zone": "dorm", "name": "測試玩家", "running": true}]
+PASS ③ 點「讀取／匯入存檔」
+  [ 182.2s] 讀取選單：["自動存檔 8 月 29 日 22:43 · 宿舍 房間 · 測試玩家 2026/11/14 下午5:49:33 讀取", "快速存檔（右上 💾） （空）", "欄位 1 （空） 存檔", "欄位 2 （空） 存檔", "欄位 3 （空） 存檔"]
+PASS ③ 讀取選單打得開、有自動存檔那一列  ["自動存檔 8 月 29 日 22:43 · 宿舍 房間 · 測試玩家 2026/11/14 下午5:49:33 讀取", "快速存檔（右上 💾） （空）", "欄位 1 （空） 存檔", "欄位 2 （空） 存檔", "欄位 3 （空） 存檔"]
+PASS ④ 全程沒有 pageerror／JS 例外  []
+ALL PASS
