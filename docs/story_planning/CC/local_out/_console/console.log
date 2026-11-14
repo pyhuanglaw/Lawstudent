@@ -1,12 +1,3 @@
-[22:25:59] skip LM_scene2_new (already done on 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585)
-[22:25:59] skip LM_scene2_int (already done on 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585)
-[22:25:59] skip LM_scene2_old (already done on 65212b697b96a553f1d5340e301d1803c11a3fae)
-[22:25:59] skip SS3D_N2_0eb2a (already done on 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585)
-[22:25:59] skip G10_N1_0eb2a (already done on 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585)
-[22:25:59] skip XG3_ext_new (already done on 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585)
-[22:25:59] skip XG3_ext_old (already done on 65212b697b96a553f1d5340e301d1803c11a3fae)
-[22:25:59] skip XG3_int (already done on 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585)
-[22:25:59] skip XG3_ydh (already done on 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585)
 [22:25:59] skip XG3_doorjoy (already done on 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585)
 [22:25:59] skip NM_cam_new (already done on 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585)
 [22:25:59] skip GG3_int_new_14_r2 (already done on dbbe05fa5a03f113ef4a0bae36777a153f98fef8)
@@ -1998,3 +1989,12 @@
 [10:16:12] [res] cpu=4% mem=42% (13.5/31.4 GB) chrome_testing=10  START BG3D_GATE_gongguan
 [10:16:54] 正在跑：L118_CAM36_b_r4（已跑 34 分／上限 60 分）、L118_CAM36_c_r4（已跑 3 分／上限 60 分）、BG3D_GATE_gongguan（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
 [10:17:41] [res] cpu=12% mem=45% (14.3/31.4 GB) chrome_testing=10  END BG3D_GATE_gongguan
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       9a31663133..9aa066c729  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:17:49] ==== END   BG3D_GATE_gongguan  exit=0  92s   ====
+[10:17:52] memory 42% before starting INV_MEET_YIELD_d8d3 (2 running)
+[10:17:52] ==== START INV_MEET_YIELD_d8d3  (probe @ d8d3a61b5e69123c69f06705a136f8442bed877a) ====
+[10:17:55] [res] cpu=6% mem=42% (13.4/31.4 GB) chrome_testing=10  START INV_MEET_YIELD_d8d3
+[10:21:54] 正在跑：L118_CAM36_b_r4（已跑 39 分／上限 60 分）、L118_CAM36_c_r4（已跑 8 分／上限 60 分）、INV_MEET_YIELD_d8d3（已跑 4 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[10:22:28] [res] cpu=8% mem=44% (14.1/31.4 GB) chrome_testing=10  END INV_MEET_YIELD_d8d3
