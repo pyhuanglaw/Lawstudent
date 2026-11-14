@@ -1,12 +1,3 @@
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       0e285b0f67..cbaf5206ad  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[00:01:41] ==== END   SAVE_LZ_growB  exit=1  5723s   ====
-[00:01:44] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
-[00:01:44] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
-[00:01:44] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
-[00:01:44] memory 45% before starting STUDY_FA01_r2 (2 running)
-[00:01:44] ==== START STUDY_FA01_r2  (probe @ 5c96c6680264aa6fe56f5450f01d848d3623c9af) ====
 [00:01:47] [res] cpu=3% mem=45% (14.2/31.4 GB) chrome_testing=10  START STUDY_FA01_r2
 [00:01:47] worktree add 5c96c6680264aa6fe56f5450f01d848d3623c9af: invalid reference - fetching main and the commit itself
 [00:01:52] 正在跑：CANON_NEWGAME_A1_d21c（已跑 28 分／上限 220 分）、CANON_NEWGAME_B2_d21c（已跑 16 分／上限 240 分）、STUDY_FA01_r2（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
@@ -1998,3 +1989,12 @@
 [13:13:24] [res] cpu=2% mem=42% (14.3/31.4 GB) chrome_testing=10  START BLACKBG_460
 [13:16:55] 正在跑：VACGAP_C（已跑 13 分／上限 90 分）、VACGAP_D（已跑 9 分／上限 90 分）、BLACKBG_460（已跑 3 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [13:20:48] [res] cpu=1% mem=43% (13.6/31.4 GB) chrome_testing=10  END BLACKBG_460
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       38cc5e17b7..09a6db50a6  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:21:00] ==== END   BLACKBG_460  exit=1  448s   ====
+[13:21:03] memory 44% before starting SKIP_DIAG_0918 (2 running)
+[13:21:03] ==== START SKIP_DIAG_0918  (probe @ fadf991b274be30ed67d9405bb52901c9bdc1643) ====
+[13:21:06] [res] cpu=3% mem=44% (13.9/31.4 GB) chrome_testing=10  START SKIP_DIAG_0918
+[13:21:55] 正在跑：VACGAP_C（已跑 18 分／上限 90 分）、VACGAP_D（已跑 14 分／上限 90 分）、SKIP_DIAG_0918（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[13:24:25] [res] cpu=5% mem=43% (13.5/31.4 GB) chrome_testing=10  END VACGAP_C
