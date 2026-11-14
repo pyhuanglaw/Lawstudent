@@ -1565,3 +1565,16 @@
 [17:55:01] [res] cpu=7% mem=38% (12.0/31.4 GB) chrome_testing=0  END ART_DORM_LOFT_rel_seats_rc2e
 [17:55:09] memory 39% before starting STUDY_FA05_r2 (2 running)
 [17:55:09] ==== START STUDY_FA05_r2  (probe @ 1404d5f2d4cb740d50df75741764be18ee746992) ====
+[17:55:12] [res] cpu=21% mem=39% (12.3/31.4 GB) chrome_testing=0  START STUDY_FA05_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c7f228f636..8845b09917  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:55:14] ==== END   ART_DORM_LOFT_rel_seats_rc2e  exit=0  108s   ====
+[17:55:17] memory 39% before starting ART_SWEEP_A_cafe_l_rc2e (2 running)
+[17:55:17] ==== START ART_SWEEP_A_cafe_l_rc2e  (probe @ 1404d5f2d4cb740d50df75741764be18ee746992) ====
+[17:55:20] [res] cpu=15% mem=41% (12.4/31.4 GB) chrome_testing=0  START ART_SWEEP_A_cafe_l_rc2e
+[17:55:39] memory 43% before starting ART_SWEEP_A_cafe_p_rc2e (2 running)
+[17:55:39] ==== START ART_SWEEP_A_cafe_p_rc2e  (probe @ 1404d5f2d4cb740d50df75741764be18ee746992) ====
+[17:55:42] [res] cpu=30% mem=46% (13.8/31.4 GB) chrome_testing=4  START ART_SWEEP_A_cafe_p_rc2e
+[17:55:55] 正在跑：STUDY_FA05_r2（已跑 0 分／上限 20 分）、ART_SWEEP_A_cafe_l_rc2e（已跑 0 分／上限 20 分）、ART_SWEEP_A_cafe_p_rc2e（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:56:51] [res] cpu=37% mem=51% (16.1/31.4 GB) chrome_testing=9  END ART_SWEEP_A_cafe_l_rc2e
