@@ -1,11 +1,3 @@
-[22:25:59] skip NM_ggnav_old (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
-[22:25:59] skip NM_zone_old (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
-[22:25:59] skip NM_reach_old (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
-[22:25:59] skip GOCLASS_fullsvc_new (already done on 1d4db297a4b980e82619dbc41f70e41f108f0596)
-[22:25:59] skip GOCLASS_fullsvc_old (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
-[22:25:59] skip GOCLASS_fullcw_new (already done on 1d4db297a4b980e82619dbc41f70e41f108f0596)
-[22:25:59] skip GOCLASS_fullcw_old (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
-[22:25:59] skip GOCLASS_guard_new (already done on 1d4db297a4b980e82619dbc41f70e41f108f0596)
 [22:25:59] skip GOCLASS_guard_old (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
 [22:25:59] skip GOCLASS_phone_close2_new (already done on 1d4db297a4b980e82619dbc41f70e41f108f0596)
 [22:25:59] skip GOCLASS_phone_close2_old (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
@@ -1998,3 +1990,11 @@
 [10:27:37] ==== START ROMTIER_b1_twice  (probe @ bc53f04880ff16ba82a1c6aece2dba814c63eff3) ====
 [10:27:40] [res] cpu=3% mem=45% (14.1/31.4 GB) chrome_testing=10  START ROMTIER_b1_twice
 [10:30:13] [res] cpu=8% mem=43% (13.6/31.4 GB) chrome_testing=10  END L118_CAM36_b_r4
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       4a694ec12d..17dc7fdc09  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:30:25] ==== END   L118_CAM36_b_r4  exit=1  2851s   ====
+[10:30:29] memory 43% before starting ROMTIER_b2_zhe (2 running)
+[10:30:29] ==== START ROMTIER_b2_zhe  (probe @ bc53f04880ff16ba82a1c6aece2dba814c63eff3) ====
+[10:30:31] [res] cpu=15% mem=43% (13.6/31.4 GB) chrome_testing=10  START ROMTIER_b2_zhe
+[10:31:24] [res] cpu=16% mem=46% (14.6/31.4 GB) chrome_testing=9  END ROMTIER_b1_twice
