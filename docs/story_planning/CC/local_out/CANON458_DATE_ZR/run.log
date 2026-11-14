@@ -1,0 +1,19 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_canon458_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\CANON458_DATE_ZR\out
+CC CANON BB_458：SHA 76f8b639f0641f93a99736d06a9d0d0675966343；CASES ['DATE_ZR']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [DATE_ZR] 最小存檔讀到 2026-03-28 14.50 dorm（Y1S2 第 5 週）
+  [前置／捷徑] 【捷徑】[DATE_ZR] 墊關係、旗標：{"heroine_02": {"stage": "CLOSE_FRIEND", "dating": false}, "flags": {}}
+  [  46.8s] [DATE_ZR] 墊完 {"heroine_02": {"stage": "CLOSE_FRIEND", "dating": false}, "flags": {}}
+  [前置／捷徑] 【捷徑】[DATE_ZR 第1次] DATE.book heroine_02 D01 15:00（同 date_scene_unit.js）：{"ok": true, "why": null, "trip": "T0001", "q": {"day": "2026-03-28", "h": 15.416666666666666, "place": "華山1914文創園區", "title": "和林芷若去華山1914文創園區"}}
+PASS FAIL_SETUP 檢查：[DATE_ZR 第1次] 約會排上了  {"ok": true, "why": null, "trip": "T0001", "q": {"day": "2026-03-28", "h": 15.416666666666666, "place": "華山1914文創園區", "title": "和林芷若去華山1914文創園區"}}
+  [ 775.4s] [DATE_ZR_1_a] 對話（事件 None）：選項 [["現在出發華山1914文創園區　捷運 約 25 分鐘", "到時間再說"]]；選了 ["現在出發華山1914文創園區　捷運 約 25 分鐘"]；GAME.say [["", "（華山1914文創園區。）"], ["林芷若", "老酒廠。牆上還留著以前的管線。"], ["林芷若", "我看過一部片在這裡拍，男主角就在那根管線下面被甩。我每次來都會看一眼。"]]
+  [1096.1s] [DATE_ZR_1_b] 對話（事件 None）：選項 []；選了 []；GAME.say []
+  [前置／捷徑] [前置] 同一份進度跳到 2026-04-04（Y1S2 第 6 週）14.50 時 dorm；DATE_ZR 第 2 次
+  [前置／捷徑] 【捷徑】[DATE_ZR 第2次] DATE.book heroine_02 D01 15:00（同 date_scene_unit.js）：{"ok": true, "why": null, "trip": "T0002", "q": {"day": "2026-04-04", "h": 15.416666666666666, "place": "華山1914文創園區", "title": "和林芷若去華山1914文創園區"}}
+PASS FAIL_SETUP 檢查：[DATE_ZR 第2次] 約會排上了  {"ok": true, "why": null, "trip": "T0002", "q": {"day": "2026-04-04", "h": 15.416666666666666, "place": "華山1914文創園區", "title": "和林芷若去華山1914文創園區"}}
+  [1832.6s] [DATE_ZR_2_a] 對話（事件 None）：選項 [["現在出發華山1914文創園區　捷運 約 25 分鐘", "到時間再說"]]；選了 ["現在出發華山1914文創園區　捷運 約 25 分鐘"]；GAME.say [["", "（華山1914文創園區。）"], ["林芷若", "老酒廠。牆上還留著以前的管線。"], ["林芷若", "我看過一部片在這裡拍，男主角就在那根管線下面被甩。我每次來都會看一眼。"]]
+  [2152.8s] [DATE_ZR_2_b] 對話（事件 None）：選項 []；選了 []；GAME.say []
+PASS [DATE_ZR] D158 字表 0 處（台詞、選項、手機）  0
+PASS 沒有 JS 例外  []
+ALL PASS
