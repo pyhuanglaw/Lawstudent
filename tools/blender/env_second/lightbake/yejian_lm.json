@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 1003.9,
+ "bake_seconds": 970.3,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -26,6 +26,7 @@
   "day": null,
   "night": null
  },
+ "skytint": null,
  "objects": [
   "WALL_back_yej_wall",
   "WALL_front_yej_wall",
@@ -38,5 +39,5 @@
   "yej_floor"
  ],
  "src": "assets/models/env/second_ai/aa_support/yejian.glb",
- "src_sha256": "6e8536ee6eac037e39631076a77bf7a5bee8db3da04bc6ad5178bed8e13fecda"
+ "src_sha256": "baca499bd935f5432bab569e60f8d613ea356a6dc83427884b310ad7fb8e0396"
 }

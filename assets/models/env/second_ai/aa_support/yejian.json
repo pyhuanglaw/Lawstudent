@@ -1,12 +1,38 @@
 {
- "objects": 24,
- "unique_meshes": 24,
- "tris": 36652,
- "tris_drawn": 36652,
- "materials": 18,
- "out": "../../../tmp/claude-0/-home-user-Lawstudent/fa766b7f-0f91-5caf-86c3-26385a2a2ff9/scratchpad/yej/yejian.glb",
- "bytes": 2628224,
+ "objects": 41,
+ "unique_meshes": 41,
+ "tris": 50251,
+ "tris_drawn": 50251,
+ "materials": 33,
+ "out": "assets/models/env/second_ai/aa_support/yejian.glb",
+ "bytes": 4321308,
  "texres": 512,
  "layout": 3,
- "seats": 16
+ "seats": 16,
+ "cc0": [
+  [
+   "ambientCG",
+   "Fabric030"
+  ],
+  [
+   "ambientCG",
+   "Metal009"
+  ],
+  [
+   "ambientCG",
+   "Plastic006"
+  ],
+  [
+   "ambientCG",
+   "Marble012"
+  ],
+  [
+   "Poly Haven",
+   "CashRegister_01"
+  ],
+  [
+   "Poly Haven",
+   "potted_plant_02"
+  ]
+ ]
 }

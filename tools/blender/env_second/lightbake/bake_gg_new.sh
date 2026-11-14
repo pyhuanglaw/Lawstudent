@@ -59,7 +59,7 @@ corner)
   for x in -1.85 1.75; do for z in 4.5 3.4 2.3 1.2 0.1 -1.0 -2.1 -3.2 -4.3; do LIGHTS="$LIGHTS${LIGHTS:+;}$x,$x,$z,$z,2.95,1,1,$SPW,0.08,0.08,$WC,$SPR"; done; done
   PTS="-0.45,2.2,-1.75,$PW,$WC,0.08;1.0,2.25,-2.9,$PW,$WC,0.08;-0.9,2.15,-4.1,$PW,$WC,0.08"
   HIDE='glass'
-  NOLM='goods|_vc$|cr_vc|vcm|metal|alpha|emit|sign|glass|_inst|wood'   # _inst 不加 $：Blender 匯入 GPU instancing 時，第二個以後的實例叫 …_inst.001（試烘第三輪：它們被烘、共用網格的全部多了第二套 UV）
+  NOLM='goods|_vc$|cr_vc|vcm|metal|alpha|emit|sign|glass|_inst|wood|S_ph_'   # S_ph_＝Poly Haven 模型（SHOP-CC0-HELP-1113）；   # _inst 不加 $：Blender 匯入 GPU instancing 時，第二個以後的實例叫 …_inst.001（試烘第三輪：它們被烘、共用網格的全部多了第二套 UV）
   EXTRA=(--sun 180,35,0 --sky "${SKY:-1.0}" --daylights "${DAYL:-0.8}" --shell S --points "$PTS" --keep-instances)
   CARD=(--name WALL_front_VIEW_cr_window_view --mat cr_window_view --img assets/models/env/second_ai/bb_support/corner_view_day.webp --x0 -8 --x1 8 --y0 -1 --y1 5.5 --z 8.25)
   ;;
@@ -97,7 +97,7 @@ yejian)
     awk -F, -v cw="$CW" -v pw="$PW" -v dw="$DW" -v wc="$WC" '{x=($1+$2)/2; z=($3+$4)/2; y=$5; w=(y>3.3)?cw:((y>1.9)?pw:dw); printf "%s%.3f,%.3f,%.3f,%s,%s,0.05", (NR>1?";":""), x, y-0.02, z, w, wc}')
   LIGHTS=""
   HIDE='glass|VIEW|bulb'
-  NOLM='^yej_wood$|books|pothos|print|_vc$|vcg|vcm|bulb|glass|VIEW'
+  NOLM="^(?!(yej_floor|yej_ceiling|WALL_[a-z]+_yej_(wall|wood))\$)"   # SHOP-CC0-HELP-1113：改成只列要烘的（CC0 材質組的家具網格、Poly Haven 模型都不烘）
   EXTRA=(--sun 180,35,0 --sky "${SKY:-1.0}" --daylights "${DAYL:-0.8}" --shell S --points "$PTS")
   ;;
 aa_sunnyside|aa_komichi|aa_mokuyobi|aa_yizhan|aa_offbeat|aa_afar|aa_aoki|aa_daybreak)
