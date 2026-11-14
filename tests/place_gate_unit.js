@@ -42,9 +42,9 @@ const T_WIN='SHOP-WINDOW-3D-1112', T_VIEW='SHOP-INTERIOR-VIEW-1112', T_AA='SHOP-
 const KF=(task,item,zones,manual)=>zones.split(/\s+/).filter(Boolean).map(zone=>Object.assign({zone,item,task},manual?{manual:true}:{}));
 const KNOWN_FAIL=[].concat(
   /* 從店外看進去是一張 2D 圖（使用者 11-12；清單＝任務 SHOP-WINDOW-3D-1112 的 LAWWW2 清單：新生南路七間、公館同一批、汀州路那一排）*/
-  KF(T_WIN,'street3d','xs_shanlan xs_tongxian xs_dakou xs_haopai xs_dabu xs_xsports',true),   /* xs_nanyang：BB-C 11-12 判 PASS 拿掉；xs_dabu：BB-C 11-12 06:4x 改判 FAIL——使用者：店外看進去牆是灰的、走進去是木頭的；立體了但和室內不一樣＝不算過 */
+  /* 新生南路六間（shanlan tongxian dakou haopai dabu xsports）、汀州路五間（yuehaochi keju dongnan liantong taimi）：BB-C 判店外立體＝店內 ⑦b PASS（docs/handoff/place_gate_bb.json 各店 note：SHOP-REAL-INSIDE 店外看到的牆、地板、擺設和店內一樣；大步 07:4x 改回 PASS），
+     拿掉（LAWWW2-C 11-13，SHOP-WINDOW-3D-1112）。這幾間還沒過的質感（D159）、效能、客人在 place_gate_bb.json 的 fail／pending，由 SHOP-REALISM-1112 等任務追 */
   /* 公館九間（aoki bookstore cvs bikeshop afar yangyang corner_records daybreak noodle）：BB-C 11-12 判店外立體 PASS（BB_379 53180642a9、ade9c3659d；第二層左中右錯開），拿掉 */
-  KF(T_WIN,'street3d','tz_yuehaochi tz_keju tz_dongnan tz_liantong tz_taimi',true),
   /* 118 巷打烊看起來關了：BB_379 L118_CLOSED_LOOK_r2 PASS（11-12，11 間公休／打烊鐵捲門到地、燈暗）＝這一列拿掉 */
   /* 以下是第一層量到的（會自動比對：過了這一列就要刪，不刪會 FAIL）*/
   /* 天花板比預設跟隨鏡頭矮（鏡頭高過天花板＝天花板不畫、抬頭看到背景色）。安泰 3.1、禮貌生財 3.0、溫州街四間 2.6～3.0；其他是 3.2 m 對鏡頭 3.208 m（差 8 mm，請第二層抬頭拍一張確認）*/

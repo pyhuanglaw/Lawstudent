@@ -73,6 +73,9 @@ M = {
     'leaf': CL.leaf_mat(P + 'leaf_broad', 'broad_leaves.png'),
     'fern': CL.leaf_mat(P + 'leaf_fern', 'bf_fern_frond.png'),
     'hedge': L.pbr(P + 'hedge', 'leafy_grass', tile=0.6, target='#3f5a2c', normal=0.9, maps=('diff', 'nor'), res=256, rough_value=0.85),
+    # 灌木的葉團分三種綠（BB-C 第九批 P3「整片同一個飽和綠、葉面沒有明暗」，LAWWW2-C 11-13）：偏黃的新葉、原本的綠、偏藍的深綠，每一團隨機挑一種
+    'hedge_y': L.pbr(P + 'hedge_y', 'leafy_grass', tile=0.6, target='#56693a', normal=0.9, maps=('diff', 'nor'), res=256, rough_value=0.85),
+    'hedge_d': L.pbr(P + 'hedge_d', 'leafy_grass', tile=0.6, target='#2e4630', normal=0.9, maps=('diff', 'nor'), res=256, rough_value=0.85),
     'azalea': img_mat(P + 'azalea', os.path.join(GEN, 'azalea_leaves.png'), rough=0.7, clip=True),
     'plaque': img_mat(P + 'plaque', os.path.join(SRC, 'plaque.jpg'), rough=0.75),
     'chochin': img_mat(P + 'chochin', os.path.join(SRC, 'chochin.jpg'), rough=0.6, emit=0.35),
@@ -86,6 +89,23 @@ M = {
     'win': L.flat(P + 'apt_win', '#3b4246', rough=0.25),
     'vc': L.vc_material(P + 'vc', rough=0.7),
 }
+CC0 = '--nocc0' not in sys.argv   # SHOP-REALISM-1112（D159／D160／D161，LAWWW2-C 11-13）：純色零件換 ambientCG 材質組、景石和水桶換 Poly Haven 掃描；--nocc0＝原版
+if CC0:
+    import cc0_aakit as cc0_kit   # noqa: E402（tools/blender/env_second/cc0_aakit.py）
+    K0 = cc0_kit.Kit(L, B, root, g2b, prefix=P)
+    M.update({
+        'bamboo': K0.acg(P + 'bamboo', 'Bamboo001A', target='#b49b63', tile=0.5, rough_value=0.5, res=256),        # 四つ目垣、建仁寺垣的竹
+        'bamboo_dk': K0.acg(P + 'bamboo_old', 'Bamboo001A', target='#8d7a4f', tile=0.5, rough_value=0.6, res=256),
+        'rope': K0.acg(P + 'rope', 'Rope001', target='#2a2320', tile=0.12, rough_value=0.9, res=256),              # 綁竹籬的棕櫚繩
+        'metal': K0.acg(P + 'gutter', 'Metal032', target='#6e706b', tile=0.6, metal=0.35, rough_value=0.5, res=256),   # 雨溝、雨水管
+        'copper': K0.acg(P + 'lamp_metal', 'Metal032', target='#3a2c22', tile=0.4, metal=0.3, rough_value=0.5, res=256),   # 門燈、提燈的鐵件
+        'urn': K0.acg(P + 'urn', 'Plastic006', vary=0.08, target='#6a5a46', tile=0.4, rough_value=0.35, res=256),     # 上釉的甕
+        'curb': K0.acg(P + 'curb', 'Concrete034', target='#9c9a94', tile=0.8, rough_value=0.8, res=256),
+        'curb_red': K0.acg(P + 'curb_red', 'Concrete034', target='#a8473a', tile=0.8, rough_value=0.7, res=256),
+        'ridge': K0.acg(P + 'ridge', 'Concrete034', target='#3a3c40', tile=0.6, rough_value=0.55, res=256),         # 屋脊、棟瓦
+        'dark': K0.acg(P + 'crawl', 'Concrete034', maps=('diff',), target='#1d1a17', tile=1.0, rough_value=1.0, res=256),   # 緣側下面
+        'soffit': L.pbr(P + 'soffit', 'dark_wood', tile=0.8, target='#3b2c21', normal=0.6, maps=('diff', 'nor'), res=256, rough_value=0.8),   # 簷下的木板
+    })
 for k in ('bamboo', 'bamboo_dk', 'wood', 'plaque', 'noren'): M[k].use_backface_culling = False
 FERN_UV = True
 _acc = {}
@@ -113,22 +133,44 @@ rk = random.Random(5)
 for i in range(30):                                                       # 碎石庭的邊：一排小石
     t = i / 29; z = 6.5 + t * 2.8
     VC.crbox(-2.36, -2.24, YG, YG + 0.05 + rk.uniform(0, 0.02), z - 0.045, z + 0.045, rk.choice(('#8a877f', '#7d7a72', '#94918a')), r=0.02)
-# 碎石的耙紋（淺色的細線，遠看一圈一圈）：只在景石周圍
-for j in range(3):
-    r = 0.62 + j * 0.14; n = 28
+# 碎石的耙紋（v2，LAWWW2-C 11-13；BB-C 第九批 P2「白色虛線圈像路面標線」）：連續的淺色脊線＋旁邊一條暗的溝影，對比壓低；
+#   景石周圍五圈同心橢圓，其他碎石面是東西向的平行直紋（枯山水的做法），直紋碰到最外圈就斷開
+RCX, RCZ = 2.2, 7.6
+def rake_quad(pts, col): VC.poly([(x, YG + 0.013, z) for x, z in pts], col)
+RINGS = [0.5 + j * 0.13 for j in range(5)]
+for r in RINGS:
+    n = 56
     for i in range(n):
-        a0 = 2 * math.pi * i / n; a1 = 2 * math.pi * (i + 0.6) / n
-        x0, z0 = 2.2 + math.cos(a0) * r * 1.25, 7.6 + math.sin(a0) * r; x1, z1 = 2.2 + math.cos(a1) * r * 1.25, 7.6 + math.sin(a1) * r
+        a0 = 2 * math.pi * i / n; a1 = 2 * math.pi * (i + 1) / n
+        Pt = lambda a, rr: (RCX + math.cos(a) * rr * 1.25, RCZ + math.sin(a) * rr)
+        x0, z0 = Pt(a0, r)
         if not (-2.25 < x0 < 4.0 and 6.55 < z0 < 9.25): continue
-        VC.poly([(x0, YG + 0.014, z0), (x1, YG + 0.014, z1), (x1 * 0.985 + 2.2 * 0.015, YG + 0.014, z1 * 0.985 + 7.6 * 0.015), (x0 * 0.985 + 2.2 * 0.015, YG + 0.014, z0 * 0.985 + 7.6 * 0.015)], '#c4bfb3')
+        rake_quad([Pt(a0, r), Pt(a1, r), Pt(a1, r - 0.022), Pt(a0, r - 0.022)], '#aaa59a')          # 脊（受光）
+        rake_quad([Pt(a0, r - 0.022), Pt(a1, r - 0.022), Pt(a1, r - 0.05), Pt(a0, r - 0.05)], '#76726a')   # 溝（陰影）
+ROUT = RINGS[-1] + 0.06
+def outside_ring(x, z): return ((x - RCX) / (ROUT * 1.25)) ** 2 + ((z - RCZ) / ROUT) ** 2 > 1.0
+def near_tree(x, z): return math.hypot(x - 3.65, z - 9.0) < 0.85
+zz = 6.62
+while zz < 9.22:
+    xs = [-2.18 + i * 0.1 for i in range(62)]; run = []
+    for x in xs + [None]:
+        ok = x is not None and x < 3.98 and outside_ring(x, zz) and not near_tree(x, zz)
+        if ok: run.append(x); continue
+        if len(run) > 1:
+            xa, xb = run[0], run[-1] + 0.1
+            rake_quad([(xa, zz), (xb, zz), (xb, zz + 0.022), (xa, zz + 0.022)], '#aaa59a')
+            rake_quad([(xa, zz + 0.022), (xb, zz + 0.022), (xb, zz + 0.05), (xa, zz + 0.05)], '#76726a')
+        run = []
+    zz += 0.13
 
 
-def flagstone(m, cx, cz, r, seed, top=YG + 0.035, h=0.06):
-    rr = random.Random(seed); n = rr.randint(6, 8); a0 = rr.uniform(0, 6.28)
+def flagstone(m, cx, cz, r, seed, top=YG + 0.035, h=0.06, ax=1.1, az=0.9, rot=0.0, jag=(0.78, 1.08), nn=(6, 8)):
+    rr = random.Random(seed); n = rr.randint(*nn); a0 = rr.uniform(0, 6.28); ca, sa = math.cos(rot), math.sin(rot)
     pts = []
     for i in range(n):
-        a = a0 + 2 * math.pi * i / n + rr.uniform(-0.2, 0.2); rad = r * rr.uniform(0.78, 1.08)
-        pts.append((cx + math.cos(a) * rad * 1.1, cz + math.sin(a) * rad * 0.9))
+        a = a0 + 2 * math.pi * i / n + rr.uniform(-0.2, 0.2); rad = r * rr.uniform(*jag)
+        lx, lz = math.cos(a) * rad * ax, math.sin(a) * rad * az
+        pts.append((cx + lx * ca - lz * sa, cz + lx * sa + lz * ca))
     bm = bmesh.new(); tv = [bm.verts.new(g2b(x, top, z)) for x, z in pts]; bv = [bm.verts.new(g2b(x, top - h, z)) for x, z in pts]
     bm.faces.new(tv); bm.faces.new(list(reversed(bv)))
     for i in range(n):
@@ -145,13 +187,17 @@ def along(t):
         if d <= l: k = d / l; return a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k, (b[0] - a[0]) / l, (b[1] - a[1]) / l
         d -= l
     a, b, l = segs[-1]; return b[0], b[1], (b[0] - a[0]) / l, (b[1] - a[1]) / l
-sm = acc('stone'); k = 0
+sm = acc('stone'); k = 0; rs = random.Random(1113)
+# v2（LAWWW2-C 11-13；BB-C 第九批 P2「踏石同大小的六角形一排」，D159 同類要有變化）：每塊 8～11 邊、輪廓起伏大、長寬比和轉角各不同、大小 0.16～0.31 m、高低差幾公分、
+#   一大一小錯開不對齊；路線（PATH）和走得到的地方不變
 for i in range(10):
-    x, z, dx, dz = along(i / 9.0); nx, nz = -dz, dx
-    offs = (-0.22, 0.2) if i % 2 == 0 else (0.0,)
+    x, z, dx, dz = along(i / 9.0 + rs.uniform(-0.015, 0.015)); nx, nz = -dz, dx
+    pair = i % 2 == 0
+    offs = ((-0.2 + rs.uniform(-0.05, 0.03)), (0.19 + rs.uniform(-0.03, 0.06))) if pair else (rs.uniform(-0.06, 0.06),)
     for o in offs:
-        jx = random.uniform(-0.04, 0.04)
-        flagstone(sm, x + nx * (o + jx), z + nz * (o + jx), 0.2 if len(offs) == 2 else 0.27, 300 + k); k += 1
+        r_ = rs.uniform(0.16, 0.22) if pair else rs.uniform(0.24, 0.31)
+        flagstone(sm, x + nx * o + dx * rs.uniform(-0.04, 0.04), z + nz * o + dz * rs.uniform(-0.04, 0.04), r_, 300 + k,
+                  top=YG + rs.uniform(0.025, 0.05), ax=rs.uniform(0.9, 1.3), az=rs.uniform(0.75, 1.05), rot=rs.uniform(0, math.pi), jag=(0.68, 1.14), nn=(8, 11)); k += 1
 # 玄關前的石板土間（−0.24）：x −4.2～−2.2、z 5.0～6.2；前緣一條整塊的花崗石
 acc('slab').box(X0, -2.2, YG, -0.25, ZF, ZE)
 xf_s = acc('stone'); xf_s.rbox(X0 + 0.02, -2.22, -0.27, -0.24, ZF, ZE - 0.35, r=0.01)
@@ -306,6 +352,8 @@ def rock(m, cx, cz, rx, rz, h, seed, yaw=0.0):
 rock(acc('rock'), 2.2, 7.6, 0.52, 0.36, 0.48, 7, 0.3)
 rock(acc('rock'), 2.85, 7.95, 0.22, 0.18, 0.2, 8, 1.0)
 rock(acc('rock'), -1.15, 8.7, 0.2, 0.16, 0.16, 9)
+if CC0:   # Poly Haven 木水桶 wooden_bucket_01：石燈籠前面碎石的邊上（打水灑庭院用）。景石不換：Poly Haven 的石頭掃描都是褐色砂岩，和這個苔庭的灰花崗岩不合（11-13 試過 rock_moss_set_01，像一堆碎磚）
+    K0.ph_put('wooden_bucket_01', -0.8, YG, 8.38, 0.5, 1.0, height=0.36, decimate=0.15)
 acc('moss').ell((2.0, YG + 0.4, 7.55), 0.3, 0.06, 0.2, seg=10, rings=4)
 # 甕（玄關西邊，參考圖門口的甕）
 acc('urn').add_bm(L.lathe([(0.0, 0.0), (0.12, 0.0), (0.2, 0.12), (0.23, 0.3), (0.18, 0.46), (0.11, 0.52), (0.13, 0.56), (0.0, 0.56)], seg=14), Matrix.Translation(g2b(-3.95, -0.24, 5.35)))
@@ -316,13 +364,21 @@ for j in range(14):
     a = j / 13 * math.pi - math.pi / 2; acc('bamboo_dk').cyl((bx - 0.2, YG + 0.35, bz), (bx - 0.3 + math.sin(a) * 0.16, YG + 0.01, bz + math.cos(a) * 0.08), 0.006, seg=3)
 
 # 植物：老樟樹 (3.65, 9.0)、杜鵑圓球、蕨、門內左邊的灌木、西牆前的楓
-random.seed(78); lf = acc('leaf'); az = acc('azalea'); fe = acc('fern'); hd = acc('hedge')
+random.seed(78); lf = acc('leaf'); az = acc('azalea'); fe = acc('fern'); hd = acc('hedge'); HDS = (hd, acc('hedge_y'), acc('hedge_d'))
 def shrub(x, z, r, h=None):
-    """修剪過的圓形杜鵑：葉面紋理的扁球芯＋表面一圈小葉片卡（葉片卡只當輪廓的毛邊，大面積交給芯）"""
-    h = h or r * 0.75; hd.ell((x, YG + h * 0.55, z), r, h * 0.6, r * 0.9, seg=12, rings=6)
-    for i in range(16):
-        a = random.uniform(0, 2 * math.pi); e = random.uniform(-0.1, 1.1); px = x + math.cos(a) * r * 0.92 * math.cos(e); pz = z + math.sin(a) * r * 0.82 * math.cos(e)
-        CL.card(az, px, YG + h * 0.55 + math.sin(e) * h * 0.55, pz, r * 0.42, r * 0.42, ry=random.uniform(0, math.pi), rx=random.uniform(-0.9, 0.9), uv=CL.rand_uv(0.5))
+    """修剪過的杜鵑（v3，LAWWW2-C 11-13；BB-C 第九批 P2「平滑低面數的綠色塊、同一個形狀重複」）：一叢是 6～9 團小葉團（雲剪的樣子），
+    在半球上錯開堆、每團大小高低不同，外輪廓凹凸；每叢用自己的亂數。整叢大約還是 r 寬、h 高（不擋原本的路）"""
+    rr = random.Random(int(x * 100) * 7 + int(z * 100)); h = h or r * 0.75; n = rr.randint(6, 9); lobes = []
+    for j in range(n):
+        if j == 0: lx, lz, ly, lr = x, z, h * 0.5, r * rr.uniform(0.5, 0.6)
+        else:
+            a = 2 * math.pi * j / (n - 1) + rr.uniform(-0.4, 0.4); d = r * rr.uniform(0.38, 0.62); el = rr.uniform(0.0, 0.7)
+            lx, lz = x + math.cos(a) * d, z + math.sin(a) * d * 0.9; ly = h * (0.32 + 0.45 * el) ; lr = r * rr.uniform(0.32, 0.48)
+        HDS[(j + rr.randint(0, 2)) % 3 if j else rr.randint(0, 2)].ell((lx, YG + ly, lz), lr, lr * rr.uniform(0.7, 0.95), lr * rr.uniform(0.8, 1.05), seg=9, rings=5); lobes.append((lx, lz, ly, lr))   # 每一團挑三種綠的一種（頂上那團、外圍各團錯開）
+    for i in range(3 * n + 6):
+        lx, lz, ly, lr = lobes[i % n]
+        a = rr.uniform(0, 2 * math.pi); e = rr.uniform(-0.2, 1.2); px = lx + math.cos(a) * lr * 0.95 * math.cos(e); pz = lz + math.sin(a) * lr * 0.9 * math.cos(e)
+        CL.card(az, px, YG + ly + math.sin(e) * lr * 0.8, pz, lr * 0.55, lr * 0.55, ry=rr.uniform(0, math.pi), rx=rr.uniform(-0.9, 0.9), uv=CL.rand_uv(0.5))
 FB = fe.bm; FUV = FB.loops.layers.uv.verify()
 def fern(x, z, r, h=0.45, seed=0):
     """蕨：七到九片往外拱的羽狀葉（黑森林同一個做法，bf_fern_frond.png）"""
@@ -436,6 +492,7 @@ for (k, g), (m, grp) in _acc.items(): m.finish(grp, uv=(m.mat != M['fern']), smo
 VC.finish(root, uv=False)
 for ob in list(root.children_recursive):
     if ob.type == 'MESH' and ob.data.materials and 'leaf_' in ob.data.materials[0].name: L.smooth_mesh(ob, angle=1.2)
+if CC0: K0.cleanup()
 L.merge_by_material(root, keep=lambda ob: ob.name.startswith(('wzy_camphor', 'YARD_')) or (ob.parent is not None and ob.parent.name.startswith('YARD_')))
 info = L.export(OUT, gpu_instances=True)
 info.update({'yard': True, 'YG': YG})

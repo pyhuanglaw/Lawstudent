@@ -147,14 +147,23 @@ def blob(c, x, y, z, r, col, k=1.0, u=9, v=5):
 def _basis(n):
     n = Vector(n).normalized(); u = n.cross(Vector((0.0, 0.0, 1.0)) if abs(n.z) < 0.9 else Vector((1.0, 0.0, 0.0))).normalized(); return n, u, n.cross(u)
 def flower(c, x, y, z, r, cols, n=(0, 1, 0), cup=0.4, seg=6):
-    """一朵花（第 2 版，BB 11-11 01:50「花是圓球插在棍子上，近看不像花」）：外圈 seg 片花瓣（風箏形、往上翹）＋內圈小一號、更直立的花瓣＋花心。
-    n＝花朝哪裡（遊戲座標）；cols＝(外圈, 內圈, 花心)。一朵約 30 個三角形，比原本一顆球（72）少"""
+    """一朵花（第 3 版，LAWWW2-C 11-13：g4 交班表 P2「花束是摺紙感的頂點色多邊形」）：
+    外圈 seg 片花瓣，每片拆成根部（三角形）、尖端（五邊形）兩段——根部暗（k 0.78）、尖端亮（k 1.12），尖端再往外翻一點，看起來有彎度和漸層，不是一整片平的五邊形；
+    每片寬度、長度、翹的高度、角度都亂數錯開（原本整圈一樣大）。內圈照舊小一號、更直立。花心五邊形。一朵約 35 個三角形（每團少一顆 56 面的圓球，整間面數不增加）"""
     N, U_, V_ = _basis(n); O = Vector((x, y, z)); ph = RR.uniform(0, PI)
     def P(a, rad, h): q = O + (U_ * math.cos(a) + V_ * math.sin(a)) * rad + N * h; return (q.x, q.y, q.z)
-    for (sg, r0, r1, h0, h1, wd, col, off) in ((seg, 0.1, 1.0, 0.0, cup, 0.95, cols[0], 0.0), (max(4, seg - 1), 0.05, 0.62, 0.06, cup + 0.42, 0.9, cols[1 % len(cols)], 0.5)):
-        for i in range(sg):
-            a = ph + (i + off) * 2 * PI / sg; da = PI / sg * wd; rm = r * (r0 + (r1 - r0) * 0.62); hm = r * (h0 + (h1 - h0) * 0.45)
-            c.vc.poly([P(a, r * r0, r * h0), P(a - da, rm, hm), P(a - da * 0.5, r * r1 * 0.96, r * h1), P(a + da * 0.5, r * r1 * 0.96, r * h1), P(a + da, rm, hm)], col, 0.9 + 0.14 * ((i * 7 + sg) % 5) / 4)   # 花瓣：尖端是平的（五邊形），比風箏形圓
+    so = seg
+    for i in range(so):   # 外圈
+        a = ph + i * 2 * PI / so + RR.uniform(-0.12, 0.12); wd = RR.uniform(0.8, 1.05); da = PI / so * wd
+        L_ = r * RR.uniform(0.88, 1.08); hu = r * cup * RR.uniform(0.8, 1.25); rm = L_ * 0.55; hm = hu * 0.5
+        base = P(a, r * 0.08, 0.0); ml = P(a - da, rm, hm); mr = P(a + da, rm, hm)
+        tl = P(a - da * 0.45, L_ * 0.97, hu * 1.05); tr = P(a + da * 0.45, L_ * 0.97, hu * 1.05); tp = P(a, L_ * 1.04, hu * 0.92)   # 尖端往外翻：中間那一點比兩角低
+        c.vc.poly([base, ml, mr], cols[0], 0.78 + 0.06 * (i % 3) / 2)   # 根部（暗）1 面
+        c.vc.poly([ml, tl, tp, tr, mr], cols[0], 1.06 + 0.08 * ((i * 5) % 3) / 2)   # 尖端（亮）3 面
+    sg = max(4, seg - 1)
+    for i in range(sg):   # 內圈
+        a = ph + (i + 0.5) * 2 * PI / sg; da = PI / sg * 0.9; r0, r1, h0, h1 = 0.05, 0.62, 0.06, cup + 0.42; rm = r * (r0 + (r1 - r0) * 0.62); hm = r * (h0 + (h1 - h0) * 0.45)
+        c.vc.poly([P(a, r * r0, r * h0), P(a - da, rm, hm), P(a - da * 0.5, r * r1 * 0.96, r * h1), P(a + da * 0.5, r * r1 * 0.96, r * h1), P(a + da, rm, hm)], cols[1 % len(cols)], 0.9 + 0.14 * ((i * 7 + sg) % 5) / 4)
     ct = cols[2] if len(cols) > 2 else YEL; c.vc.poly([P(k * 2 * PI / 5, r * 0.16, r * (cup * 0.5 + 0.2)) for k in range(5)], ct, 0.95)
 def leafq(c, x, y, z, d, ln, wd=0.36, lift=0.25, col=None):
     """一片葉子（風箏形）：從 (x, y, z) 往水平方向 d 伸出去 ln、往上翹 lift"""
@@ -162,14 +171,15 @@ def leafq(c, x, y, z, d, ln, wd=0.36, lift=0.25, col=None):
     c.vc.poly([(x, y, z), (x + dx * ln * 0.5 + px * w, y + ln * lift * 0.6, z + dz * ln * 0.5 + pz * w), (x + dx * ln, y + ln * lift, z + dz * ln), (x + dx * ln * 0.5 - px * w, y + ln * lift * 0.6, z + dz * ln * 0.5 - pz * w)], col or RR.choice((LEAF, LEAF_D)), RR.uniform(0.9, 1.08))
 def cluster(c, x, y, z, r, cols, n=14, leaf=True):
     """一團花：n 朵排成半球（每朵朝外）、底下一顆深綠的葉團、周圍幾片葉子"""
-    blob(c, x, y - r * 0.22, z, r * 0.5, LEAF_D, 0.9, u=7, v=4)
+    # v4（LAWWW2-C 11-13）：拿掉花團底下那顆深綠圓球（遠看像一顆綠色球插在棍子上），改成下面多一圈葉子
     cup = RR.uniform(0.28, 0.5); sg = RR.choice((5, 5, 6, 6)); n = max(5, int(round(n * 0.7))); ga = 2.39996   # v3：每團少 3 成（面數：整間 ≤ 8 萬；朵大一點補回來）
     for i in range(n):
         t = (i + 0.3) / n; th = math.acos(1 - t * 1.05); a = i * ga + RR.uniform(-0.2, 0.2); d = (math.sin(th) * math.cos(a), math.cos(th), math.sin(th) * math.sin(a))
         c1 = cols[i % len(cols)]; c2 = cols[(i + 1) % len(cols)]; rr_ = r * RR.uniform(0.46, 0.6)
         flower(c, x + d[0] * r * 0.6, y + d[1] * r * 0.55 - r * 0.05, z + d[2] * r * 0.6, rr_, (c1, c2, YEL if c1 in (WHITE, PINK, PEACH) else '#f6e9c8'), n=(d[0], d[1] + 0.3, d[2]), cup=cup, seg=sg)
     if leaf:
-        for i in range(max(4, n // 2)): a = i * 2 * PI / max(4, n // 2) + RR.uniform(-0.3, 0.3); leafq(c, x + math.cos(a) * r * 0.5, y - r * 0.28, z + math.sin(a) * r * 0.5, a, r * RR.uniform(0.55, 0.8), lift=RR.uniform(0.0, 0.35))
+        nl = max(4, n // 2)
+        for i in range(nl): a = i * 2 * PI / nl + RR.uniform(-0.3, 0.3); leafq(c, x + math.cos(a) * r * 0.3, y - r * 0.3, z + math.sin(a) * r * 0.3, a, r * RR.uniform(0.6, 0.95), lift=RR.uniform(0.05, 0.45))
 def vase(c, x, y, z, h, cols, r=0.16, glass=True):
     """花瓶＋一束花"""
     if glass: c.get('glass').cyl((x, y, z), (x, y + h, z), r * 0.45, seg=10, r2=r * 0.55)

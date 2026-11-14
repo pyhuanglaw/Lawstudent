@@ -311,7 +311,7 @@ for k in range(4):
     u = -0.97 + k * 0.485; sb.rbox(sh.a('vc'), u + 0.01, u + 0.475, 0.2, 0.74, 0.22, 0.232, r=0.004, col='#6a4630')
     sb.cyl(sh.a('vcm'), (u + 0.24, 0.62, 0.232), (u + 0.24, 0.62, 0.25), 0.011, col='#b8944a', seg=8)
 _bp = sb.p(-0.6, 0.78, 0.0); C.ph_put(sh, 'book_encyclopedia_set_01', _bp[0], 0.78, _bp[2], yaw=-math.pi / 2, height=0.24, decimate=0.015)   # 矮櫃上一排舊書（SHOP-CC0：Poly Haven 掃描；v3c 是四本疊起來的方塊）
-sh.plant(*sb.p(0.55, 0, 0.0)[::2], h=0.5, r=0.1, pot_col='#e8dcc0', y0=0.78)
+_pp = sb.p(0.55, 0, 0.0); C.ph_put(sh, 'potted_plant_02', _pp[0], 0.78, _pp[2], yaw=0.8, height=0.55, decimate=0.04, share=False)   # 矮櫃上的大葉盆栽（mokuyobi v2.1，LAWWW2-C P2：程式拼的平面葉片近看一片片切面 → Poly Haven 掃描）
 K.table_lamp(sh, *sb.p(-0.1, 0, -0.05)[::2], y=0.78, r=0.1)
 sh.wall_img('left', 'print', -2.8, 1.75, 0.5, 0.5, K.cell_uv(4, 0), off=0.03)
 Xf(0, 0).rbox(sh.w('left', 'walnut'), X0, X0 + 0.025, 1.75 - 0.29, 1.75 + 0.29, -2.8 - 0.29, -2.8 + 0.29, r=0.004)

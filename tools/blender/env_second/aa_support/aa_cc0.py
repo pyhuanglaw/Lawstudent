@@ -189,14 +189,13 @@ def ph_obj(sh, aid, height=None, decimate=None, recolor=None, part=None, tag='',
     if ('Poly Haven', aid) not in USED: USED.append(('Poly Haven', aid))
     new = [o for o in bpy.data.objects if o not in before]; ms = [o for o in new if o.type == 'MESH']
     if part is not None:
-        ms.sort(key=lambda o: o.name); kp = ms[part % len(ms)]
-        for o in ms:
-            if o is not kp: bpy.data.objects.remove(o)
-        new = [o for o in new if o.name in bpy.data.objects]; ms = [kp]
+        ms.sort(key=lambda o: o.name); kp = ms[part % len(ms)]; drop = [o for o in ms if o is not kp]
+        new = [o for o in new if o not in drop]; ms = [kp]
+        for o in drop: bpy.data.objects.remove(o)
     bpy.ops.object.select_all(action='DESELECT')
     for o in ms: mw = o.matrix_world.copy(); o.parent = None; o.matrix_world = mw; o.select_set(True)
     for o in new:
-        if o.type != 'MESH' and o.name in bpy.data.objects: bpy.data.objects.remove(o)
+        if o.type != 'MESH': bpy.data.objects.remove(o)
     bpy.context.view_layer.objects.active = ms[0]
     if len(ms) > 1: bpy.ops.object.join()
     o = bpy.context.view_layer.objects.active; bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)

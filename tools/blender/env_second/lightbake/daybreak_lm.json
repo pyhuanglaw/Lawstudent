@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 1387.7,
+ "bake_seconds": 2639.5,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -42,5 +42,5 @@
   "WALL_right_dbk_wall"
  ],
  "src": "assets/models/env/second_ai/aa_support/daybreak.glb",
- "src_sha256": "467095cf8b6dcf2a65ae586f1f054778746eb1e4b8a2230449a72f1a5073afad"
+ "src_sha256": "4f3847f2ccd06208a60d9a529183af1a4afb71d00065c33b59e8f53fd902233a"
 }

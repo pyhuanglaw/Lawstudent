@@ -56846,6 +56846,20 @@
    },
    "next": "【LAWWW-C 11-13 23:5x】camp_y1.js 19、197 行 bg:'dark'→'ntu_avenue'；tools/story/black_bg_audit.js 加讀 camp_y1.js（改前抓到 2 場、改後 0）；camp_y1／camp_era_lines／ui_night_bg／t1_time_bugs／friend_cards ALL PASS。待：BB 看第一個畫面；新圖到了換掉（BG-3DSHOT-1021）",
    "xai": []
+  },
+  {
+   "id": "GG-STREET-TREES",
+   "title": "公館街上的行道樹從店裡看出去是一顆顆浮著的綠球",
+   "owner": "LAWWW2",
+   "priority": "P2",
+   "status": "待開工",
+   "source": "LAWWW2-C 2026-11-13 23:50（驗收空檔查）",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   },
+   "next": "LAWWW2 驗收空檔查",
+   "xai": []
   }
  ]
 }

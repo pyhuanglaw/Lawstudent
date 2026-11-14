@@ -44,6 +44,7 @@ if CC0:
         'c_metal_dk': K0.acg(P + 'c_metal_dk', 'Metal009', maps=('diff',), target='#34322f', tile=0.8, metal=0.4, rough_value=0.45, res=256),   # 黑鐵、天花板管線、深色梁
         'c_ceramic': K0.acg(P + 'c_ceramic', 'Plastic006', vary=0.05, target='#e8e2d6', tile=0.4, rough_value=0.25, res=256),   # 白瓷杯盤、米色燈罩、陶盆
         'c_clay': K0.acg(P + 'c_clay', 'PaintedPlaster017', maps=('diff',), target='#a85a3a', tile=0.4, rough_value=0.8, res=256),   # 赤陶盆
+        'c_wool': K0.acg(P + 'c_wool', 'Fabric030', target='#d2c8b6', tile=0.35, rough_value=0.95, res=256),   # 毛毯、米色抱枕（BB 第八批 P2；原本誤走 c_ceramic）
         'c_rug': K0.acg(P + 'c_rug', 'Carpet015', maps=('diff',), target='#6a3a2c', tile=0.8, rough_value=0.95, res=256),   # 四人桌下的舊地毯
     })
     VC_ROUTE = {   # 頂點色 → 材質組 key（cc0_kit.split_vc：找最接近的顏色，距離 < 26）
@@ -52,7 +53,8 @@ if CC0:
         '#3e5a46': 'c_leather', '#7b2d26': 'c_leather_r',
         '#b8944a': 'c_brass', '#c9b48a': 'c_brass', '#b89a6a': 'c_brass',
         '#4a4642': 'c_metal_dk', '#5c5852': 'c_metal_dk', '#3a3a38': 'c_metal_dk', '#2e2e2e': 'c_metal_dk', '#2a2a2a': 'c_metal_dk', '#2a2a28': 'c_metal_dk', '#2e2e2c': 'c_metal_dk', '#24221f': 'c_metal_dk', '#1e1e1e': 'c_metal_dk',
-        '#d8d0c0': 'c_ceramic', '#d8cfc0': 'c_ceramic', '#e8e0cc': 'c_ceramic', '#e8dcc8': 'c_ceramic', '#f2efe8': 'c_ceramic', '#f4f2ea': 'c_ceramic', '#f8f6ee': 'c_ceramic', '#d8d4cc': 'c_ceramic', '#d8d8d6': 'c_ceramic', '#c9c0ae': 'c_ceramic', '#e8e2d6': 'c_ceramic',
+        '#d8d0c0': 'c_ceramic', '#e8e0cc': 'c_ceramic', '#e8dcc8': 'c_ceramic', '#f2efe8': 'c_ceramic', '#f4f2ea': 'c_ceramic', '#f8f6ee': 'c_ceramic', '#d8d4cc': 'c_ceramic', '#d8d8d6': 'c_ceramic', '#e8e2d6': 'c_ceramic',
+        '#d8cfc0': 'c_wool', '#c9c0ae': 'c_wool',
         '#b0653e': 'c_clay', '#a85a3a': 'c_clay', '#6a5a44': 'c_clay',
     }
 IT = {}
@@ -463,17 +465,27 @@ sh.tally('seating')
 # ---------------------------------------------------------------- v1c 窗邊（BB 遊戲內截圖 G：參考圖的主視覺是窗邊的灰色單人沙發、桌燈、毛毯、小圓桌）
 # 右牆兩扇側窗下面一條窗台桌（燈罩檯燈、小盆栽、書）；兩張灰色單人沙發斜對窗，旁邊小圓桌＋檯燈；北邊那張搭一條毛毯。位置照 cafe230_layout.js v3 的 lounge。
 def armchair(x, z, yaw, col=GREY, blanket=False):
-    xf = Xf(x, z, yaw); m = sh.a('vc')
+    """v2（LAWWW2-C 11-13，BB-C 第八批 P2「灰布沙發還是一整塊方的」）：圓角大的軟沙發——捲邊扶手（圓柱）、分開的靠背墊、坐墊、抱枕；
+    毛毯沿著捲邊扶手搭過去、外側垂下來有幾道摺。坐墊頂面照舊 0.53 m（座位高度不變）。"""
+    xf = Xf(x, z, yaw); m = sh.a('vc'); W = '#d8cfc0'
     for (sx, sz) in ((-0.33, 0.3), (0.33, 0.3), (-0.33, -0.3), (0.33, -0.3)): xf.cyl(m, (sx, 0.0, sz), (sx * 0.97, 0.13, sz * 0.97), 0.022, col=WAL2, seg=5, caps=False)
-    xf.rbox(m, -0.41, 0.41, 0.12, 0.42, -0.39, 0.39, r=0.04, seg=1, col=col)                                                 # 底座
-    xf.rbox(m, -0.29, 0.29, 0.41, 0.53, -0.24, 0.4, r=0.05, seg=2, col=GREY2)                                              # 坐墊
-    xf.rbox(m, -0.41, 0.41, 0.4, 0.95, -0.42, -0.22, r=0.06, seg=1, col=col)                                               # 靠背
-    for sx in (-1, 1): xf.rbox(m, min(sx * 0.29, sx * 0.42), max(sx * 0.29, sx * 0.42), 0.4, 0.66, -0.4, 0.38, r=0.05, seg=1, col=col)   # 扶手
-    Xf(*xf.p(0.14, 0, -0.27)[::2], yaw + 0.25).rbox(m, -0.18, 0.18, 0.52, 0.84, -0.06, 0.06, r=0.05, seg=2, col='#c9c0ae')     # 抱枕（靠在靠背上、偏一邊：座位中心那一點量得到坐墊高度）
-    if blanket:                                                                                                            # 毛毯：搭在扶手上、垂到地上一點
-        xf.rbox(m, 0.27, 0.45, 0.66, 0.69, -0.28, 0.2, r=0.01, seg=1, col='#d8cfc0'); xf.rbox(m, 0.43, 0.46, 0.18, 0.69, -0.26, 0.18, r=0.01, seg=1, col='#d8cfc0')
-        for k in range(7): u = -0.24 + k * 0.065; xf.cyl(m, (0.455, 0.18, u), (0.46, 0.12, u + 0.01), 0.006, col='#cfc5b4', seg=3, caps=False)
-
+    xf.rbox(m, -0.41, 0.41, 0.12, 0.43, -0.39, 0.39, r=0.07, seg=3, col=col)                                                 # 底座
+    xf.rbox(m, -0.29, 0.29, 0.41, 0.53, -0.2, 0.41, r=0.06, seg=3, col=GREY2)                                              # 坐墊（前緣鼓出來一點）
+    xf.rbox(m, -0.41, 0.41, 0.4, 0.95, -0.42, -0.24, r=0.08, seg=3, col=col)                                               # 靠背
+    xf.rbox(m, -0.28, 0.28, 0.52, 0.88, -0.26, -0.14, r=0.06, seg=3, col=GREY2)                                            # 靠背墊
+    for sx in (-1, 1):
+        xf.rbox(m, min(sx * 0.29, sx * 0.42), max(sx * 0.29, sx * 0.42), 0.4, 0.6, -0.4, 0.38, r=0.04, seg=2, col=col)   # 扶手下半
+        xf.cyl(m, (sx * 0.355, 0.6, -0.4), (sx * 0.355, 0.6, 0.4), 0.075, col=col, seg=14)                                 # 捲邊扶手
+    Xf(*xf.p(0.14, 0, -0.1)[::2], yaw + 0.25).rbox(m, -0.18, 0.18, 0.53, 0.84, -0.06, 0.06, r=0.06, seg=3, col='#c9c0ae')     # 抱枕（靠在靠背墊上、偏一邊）
+    if blanket:                                                                                                            # 毛毯：沿著捲邊扶手搭過去，外側垂到離地 0.15 m，有三道摺
+        for k in range(7):                                                                                                 # 扶手頂上：照圓柱的弧度分七片
+            a0, a1 = math.pi * (0.5 - k / 7 * 0.55), math.pi * (0.5 - (k + 1) / 7 * 0.55)
+            p0 = (0.355 + 0.083 * math.cos(a0), 0.6 + 0.083 * math.sin(a0)); p1 = (0.355 + 0.083 * math.cos(a1), 0.6 + 0.083 * math.sin(a1))
+            xf.rbox(m, min(p0[0], p1[0]) - 0.006, max(p0[0], p1[0]) + 0.006, min(p0[1], p1[1]) - 0.006, max(p0[1], p1[1]) + 0.006, -0.3, 0.22, r=0.004, seg=1, col=W)
+        xf.rbox(m, 0.27, 0.36, 0.672, 0.69, -0.3, 0.22, r=0.008, seg=1, col=W)                                            # 往座位那邊多蓋一點
+        xf.rbox(m, 0.432, 0.452, 0.15, 0.6, -0.28, 0.2, r=0.008, seg=1, col=W)                                            # 外側垂下來
+        for u in (-0.17, -0.04, 0.1): xf.cyl(m, (0.452, 0.16, u), (0.452, 0.58, u + 0.02), 0.014, col=W, seg=6)          # 摺痕
+        for k in range(7): u = -0.24 + k * 0.065; xf.cyl(m, (0.447, 0.15, u), (0.452, 0.09, u + 0.01), 0.006, col='#cfc5b4', seg=3, caps=False)   # 流蘇
 
 LG = LAY['lounge']
 for a_ in LG['chairs']: armchair(a_['x'], a_['z'], a_['yaw'], blanket=a_.get('blanket', False))
