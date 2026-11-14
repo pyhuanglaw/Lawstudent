@@ -1,4 +1,4 @@
-/* 自動產生：tools/story/import_self_msgs.py（docs/story_planning/AA_1029_sis_self_y1s1.json@d1b265d5cd；docs/story_planning/AA_1030_sis_self_y1s2_y2.json@1d2eaeced2；docs/story_planning/AA_1031_zr_zq_self.json@6371f44c94；docs/story_planning/AA_1032_y1s1_w6_9_self.json@3abd7e79ef）。不要手改，改企劃稿再重新匯入。
+/* 自動產生：tools/story/import_self_msgs.py（docs/story_planning/AA_1029_sis_self_y1s1.json@d1b265d5cd；docs/story_planning/AA_1030_sis_self_y1s2_y2.json@1d2eaeced2；docs/story_planning/AA_1031_zr_zq_self.json@6371f44c94；docs/story_planning/AA_1032_y1s1_w6_9_self.json@3abd7e79ef；docs/story_planning/AA_1033_y1s2_y2_gap_self.json@f5bad83b18）。不要手改，改企劃稿再重新匯入。
    女主角主動傳、講她自己生活的訊息（HEROINE-LIFE-1028）；播放 src/selfmsgs3d.js */
 'use strict';
 const SELF_MSGS={
@@ -6,7 +6,8 @@ const SELF_MSGS={
   "docs/story_planning/AA_1029_sis_self_y1s1.json@d1b265d5cd",
   "docs/story_planning/AA_1030_sis_self_y1s2_y2.json@1d2eaeced2",
   "docs/story_planning/AA_1031_zr_zq_self.json@6371f44c94",
-  "docs/story_planning/AA_1032_y1s1_w6_9_self.json@3abd7e79ef"
+  "docs/story_planning/AA_1032_y1s1_w6_9_self.json@3abd7e79ef",
+  "docs/story_planning/AA_1033_y1s2_y2_gap_self.json@f5bad83b18"
  ],
  "msgs": [
   {
@@ -866,6 +867,310 @@ const SELF_MSGS={
     [
      "heroine_04",
      "完了"
+    ]
+   ]
+  },
+  {
+   "id": "yt_self_y1s2_w1",
+   "th": "p:heroine_03",
+   "term": "Y1S2",
+   "week": 1,
+   "wd": 4,
+   "h": 19.0833,
+   "day": "2026-02-26",
+   "src": "AA_1033",
+   "need": "FAMILIAR",
+   "who": "heroine_03",
+   "ms": [
+    [
+     "heroine_03",
+     "回臺北了。"
+    ],
+    [
+     "heroine_03",
+     "秀琴姨把冰箱塞滿了。"
+    ],
+    [
+     "heroine_03",
+     "我一個人要吃到下禮拜。"
+    ]
+   ]
+  },
+  {
+   "id": "zq_self_y1s2_w2",
+   "th": "p:heroine_04",
+   "term": "Y1S2",
+   "week": 2,
+   "wd": 2,
+   "h": 23.5,
+   "day": "2026-03-03",
+   "src": "AA_1033",
+   "need": "FAMILIAR",
+   "who": "heroine_04",
+   "ms": [
+    [
+     "heroine_04",
+     "這學期選了一門早八"
+    ],
+    [
+     "heroine_04",
+     "我不知道我當時在想什麼"
+    ],
+    [
+     "heroine_04",
+     "已經翹一次了"
+    ]
+   ]
+  },
+  {
+   "id": "ya_self_y1s2_w7",
+   "th": "p:heroine_01",
+   "term": "Y1S2",
+   "week": 7,
+   "wd": 6,
+   "h": 18.3333,
+   "day": "2026-04-11",
+   "src": "AA_1033",
+   "need": "FAMILIAR",
+   "who": "heroine_01",
+   "ms": [
+    [
+     "heroine_01",
+     "今天在椰影大道被問路，問法律系館怎麼走。"
+    ],
+    [
+     "heroine_01",
+     "我指了反方向。"
+    ],
+    [
+     "heroine_01",
+     "追了半條路才追到他。"
+    ]
+   ]
+  },
+  {
+   "id": "zr_self_y1s2_w8",
+   "th": "p:heroine_02",
+   "term": "Y1S2",
+   "week": 8,
+   "wd": 3,
+   "h": 22.1167,
+   "day": "2026-04-15",
+   "src": "AA_1033",
+   "need": "FAMILIAR",
+   "who": "heroine_02",
+   "ms": [
+    [
+     "heroine_02",
+     "📷（櫃檯邊一把黑色的長傘）"
+    ],
+    [
+     "heroine_02",
+     "第三天了，沒有人回來拿。"
+    ],
+    [
+     "heroine_02",
+     "店長說再一個禮拜就算店裡的。我希望有人來拿。"
+    ]
+   ]
+  },
+  {
+   "id": "zq_self_y1s2_w9",
+   "th": "p:heroine_04",
+   "term": "Y1S2",
+   "week": 9,
+   "wd": 4,
+   "h": 22.8333,
+   "day": "2026-04-23",
+   "src": "AA_1033",
+   "need": "FAMILIAR",
+   "who": "heroine_04",
+   "ms": [
+    [
+     "heroine_04",
+     "電腦送修"
+    ],
+    [
+     "heroine_04",
+     "要三天"
+    ],
+    [
+     "heroine_04",
+     "我現在用手寫作業"
+    ],
+    [
+     "heroine_04",
+     "字醜到助教應該會退件"
+    ]
+   ]
+  },
+  {
+   "id": "ya_self_y2s1_w4",
+   "th": "p:heroine_01",
+   "term": "Y2S1",
+   "week": 4,
+   "wd": 3,
+   "h": 20.6667,
+   "day": "2026-09-30",
+   "src": "AA_1033",
+   "need": "FAMILIAR",
+   "who": "heroine_01",
+   "ms": [
+    [
+     "heroine_01",
+     "讀書會今天是我帶。"
+    ],
+    [
+     "heroine_01",
+     "我準備了十二頁，講到第三頁，時間就到了。"
+    ],
+    [
+     "heroine_01",
+     "下次我只帶三頁。"
+    ]
+   ]
+  },
+  {
+   "id": "yt_self_y2s1_w5",
+   "th": "p:heroine_03",
+   "term": "Y2S1",
+   "week": 5,
+   "wd": 4,
+   "h": 19.3333,
+   "day": "2026-10-08",
+   "src": "AA_1033",
+   "need": "FAMILIAR",
+   "who": "heroine_03",
+   "ms": [
+    [
+     "heroine_03",
+     "雙主修的禮拜三，從早上八點到晚上六點。"
+    ],
+    [
+     "heroine_03",
+     "我現在帶兩個便當。"
+    ]
+   ]
+  },
+  {
+   "id": "ya_self_y2s2_w7",
+   "th": "p:heroine_01",
+   "term": "Y2S2",
+   "week": 7,
+   "wd": 4,
+   "h": 21.0833,
+   "day": "2027-04-08",
+   "src": "AA_1033",
+   "need": "FAMILIAR",
+   "who": "heroine_01",
+   "ms": [
+    [
+     "heroine_01",
+     "今天跟我媽吃飯。"
+    ],
+    [
+     "heroine_01",
+     "她問我最近在讀什麼。我說在看公司法。"
+    ],
+    [
+     "heroine_01",
+     "她說她當年最討厭那一科。我第一次聽她說討厭什麼。"
+    ]
+   ]
+  },
+  {
+   "id": "yt_self_y2s2_w8",
+   "th": "p:heroine_03",
+   "term": "Y2S2",
+   "week": 8,
+   "wd": 6,
+   "h": 17.6667,
+   "day": "2027-04-17",
+   "src": "AA_1033",
+   "need": "FAMILIAR",
+   "who": "heroine_03",
+   "ms": [
+    [
+     "heroine_03",
+     "今天有客人把整壺茶打翻。"
+    ],
+    [
+     "heroine_03",
+     "他一直道歉。"
+    ],
+    [
+     "heroine_03",
+     "蘇姨說，桌子本來就該擦了。"
+    ]
+   ]
+  },
+  {
+   "id": "zr_self_y2s2_w10",
+   "th": "p:heroine_02",
+   "term": "Y2S2",
+   "week": 10,
+   "wd": 3,
+   "h": 22.1167,
+   "day": "2027-04-28",
+   "src": "AA_1033",
+   "need": "FAMILIAR",
+   "who": "heroine_02",
+   "ms": [
+    [
+     "heroine_02",
+     "📷（一杯拉花，形狀歪歪的）"
+    ],
+    [
+     "heroine_02",
+     "新來的工讀生拉的第一杯。"
+    ],
+    [
+     "heroine_02",
+     "我跟客人說這是葉子。客人說，看得出來。"
+    ]
+   ]
+  },
+  {
+   "id": "ya_self_y2s2_w13",
+   "th": "p:heroine_01",
+   "term": "Y2S2",
+   "week": 13,
+   "wd": 3,
+   "h": 21.5,
+   "day": "2027-05-19",
+   "src": "AA_1033",
+   "need": "FAMILIAR",
+   "who": "heroine_01",
+   "ms": [
+    [
+     "heroine_01",
+     "七月的日文檢定，我報了高一級。"
+    ],
+    [
+     "heroine_01",
+     "老師看了報名表，沒有說好，也沒有說不好。"
+    ]
+   ]
+  },
+  {
+   "id": "yt_self_y2s2_w15",
+   "th": "p:heroine_03",
+   "term": "Y2S2",
+   "week": 15,
+   "wd": 3,
+   "h": 20.1667,
+   "day": "2027-06-02",
+   "src": "AA_1033",
+   "need": "FAMILIAR",
+   "who": "heroine_03",
+   "ms": [
+    [
+     "heroine_03",
+     "民法最後一堂課。"
+    ],
+    [
+     "heroine_03",
+     "我今天沒有坐最後一排。"
     ]
    ]
   }

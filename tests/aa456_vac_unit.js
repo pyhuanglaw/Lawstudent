@@ -95,7 +95,7 @@ await sec('1-3',()=>{
   for(const yk of ['Y2','Y3','Y4']){ const d=VAC.c01Day(yk), da=VAC.c01Ask(d); fresh(da,20.9); grp(); meet('zhe','yu','classmate_bohan','classmate_xinci'); H.FAMILIAR('heroine_01'); run(20.9,21.8);
     const M=(H.G.msgs||[]).filter(m=>/^vac_c01first_Y\d(_\d)?$/.test(m.tag||'')&&m.tag.slice(13,15)===yk);
     got[yk]={t:M.map(m=>m.from+':'+m.text),tags:M.map(m=>m.tag),day:keyOf(da)}; }
-  for(const yk of ['Y2','Y3','Y4']){ const R=X13[yk]||[], want=['yu:'+R[0],'yu:'+R[1],'classmate_bohan:'+R[2],'classmate_xinci:'+R[3],'heroine_01:'+R[4]], g=got[yk];
+  for(const yk of ['Y2','Y3','Y4']){ const R=(X13[yk]||[]).map(t=>require('./aa959_map.js').map(t,'vac3d.js'))/* RC2-PORT-DEV-1114：AA_959 第 703 列（柏翰「九點十分。還是那班。」，AA-B 11-14 確認照新字）*/, want=['yu:'+R[0],'yu:'+R[1],'classmate_bohan:'+R[2],'classmate_xinci:'+R[3],'heroine_01:'+R[4]], g=got[yk];
     check('1-3. '+yk.replace('Y','大').replace('2','二').replace('3','三').replace('4','四')+'（'+g.day.slice(5)+' 揪）一直沒去過：阿哲那句照 C01.first，之後「'+R.slice(0,4).join('」「')+'」、以安 FAMILIAR 在臺北「'+R[4]+'」；tag vac_c01first_'+yk+'_0～4、最後一則 vac_c01first_'+yk,
       R.length===5&&g.t.length===6&&/^zhe:禮拜[一二]去海邊？過幾天我就回高雄了$/.test(g.t[0])&&J(g.t.slice(1))===J(want)&&J(g.tags)===J([0,1,2,3,4].map(i=>'vac_c01first_'+yk+'_'+i).concat(['vac_c01first_'+yk])),J(g)); }
   const OLDS=['冬天去海邊？？','火車九點十分有一班。','我怕冷，我不去了。你們拍照。'], leak=['Y2','Y3','Y4'].filter(yk=>got[yk].t.some(t=>OLDS.some(o=>t.endsWith(':'+o))));

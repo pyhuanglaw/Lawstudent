@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """女主角「講她自己」的訊息（HEROINE-LIFE-1028；AA-1025-1027-INTEG-1114）
 企劃 AA_1029（學姊大一上三則，家族群組，第 2 則有兩個回覆選項）、AA_1030（學姊大一下～大二下九則，家族群組）、
-AA_1031（芷若六、子晴八，私訊）、AA_1032（大一上第 6～9 週以安、語彤、芷若、子晴各一則，私訊）→ src/data/self_msgs.js（SELF_MSGS）；播放 src/selfmsgs3d.js。
+AA_1031（芷若六、子晴八，私訊）、AA_1032（大一上第 6～9 週以安、語彤、芷若、子晴各一則，私訊）、AA_1033（大一下～大二下空檔 12 則，私訊）→ src/data/self_msgs.js（SELF_MSGS）；播放 src/selfmsgs3d.js。
 - 來源一定要在 docs/handoff/story_import_allow.json（路徑＋commit＋approved），不在名單就拒絕（D94 第 5 點）。
 - 句子一字照稿（只照 import_guard.read_fix 換名）。
 - t：「Y1S1 W4四 22:20（2025-09-25）」——有日期的照日期，沒有的由遊戲照學期、週次、星期算（STORY.termDay）。
@@ -16,7 +16,8 @@ sys.path.insert(0, HERE)
 import import_guard as IG
 
 FILES = ['docs/story_planning/AA_1029_sis_self_y1s1.json', 'docs/story_planning/AA_1030_sis_self_y1s2_y2.json',
-         'docs/story_planning/AA_1031_zr_zq_self.json', 'docs/story_planning/AA_1032_y1s1_w6_9_self.json']
+         'docs/story_planning/AA_1031_zr_zq_self.json', 'docs/story_planning/AA_1032_y1s1_w6_9_self.json',
+         'docs/story_planning/AA_1033_y1s2_y2_gap_self.json']   # AA_1033：大一下～大二下空檔 12 則私訊
 OUT = 'src/data/self_msgs.js'
 WD = {'日': 7, '一': 1, '二': 2, '三': 3, '四': 4, '五': 5, '六': 6}
 T_RE = re.compile(r'^(Y\dS\d) W(\d+)([日一二三四五六]) (\d\d):(\d\d)(?:（(\d{4}-\d\d-\d\d)[^）]*）)?$')

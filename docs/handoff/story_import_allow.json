@@ -11574,6 +11574,15 @@
    "task": "HEROINE-LIFE-1028",
    "kind": "json",
    "note": "大一上第 6～9 週以安、語彤、芷若、子晴各一則；AA_1031 zr_self_y1s1_1 條件降到 FAMILIAR（分支 claude/cool-heisenberg-o8kuqx）：tools/story/import_self_msgs.py → src/data/self_msgs.js（SELF_MSGS）；播放 src/selfmsgs3d.js。LAWWW-B 2026-11-14 登（AA-1025-1027-INTEG-1114）"
+  },
+  {
+   "path": "docs/story_planning/AA_1033_y1s2_y2_gap_self.json",
+   "sha": "f5bad83b18",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-11-14 定稿（BB-B 第二意見三點已改；D153）",
+   "task": "HEROINE-LIFE-1028",
+   "kind": "json",
+   "note": "大一下～大二下空檔的 12 則私訊、FAMILIAR 以上（分支 claude/cool-heisenberg-o8kuqx）：tools/story/import_self_msgs.py → src/data/self_msgs.js。LAWWW-B 2026-11-14 登（AA-1025-1027-INTEG-1114）"
   }
  ]
 }
