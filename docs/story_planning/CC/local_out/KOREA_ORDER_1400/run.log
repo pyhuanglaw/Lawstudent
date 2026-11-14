@@ -1,0 +1,14 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_shop_func_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\KOREA_ORDER_1400\out
+CC 店內功能（korea）：SHA 5b7c5ce1243746453a74cb9c984514bc134475ef；2025-10-22 14.00；Windows＋GPU ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [刀削麵 2025-10-22 14:00] 【前置／捷徑】讀檔進清州刀削麵 l118_korea（出生點）
+PASS FAIL_SETUP 檢查：[刀削麵 2025-10-22 14:00] 在店裡、有開（L118.isOpen）、不是週日  {"key": "2025-10-22", "h": 14.049, "zone": "l118_korea", "money": 22000, "pos": [2.2, 2.75], "interact": "", "toast": "現在可以自由活動了。拖搖桿或點地面走路；靠近人或門，右下角會出現按鈕。", "ui": [["ui", "10/22 週三 14:02 清州刀削麵（118 巷） ☀ 目標：今天的課：09:10 刑法總則（一）。自由活動：去圖書館、公館，或找人聊天 今天的課都結束了 $22000 一鍵 📱 💾 ☰ 跑 "], ["hud", "10/22 週三 14:02 清州刀削麵（118 巷） ☀ 目標：今天的課：09:10 刑法總則（一）。自由活動：去圖書館、公館，或找人聊天 今天的課都結束了"], ["hudR", "$22000 一鍵 📱 💾 ☰"], ["ctlR", "跑 ◎"], ["toast", "現在可以自由活動了。拖搖桿或點地面走路；靠近人或門，右下角會出現按鈕。"]], "wash": null, "washDay": null, "open": true}
+PASS FAIL_SETUP 檢查：[刀削麵 2025-10-22 14:00] 第 1 碗 找得到互動點 /^點餐/
+  [  50.7s] 到達「點餐（清州刀削麵）」附近（0.31 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [  51.4s] [刀削麵 2025-10-22 14:00] 第 1 碗 走到「點餐（清州刀削麵）」(-0.20, -2.20)：人在 [-0.11, -1.9]、互動鍵「坐下」
+  [  51.4s] [刀削麵 2025-10-22 14:00] 第 1 碗 互動鍵不是它（坐下），再靠近一點
+  [  54.1s] 到達「點餐（清州刀削麵）」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+FAIL 沒有中斷  Error('Page.evaluate: ReferenceError: __BBF is not defined\n    at eval (eval at evaluate (:370:30), <anonymous>:1:11)\n    at UtilityScript.evaluate (<anonymous>:377:18)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)')
+PASS 沒有 JS 例外  []
+FAILED 1: 沒有中斷
