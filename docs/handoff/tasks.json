@@ -56541,7 +56541,7 @@
    "id": "L118-SEAT-FIX-1112",
    "title": "118 巷座位小問題（和鏡頭無關）：118牛排 #1 起身被推到 5.4 m 外（fb 備援）P2、辛亥韓食 #6 坐下偏 0.5 m P2、幾張點椅子停錯張 P3",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -56564,7 +56564,8 @@
     "spec": "BB_379",
     "acceptance": "起身落在椅子旁邊、坐下對準椅子、點哪張走哪張；CC ALLSEATS PASS",
     "ack": "DELIVERED"
-   }
+   },
+   "note": "2026-11-14 00:2x LAWWW-C：r4（LAWWW2 853e7e3d86）已在 d8d3a61b5e 整合；l118_seat_* 等 7 支 ALL PASS（LAWWW2 在 e0525231f6 跑）。待 CC 重跑 L118_CAM36_a／b（辛亥韓食 #6／#12、大學食堂 #5／#6／#8）。"
   },
   {
    "id": "RONG-SIGN-1112",
