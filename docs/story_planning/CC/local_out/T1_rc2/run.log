@@ -1,0 +1,72 @@
+隨機玩家快轉：root=C:\Users\USER\Documents\wt_cc_T1_rc2　track=law　2025-08-22 → 2026-06-30　種子 1,2,3,4,5,6,7,8　同時 4 個
+遊戲版本：d5a12a9a62 d158_rc2_rows：_meta.use 寫清楚哪些測試怎麼用這份
+種子   1  PASS  1173.7 秒  到 2026-07-01  步數 23376  格數 471792
+種子   2  PASS  1287.0 秒  到 2026-07-01  步數 23806  格數 539064
+種子   4  PASS  1288.1 秒  到 2026-07-05  步數 26393  格數 517111
+種子   3  PASS  1379.2 秒  到 2026-07-01  步數 25380  格數 546437
+種子   5  PASS  1172.8 秒  到 2026-07-01  步數 21484  格數 461834
+種子   6  PASS  1136.9 秒  到 2026-07-01  步數 25183  格數 491954
+種子   7  PASS  1485.0 秒  到 2026-07-01  步數 26186  格數 517925
+種子   8  PASS  1441.7 秒  到 2026-07-01  步數 26046  格數 515662
+
+================ 總結 ================
+種子   1  PASS  1173.7 秒  到 2026-07-01  步數 23376  格數 471792
+種子   2  PASS  1287.0 秒  到 2026-07-01  步數 23806  格數 539064
+種子   3  PASS  1379.2 秒  到 2026-07-01  步數 25380  格數 546437
+種子   4  PASS  1288.1 秒  到 2026-07-05  步數 26393  格數 517111
+種子   5  PASS  1172.8 秒  到 2026-07-01  步數 21484  格數 461834
+種子   6  PASS  1136.9 秒  到 2026-07-01  步數 25183  格數 491954
+種子   7  PASS  1485.0 秒  到 2026-07-01  步數 26186  格數 517925
+種子   8  PASS  1441.7 秒  到 2026-07-01  步數 26046  格數 515662
+PASS 8／8　總時間 2820.9 秒（每個種子平均 1295.5 秒）
+
+---------- 注意（不算 FAIL：遊戲自己有保底或只是提示）----------
+  2139 次（種子 1,2,3,4,5,6,7,8）3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗　例：unknown asset prop.bike_ride（2025-08-30 07:47 lane118）
+  1844 次（種子 1,2,3,4,5,6,7,8）立繪缺檔 → 用 neutral（素材，不算）　例：portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）
+  265 次（種子 1,2,3,4,5,6,7,8）星期和日期對不上（syncWeekday 改回來）　例：星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）
+  224 次（種子 1,2,3,4,5,6,7,8）3D／素材相關的例外（不算，假的 THREE）：滷味攤模型載入失敗　例：NO_NET（random_play_sim 不下載素材）（2025-09-17 21:06 gongguan）
+  86 次（種子 1,2,3,4,5,6,7,8）3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-09-04 18:45 cafe）
+  58 次（種子 1,2,3,4,5,6,7,8）3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-09-16 12:15 afar）
+  49 次（種子 1,2,3,4,5,6,7,8）說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）　例：說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-09-03 08:02 dorm）
+  45 次（種子 2,3,4,6,8）3D／素材相關的例外（不算，假的 THREE）：頁間書屋 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2026-05-30 21:07 bookstore）
+  29 次（種子 1,2,3,4,5,6,7,8）3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-12-07 21:22 cvs）
+  23 次（種子 1,2,3,4,6,7,8）3D／素材相關的例外（不算，假的 THREE）：洋洋鹹酥雞 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-10-16 21:08 yangyang）
+  22 次（種子 1,4,6,7,8）3D／素材相關的例外（不算，假的 THREE）：青木茶室 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-10-26 18:45 aoki）
+  13 次（種子 1,2,3,4,5,6,8）3D／素材相關的例外（不算，假的 THREE）：日常失速 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-12-19 20:16 wz_offbeat）
+  10 次（種子 2,3,6,7）3D／素材相關的例外（不算，假的 THREE）：公館燒臘室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2026-03-20 20:48 noodle）
+  8 次（種子 4,6）3D／素材相關的例外（不算，假的 THREE）：轉角唱片 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2026-04-29 20:11 corner_records）
+  7 次（種子 3,4,7,8）console.warn：MOVIES 海報載入失敗 assets/posters/m2605a.webp　例：MOVIES 海報載入失敗 assets/posters/m2605a.webp（2026-05-04 21:44 xs_nanyang）
+  7 次（種子 3,4,7,8）console.warn：MOVIES 海報載入失敗 assets/posters/m2605b.webp　例：MOVIES 海報載入失敗 assets/posters/m2605b.webp（2026-05-04 21:44 xs_nanyang）
+  5 次（種子 1,6,7）3D／素材相關的例外（不算，假的 THREE）：阿德影印輸出 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-10-16 20:37 wz_print）
+  5 次（種子 1,2,3,4,6）對話重疊：一句話還沒點，另一段的話蓋上來（game3d.js 會在演完後放回去）　例：一句話還沒點，另一段的話蓋上來，演完會放回去（2026-05-19 18:33 l118_noodle2）
+  5 次（種子 3,4,5,6）console.warn：MOVIES 海報載入失敗 assets/posters/m2601a.webp　例：MOVIES 海報載入失敗 assets/posters/m2601a.webp（2026-01-11 18:34 xs_nanyang）
+  5 次（種子 3,4,5,6）console.warn：MOVIES 海報載入失敗 assets/posters/m2601b.webp　例：MOVIES 海報載入失敗 assets/posters/m2601b.webp（2026-01-11 18:34 xs_nanyang）
+  4 次（種子 1,4,5,6）console.warn：MOVIES 海報載入失敗 assets/posters/m2511a.webp　例：MOVIES 海報載入失敗 assets/posters/m2511a.webp（2025-11-01 21:02 xs_nanyang）
+  4 次（種子 1,4,5,6）console.warn：MOVIES 海報載入失敗 assets/posters/m2511b.webp　例：MOVIES 海報載入失敗 assets/posters/m2511b.webp（2025-11-01 21:02 xs_nanyang）
+  4 次（種子 2,5,8）3D／素材相關的例外（不算，假的 THREE）：林家乾麵 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2026-02-11 18:32 wz_lin）
+  4 次（種子 4,5,6,8）migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.l118.mv772　例：G.l118.mv772：undefined → 2（2025-09-04 19:31 classroom）
+  4 次（種子 6,7,8）console.warn：MOVIES 海報載入失敗 assets/posters/m2603a.webp　例：MOVIES 海報載入失敗 assets/posters/m2603a.webp（2026-03-27 20:18 xs_nanyang）
+  4 次（種子 6,7,8）console.warn：MOVIES 海報載入失敗 assets/posters/m2603b.webp　例：MOVIES 海報載入失敗 assets/posters/m2603b.webp（2026-03-27 20:18 xs_nanyang）
+  3 次（種子 6,7,8）3D／素材相關的例外（不算，假的 THREE）：Daybreak 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-12-23 09:31 daybreak）
+  2 次（種子 4,6）3D／素材相關的例外（不算，假的 THREE）：小路 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2026-03-30 20:51 wz_teishoku）
+  2 次（種子 4,6）3D／素材相關的例外（不算，假的 THREE）：一盞 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2026-06-06 15:32 wz_teahouse）
+  2 次（種子 4,8）3D／素材相關的例外（不算，假的 THREE）：SUNNY SIDE 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2026-06-20 12:26 wz_brunch）
+  1 次（種子 3）console.warn：MOVIES 海報載入失敗 assets/posters/m2509a.webp　例：MOVIES 海報載入失敗 assets/posters/m2509a.webp（2025-10-25 21:57 xs_nanyang）
+  1 次（種子 3）console.warn：MOVIES 海報載入失敗 assets/posters/m2509b.webp　例：MOVIES 海報載入失敗 assets/posters/m2509b.webp（2025-10-25 21:57 xs_nanyang）
+  1 次（種子 3）migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.pool.secret.pool_3　例：G.pool.secret.pool_3：undefined → "none"（2026-05-23 20:31 dorm）
+  1 次（種子 4）migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.GG3_REN　例：G.flags.GG3_REN：undefined → true（2025-09-04 19:31 classroom）
+  1 次（種子 4）選單重疊：一個選單蓋在另一個還沒選的選單上　例：選單蓋在另一個還沒選的選單上，選完會放回去（2025-12-11 19:07 dorm）
+  1 次（種子 4）walkTo 卡住 → 放到目的地（走路保底）　例：walkTo 卡住 → 放到目的地 player →（2026-02-16 22:59 dorm_hall）
+  1 次（種子 5）migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.ROMANCE_HISTORY　例：G.flags.ROMANCE_HISTORY：undefined → []（2025-08-30 12:01 dorm）
+  1 次（種子 5）migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.CLEANUP_DONE　例：G.flags.CLEANUP_DONE：undefined → true（2025-08-30 12:01 dorm）
+  1 次（種子 5）migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.romance　例：G.flags.romance：undefined → {"kexin":{"status":"none","since":null,"knows":[],"suspicion":0,"history":[]}}（2025-08-30 12:01 dorm）
+  1 次（種子 5）migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.knowsRel_V　例：G.flags.knowsRel_V：undefined → 1（2025-08-30 12:01 dorm）
+  1 次（種子 5）migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.knowsRel　例：G.flags.knowsRel：undefined → {}（2025-08-30 12:01 dorm）
+  1 次（種子 5）migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.ytKnows　例：G.flags.ytKnows：undefined → {}（2025-08-30 12:01 dorm）
+  1 次（種子 5）migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.YT_CONFESSED　例：G.flags.YT_CONFESSED：undefined → {}（2025-08-30 12:01 dorm）
+  1 次（種子 5）migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.YT_PROMISED　例：G.flags.YT_PROMISED：undefined → {}（2025-08-30 12:01 dorm）
+  1 次（種子 5）migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.YT_BROKE_PROMISE　例：G.flags.YT_BROKE_PROMISE：undefined → {}（2025-08-30 12:01 dorm）
+  1 次（種子 5）migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.YT_LIED　例：G.flags.YT_LIED：undefined → {}（2025-08-30 12:01 dorm）
+  1 次（種子 5）migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.OPEN_OK　例：G.flags.OPEN_OK：undefined → {}（2025-08-30 12:01 dorm）
+  1 次（種子 5）migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.YT_HONEST　例：G.flags.YT_HONEST：undefined → {}（2025-08-30 12:01 dorm）
+  1 次（種子 5）migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.YT_DODGED　例：G.flags.YT_DODGED：undefined → {}（2025-08-30 12:01 dorm）

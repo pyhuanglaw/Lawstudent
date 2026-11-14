@@ -1,12 +1,3 @@
-[22:25:55] skip W24_outing_r3 (already done on ecc3e12a798dfab4af60e85fac29b93e5f2d7321)
-[22:25:55] skip W24_invgo (already done on ecc3e12a798dfab4af60e85fac29b93e5f2d7321)
-[22:25:55] skip W24_invgo_real (already done on ecc3e12a798dfab4af60e85fac29b93e5f2d7321)
-[22:25:56] skip W24_newfeat_05a (already done on 05a715eaddcb6ad0cc7c838cad3cb5b33fdca205)
-[22:25:56] skip POOL_SWIM (already done on 2c37122b682225cbf5ec82e84d3746a43adb12c8)
-[22:25:56] skip POOL_SWIM_base (already done on ecc3e12a798dfab4af60e85fac29b93e5f2d7321)
-[22:25:56] skip W24_movie_real (already done on 05a715eaddcb6ad0cc7c838cad3cb5b33fdca205)
-[22:25:56] skip X315_pre_new (already done on 4cea422cb2efb8184c056fd9bc6c1f868c916be6)
-[22:25:56] skip X315_pre_old (already done on ecc3e12a798dfab4af60e85fac29b93e5f2d7321)
 [22:25:56] skip FIX_ggnav (already done on aa691df333d23bc46abb9445c249090d4b57f3d1)
 [22:25:56] skip FIX_day2an (already done on aa691df333d23bc46abb9445c249090d4b57f3d1)
 [22:25:56] skip FIX_capgap_new (already done on aa691df333d23bc46abb9445c249090d4b57f3d1)
@@ -1998,3 +1989,12 @@
 [09:11:19] worktree add 4a97c2a33f2caf6ef74bb5ebcea4d042cf35a2f2: invalid reference - fetching main and the commit itself
 [09:11:54] 正在跑：T1_rc2（已跑 41 分／上限 120 分）、GATE2_CC0_c_0c49（已跑 3 分／上限 50 分）、GATE2_GG_PAVE_4a97（已跑 0 分／上限 35 分）——還沒測完，請不要關 (tests still running - please do not close)
 [09:15:23] [res] cpu=14% mem=41% (12.9/31.4 GB) chrome_testing=5  END GATE2_GG_PAVE_4a97
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       a78486ff0a..9fdf393119  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:15:33] ==== END   GATE2_GG_PAVE_4a97  exit=0  247s   ====
+[09:15:46] memory 42% before starting GATE2_YANGYANG_0c49 (2 running)
+[09:15:46] ==== START GATE2_YANGYANG_0c49  (probe @ 0c49bcf64ee779dc66efce1809455f57dfe0e010) ====
+[09:15:49] [res] cpu=9% mem=42% (13.3/31.4 GB) chrome_testing=5  START GATE2_YANGYANG_0c49
+[09:16:54] 正在跑：T1_rc2（已跑 46 分／上限 120 分）、GATE2_CC0_c_0c49（已跑 8 分／上限 50 分）、GATE2_YANGYANG_0c49（已跑 1 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:18:29] [res] cpu=5% mem=44% (14.0/31.4 GB) chrome_testing=10  END T1_rc2

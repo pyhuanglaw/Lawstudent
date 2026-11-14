@@ -1,0 +1,25 @@
+{
+  "rerun": "",
+  "id": "T1_rc2",
+  "sha": "d5a12a9a626a640470107a20413128f7c4829b3b",
+  "kind": "node",
+  "script": "docs/story_planning/test_tools/cc/random_play_sim.js",
+  "env": "XARGS=--track law --seeds 8 --from 2025-08-22 --to 2026-06-30 --jobs 4 --root . --json {out}/t1.json --out {out}",
+  "machine": "MSI",
+  "start": "2026-11-14T08:30:50",
+  "end": "2026-11-14T09:18:29",
+  "seconds": 2859,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8800/index.html",
+  "res_peak": {
+    "cpu": 41,
+    "mem": 58,
+    "used_gb": 18.4,
+    "chrome_testing": 10
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false
+}
