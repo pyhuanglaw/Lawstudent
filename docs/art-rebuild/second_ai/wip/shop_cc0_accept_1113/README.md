@@ -222,3 +222,12 @@
 - **疊面**：用新工具跑，先不加 --write 新的問題 0，再 --coplanar --write 只有 sha1 變（always 維持 7.45）。
 - **測試**：19 支 ALL PASS，包括 tongxian_unit、tongxian_closed、xs_tongxian_view、xs_tongxian_sign、aa619_guitar ×2、xs_lm（同弦 30 份實例＋新生運動廣場 58）、seat_reach、shop_npc、shop_window3d、place_gate、shop_cc0。
 - **畫面**：`tongxian_cmp.jpg`，改動不大：工作檯上多了烏克麗麗、架上的紙箱，木頭和金屬改 CC0 材質組。
+
+## 頁間書屋 v4（g2 389adca8c0）——驗收 PASS（11-14 10:0x UTC）
+- **patch**：`yejian_v4_on_coplanar_instancing.patch`，疊在 glb_coplanar 工具那包之後（底＝6f4cf29026＋工具那包；和同弦那包互不相干，先後都可以）。
+- **衝突**：LICENSES 兩邊都留（新生運動廣場的列和頁間的列）；狀態表、疊面基準用新工具重算。
+- **三項**：shop_cc0 過（Poly Haven `potted_plant_02`、`CashRegister_01`；ambientCG Fabric030、Metal009、Plastic006、Marble012；純色零件 13%）。
+- **疊面**：先跑 place_gate（不加 --write）新的問題 0，再 --coplanar --write：always 6.88 → 6.80，牆 0.7 不變。
+- **測試**：有提到 yejian／gongguan_book 的 24 支 ALL PASS。
+- **畫面**（`yejian_cmp.jpg`）：咖啡吧換成雙孔義式機、收銀機、大理石檯面；門口大盆換掃描盆栽，比原本的葉片卡好很多。
+- **小盆栽的判斷**：小盆栽（櫃上、桌上那幾盆）仍是葉片卡。g2 試過 Poly Haven `potted_plant_04`，減到 300 面以下會變成一團灰。這幾盆很小、在背景，不是方塊，所以這次不退件。記一筆 P3：找面數低的 CC0 小盆栽，或把 `potted_plant_02` 縮小重用。
