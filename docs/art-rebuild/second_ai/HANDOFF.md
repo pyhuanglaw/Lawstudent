@@ -11,6 +11,7 @@
 - PHONE-MAP-ART-1113（LAWWW-C 11-13 20:2x 開、暫停五欄在 tasks.json）：手機「地點」正式美術地圖；恢復條件：SHOP-REALISM-1112 剩下的店交完或下一次發布，取早的；下次檢查 11-20。
 
 ### 下一班第一件事（任務 ID，照順序）
+0q. **（11-14 01:1x UTC）** WINVIEW-AUDIT-1105 最後一批（公館安泰、汀州鮮果、榮恩典）交 5be14598a1（`wip/winview_gg3_1114/`）→ 整合後只剩 CC 拍、BB 判。慢輪窗景（984cd2ba8d）、LICENSES 去重（42100c21e1）、慢輪單車 CC0（ccbd520b61）已整合。`--gg-street` 現在有人行道地磚紋。
 0p. **（11-14 00:5x UTC）交件 patch 都在本分支 `claude/focused-cray-c9uwvw`（不是 second-ai-env-art）的 `docs/art-rebuild/second_ai/wip/` 底下。**
   - 已整合（LAWWW-C）：日常失速 v2.1、GG-STREET-TREES 四間窗景（0c49bcf64e，已整合待測試）、洋洋 v2b（d58846ba9a）、L118-SEAT-FIX-1112（總表 b4b3fa3809 改已整合待測試）。
   - 交了等整合：慢輪單車 CC0（4fd3c0d98d，`wip/shop_cc0_accept_1113/bike_cc0_on_0c49bcf64e.patch`）。
