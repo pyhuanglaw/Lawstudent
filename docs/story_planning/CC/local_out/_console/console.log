@@ -1,11 +1,3 @@
-[17:45:55] skip NAV_CAMPUS_notch_rev_r2 (already done on 21a0319ca1c56ff22e8c15cd1b1db9fc87dddd49)
-[17:45:55] skip FIRST_sunny_desk (already done on 07f294852ffac8d2bba2664ba9ed4eb2753834bd)
-[17:45:55] skip FIRST_sunny_touch (already done on 07f294852ffac8d2bba2664ba9ed4eb2753834bd)
-[17:45:55] skip FIRST_gg_desk (already done on 07f294852ffac8d2bba2664ba9ed4eb2753834bd)
-[17:45:55] skip FIRST_gg_touch (already done on 07f294852ffac8d2bba2664ba9ed4eb2753834bd)
-[17:45:55] skip FIRST_xs_desk (already done on 07f294852ffac8d2bba2664ba9ed4eb2753834bd)
-[17:45:55] skip FIRST_xs_touch (already done on 07f294852ffac8d2bba2664ba9ed4eb2753834bd)
-[17:45:55] skip YEJIAN_r2_card (already done on 07f294852ffac8d2bba2664ba9ed4eb2753834bd)
 [17:45:55] skip YEJIAN_r2_cafe (already done on 07f294852ffac8d2bba2664ba9ed4eb2753834bd)
 [17:45:55] skip WZ_REAL_r3 (already done on 322a41f49957a87aeaf9aa9f9b76cc2d02bbec55)
 [17:45:55] skip SHAOLA_r2_sign_2030 (already done on 9f331db43858fe6c58021a3419820c81efeb7bb4)
@@ -1998,3 +1990,11 @@
 [20:50:46] [res] cpu=6% mem=48% (15.1/31.4 GB) chrome_testing=9  START WZ_REAL_r5
 [20:50:55] 正在跑：AA_SCENES_DATE_r3（已跑 13 分／上限 30 分）、WINVIEW_GG3_dev（已跑 1 分／上限 25 分）、WZ_REAL_r5（已跑 0 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [20:51:55] [res] cpu=2% mem=50% (15.8/31.4 GB) chrome_testing=9  END WINVIEW_GG3_dev
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       31bc168795..b4c0c16516  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:52:04] ==== END   WINVIEW_GG3_dev  exit=0  139s   ====
+[20:52:19] memory 48% before starting LIMAO_DOOR_r1 (2 running)
+[20:52:19] ==== START LIMAO_DOOR_r1  (probe @ c109767aaeeb910d28d9e15b04906a82ea43b7f7) ====
+[20:52:22] [res] cpu=6% mem=48% (15.2/31.4 GB) chrome_testing=9  START LIMAO_DOOR_r1
+[20:54:25] [res] cpu=10% mem=49% (15.7/31.4 GB) chrome_testing=10  END WZ_REAL_r5
