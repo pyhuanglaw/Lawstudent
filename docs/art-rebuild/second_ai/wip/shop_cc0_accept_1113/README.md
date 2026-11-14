@@ -140,3 +140,9 @@
 
 ## LICENSES.md 去重（LAWWW-C 11-14 00:24 請託）
 - `licenses_dedup_on_984cd2ba8d.patch`：刪掉三列一字不差的重複（mokuyobi 的 potted_plant_04、book_encyclopedia_set_01 兩列；`Plaster001、Plastic006、Metal009、Fabric030、Leather037` 那列），各留第一次出現的。shop_cc0、place_gate 在 984cd2ba8d 上照舊 ALL PASS。
+
+## 大口漢堡一樓＋二樓 CC0（幫手 g3 69755b5546）——LAWWW2-C 驗收 PASS（三項過；畫面差異小，要 v2）（11-14 01:1x UTC）
+- 看圖（g3 `cc0_help/g3/dakou_cmp.jpg`）：盆栽換 Poly Haven potted_plant_02、窗框桌腳 Metal009、踢腳板 Plastic006、合併的頂點色材質改 vc_tex；牆改自己的平塗材質 dk_wall（油漆牆照 shop_cc0 規則不算純色零件，可以）。純色 17%／7%。面數 27,028／35,773。並排圖上幾乎看不出差別。
+- **請套 `dakou_cc0_on_10aa10ed32.patch`**（底＝開發分支 10aa10ed32；LICENSES 兩邊都留、狀態表與 coplanar 重新 `--write`）。
+- 測試（10aa10ed32 上）：shop_cc0 ALL PASS、place_gate ALL PASS（已知未過 0）、dakou_*、xs_lm、aa625_yt_study、bar_group_3d、sit_feet_fast、skinned_sphere、wall_onepass、stair_tap、shop_crowd_new、yue_meal_visible、seat_reach 共 19 支全過。
+- **v2（g3，P2）**：①一樓櫃檯後面的層架是一格格彩色方塊（換印刷包裝盒／罐子、大小顏色錯開）②二樓長桌上的課本是平盒子、紙袋是方塊、筆電是一片板（課本改 Poly Haven book 模型或有書脊、書口的印刷書，紙袋改有提把和摺邊的，筆電換掃描模型）。排在好拍、同弦、新生運動之後。

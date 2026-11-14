@@ -10230,6 +10230,25 @@
    "tests": "tz_shop_views_1112、viewpanes、gg_views、wz_views、place_gate ALL PASS",
    "notDone": "LAWWW 整合；CC 三間窗外拍；BB 判",
    "next": "LAWWW 套 winview_gg3.patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "PENDING",
+   "receiver": "LAWWW-C、幫手 g3",
+   "ack": "DELIVERED",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "驗收 PASS 大口漢堡一樓＋二樓 CC0（g3 69755b5546；三項過、畫面差異小，v2 換層架方塊、桌上課本紙袋筆電）；在 10aa10ed32 上重出 patch",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/dakou_cc0_on_10aa10ed32.patch",
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/README.md"
+   ],
+   "base": "10aa10ed32",
+   "at": "2026-11-14T01:15Z",
+   "tests": "shop_cc0、place_gate（已知未過 0）、19 支 Node 全過",
+   "notDone": "LAWWW 整合；CC 第二層；BB 判；v2",
+   "next": "LAWWW 套 dakou_cc0_on_10aa10ed32.patch"
   }
  ]
 }
