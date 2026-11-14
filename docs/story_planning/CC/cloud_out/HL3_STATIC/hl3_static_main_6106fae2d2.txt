@@ -1,0 +1,453 @@
+# HL3_STATIC 女主角主動傳的訊息清單（CC-B，2026-11-14T13:37Z）
+# 遊戲根目錄 /tmp/claude-0/-home-user-lawstudent/26824e79-fff3-5e1b-9f21-8c06a0db05c0/scratchpad/wt_main
+# git 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+# 載入失敗的檔： [["src/character3d.js","ERR THREE.Color is not a constructor"],["src/townkit3d.js","ERR THREE_JSM is not defined"],["src/zones3d.js","ERR Cannot read properties of undefined (reading 'lights_fragment_maps')"],["src/mokuyobi3d.js","ERR Z3 is not defined"],["src/building3d.js","ERR Z3 is not defined"],["src/wancai3d.js","ERR Z3 is not defined"],["src/library3d.js","ERR Z3 is not defined"],["src/dorm3d.js","ERR Z3 is not defined"],["src/lawlib3d.js","ERR Z3 is not defined"],["src/soclib3d.js","ERR Z3 is not defined"],["src/soclib2f3d.js","ERR Z3 is not defined"],["src/gym3d.js","ERR Z3 is not defined"],["src/teach3d.js","ERR Z3 is not defined"],["src/l118_shops3d.js","ERR Z3 is not defined"],["src/linze_upper3d.js","ERR Z3 is not defined"],["src/rooms_glb3d.js","ERR Z3 is not defined"],["src/us3d.js","ERR Z3 is not defined"],["src/bike3d.js","ERR (intermediate value).normalize is not a function"]]
+
+## A　STORY.DAILY_PHONE（每天的手機小事；一天最多一則，輪流；ok＝那天成立的條件）
+# 共 151 則（全部的人）
+
+### dp_kevin_video ｜誰：學姊 ｜term：undefined ｜時間 h：function(G){ const v=h0.apply(this,arguments); return G&&S.inJapan(G)&&STORY.tzOffset?v+(STORY.tzOffset(G)||0):v; }
+    ok：G=>PHONE.inGroup(G,'family_law')
+    - [kevin｜g:family_law｜第 0 次] 📹（一隻貓把桌上的筆一支一支推下去）
+    - [學姊｜g:family_law｜第 0 次] 收到。
+    - [kevin｜g:family_law｜第 1 次] 📹（一隻柯基在海邊追浪，又被浪追回來）
+    - [kevin｜g:family_law｜第 2 次] 補習班的學生問我律師是不是很賺 我說等我考上再告訴你
+    - [kevin｜g:family_law｜第 3 次] 今天在法圖趴著睡 醒來臉上印著考古題 民法第一百八十四條
+
+### dp_ziqing_five ｜誰：子晴 ｜term：undefined ｜時間 h：function(G){ const v=h0.apply(this,arguments); return G&&S.inJapan(G)&&STORY.tzOffset?v+(STORY.tzOffset(G)||0):v; }
+    ok：(G,day)=>PHONE.inGroup(G,'guitar')&&actOn('club_guitar',day)
+    - [子晴｜g:guitar｜第 0 次] 今天社課
+    - [子晴｜g:guitar｜第 0 次] 練 C 和弦
+    - [子晴｜g:guitar｜第 0 次] 不會的不准走喔
+
+### dp_ziqing_black ｜誰：子晴 ｜term：undefined ｜時間 h：function(G){ const v=h0.apply(this,arguments); return G&&S.inJapan(G)&&STORY.tzOffset?v+(STORY.tzOffset(G)||0):v; }
+    ok：G=>PHONE.inGroup(G,'guitar')&&!!G.flags.ZIQING_MAKING_SOMETHING
+    - [子晴｜g:guitar｜第 0 次] 📷（截圖：畫面全黑，角落只有一個小小的插座）
+    - [子晴｜g:guitar｜第 0 次] 不要問。
+
+### dp_zhiruo_latte ｜誰：芷若 ｜term：undefined ｜時間 h：function(G){ const v=h0.apply(this,arguments); return G&&S.inJapan(G)&&STORY.tzOffset?v+(STORY.tzOffset(G)||0):v; }
+    ok：G=>gotBefore(G,'heroine_02')
+    - [芷若｜p:heroine_02｜第 0 次] 欸今天超好笑
+    - [芷若｜p:heroine_02｜第 0 次] 有個客人一進來就說『跟昨天一樣』
+    - [芷若｜p:heroine_02｜第 0 次] 我根本不知道他昨天是誰
+    - [芷若｜p:heroine_02｜第 0 次] 我就隨便做了拿鐵
+    - [芷若｜p:heroine_02｜第 0 次] 他說對
+
+### dp_zq_a1 ｜誰：子晴 ｜term：undefined ｜時間 h：function(G){ const v=h0.apply(this,arguments); return G&&S.inJapan(G)&&STORY.tzOffset?v+(STORY.tzOffset(G)||0):v; }
+    ok：(G,day)=>fl('heroine_04')==='ACQUAINTANCE'&&PHONE.inGroup(G,'guitar')&&actOn('club_guitar',day+1)
+    - [子晴｜g:guitar｜第 0 次] 明天社課 19:00。B館一樓。帶琴。
+
+### dp_zq_a2 ｜誰：子晴 ｜term：undefined ｜時間 h：function(G){ const v=h0.apply(this,arguments); return G&&S.inJapan(G)&&STORY.tzOffset?v+(STORY.tzOffset(G)||0):v; }
+    ok：G=>fl('heroine_04')==='ACQUAINTANCE'&&PHONE.inGroup(G,'guitar')
+    - [子晴｜g:guitar｜第 0 次] 📎 練習曲_v2.pdf
+    - [子晴｜g:guitar｜第 0 次] 新的譜。
+
+### dp_zq_f1 ｜誰：子晴 ｜term：undefined ｜時間 h：function(G){ const v=h0.apply(this,arguments); return G&&S.inJapan(G)&&STORY.tzOffset?v+(STORY.tzOffset(G)||0):v; }
+    ok：G=>fl('heroine_04')==='FAMILIAR'&&gotBefore(G,'heroine_04')
+    - [子晴｜p:heroine_04｜第 0 次] 滷味
+    - [子晴｜p:heroine_04｜第 0 次] 十點後半價
+    - [子晴｜p:heroine_04｜第 0 次] 你要來嗎
+
+### dp_zq_f2 ｜誰：子晴 ｜term：undefined ｜時間 h：function(G){ const v=h0.apply(this,arguments); return G&&S.inJapan(G)&&STORY.tzOffset?v+(STORY.tzOffset(G)||0):v; }
+    ok：G=>fl('heroine_04')==='FAMILIAR'&&gotBefore(G,'heroine_04')
+    - [子晴｜p:heroine_04｜第 0 次] 我的貓
+    - [子晴｜p:heroine_04｜第 0 次] 卡在牆裡
+    - [子晴｜p:heroine_04｜第 0 次] 出不來
+    - [子晴｜p:heroine_04｜第 0 次] ……不用回
+
+### dp_zq_r1 ｜誰：子晴 ｜term：undefined ｜時間 h：function(G){ const v=h0.apply(this,arguments); return G&&S.inJapan(G)&&STORY.tzOffset?v+(STORY.tzOffset(G)||0):v; }
+    ok：G=>fl('heroine_04')==='FRIEND'&&gotBefore(G,'heroine_04')
+    - [子晴｜p:heroine_04｜第 0 次] 你聽過這首嗎
+    - [子晴｜p:heroine_04｜第 0 次] 📎（一段吉他錄音）
+    - [子晴｜p:heroine_04｜第 0 次] 我自己錄的 很爛不要笑
+
+### dp_zq_c1 ｜誰：子晴 ｜term：undefined ｜時間 h：function(G){ const v=h0.apply(this,arguments); return G&&S.inJapan(G)&&STORY.tzOffset?v+(STORY.tzOffset(G)||0):v; }
+    ok：G=>fl('heroine_04')==='CLOSE_FRIEND'&&gotBefore(G,'heroine_04')
+    - [子晴｜p:heroine_04｜第 0 次] 你今天有吃飯嗎
+
+### dp_zq_c2 ｜誰：子晴 ｜term：undefined ｜時間 h：function(G){ const v=h0.apply(this,arguments); return G&&S.inJapan(G)&&STORY.tzOffset?v+(STORY.tzOffset(G)||0):v; }
+    ok：(G,day)=>fl('heroine_04')==='CLOSE_FRIEND'&&gotBefore(G,'heroine_04')&&(CALENDAR.termOf(day)||{}).exam==='final'
+    - [子晴｜p:heroine_04｜第 0 次] 期末考還好嗎
+    - [子晴｜p:heroine_04｜第 0 次] 不用回很長
+
+### dp_zr_cocoa_y1s2 ｜誰：芷若 ｜term：t=>t.id==='Y1S2' ｜時間 h：function(G){ const v=h0.apply(this,arguments); return G&&S.inJapan(G)&&STORY.tzOffset?v+(STORY.tzOffset(G)||0):v; }
+    ok：G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_02','ASKED_HER_DRINK')&&gotBefore(G,'heroine_02')
+    - [芷若｜p:heroine_02｜第 0 次] 今天有客人點熱可可加濃縮欸
+    - [芷若｜p:heroine_02｜第 0 次] 我還以為只有我會這樣喝
+
+### dp_zr_art_y1s2 ｜誰：芷若 ｜term：t=>t.id==='Y1S2' ｜時間 h：function(G){ const v=h0.apply(this,arguments); return G&&S.inJapan(G)&&STORY.tzOffset?v+(STORY.tzOffset(G)||0):v; }
+    ok：G=>gotBefore(G,'heroine_02')
+    - [芷若｜p:heroine_02｜第 0 次] 📷（拉花）
+
+### dp_zq_cat03_y1s2 ｜誰：子晴 ｜term：t=>t.id==='Y1S2' ｜時間 h：function(G){ const v=h0.apply(this,arguments); return G&&S.inJapan(G)&&STORY.tzOffset?v+(STORY.tzOffset(G)||0):v; }
+    ok：G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_04','PLAYTESTED')&&gotBefore(G,'heroine_04')
+    - [子晴｜p:heroine_04｜第 0 次] 📎 cat_v0.3
+    - [子晴｜p:heroine_04｜第 0 次] 這版比較不會當機
+
+### dp_y2_sis_hotwater ｜誰：學姊 ｜term：T=>!!T&&/^Y2S[12]$/.test(T.id) ｜時間 h：function(G){ const v=h0.apply(this,arguments); return G&&S.inJapan(G)&&STORY.tzOffset?v+(STORY.tzOffset(G)||0):v; }
+    ok：(G,day)=>ok(G,day==null?G.day:day)
+    - [kevin｜g:family_law｜第 0 次] 📷（學姊桌上的保溫瓶）
+    - [kevin｜g:family_law｜第 0 次] 學姊今天裝熱水欸
+    - [學姊｜g:family_law｜第 0 次] 偶爾。
+
+### dp_y2_zq_lab ｜誰：子晴 ｜term：T=>!!T&&/^Y2S[12]$/.test(T.id) ｜時間 h：function(G){ const v=h0.apply(this,arguments); return G&&S.inJapan(G)&&STORY.tzOffset?v+(STORY.tzOffset(G)||0):v; }
+    ok：(G,day)=>ok(G,day==null?G.day:day)
+    - [子晴｜p:heroine_04｜第 0 次] 實驗室那封信 我回了
+    - [子晴｜p:heroine_04｜第 0 次] 說不要
+    - [子晴｜p:heroine_04｜第 0 次] 教授說好
+    - [子晴｜p:heroine_04｜第 0 次] 就這樣
+    - [子晴｜p:heroine_04｜第 0 次] 好簡單喔
+
+### dp_y2_zr_order ｜誰：芷若 ｜term：T=>!!T&&/^Y2S[12]$/.test(T.id) ｜時間 h：function(G){ const v=h0.apply(this,arguments); return G&&S.inJapan(G)&&STORY.tzOffset?v+(STORY.tzOffset(G)||0):v; }
+    ok：(G,day)=>ok(G,day==null?G.day:day)
+    - [芷若｜p:heroine_02｜第 0 次] 今天有個常客點了熱美式。
+    - [芷若｜p:heroine_02｜第 0 次] 他上禮拜都點拿鐵。我差點問他怎麼了。
+
+### dp_enc_yt_photo ｜誰：語彤 ｜term：T=>!!T ｜時間 h：function(G){ const v=h0.apply(this,arguments); return G&&S.inJapan(G)&&STORY.tzOffset?v+(STORY.tzOffset(G)||0):v; }
+    ok：G=>typeof ENC!=='undefined'&&ENC.phoneReady(G,tag)
+    - [語彤｜p:heroine_03｜第 0 次] 📷（迪化街的騎樓下，一雙正在包貨的手）
+    - [語彤｜p:heroine_03｜第 0 次] 上次那張。
+
+### dp_y1s2_an_ac ｜誰：以安 ｜term：t=>!!t&&t.id==='Y1S2' ｜時間 h：()=>15+20/60
+    ok：(G,day)=>law(G)&&met(G,'heroine_01','FAMILIAR')&&contact(G,'heroine_01',day)&&!(typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,'heroine_01'))
+    - [以安｜p:heroine_01｜第 0 次] 總圖三樓的冷氣壞了。
+    - [以安｜p:heroine_01｜第 0 次] 我換到二樓。……二樓的也壞了。
+
+### dp_y1s2_yt_board ｜誰：語彤 ｜term：t=>!!t&&t.id==='Y1S2' ｜時間 h：()=>17+40/60
+    ok：G=>law(G)&&met(G,'heroine_03','FAMILIAR')&&S.thuNoodle(G)&&contact(G,'heroine_03')
+    - [語彤｜p:heroine_03｜第 0 次] 📷（茶屋門口的黑板，今天的茶點寫錯一個字）
+    - [語彤｜p:heroine_03｜第 0 次] 蘇姨說不要改。客人看得懂。
+
+### dp_a118_y1s1_yt_dish ｜誰：語彤 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [語彤｜p:heroine_03｜第 0 次] 📷（一碟小菜）
+    - [語彤｜p:heroine_03｜第 0 次] 秀琴姨說是送的。
+
+### dp_a118_y1s1_yt_rain ｜誰：語彤 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [語彤｜p:heroine_03｜第 0 次] 📷（茶屋門口的雨）
+    - [語彤｜p:heroine_03｜第 0 次] 今天沒人。
+
+### dp_a118_y1s1_an_row ｜誰：以安 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [以安｜p:heroine_01｜第 0 次] 明天民總，我坐第二排。旁邊通常沒人。
+
+### dp_a118_y1s1_an_notice ｜誰：以安 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [以安｜p:heroine_01｜第 0 次] 📷（宿舍公告欄）
+    - [以安｜p:heroine_01｜第 0 次] 這張公告的第三行和第五行矛盾。我寫信問了。
+
+### dp_a118_y1s2_yt_noodle ｜誰：語彤 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [語彤｜p:heroine_03｜第 0 次] 秀琴姨今天試做新的菜。不好吃。她自己說的。
+
+### dp_a118_y1s2_yt_azalea ｜誰：語彤 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [語彤｜p:heroine_03｜第 0 次] 📷（茶屋門口一盆小杜鵑）
+    - [語彤｜p:heroine_03｜第 0 次] 蘇姨買的。她說椰影大道太遠了。
+
+### dp_a118_y1s2_an_appeal ｜誰：以安 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [以安｜p:heroine_01｜第 0 次] 申訴書第二版。你只要看第一段。……看完說一個缺點就好。
+
+### dp_a118_y2s1_an_rules ｜誰：以安 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [以安｜p:heroine_01｜第 0 次] 讀書會的規則我寫好了。第一條，每人十分鐘。第二條，不准離題。……一共十二條。
+
+### dp_a118_y2s1_an_tutor ｜誰：以安 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [以安｜p:heroine_01｜第 0 次] 今天照常去家教。學生寫完了兩張考卷，比上週多一張。
+
+### dp_a118_y2s2_yt_garlic ｜誰：語彤 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [語彤｜p:heroine_03｜第 0 次] 今天茶屋很安靜。我在洗杯子。
+
+### dp_a118_y2s2_yt_ta_form ｜誰：語彤 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [語彤｜p:heroine_03｜第 0 次] 📷（社會系助教的申請表）
+    - [語彤｜p:heroine_03｜第 0 次] 填好了。還沒交。
+
+### dp_a118_y2s2_an_question ｜誰：以安 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [以安｜p:heroine_01｜第 0 次] 我今天在課堂上問了一個問題。老師說『好問題』。我只想要答案。
+
+### dp_a118_y2s2_an_expo ｜誰：以安 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [以安｜p:heroine_01｜第 0 次] 說明會的資料四十頁，我讀完了。有三頁是同一頁印兩次。
+
+### dp_a118_y3s1_yt_lease ｜誰：語彤 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [語彤｜p:heroine_03｜第 0 次] 📷（秀琴姨在新的租約上簽名，手有點抖）
+    - [語彤｜p:heroine_03｜第 0 次] 她說是因為冷。
+
+### dp_a118_y3s1_an_court ｜誰：以安 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [以安｜p:heroine_01｜第 0 次] 今天去了行政法院。旁聽席只有我和一個阿伯。他也在抄筆記。
+
+### dp_a118_y3s1_an_suitcase ｜誰：以安 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [以安｜p:heroine_01｜第 0 次] 📷（行李箱，一半是書）
+    - [以安｜p:heroine_01｜第 0 次] 書比衣服多。日本的書比較貴。
+
+### dp_a118_y3s2_yt_sign ｜誰：語彤 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [語彤｜p:heroine_03｜第 0 次] 📷（一家老店的招牌）
+    - [語彤｜p:heroine_03｜第 0 次] 今天訪問這家。老闆說招牌是他爸寫的。
+
+### dp_a118_y3s2_yt_abroad ｜誰：語彤 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [語彤｜p:heroine_03｜第 0 次] 你那邊幾點。……我這邊在下雨。茶屋人很多。
+
+### dp_a118_y3s2_an_onigiri ｜誰：以安 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [以安｜p:heroine_01｜第 0 次] 📷（便利商店一整排飯糰）
+    - [以安｜p:heroine_01｜第 0 次] 三十種。我說每天吃一種，一個月不重複。……我已經重複了。
+
+### dp_a118_y3s2_an_group ｜誰：以安 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [以安｜p:heroine_01｜第 0 次] Alison 今天主持讀書會。她傳照片給我。……她把我的三條規則貼在白板上。
+
+### dp_a118_y4s1_yt_23 ｜誰：語彤 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [語彤｜p:heroine_03｜第 0 次] 蘇姨說十週年不要辦。
+    - [語彤｜p:heroine_03｜第 0 次] 我們要辦。
+    - [語彤｜p:heroine_03｜第 0 次] 十六號，週六晚上。你有空嗎。
+    - [語彤｜p:heroine_03｜第 0 次] ……茶屋十週年。蘇姨說你要來。
+
+### dp_a118_y4s1_yt_report ｜誰：語彤 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [語彤｜p:heroine_03｜第 0 次] 報告交了。最後一個是秀琴姨。她說她不要被寫。我寫了。
+
+### dp_a118_y4s1_an_handover ｜誰：以安 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [以安｜p:heroine_01｜第 0 次] 📷（白板上只寫一條規則：每個人講完）
+    - [以安｜p:heroine_01｜第 0 次] 交棒了。
+
+### dp_a118_y4s2_yt_photo ｜誰：語彤 ｜term：T=>!!T&&T.id===id&&T.week>=(w0||1)&&T.week<=(w1||99) ｜時間 h：G=>(h!=null?h:HH[who])+tz(G)
+    ok：(G,day)=>law(G)&&ok(G,day==null?G.day:day)
+    - [語彤｜p:heroine_03｜第 0 次] 我在想畢業照要不要在茶屋拍。
+    - [語彤｜p:heroine_03｜第 0 次] 蘇姨說要。
+
+### dp_aa554_zq_bug ｜誰：子晴 ｜term：t=>!!t&&ids.includes(t.id) ｜時間 h：()=>24+40/60
+    ok：(G,day)=>law(G)&&dating(G,ZQ)&&gotBefore(G,ZQ,day)
+    - [子晴｜p:heroine_04｜第 0 次] 我修好一個 bug。
+    - [子晴｜p:heroine_04｜第 0 次] 你睡了吧。
+    - [子晴｜p:heroine_04｜第 0 次] ……那早上再說一次。早安。預約的。
+
+### dp_aa554_zq_level ｜誰：子晴 ｜term：t=>!!t&&ids.includes(t.id) ｜時間 h：()=>24+20/60
+    ok：(G,day)=>law(G)&&dating(G,ZQ)&&done(G,'ev_ziqing_dad_visit')&&gotBefore(G,ZQ,day)
+    - [子晴｜p:heroine_04｜第 0 次] 今天寫了一個新的關卡。
+    - [子晴｜p:heroine_04｜第 0 次] 小孩等的那個人，回家了。
+    - [子晴｜p:heroine_04｜第 0 次] ……還沒想好要不要留。
+
+### dp_aa554_zq_cats ｜誰：子晴 ｜term：t=>!!t&&ids.includes(t.id) ｜時間 h：()=>22+10/60
+    ok：(G,day)=>law(G)&&dating(G,ZQ)&&gotBefore(G,ZQ,day)
+    - [子晴｜p:heroine_04｜第 0 次] 📷（截圖：遊戲裡兩隻插座貓，一隻在打電動，一隻在旁邊看）
+    - [子晴｜p:heroine_04｜第 0 次] 這隻很爛。
+    - [子晴｜p:heroine_04｜第 0 次] ……你自己猜。
+
+### dp_aa554_zr_cal ｜誰：芷若 ｜term：t=>!!t&&ids.includes(t.id) ｜時間 h：()=>22+7/60
+    ok：(G,day)=>{ const m=D('2027-05-11'); return law(G)&&dating(G,ZR)&&sent(G,'zr_z7b')&&m!=null&&day<m&&gotBefore(G,ZR,day); }
+    - [芷若｜p:heroine_02｜第 0 次] 📷（Café 的月曆，五月那一頁折了一個角）
+    - [芷若｜p:heroine_02｜第 0 次] 還沒到。我先折起來。
+
+### dp_aa554_zr_pack ｜誰：芷若 ｜term：t=>!!t&&ids.includes(t.id) ｜時間 h：()=>22+7/60
+    ok：(G,day)=>law(G)&&dating(G,ZR)&&(!!G.flags.ZR_ADMITTED||sent(G,'y2r2_zr_admit'))&&gotBefore(G,ZR,day)
+    - [芷若｜p:heroine_02｜第 0 次] 我在列要帶的東西。
+    - [芷若｜p:heroine_02｜第 0 次] 外套。我媽說的。
+    - [芷若｜p:heroine_02｜第 0 次] 還有你推薦的那三部片。飛機上看。
+
+# A 小計：有女主角句子的 DAILY_PHONE 49 則；每位出現在幾則： {"以安":13,"芷若":6,"語彤":14,"子晴":14,"學姊":2}
+
+## B　其他檔案：女主角傳訊的原始碼位置（從 PHONE.at／send、P1／seq、from:/who: 找；條件看原始碼）
+- src/data/events.js:689 ｜學姊 ｜tag 線索 family_law ｜「民總第一堂我就被周老師點到，手心都是汗。」 ／ 「學姊在群組為什麼都只回『收到』？」 ／ （默默把考古題資料夾收進書包）
+- src/data/events.js:2277 ｜芷若 ｜tag 線索 zr_nye_miss_y3 ｜沒關係。你那邊早上了，可能還在睡。新年快樂。
+- src/data/events.js:2286 ｜芷若 ｜tag 線索 zr_nye_miss_y4 ｜睡吧，新年快樂。醒了再說。
+- src/data/heard_lines.js:124 ｜學姊 ｜tag 線索 famGroup ｜學姊說她在學游泳 ／ 學姊妳下次游泳可以約家族一起去啊 ／ 溫學姊 ／ 早上七點。 ／ ……那算了
+- src/data/heard_lines.js:126 ｜學姊 ｜tag 線索 famGroup ｜學姊去池上了 ／ 她只傳了一張照片給我 稻田 沒有稻子 ／ 學姊妳要不要說明一下 ／ 溫學姊 ／ 冬天。
+- src/data/heard_lines.js:128 ｜學姊 ｜tag 線索 famGroup ｜學姊搬家了 ／ 我搬了一箱 她說我搬的是最輕的那箱 ／ 我有意見 ／ 溫學姊 ／ 你自己挑的。
+- src/data/heard_lines.js:130 ｜學姊 ｜tag 線索 famGroup ｜學姊說寒假要放一天假 已經寫進計畫本了 ／ 我問哪一天 她說說了就會有人約 ／ 溫學姊 ／ 對。
+- src/data/heard_lines.js:135 ｜子晴 ｜tag 線索 zqZr ｜芷若走了。這次一年。她把那把很醜的傘留給我了。
+- src/data/heard_lines.js:142 ｜子晴 ｜tag 線索 zqZr ｜我把公園的貓帶回家了。芷若知道以後，叫我每天傳一張照片給她。
+- src/data/heard_lines.js:145 ｜學姊 ｜tag 線索 famGroup ｜學姊回來了 ／ 她帶了一盒美國的餅乾給家族 說很甜 叫我們不要一次吃完 ／ 我一次吃完了 ／ 溫學姊 ／ 我知道。
+- src/data/heard_lines.js:151 ｜子晴 ｜tag 線索 zqZr ｜芷若回來了。她第一件事是問貓。……第二件事才問我。
+- src/data/r2y3b_events.js:219 ｜語彤  ｜（語彤坐在長桌最旁邊，舉起田野筆記，沒說話。）
+- src/data/r2y3b_events.js:221 ｜以安  ｜（手機亮了一下，以安傳來：「他吃飯糰。便利商店比較近。」）
+- src/data/r2y4b_events.js:504 ｜學姊  ｜你在忙。下週。
+- src/data/termend_lines.js:241 ｜語彤  ｜考完了。……憲法最後一題寫不完。 ／ 成績七月三號才查得到。
+- src/data/vac_activities.js:203 ｜子晴  ｜去。 ／ 好 機票我來比價 ／ 機票多少？我轉給你。
+- src/data/vac_activities.js:204 ｜子晴  ｜遊戲展是什麼？ ／ 去了就知道 ／ 這禮拜回我
+- src/data/vac_activities.js:205 ｜子晴  ｜這次不行。 ／ 好吧 帶東西給你
+- src/data/vac_activities.js:604 ｜以安  ｜📷（高鐵窗外的田） ／ 回台中了。8 號回去。
+- src/data/vac_activities.js:605 ｜以安  ｜回臺北了。台中好熱。
+- src/data/vac_activities.js:608 ｜以安  ｜營隊第三天了。你有睡覺嗎？ ／ 我是認真問。
+- src/data/vac_activities.js:609 ｜語彤  ｜營隊結束來茶屋 ／ 蘇姨問你去哪了
+- src/data/vac_activities.js:612 ｜以安  ｜我媽在後面。……她說嗨。 ／ 她問你吃飽了沒。我說你一定吃了。
+- src/data/vac_activities.js:613 ｜語彤  ｜考完了 ／ 憲法最後一題我寫不完 ／ 不要問我分數 7/3 才知道
+- src/data/vac_activities.js:615 ｜以安  ｜你這個暑假在做什麼？ ／ 我想排一天一起出去。你哪天有空？
+- src/data/vac_activities.js:616 ｜語彤  ｜你暑假是不是很閒 ／ 那明天下午陪我去進貨
+- src/data/vac_activities.js:618 ｜語彤  ｜這裡的阿嬤說話很快。我錄音錄了兩小時，聽懂一半。
+- src/data/vac_activities.js:619 ｜語彤  ｜明天最後一天。阿嬤問我要不要留下來嫁給她孫子。我說要回去上班。
+- src/group3d.js:100 ｜以安  ｜（照片：柚子上插著蠟燭） ／ 謝謝。柚子也可以。
+- src/group3d.js:154 ｜子晴  ｜去。 ／ 好 那你負責拍 ／ 那天我有事。 ／ 好 那拍給你看
+- src/group3d.js:160 ｜子晴  ｜📷（一張自拍，學士帽歪的）
+- src/group3d.js:161 ｜芷若  ｜📷（學士服的照片，旁邊是子晴歪掉的學士帽） ／ 子晴拍的。她拍了二十張，這是唯一一張我沒閉眼的。
+- src/holff3d.js:118 ｜以安  ｜下禮拜開學。讀書會第二週開始。 ／ 收到。
+- src/home3d.js:373 ｜語彤 ｜tag 線索 yt_bday_y1 ｜……謝謝。蘇姨說要請你吃茶點。下次來。 ／ 傳一句生日快樂 ／ 生日快樂。
+- src/home3d.js:375 ｜語彤 ｜tag 線索 yt_bday_y1 ｜今天是語彤的生日。
+- src/jp3d.js:157 ｜以安  ｜公寓的垃圾分六種。分類表我拍了，在相簿。 ／ 謝謝。寶特瓶的蓋子要拆嗎？ ／ 要。蓋子是另一類。
+- src/jp3d.js:159 ｜以安  ｜日文課的作業，第三課的動詞表有一個印錯。第 12 行。 ／ 我也發現了。還以為是我抄錯。 ／ 講義印錯了。我問過老師。
+- src/jp3d.js:163 ｜以安  ｜投幣洗衣機三號壞了。不要投錢。 ／ ……我昨天投了。 ／ 退幣口用力按一下。
+- src/jp3d.js:176 ｜以安  ｜……我們可以談一下嗎？
+- src/jp3d.js:228 ｜以安  ｜好。 ／ 那天不行。 ／ 好。
+- src/postgrad3d.js:273 ｜子晴  ｜好。 ／ 今天晚上我有約了。
+- src/r2y3a3d.js:147 ｜子晴  ｜我爸傳的「第三關怎麼過」 ／ 他在玩我做的遊戲 上個月丟到網路上的 他自己找到的 ／ 卡三天了 他真的很爛
+- src/r2y3a3d.js:151 ｜學姊  ｜溫學姊
+- src/r2y3a3d.js:217 ｜以安  ｜今天下午我先去了一趟行政法院。自己想看的。 ／ 是一個人告區公所。 ／ 禮拜五的地院照舊。
+- src/r2y3a3d.js:260 ｜語彤  ｜明天下午兩點半 秀琴姨要談續約 ／ ……你坐我旁邊就好 ／ 好。 ／ 那天我不行。 ／ 嗯 沒關係
+- src/r2y3b3d.js:139 ｜以安  ｜好。 ／ 嗯。 ／ 明天不行。 ／ 好。……櫻花下週就謝了。我拍給你。
+- src/r2y3b3d.js:142 ｜以安  ｜（照片：河堤的櫻花，書攤在石階上） ／ 今天在這裡讀完一章。
+- src/r2y3b3d.js:222 ｜以安  ｜（照片：町公所的通知） ／ 這比命令可怕，還是比較好？ ／ 所以要不要協力？
+- src/r2y3b3d.js:223 ｜以安  ｜最後一行，你那天猜對一半。
+- src/r2y3b3d.js:224 ｜以安  ｜（照片：町公所的通知） ／ 町公所請大家『協力』，沒有罰則，大家都照做。 ／ 這比命令可怕，還是比較好？
+- src/r2y3b3d.js:288 ｜以安  ｜明天傍晚六點，公館。
+- src/r2y3b3d.js:360 ｜以安  ｜我去。 ／ 這次不行。
+- src/r2y3b3d.js:365 ｜以安  ｜（照片：商店街的竹子，短冊在風裡） ／ 七夕。這邊的人很認真寫願望。 ／ 妳寫了什麼？ ／ 不告訴你。 ／ 好漂亮。 ／ 嗯。
+- src/r2y3b3d.js:463 ｜語彤  ｜……謝謝。今年的田野，訪問到第二十二個了。 ／ 傳一句生日快樂 ／ 生日快樂。
+- src/r2y3b3d.js:465 ｜語彤 ｜tag 線索 yt_bday_y3 ｜今天是語彤的生日。
+- src/r2y3b3d.js:637 ｜子晴  ｜,text:X.Q15.noReply}]   /* AA_573：「這次是直述句」拿掉以後兩支同一句（noReplyNQ 刪了）*/,
+- src/r2y4a3d.js:232 ｜子晴  ｜新關卡做好了 ／ 📷（一隻像素的貓，站在一個發亮的存檔點旁邊） ／ 你不在 沒人玩第三遍 ／ 回來再玩
+- src/r2y4b3d.js:73 ｜以安  ｜📷（同一叢杜鵑，同一個位置。以安一個人。第四張。）
+- src/r2y4b3d.js:75 ｜以安  ｜杜鵑開了。 ／ 十二點半，老位置。
+- src/r2y4b3d.js:108 ｜以安  ｜商法組放榜。上了。
+- src/r2y4b3d.js:109 ｜以安  ｜八月還有司法官。一樣，先考上。
+- src/r2y4b3d.js:146 ｜以安  ｜📷（火車站的月台。他們改搭火車。）
+- src/r2y4b3d.js:148 ｜以安  ｜春假要不要出去？兩天一夜。 ／ 行程我排好了。4/1 前跟我說。
+- src/r2y4b3d.js:151 ｜語彤  ｜看到群組了。……茶屋今天很空。
+- src/r2y4b3d.js:173 ｜語彤  ｜她說台中太熱了。 ／ 她說下禮拜回來，叫我不要一直吃泡麵。
+- src/r2y4b3d.js:295 ｜芷若  ｜杯子我先收著。
+- src/r2y4b3d.js:548 ｜學姊  ｜好。 ／ 好。我訂兩張。 ／ 妳開那麼遠不累嗎？ ／ 所以才要你放音樂。
+- src/r2y4b3d.js:664 ｜學姊  ｜（照片：峽谷的邊緣，四個交換生背對鏡頭站成一排） ／ 秋假和同學來大峽谷。風很大。 ／ ……你以後有機會，一定要來一次。 ／ 好漂亮。 ／ 嗯。照片拍不出來。 ／ 學姊玩得開心。
+- src/r2y4b3d.js:883 ｜以安  ｜明天晚上七點，燒臘店。 ／ 有事想說。 ／ 好。 ／ 那天不行。 ／ 好。……那我寫在群組。
+- src/r2y4b3d.js:888 ｜以安  ｜（照片：登機證） ／ 要登機了。 ／ 到了再傳。
+- src/r3_3d.js:59 ｜芷若  ｜妳先把你們的對話拍給我看。 ／ ……好。我整理一下。
+- src/r3_3d.js:60 ｜芷若  ｜先看你們說好了什麼。 ／ 說好試譯不付錢，是試譯。拿去用，就不是試譯了。 ／ ……原來我可以這樣講。 ／ 翻譯算不算妳的作品、能不能被拿去用，我還沒學到。這部分我們問法服。 ／ 好。我先寫信，不行再去問。
+- src/r3_3d.js:63 ｜芷若  ｜📷（一張時間表。日期、誰說了什麼，一格一格排好。） ／ 翻譯算不算妳的作品、能不能被拿去用，我還沒學到。這部分我們問法服。 ／ 好。我先寫信，不行再去問。
+- src/r3_3d.js:67 ｜芷若  ｜出版社回信了。道歉，稿費也付了。 ／ 我沒想到「問清楚」就有用。 ／ 恭喜。 ／ 下次來店裡，那杯我請。 ／ 時間表做得好。 ／ 外文系的仔細。……好啦，也是被你問出來的。
+- src/r3_3d.js:96 ｜芷若  ｜📷（店裡的黑板：本月冠軍：老闆。本月最有想法：在想事情的天鵝。） ／ 老闆寫的。
+- src/r3_3d.js:154 ｜子晴  ｜第二關，貓卡在牆裡。 ／ ……我就知道。
+- src/r3_3d.js:155 ｜子晴  ｜明天再測，妳去睡。 ／ ……你這樣講很像我爸。
+- src/r3_3d.js:158 ｜子晴  ｜修好了 ／ 你起來先測 ／ 早。我現在測。 ／ ……你醒了。 ／ 第二關，貓有沒有卡在牆裡？ ／ 有。
+- src/story3d.js:1458 ｜學姊  ｜溫學姊
+- src/story3d.js:1465 ｜學姊  ｜溫學姊 ／ 祐廷
+- src/story3d.js:1708 ｜學姊 ｜tag 線索 sis_yutong_q ｜學姊，想請問一件事。麵店的阿姨被客人說吃壞肚子，要賠三萬。 ／ 客人還錄了跟阿姨吵架的聲音，說要告。這種事可以去法服問嗎？
+- src/story3d.js:1712 ｜芷若  ｜經原分組報告 ／ 我負責剪片。不要叫我上台。
+- src/story3d.js:1725 ｜學姊 ｜tag 線索 sis_b_intro ｜溫書瑀 ／ 歡迎學弟。選課或宿舍有問題，可以私訊問我。
+- src/story3d.js:1731 ｜學姊 ｜tag 線索 sis_b_fam ｜家族群組開好了。學弟。 ／ 上面那位是你的直屬學姊。 ／ 上面那位是你的直屬學姊。 ／ 溫學姊 ／ 學弟好。我們留言區見過了。 ／ 你們認識？
+- src/story3d.js:1737 ｜學姊 ｜tag 線索 sis_c2 ｜📷（一張照片：筆記本的一頁，手寫的好幾個電話號碼，有的有名字，中間一行沒有。） ／ 剛剛整理東西看到的。 ／ 哈哈，真的是我的號碼。妳還留著喔。 ／ 我自己都忘了。 ／ 那本不要丟。 ／ 不會丟啦。
+- src/story3d.js:1761 ｜子晴 ｜tag 線索 guitar ｜📷 吉他撥片賣了三個。三個都是阿凱買的。
+- src/story3d.js:1766 ｜學姊 ｜tag 線索 family_law ｜溫學姊
+- src/story3d.js:1774 ｜學姊 ｜tag 線索 fam_dinner_y2s2_invite ｜這學期的家聚！！禮拜五七點 公館那間 ／ 學弟妹第一次來 大家要到喔 ／ 溫學姊 ／ 好。
+- src/story3d.js:1776 ｜子晴 ｜tag 線索 guitar_grp1 ｜吉他社 ／ 新人自己報名字，不要讓我問。
+- src/story3d.js:1778 ｜語彤  ｜（把學姊的回覆截圖傳給語彤） ／ ……法服是什麼？
+- src/story3d.js:1823 ｜以安 ｜tag 線索 an_rules_an ｜三頁是因為字很大。
+- src/story3d.js:1828 ｜以安 ｜tag 線索 an_first_note ｜📷（筆記的照片，字很整齊） ／ （兔子揮手）
+- src/story3d.js:1830 ｜以安 ｜tag 線索 an_split_table ｜📷（報告的分工表）
+- src/story3d.js:1927 ｜以安 ｜tag 線索 nye_an_y1 ｜新年快樂。
+- src/story3d.js:1928 ｜語彤 ｜tag 線索 nye_yt_y1 ｜新年快樂。 ／ 📷（家裡的電視在播倒數）
+- src/story3d.js:1936 ｜以安  ｜我可以。幾點集合？
+- src/story3d.js:1983 ｜以安 ｜tag 線索 an_appeal_result ｜點數減了一點。宿舍說，以後記點以前會先問。 ／ 最後用的是第二份，寫規定沒考慮到急診這種情況。 ／ 你說要先問清楚的那句，我放在第一段了。
+- src/story3d.js:1985 ｜以安 ｜tag 線索 an_appeal_heard ｜我室友晚歸被記點那個申訴，結果出來了，點數減一點。 ／ );/* AA_209 附錄A §2 */ if(typeof SOCIAL!== ／ 室友的申訴結果出來了，點數減一點
+- src/story3d.js:1991 ｜以安  ｜📷（高雄的夜市，人擠人） ／ 新年快樂！高雄沒有冬天 ／ 你們那邊冷嗎 ／ 📷（台中的老街，一整排紅燈籠）
+- src/story3d.js:1992 ｜以安  ｜新年快樂。人太多，只走到第三個路口就回家了。 ／ （傳姊姊帶你去吃的牛肉麵） ／ 📷（姊姊帶你去吃的牛肉麵） ／ 牛肉麵！！看起來好好吃 ／ 哪一家？……看起來很辣。
+- src/story3d.js:1995 ｜芷若  ｜📷（台中，高中旁邊的影印店，鐵門拉下來，貼著紅紙「初一至初三休息」） ／ 新年快樂。 ／ 店休三天。……我家的。 ／ 店休三天。
+- src/story3d.js:2009 ｜以安 ｜tag 線索 plg_pushed ｜憲法作業發回來了 有人知道第三題到底在問什麼嗎 ／ 我到現在還是不知道憲法在幹嘛 ／ 問沈以安啊 老師拿她的當範例 ／ 真的假的 以安開課 ／ ……我不是老師。 ／ 可是可以一起讀。
+- src/story3d.js:2010 ｜以安 ｜tag 線索 plg_invite ｜公法讀書會。週四晚上八點，B館研討室。想來的就來，不用報名。 ／ +1 可以帶宵夜嗎 ／ ……可以。
+- src/story3d.js:2015 ｜以安  ｜週四晚上七點，博思 101 有演講。 ／ 「政府可以為了大家，限制一個人嗎？」誰要去？ ／ 我！我是憲法迷。
+- src/story3d.js:2049 ｜以安 ｜tag 線索 plg_sat_ask ｜週六下午補讀一次。規則三條。
+- src/story3d.js:2051 ｜以安 ｜tag 線索 plg_torn ｜我把以安的規則撕掉一半了。 ／ 週六下午補讀，規則剩三條。 ／ 讀書會的規則被 Alison 撕掉一半（聽說）
+- src/story3d.js:2082 ｜學姊、以安  ｜今天十點半，2:30 AM。 ／ 十點半，兩點半。我也會去。
+- src/story3d.js:2106 ｜語彤  ｜春假四天，要不要去哪 ／ 海邊！！ ／ 要去的話要先訂車 誰會開車 ／ 祐廷 ／ @語彤 妳可以嗎 ／ 我問蘇姨能不能排休
+- src/story3d.js:2114 ｜學姊 ｜tag 線索 family_law ｜溫學姊
+- src/story3d.js:2135 ｜以安  ｜📷（杜鵑花。和去年同一個位置。）
+- src/story3d.js:2139 ｜以安  ｜我會去。坐第一排。
+- src/story3d.js:2142 ｜以安  ｜📷（說明會的簡報） ／ 重點在第七頁。
+- src/story3d.js:2150 ｜以安  ｜抽籤結果出來了。我、你、柏翰。我們是賣家。 ／ 分工表明天給你。
+- src/story3d.js:2170 ｜以安  ｜你閉嘴。 ／ （傳家裡的年夜飯照片） ／ 📷（家裡的年夜飯，滿桌的菜） ／ 哥，你家也太多菜！ ／ 你家也太多菜！ ／ 左下角那盤是什麼？
+- src/story3d.js:2178 ｜芷若 ｜tag 線索 zr_z7_msg ｜))   /* 和她交往中：換成 23:50 她打來的電話（BB_189 2-1，src/aa554_3d.js）；那通沒接到（ZR_Z7_CALL 
+- src/story3d.js:2191 ｜學姊 ｜tag 線索 family_law ｜溫學姊 ／ 計畫本最後那一格，我寫好了。聚餐那天說。
+- src/story3d.js:2265 ｜學姊 ｜tag 線索 family_law ｜📷（書瑀學姊和法四學長姊的畢業照） ／ 學姊畢業快樂！！ ／ 溫學姊 ／ 謝謝。
+- src/story3d.js:2278 ｜芷若 ｜tag 線索 zr_film ｜進城的那一週 ／ 📄（一張很長的片單） ／ 這張表要看到明年
+- src/story3d.js:2279 ｜芷若 ｜tag 線索 zr_film_list ｜📄（一張很長的片單）
+- src/story3d.js:2284 ｜子晴 ｜tag 線索 guitar ｜期末成發你要來。
+- src/story3d.js:2285 ｜子晴 ｜tag 線索 guitar ｜成發 ／ 倒數 ／ 十四天 ／ 不能請假 ／ 都要來
+- src/story3d.js:2286 ｜子晴 ｜tag 線索 zq_show_cd ｜你也不能請假喔
+- src/story3d.js:2290 ｜子晴 ｜tag 線索 zq_show_absent ｜你沒來
+- src/story3d.js:2296 ｜學姊 ｜tag 線索 family_law ｜溫學姊
+- src/story3d.js:2300 ｜學姊 ｜tag 線索 fam_final_y1s2 ｜);   /* AA_198 第 5 節：W2b 家族期末聚餐的訊息 6/12 21:00 */ if(dF&&G.day>=dF&&G.day<=dF+1&&!PHONE.sent(G,
+- src/story3d.js:2332 ｜以安 ｜tag 線索 an_spring_y1 ｜春假要不要一起出去？我做行程表。
+- src/story3d.js:2404 ｜以安  ｜我去。 ／ 收到。行程表多一個人。
+- src/story3d.js:2407 ｜語彤 ｜tag 線索 yt_spring_msg ｜看到群組了。你們那邊也在下雨喔。 ／ 茶屋今天很空。 ／ 春假茶屋很空。你要來喝茶嗎？
+- src/story3d.js:2408 ｜以安  ｜📷（行程表第二版） ／ 好，明天下午改去室內的地方，我再排一下。 ／ 下次你要來
+- src/story3d.js:2463 ｜學姊  ｜溫學姊
+- src/story3d.js:2467 ｜子晴  ｜今天社課 ／ 練 C 和弦 ／ 不會的不准走喔
+- src/story3d.js:2469 ｜子晴  ｜📷（截圖：畫面全黑，角落只有一個小小的插座） ／ 不要問。
+- src/story3d.js:2471 ｜芷若  ｜欸今天超好笑 ／ 有個客人一進來就說『跟昨天一樣』 ／ 我根本不知道他昨天是誰 ／ 我就隨便做了拿鐵 ／ 他說對
+- src/story3d.js:2483 ｜子晴  ｜明天社課 19:00。B館一樓。帶琴。
+- src/story3d.js:2485 ｜子晴  ｜📎 練習曲_v2.pdf ／ 新的譜。
+- src/story3d.js:2487 ｜子晴  ｜滷味 ／ 十點後半價 ／ 你要來嗎
+- src/story3d.js:2489 ｜子晴  ｜我的貓 ／ 卡在牆裡 ／ 出不來 ／ ……不用回
+- src/story3d.js:2491 ｜子晴 ｜tag 線索 guitar ｜這版貓會爬樓梯。 ／ 新版本 要測的人報名 ／ 你聽過這首嗎 ／ 📎（一段吉他錄音） ／ 我自己錄的 很爛不要笑
+- src/story3d.js:2493 ｜子晴  ｜你今天有吃飯嗎
+- src/story3d.js:2495 ｜子晴  ｜期末考還好嗎 ／ 不用回很長
+- src/story3d.js:2512 ｜芷若  ｜今天有人點熱可可加濃縮。不是你。 ／ ……害我嚇一跳。 ／ 今天有人點熱可可加濃縮。我以為只有我會喝這個。 ／ 今天有客人點熱可可加濃縮欸 ／ 我還以為只有我會這樣喝
+- src/story3d.js:2514 ｜芷若  ｜📷（拉花） ／ 今天的拉花。……老闆說及格。你說呢。 ／ 📷（拉花） ／ 今天的拉花。老闆說及格。 ／ 📷（拉花）
+- src/story3d.js:2516 ｜子晴  ｜這版有兩隻貓。 ／ 總圖二樓靠窗那排插座 ／ 遊戲裡也改成壞的了
+- src/story3d.js:2517 ｜子晴  ｜插座修好了 ／ 這版比較不會當機
+- src/story3d.js:2544 ｜學姊 ｜tag 線索 family_law ｜📷（學姊桌上的保溫瓶） ／ 學姊今天裝熱水欸 ／ 溫學姊 ／ 偶爾。
+- src/story3d.js:2546 ｜子晴  ｜實驗室那封信 我回了 ／ 說不要 ／ 教授說好 ／ 就這樣 ／ 好簡單喔 ／ ……晚上要慶祝。你請。
+- src/story3d.js:2548 ｜芷若  ｜今天第三個客人點錯。我記得他上週點什麼。我沒說。 ／ 今天有個常客點了熱美式。 ／ 他上禮拜都點拿鐵。我差點問他怎麼了。
+- src/story3d.js:3571 ｜語彤、學姊  ｜學姊叫我拿來的。她說她不上來。 ／ 語彤說你病了。 ／ 燒退了嗎？
+- src/story3d.js:3740 ｜以安  ｜明天下午三點半，2:30 AM。我們一起填。 ／ 明天下午三點半，2:30 AM。交換的志願表，後天截止。
+- src/story3d.js:3744 ｜以安  ｜我在窗邊。
+- src/story3d.js:3745 ｜以安  ｜我先交了。你的，明天中午以前。……同一所，不要寫錯。 ／ 我先交了。你的，明天中午以前要交。
+- src/story3d.js:3746 ｜學姊  ｜我在法圖。九點四十五關門。
+- src/story3d.js:4032 ｜以安 ｜tag 線索 nye_y3_ask ｜十一點半，頂樓 以安說她要來 ／ 十一點半，頂樓 ／ 頂樓照開 登記一樣在一樓 ／ 我會到。 ／ 我家吃完飯就過去，可能晚一點。
+- src/story3d.js:4033 ｜以安 ｜tag 線索 nye_y3_ask ｜十一點半，頂樓 以安說她要來 ／ 十一點半，頂樓 ／ 頂樓照開 登記一樣在一樓
+- src/story3d.js:4039 ｜語彤 ｜tag 線索 nye_y3_yt ｜新年快樂。
+- src/story3d.js:4043 ｜語彤 ｜tag 線索 nye_y4_yt ｜新年快樂。
+- src/story3d.js:4084 ｜以安 ｜tag 線索 nye_y2_ask ｜今年頂樓幾點？ ／ 今年頂樓有人要去嗎？十一點半。 ／ 十一點半。我先上去。 ／ 宿委會今年也開頂樓 訪客一樓登記，十二點半前要走 ／ 我們今年不上去 ／ 我們去信義區！！
+- src/story3d.js:4092 ｜以安 ｜tag 線索 nye_y2_an ｜新年快樂。
+- src/story3d.js:4094 ｜語彤 ｜tag 線索 nye_y2_yt ｜新年快樂。 ／ （照片：茶屋門口拉下一半的鐵門）
+- src/vacgap3d.js:70 ｜學姊  ｜溫學姊
+- src/wzlines3d.js:229 ｜以安  ｜我媽問起那位老師的事。我只說了大概。 ／ 她說：先去調最早的那一份，再往後看。 ／ ……她只說了這兩句。她平常不會說這麼多。 ／ 替我謝謝媽媽。 ／ 好。她會說『不用』。 ／ 最早的那一份，是哪一份？
+- src/wzlines3d.js:231 ｜以安  ｜今天謝謝你。 ／ 我媽回家路上問，那間茶屋週末都有開嗎？
+- src/wzlines3d.js:245 ｜語彤  ｜📷（緣側下面，一團橘白色） ／ 那天的。
+- src/y2b3d.js:47 ｜語彤  ｜上次我陪秀琴姨去法服。 ／ 裡面的人說，租約到期以前，新屋主不能叫她搬。 ／ 她出來的時候在笑。 ／ 她傳訊息說陪秀琴姨去法服
+- src/y2b3d.js:61 ｜芷若  ｜她出發那天，櫃台的電影票根
+- src/y2b3d.js:67 ｜語彤  ｜今天講完了 ／ ……傘我自己有帶
+- src/y2b3d.js:73 ｜子晴  ｜我自己選了。……其實本來就差不多決定了。
+- src/y2r2_3d.js:557 ｜子晴  ｜我自己寫的歌要在成發彈 ／ 四句歌詞 ／ ……你要來 ／ 好。 ／ 禮拜五七點 B館 ／ 那天不行。
+- src/y2r2_3d.js:580 ｜以安  ｜卡片上的字，是那個學生自己寫的。
+- src/y34b3d.js:70 ｜學姊  ｜溫學姊
+- src/y34b3d.js:243 ｜學姊  ｜好。 ／ 今天不行。 ／ 好。那蛋糕歸我。
+- src/y34b3d.js:244 ｜學姊  ｜好。 ／ 三點。 ／ 明天不行。 ／ 好。那蛋糕歸我。
+- src/y34b3d.js:286 ｜學姊  ｜我開車去載妳。 ／ 我到機場等妳。 ／ 那天我去不了了。 ／ 好。
+- src/y34b3d.js:333 ｜學姊  ｜溫學姊 ／ 我去睡了 ／ 週日的爭論題，第  ／  題
+- src/y34b3d.js:362 ｜以安  ｜聽說 ／ 以安說她要考首都帝大法研所 商法組
+- src/y34b3d.js:363 ｜以安  ｜聽說 ／ 我決定了。考首都帝大法研所，商法組。
+- src/y34b3d.js:369 ｜以安  ｜學弟說這週四停一次。 ／ 大家去燒臘店。
+
+# B 小計： 177 行
+
+## C　系統句（約好了／你沒有赴約…）產生的位置
+- src/aa811_3d.js:79 
+- src/aa811_3d.js:84 '約好了：'
+- src/data/invites.js:35 '你們已經約好了：{when}，{place}。'
+- src/date3d.js:439 '約好了：'
+- src/invites3d.js:301 '約好了：'
+- src/invites3d.js:469 
+- src/invites3d.js:470 '你沒有赴約：'
+- src/invites3d.js:472 '的事，後來作罷了。'
+- src/invites3d.js:582 '的事，後來作罷了。'
+- src/invites3d.js:703 '的事，後來作罷了。'

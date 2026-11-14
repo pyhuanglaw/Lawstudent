@@ -114,7 +114,14 @@ async def part_hl1(pg, cdp, sv0, res):
         if not R.check('FAIL_SETUP 檢查：%s 讀檔以後在 %s、這一列成立（HCIRCLE.on）' % (tag, f['zone']), s['zone'] == f['zone'] and pr['on'], J([s.get('zone'), pr])): continue
         await pg.wait_for_timeout(2500)
         comp = info['speakers'] or info['with']
-        np0 = await pg.evaluate(NPCPOS, {'ids': [info['who']] + comp, 'who': info['who'], 'row': rid}); out['pos0'] = np0
+        for w_ in range(30):   # CC-B 11-14（HL1 r3b c503_8_1：學姊和陳助教 vis false＝底模還沒下載完先藏著，pool3d.js；原本只等 2.5 秒）：等到她看得到，最多 30 秒
+            np0 = await pg.evaluate(NPCPOS, {'ids': [info['who']] + comp, 'who': info['who'], 'row': rid})
+            if (np0['pos'].get(info['who']) or {}).get('vis'): break
+            hh_ = np0['pos'].get(info['who'])
+            if w_ == 8 and hh_:   # 8 秒還看不到：可能是離太遠（遠的人不顯示），走近到 8 m 再看
+                await L.go_to(pg, cdp, R, hh_['x'], hh_['z'], 8.0, '%s 她還看不到，先走近' % tag, max_s=60, lv=hh_['lv'])
+            await pg.wait_for_timeout(1000)
+        out['pos0'] = np0; out['vis_wait_s'] = w_
         h = np0['pos'].get(info['who'])
         await D.shot(pg, 'hl1_%s_together' % rid, judge_black=False)
         if not R.check('%s ① 她在、看得到' % tag, bool(h and h['vis']), J(np0)): continue
