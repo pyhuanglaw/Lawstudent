@@ -139,7 +139,8 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     const fu=ev('ev_an_report_followup'), fb=ev('ev_an_report_feedback');
     const chk=(e2,day,setup)=>{ fresh(day,10,'library',{afternoonDone:true}); G.choices.cafeView='C'; SOCIAL.remember('heroine_01','CAFE_AFTERNOON',''); if(setup) setup(); return EVENTS.check(e2); };
     const r={before:chk(fu,5),declined:chk(fu,W4THU+1,()=>{ G.events.done.ev_an_report_split=1; }),partner:chk(fu,W4THU+1,()=>{ G.events.done.ev_an_report_split=1; SOCIAL.remember('heroine_01','REPORT_PARTNER',''); })};
-    check('A12 「報告的結論」（她寫完給你看）：分工之前沒有、說有組的有、一起寫的沒有',!r.before&&r.declined&&!r.partner,JSON.stringify(r));
+    r.partnerNew=chk(fu,W4THU+1,()=>{ SOCIAL.remember('heroine_01','REPORT_PARTNER',''); });   /* AA-C 11-14：新開局 meetAn 就記 REPORT_PARTNER、沒有分工那一場 */
+    check('A12 「報告的結論」（她寫完給你看）：分工之前沒有；報告搭檔（新開局 meetAn 記 REPORT_PARTNER）有——AA-C 11-14 改；舊存檔說有組的照舊有',!r.before&&r.declined&&r.partner&&r.partnerNew,JSON.stringify(r));
     const f={w5:chk(fb,termDay(5,5)),w6:chk(fb,W6MON)};
     check('A4／A12 「報告發回來了」第 6 週起（第 5 週沒有）',!f.w5&&f.w6,JSON.stringify(f));
     for(const [partner,want] of [[true,'「這份我學到很多。」'],[false,'「這份我學到很多。」']]){   /* AA_524 A5（企劃線 8fd10848d）：模擬法庭刪掉以後沒有合寫報告的場合，兩種玩家都改「這份我學到很多。」（原本「下次也一起寫。」／「下次一起寫。」）*/ fresh(W6MON,10,'library',{afternoonDone:true}); G.choices.cafeView='C'; SOCIAL.remember('heroine_01','CAFE_AFTERNOON',''); if(partner) SOCIAL.remember('heroine_01','REPORT_PARTNER',''); npc('an',1,1); picks=[0]; await EVENTS.run(fb);
