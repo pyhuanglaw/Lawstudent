@@ -25,7 +25,13 @@
      - bike 相關測試，改前、改後各跑一次比失敗名單；g2 說 116 支，本來就失敗 16 支。
      - 看 bike_cmp.jpg。
      - 在當時最新的開發分支上重出 patch → README「單車 v2.1」一節 → outbox → 通知 LAWWW-C 和 g2。
-2. **SHOP-REALISM-1112：等 g3 交大步 v2**（重烘中；鞋盒改成一個 Cardboard001×頂點色材質）。驗收時一定要看原本那片 5.11 m² 疊面（WALL_back_back_vc × WALL_back_back_paint）有沒有修掉。
+2. **SHOP-REALISM-1112：大步 v2 已送件，還沒驗收**（g3 11:48 送來，我交班後才讀到）。
+   - 送件：`claude/shop-cc0-g3` @ ee32d5714f，`docs/art-rebuild/second_ai/cc0_help/g3/dabu_v2.patch`（底 be9c932a17，9 檔）；並排圖 `dabu_v2_cmp.jpg`。
+   - g3 自己報的結果：
+     - `place_gate` 0 個新問題。疊面只變少：牆 32.98 → 18.09，全部 33.11 → 18.22（5.11 m² 那對修掉了）。
+     - `shop_cc0`、`xs_lm`（dabu walls 23 → 25）、xsshop 等 ALL PASS。LICENSES 的 Cardboard001 那一列有補。
+   - 照驗收流程做：套 patch、重跑 place_gate／coplanar、跑測試、看並排圖、重出 patch、交 LAWWW。
+   - 現在最大的一對疊面是 WALL_left_left_vc × WALL_left_print 4.372 m²，這次沒動，記著。
 3. **好拍第一次走近卡一下（BB-C 11:40 傳來，P3，不擋發布；BB_379 68aa8fc6e7）。**
    - 現象：觸控 lite、畫質 medium，開發分支和 main 第一次走近時，最長一幀都是 166.7 ms；第 2、3 趟都在 33 ms 以內。
    - 兩個版本都有，判斷是第一次載入。
@@ -81,7 +87,7 @@
 - 給 BB-C：LIMAO 兩件的副本 DELIVERED；BB_379 的決定已 ACK。
 - 幫手（g1～g4 是 LAWWW-C 開的，D163，換班由 LAWWW-C 收）：
   - g2：Daybreak PASS 已回覆；單車 v2.1 送件，還沒回覆（等下一班驗收）。
-  - g3：大口 PASS 已回覆；大步 v2 製作中。
+  - g3：大口 PASS 已回覆；大步 v2 送件 ee32d5714f，還沒回覆（等下一班驗收）。
   - g1、g4：沒有工作。
 
 ### F｜測試與問題
@@ -101,7 +107,7 @@
 - 重建汀州路街景要的 `textures/gen`：照 FACTS 從 `origin/claude/second-ai-env-art` 取，**不 commit**。另外 `tools/blender/textures/` 缺的 Poly Haven 材質要先下載（`lib2.fetch` 或 api.polyhaven.com）。
 - 幫手分支：
   - `claude/shop-cc0-g2` @ d8ee8b27c2（單車 v2.1 待驗收）。
-  - `claude/shop-cc0-g3` @ 7f4f1e4d71（大口已整合；大步製作中）。
+  - `claude/shop-cc0-g3` @ ee32d5714f（大口已整合；大步 v2 待驗收）。
 
 ## 11-14 02:2x 交班時的清單（舊；以最上面那一節為準）
 
