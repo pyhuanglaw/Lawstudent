@@ -12,7 +12,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 PATCH = os.path.join(HERE, 'fixtures', 'gg3_views_358eb72339.patch')
 NAMES = ['gg_antai', 'gg_xianguo', 'gg_rongendian']
 TOOL = os.path.join('tools', 'shots', 'shop_views_layers.py')
-TOOL_FIX = os.environ.get('TOOL_FIXTURE') or ''   # 11-14 LAWWW2-C 10:06：電腦 Python 3.15 沒有 numpy——用 LAWWW2 不用 numpy 的版本（ddd38ce214，只改這一檔）取代工作樹裡的再套 patch；跑完還原
+TOOL_FIX = os.environ.get('TOOL_FIXTURE') or ''
+RAW = (os.environ.get('RAW') or '0') == '1'   # 11-14 LAWWW2-C 10:25（bbc9531154）：電腦沒有 PIL——只拍、原始 PNG（<名稱>_far／_nb／_nw.png）＋depth.json 存進 OUT/raw，去背在雲端用 VIEWS_REMATTE 做   # 11-14 LAWWW2-C 10:06：電腦 Python 3.15 沒有 numpy——用 LAWWW2 不用 numpy 的版本（ddd38ce214，只改這一檔）取代工作樹裡的再套 patch；跑完還原
 fails = []
 
 
@@ -50,7 +51,9 @@ src = open(TOOL, encoding='utf-8').read()
 if not check('FAIL_SETUP 檢查：三個名字都在 VIEWS', all("'%s':" % n in src for n in NAMES), ''): done()
 try:
     print('跑：%s %s %s' % (sys.executable, TOOL, ' '.join([URL] + NAMES)), flush=True)
-    p = subprocess.run([sys.executable, TOOL, URL] + NAMES, capture_output=True, text=True, timeout=1800)
+    env_ = dict(os.environ)
+    if RAW: env_['VIEWS_RAW'] = os.path.abspath(os.path.join(OUT, 'raw')); os.makedirs(env_['VIEWS_RAW'], exist_ok=True); print('RAW 模式：VIEWS_RAW=%s' % env_['VIEWS_RAW'], flush=True)
+    p = subprocess.run([sys.executable, TOOL, URL] + NAMES, capture_output=True, text=True, timeout=1800, env=env_)
     print(p.stdout[-6000:], flush=True)
     if p.stderr.strip(): print('stderr：' + p.stderr[-3000:], flush=True)
     check('shop_views_layers.py 結束碼 0', p.returncode == 0, str(p.returncode))
@@ -60,12 +63,18 @@ try:
         if any(f.startswith(n + '_') for n in NAMES) and f.endswith('.webp'):
             shutil.copy2(os.path.join(vd, f), os.path.join(od, f)); got.append((f, os.path.getsize(os.path.join(vd, f))))
     print('收進 OUT/views：%s' % json.dumps(got, ensure_ascii=False), flush=True)
-    want = ['%s_%s.webp' % (n, t) for n in NAMES for t in ('day', 'night')]
-    check('六張遠景（gg_*_{day,night}.webp）都有', all(w in [g[0] for g in got] for w in want), json.dumps([w for w in want if w not in [g[0] for g in got]], ensure_ascii=False))
+    if RAW:
+        rd = os.path.join(OUT, 'raw'); rl = sorted(os.listdir(rd)) if os.path.isdir(rd) else []
+        print('OUT/raw：%s' % json.dumps([(f, os.path.getsize(os.path.join(rd, f))) for f in rl], ensure_ascii=False), flush=True)
+        check('RAW：三間的原始 PNG（<名稱>_far.png）和 depth.json 都有', all(any(f.startswith(n) and f.endswith('_far.png') for f in rl) for n in NAMES) and 'depth.json' in rl, json.dumps(rl, ensure_ascii=False))
+    else:
+        want = ['%s_%s.webp' % (n, t) for n in NAMES for t in ('day', 'night')]
+        check('六張遠景（gg_*_{day,night}.webp）都有', all(w in [g[0] for g in got] for w in want), json.dumps([w for w in want if w not in [g[0] for g in got]], ensure_ascii=False))
     near = [g[0] for g in got if '_near_' in g[0]]
     print('近景（_near_）：%s' % json.dumps(near, ensure_ascii=False), flush=True)
     jp = os.path.join('tools', 'shots', 'shop_views_layers.json')
-    if check('shop_views_layers.json 在', os.path.exists(jp), jp):
+    if RAW: print('RAW 模式：不檢查 shop_views_layers.json（景深在 OUT/raw/depth.json）', flush=True)
+    elif check('shop_views_layers.json 在', os.path.exists(jp), jp):
         shutil.copy2(jp, os.path.join(OUT, 'shop_views_layers.json'))
         d = json.load(open(jp, encoding='utf-8'))
         print('三間的景深：%s' % json.dumps({k: v for k, v in d.items() if any(k.startswith(n) for n in NAMES)}, ensure_ascii=False), flush=True)
