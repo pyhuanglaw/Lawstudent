@@ -2,6 +2,7 @@
 跑 tools/shots/shop_views_layers.py <url> gg_antai gg_xianguo gg_rongendian，把產出的 views/gg_*_{day,night}.webp、gg_*_near_*.webp、shop_views_layers.json 收進 OUT。
 只拍、不判（換圖、VIEW_LAYERS、測試、並排圖由 LAWWW2 做，BB 判）。patch 原檔：claude/focused-cray-c9uwvw 358eb72339 docs/art-rebuild/second_ai/wip/winview_gg3_1113/gg3_views.patch（複本 fixtures/gg3_views_358eb72339.patch）。
 CC_02 清單 2026-11-14：1n/a（時間照工具自己的 TIMES） 2✓（PC 工作樹是 CRLF，不用 git apply：照 patch 的 + 行插在錨點後面，錨點要剛好一次；插完確認三個名字都在 VIEWS） 3n/a（照工具） 4n/a（工具隱藏 NPC、玩家） 5n/a（不走路） 6n/a（照工具的等待） 7✓（lint） 8✓（只拍不判） 9✓（每個檔名、大小列出來） 10n/a（工具自己讀狀態） 11✓（佇列 game＋SCRIPT_FROM=cc＋SCRIPT_FILES 帶 patch、SHA 40 碼） 12✓（FAIL_SETUP：patch 套得上、三個名字都在、六張遠景都產出） 13n/a（不走路）
+11-14 加 TOOL_FIXTURE（fixtures 裡的工具替代版本，例 shop_views_layers_ddd38ce214.py＝不用 numpy）。
 用法（cwd＝受測版本工作樹）：python3 cc_winview_patch_wrap.py <url> <out>"""
 import os, sys, json, shutil, subprocess
 
@@ -11,6 +12,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 PATCH = os.path.join(HERE, 'fixtures', 'gg3_views_358eb72339.patch')
 NAMES = ['gg_antai', 'gg_xianguo', 'gg_rongendian']
 TOOL = os.path.join('tools', 'shots', 'shop_views_layers.py')
+TOOL_FIX = os.environ.get('TOOL_FIXTURE') or ''   # 11-14 LAWWW2-C 10:06：電腦 Python 3.15 沒有 numpy——用 LAWWW2 不用 numpy 的版本（ddd38ce214，只改這一檔）取代工作樹裡的再套 patch；跑完還原
 fails = []
 
 
@@ -30,11 +32,16 @@ if not check('FAIL_SETUP 檢查：patch 檔在', os.path.exists(PATCH), PATCH): 
 if not check('FAIL_SETUP 檢查：工具在工作樹裡', os.path.exists(TOOL), TOOL): done()
 # PC 的 repo 是 core.autocrlf=true（工作樹 CRLF），git apply 對 LF 的 patch 會對不上——照 patch 的「+」行自己插：插在 patch 的上一行 context（aoki 那一行）後面，換行照原檔
 orig = open(TOOL, 'rb').read()
+base = orig
+if TOOL_FIX:
+    fp = os.path.join(HERE, 'fixtures', TOOL_FIX)
+    if not check('FAIL_SETUP 檢查：工具的替代版本在（%s）' % TOOL_FIX, os.path.exists(fp), fp): done()
+    base = open(fp, 'rb').read(); print('用 fixtures/%s 取代 %s（%d → %d bytes）' % (TOOL_FIX, TOOL, len(orig), len(base)), flush=True)
 plines = open(PATCH, encoding='utf-8').read().split('\n')
 adds = [l[1:] for l in plines if l.startswith('+') and not l.startswith('+++')]
 ctx = [l[1:] for l in plines if l.startswith(' ')]
 anchor = next((c for c in ctx if "'aoki':" in c), None)
-txt = orig.decode('utf-8'); nl = '\r\n' if '\r\n' in txt else '\n'
+txt = base.decode('utf-8').replace('\r\n', '\n'); txt = txt.replace('\n', '\r\n') if b'\r\n' in orig else txt; nl = '\r\n' if '\r\n' in txt else '\n'
 if not check('FAIL_SETUP 檢查：patch 的錨點（aoki 那一行）在工具裡剛好一次', bool(anchor) and txt.count(anchor) == 1, repr(anchor)[:120]): done()
 i = txt.index(anchor) + len(anchor); i = txt.index(nl, i) + len(nl)
 open(TOOL, 'wb').write((txt[:i] + nl.join(adds) + nl + txt[i:]).encode('utf-8'))
