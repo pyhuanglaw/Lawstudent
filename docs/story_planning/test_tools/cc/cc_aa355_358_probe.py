@@ -314,7 +314,7 @@ async def part_natural(pg, cdp):
             await P.init(pg); await dlg_mark(pg); await P.load(pg, cdp, s, True); await P.events_on(pg)
             R.setup('[%s]【前置】最小存檔讀到 2025-09-02（mainDay 2）15:24 校園（classDone＝上過民法總則）；等遊戲的 S.tick 演 meetAn（小安追上來）' % tag)
             f0 = await pg.evaluate(FLAGS_JS); res['f0'] = f0
-            if not R.check('FAIL_SETUP 檢查：[%s] mainDay 2、在校園、還沒遇到小安、沒有 REPORT_PARTNER' % tag, f0['mainDay'] == 2 and f0['zone'] == 'campus' and not f0['metAn'] and not f0['reportPartner'], J(f0)): out[rt] = res; continue
+            if not R.check('FAIL_SETUP 檢查：[%s] mainDay 2、在校園、還沒認識小安（met_an；電腦快，metAn 可能已經記上＝她正在追上來）、沒有 REPORT_PARTNER' % tag, f0['mainDay'] == 2 and f0['zone'] == 'campus' and not f0['met_an'] and not f0['reportPartner'], J(f0)): out[rt] = res; continue
             m = await play(pg, cdp, tag + '_meet', 0, start_s=60, prefer=(('好啊，去咖啡廳',) if rt == 'A' else ('今天有點累',)))
             f1 = await pg.evaluate(FLAGS_JS); res['meet'] = m; res['f1'] = f1
             R.note('[%s] meetAn 之後 %s' % (tag, J(f1)))
