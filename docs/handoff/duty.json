@@ -4,8 +4,8 @@
  "ruleVersion": "HV-20",
  "ruleSource": {
   "branch": "claude/adoring-meitner-mqzst8",
-  "sha": "78cc9431",
-  "updated": "2026-11-13T08:50Z"
+  "sha": "90e4f76b",
+  "updated": "2026-11-14T09:46Z"
  },
  "accounts": [
   "A",
@@ -13,12 +13,12 @@
   "C",
   "D"
  ],
- "onDuty": null,
+ "onDuty": "C",
  "previous": "C",
  "accountState": {
   "A": "off",
   "B": "off",
-  "C": "off",
+  "C": "on",
   "D": "unused"
  },
  "roles": {
@@ -26,28 +26,26 @@
    "account": "C",
    "session": "session_01Me1thu8Zn934H58kWKNfuF",
    "branch": "claude/adoring-meitner-mqzst8",
-   "sha": "84d21836",
-   "sinceSha": "78cc9431",
-   "since": "2026-11-13T08:50Z",
-   "state": "handed-off",
+   "sha": "90e4f76b",
+   "sinceSha": "90e4f76b",
+   "since": "2026-11-14T09:46Z",
+   "state": "on",
    "prev": {
     "account": "C",
     "session": "session_01Me1thu8Zn934H58kWKNfuF",
     "branch": "claude/adoring-meitner-mqzst8",
-    "sha": "d8268b3e"
-   },
-   "handedOffAt": "2026-11-14T02:06Z",
-   "handoffSnapshot": "2026-11-14T0206Z_C_LAWWW.json"
+    "sha": "84d21836"
+   }
   },
   "LAWWW2": {
    "account": "C",
    "session": "session_015BuNi47yLUt5PviELapMNj",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "7a63bdf5",
-   "since": null,
-   "state": "handed-off",
+   "sha": "f65756d9",
+   "since": "2026-11-14T09:44Z",
+   "state": "on",
    "progressFile": "docs/art-rebuild/second_ai/HANDOFF.md",
-   "sinceSha": null,
+   "sinceSha": "4ec1acd5",
    "handedOffAt": "2026-11-14T02:02Z",
    "handoffSnapshot": "2026-11-14T0202Z_C_LAWWW2.json"
   },
@@ -55,11 +53,11 @@
    "account": "C",
    "session": "session_019evvieJUJD23EGf4nyLPgo",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "1dda5d26",
-   "since": null,
-   "state": "handed-off",
+   "sha": "e68c6674",
+   "since": "2026-11-14T09:42Z",
+   "state": "on",
    "progressFile": "docs/story_planning/AA_交接紀錄.md（企劃線）",
-   "sinceSha": null,
+   "sinceSha": "da4ce5ce",
    "handedOffAt": "2026-11-14T02:00Z",
    "handoffSnapshot": "2026-11-14T0200Z_C_AA.json"
   },
@@ -67,11 +65,11 @@
    "account": "C",
    "session": "session_01QYQ1cdaSaRWCGfWi9kZFRU",
    "branch": "claude/wonderful-mayer-7fm9g6",
-   "sha": "361d6dac",
-   "since": null,
-   "state": "handed-off",
+   "sha": "2b15ae78",
+   "since": "2026-11-14T09:41Z",
+   "state": "on",
    "progressFile": "docs/story_planning/BB_00_交接紀錄.md（企劃線）",
-   "sinceSha": null,
+   "sinceSha": "f9f05028",
    "handedOffAt": "2026-11-14T01:58Z",
    "handoffSnapshot": "docs/handoff/snapshots/2026-11-14T0158Z_C_BB.json"
   },
@@ -79,11 +77,11 @@
    "account": "C",
    "session": "session_01S1Gk9V6WCgJmkoo3wxHxhv",
    "branch": "claude/cc-testing",
-   "sha": "141b4a7e",
-   "since": null,
-   "state": "handed-off",
+   "sha": "a1e10faf",
+   "since": "2026-11-14T09:39Z",
+   "state": "on",
    "progressFile": "docs/story_planning/CC/CC_00_交接紀錄.md（claude/cc-testing）",
-   "sinceSha": null,
+   "sinceSha": "9fbaa509",
    "handedOffAt": "2026-11-14T01:59Z",
    "handoffSnapshot": "2026-11-14T0159Z_C_CC.json",
    "note": "CC-C 11:1x 只在 CC_00 寫了交班紀錄（41f993657），沒跑 duty handoff、沒存快照；LAWWW-C 11:4x 照交班紀錄手動標 handed-off（異常，HV-20 第①點：下一任 CC 交班一定要跑 duty handoff）"
@@ -1220,7 +1218,7 @@
    "resolved": false
   }
  ],
- "seq": 150,
+ "seq": 152,
  "chain": [
   {
    "seq": 1,
@@ -2269,6 +2267,20 @@
    "seq": 150,
    "at": "2026-11-14T02:08Z",
    "account": "-",
+   "role": "LAWWW2,AA,BB,CC",
+   "event": "sync"
+  },
+  {
+   "seq": 151,
+   "at": "2026-11-14T09:46Z",
+   "account": "C",
+   "role": "LAWWW",
+   "event": "register"
+  },
+  {
+   "seq": 152,
+   "at": "2026-11-14T09:46Z",
+   "account": "C",
    "role": "LAWWW2,AA,BB,CC",
    "event": "sync"
   }
