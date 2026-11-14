@@ -2587,9 +2587,12 @@ WINVIEW_MIRROR_rooms_r2 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | doc
 # ②GATE-REF-1114：校門 門外跟隨／門內跟隨／原固定相機（黑半圓）／校園側面向校門／公館區域的校門，白天 08:30、晚上 20:00；走過通道 z 0／±3／±5.5
 GATE_REF_r1 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_gate_blackdome_probe.py | index.html | 30 | TAG=gate_ref_r1;HOURS=8.5,20;GATE_REF=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
 # CC-B 11-14 14:0x：r1 門外／門內站點放在 z 0＝新校門正中間的門房＋花圃（玩家站在花圃裡、20:00 鏡頭在門房牆裡）＝探針；黑半圓 08:30 固定相機已經沒有。r2 站點改通道 z 3、走過通道改判門房兩側
-GATE_REF_r2 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_gate_blackdome_probe.py | index.html | 30 | TAG=gate_ref_r2;GATE_Z=3;HOURS=8.5,20;GATE_REF=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
+# CC-B 11-14 14:0x：BB-B 14:06——r2 等 LAWWW2-B 修好門額字再排，只要公館側 08:30＋20:00（探針的 z 0、站點兩處已改好）
+# HOLD GATE_REF_r2 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_gate_blackdome_probe.py | index.html | 30 | TAG=gate_ref_r2;GATE_Z=3;HOURS=8.5,20;GATE_REF=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
 # ③WZ-REAL-LITE-EMPTY-1114：r4 原本的站位（玻璃外 3 m 舊算法）＋路中間 (44,0)；SUNNY SIDE、小路、日常失速、林家；SPIN＝原地轉一圈量最長幀
 WZ_LITE_r1 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_wz_real_probe.py | index.html | 30 | TAG=wz_lite_r1;SHOPS=wz_brunch,wz_teishoku,wz_offbeat,wz_lin;HOURS=14,22;MID=1;SPIN=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
+# CC-B 11-14 14:0x：LAWWW-B 14:03——站路中間 (44,0) 轉一圈（4 秒×3，14／22），量南北兩間換建那一下的最長幀＋換的時間點；結果副本 LAWWW2-B、BB-B
+WZ_LITE_spin_r1 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_wz_real_probe.py | index.html | 20 | TAG=wz_lite_spin_r1;SHOPS=wz_brunch;HOURS=14,22;MID_SPIN=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
 # ④SHOP-REALISM-1112：單車 v2.1（bikeshop，週一公休、10～20）、大步 v2（xs_dabu）地點關卡
 SHOPREAL_BIKE_v21 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 30 | TAG=shopreal_bike_v21;ZONES=bikeshop;DAY=2025-10-22;HOURS=14,19;NODEBUG=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
 SHOPREAL_DABU_v2 | aa876bf9b9ad16262c2106615619a1f4cec5f77b | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 30 | TAG=shopreal_dabu_v2;ZONES=xs_dabu;HOURS=14,20.5;NODEBUG=1;SHA=aa876bf9b9ad16262c2106615619a1f4cec5f77b
@@ -2598,6 +2601,8 @@ LIMAO_DOOR_TEXT_r1 | 645709cddcffa0c77b4d7e643e2fce2e4127ffaa | probe | docs/sto
 HL1_CIRCLE_1028_r5 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;ROWS=c503_4_2,c503_8_1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 # CC-B 11-14 13:5x：r5 4_2 全過（走路跟、兩句都聽到）；8_1 學姊×陳助教 放到 8 m 內還是 hidden、站著不動 → r6 印 S.modelWait 診斷（_hcWait、降級模型、ASSETS 有沒有載到）
 HL1_CIRCLE_1028_r6 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;ROWS=c503_8_1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+# CC-B 11-14 14:0x：r6 診斷——學姊、陳助教沒有 hidden、沒在等模型，obj.visible false＝她們一直在走、離玩家 30 m（遠的不顯示）＝探針；r7 看不到就每 3 秒重放到她背後 5 m
+HL1_CIRCLE_1028_r7 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;ROWS=c503_8_1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 # CC-B 11-14 13:3x：BB_462 AA358_24_natural（不用捷徑三路）——雲端 81e5 三路 ALL PASS（A 賠十倍、B 你先看＋兩選項、C 不演），電腦正式跑
 AA358_24_natural | 81e5f197fb0e017257ad3dfd359dfafffe54f95b | probe | docs/story_planning/test_tools/cc/cc_aa355_358_probe.py | index.html | 40 | PARTS=NATURAL;SHA=81e5f197fb0e017257ad3dfd359dfafffe54f95b
 # CC-B 11-14 13:4x：PC 太快，前置檢查時 meetAn 已經開演（metAn true、met_an false）＝探針 → r2（A、B）
