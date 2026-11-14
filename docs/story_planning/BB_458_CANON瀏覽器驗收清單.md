@@ -162,3 +162,8 @@
 - **23:3x D05 靜態預判（等 r2 證實）**：截圖 dl_D05_first.png＝光典臺北，看完片「（片子很安靜。……）」後出 4 點＋就這樣回去的文字選單，畫面正常、可以選（不是卡住）。資料：DATE_HOTSPOTS.bg.d05_base_dusk（loc D05，cafe／garden／shop／board 四點都有位置）、S.bgKey('D05')＝d05_base_dusk＝entry 有。DATELAYER.covers 要求 pts＋all「全部」有位置——懷疑 all 裡多了 **D05.movie**（date_wish.js 有、date_hotspots 沒有）→ 整個地點照設計退回文字選單；或 ADV.active 當下是 false。兩種都只是「沒顯示圖層、照舊文字選單」（設計的退路），**不卡、不壞存檔**＝最壞 P2（圖層少一個地點）。r2 記 ctx.pts／ctx.all 的 id 再定。
 - 00:2x REL76_reach「看門口的花」P2 原因找到：season_stalls3d.js plainLook「沒有區域 id 就放行」→ 溫州街 (44,20.8) 房子裡也放了一顆；LAWWW 開發分支 fa9fb3634f 修（FN-LOOK-REACH-1114），不進 rc2d，發布後 CC 重跑 reachability_all（BB_466 #23）。BB 同意這樣分。
 - **00:3x REL76_social（76f8，cc-local 852cd3bcca，00:24 結束）＝逾時 120 分（exit 1）**：只跑完以安、芷若兩位。以安 #115「phone_date__STUCK」截圖＝**約會圖層（DATE-S6）正常顯示**（老倉庫展覽／紅磚牆前／週末市集／大草地四個點＋「就這樣回去」），探針是約會圖層出現以前寫的、只會按文字選單，所以停在圖層上＝**TEST_BUG**（不是遊戲卡住）；前面的招呼、閒聊階梯、一起念書（STUDIED_TOGETHER）、約會 1-1～2-2 都有走完、關係值有動。BB 判：**不擋 rc2d**（rc2 只換字，DATE_LAYER／NODL 另有專測）；發布後 CC 改探針（遇到 #dateLayer 點一個點，或加 ?nodatelayer）、拆成每位女主角一支再跑（BB_466）。電腦有在跑（00:24 有新結果）。
+- **00:5x DATE_LAYER_76f8_r2（cc-local d2b5cb6c57）判讀**：FAILED 4 → BB 判：
+  - D01、D12 ①～④ 全 PASS（圖層出現、350ms 防誤觸、觸控 ≥44px、直向可滑、沒有除錯字、點了收掉接著演）；D28、D33 照設計文字選單 PASS；沒有 JS 例外。
+  - **D01／D12 ⑤「存讀檔後還留著圖層」＝TEST_BUG**：16:00 存檔（約會中）→ 重新整理「繼續」→ 遊戲問「今天 15:00 你約了…現在要出發嗎？」→ 重新出發、到達、演 5 句 → 回到**第一輪選點圖層**（layer true＝在等玩家點，不是卡住）；探針把「最後畫面是圖層」當卡住。約會中存檔讀回來會從出發重來＝既有行為（文字選單時代就這樣），不是 76f8 新增。
+  - **D05（15:20、20:20 兩次）出文字選單＝P2，不擋**：DATELAYER.can 的包裝記錄 canCalls＝[]＝**DATE.pickChoose 根本沒被呼叫**；光典臺北是看電影的地點，看完片（17:30）以後的選點走的是另一條直接用 GM.choose 的路（不是 date3d.js:632／694 的 pickChoose），所以 date_hotspots 有 D05 的資料也用不到；跟 D33（影城）一樣變成文字選單，能選、不卡、不壞存檔。發布後交 LAWWW：看完片的選點改走 pickChoose，或把 D05 標成照設計文字選單（和 D33 一樣）。BB_466 #25。
+- **X364 GO 還差：T1_rc2。**
