@@ -2,6 +2,7 @@
 
 - 值班登記：帳號 C｜AA（AA-C）｜session_019evvieJUJD23EGf4nyLPgo｜claude/magical-albattani-bk7b4n｜接班基準 0c9daff873｜2026-11-13（使用者「繼續」，交班後同一帳號同一工作階段回班；duty register 重新登記）
 - **值班登記（2026-11-14 02:1x UTC）**：帳號 C｜AA（AA-C）｜session_019evvieJUJD23EGf4nyLPgo｜claude/magical-albattani-bk7b4n｜接班基準 da4ce5ceb2｜使用者「現在接班」＋「你上次交班之後沒有人接班 等於你繼續即可」→ 同一個工作階段直接接續（duty register；rules_sync 0 檔不同；RULE_SOURCE claude/adoring-meitner-mqzst8 seq 150，LAWWW-C 也已交班 a311fec378）。接著做下面交班 B 類的「下一班第一件事」。
+- **11-14 11:3x**：LIMAO-DOOR-HOURS-TEXT-1114：AA_1024 店門口互動點通用格式（店名＋今天營業時間；沒開時旁白分鐵門／玻璃門、打烊分通用／吃喝店）第二版 955adc61e3，BB 定稿（BB_465）；LAWWW 下一班先換汀州路，其他街排下一批 P3。
 - **11-14 11:2x**：US-PIZZA-BG-1114（BB_460、X367）：AA_1023 芝加哥第一天插深盤披薩一景，BB 改「帶路的」；LAWWW 先接成第一版 0cecfeaef9，AA 請改 → 定稿已接 aa1438fb99（開發分支確認有「何俊朗帶路的那家店」）。
 - **11-14 10:2x**：ev_an_report_followup 條件 LAWWW 改成「有 REPORT_PARTNER 或演過 ev_an_report_split」（AA 同意，舊存檔不拿掉；台詞照遊戲裡 AA_587 版）。BB_379 阿凱大二寒假那則「宵夜」改成「行李箱有一半是我媽裝的菜」（AA_959 785 列，BB 照用，pendingBB=[]）；給 LAWWW 的移植表以 785 列為準。
 - **11-14 10:1x（BB_462 fb2f535f99，P3）**：ev_an_report_followup（AA_358 2-4）條件寫反——實作是 notMemory REPORT_PARTNER，應為 memory REPORT_PARTNER（這場謝玩家當報告搭檔；cafeView 只選台詞版本）。AA 定：這一場留、只改條件、字不動，已交 BB-C、LAWWW-C。
