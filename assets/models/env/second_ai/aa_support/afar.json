@@ -1,11 +1,11 @@
 {
  "objects": 35,
  "unique_meshes": 35,
- "tris": 52730,
- "tris_drawn": 52730,
+ "tris": 54306,
+ "tris_drawn": 54306,
  "materials": 27,
- "out": "../afar/cc0.glb",
- "bytes": 3597580,
+ "out": "assets/models/env/second_ai/aa_support/afar.glb",
+ "bytes": 3694272,
  "texres": 512,
  "layout": 2,
  "seats": 26

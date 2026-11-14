@@ -243,8 +243,17 @@ if '--gg-street' in A:
         me = bpy.data.meshes.new(name); bm.to_mesh(me); bm.free(); me.materials.append(m)
         ob = bpy.data.objects.new(name, me); sc.collection.objects.link(ob); return ob
     _slab('gg_asphalt', _pm('gg_asphalt', 0xacacaa, 0.92), -90, 90, -31, 4, -0.03, 0.0)
-    _slab('gg_walk_s', _pm('gg_walk', 0xdcd5c8, 0.9), -90, 90, 4, 20, 0.0, 0.03)
-    _slab('gg_walk_n', _pm('gg_walk_n', 0xdcd5c8, 0.9), -90, 90, -45, -31, 0.0, 0.03)
+    def _pave(name, col):   # 人行道地磚：和遊戲 W3.stoneTex('#dcd5c8')×repeat[40,4] 同尺寸——錯縫長條磚 1.875 × 0.656 m、淡棕色細縫（WINVIEW-AUDIT-1105，LAWWW2-C 11-14：原本一整片純色，窗外看起來是灰的、和走出門看到的地磚不一樣）
+        m = _pm(name, col, 0.9); nt = m.node_tree; N = nt.nodes; b = N['Principled BSDF']
+        tc = N.new('ShaderNodeTexCoord'); br = N.new('ShaderNodeTexBrick')
+        br.offset = 0.5; br.offset_frequency = 2; br.squash = 1.0; br.squash_frequency = 2
+        br.inputs['Scale'].default_value = 1.0; br.inputs['Mortar Size'].default_value = 0.025; br.inputs['Mortar Smooth'].default_value = 0.1
+        br.inputs['Brick Width'].default_value = 1.875; br.inputs['Row Height'].default_value = 0.656; br.inputs['Bias'].default_value = 0.0
+        c = hexcol(col); br.inputs['Color1'].default_value = (*c, 1); br.inputs['Color2'].default_value = (c[0] * 0.95, c[1] * 0.95, c[2] * 0.94, 1)
+        br.inputs['Mortar'].default_value = (c[0] * 0.82, c[1] * 0.78, c[2] * 0.72, 1)
+        nt.links.new(tc.outputs['Object'], br.inputs['Vector']); nt.links.new(br.outputs['Color'], b.inputs['Base Color']); return m
+    _slab('gg_walk_s', _pave('gg_walk', 0xe8d2ac), -90, 90, 4, 20, 0.0, 0.03)
+    _slab('gg_walk_n', _pave('gg_walk_n', 0xe8d2ac), -90, 90, -45, -31, 0.0, 0.03)
     _wl = _pm('gg_lane', 0xf2f2ee, 0.6)
     for z in (-25, -19, -8, -2):
         for x in range(-88, 88, 6): _slab('gg_lane', _wl, x, x + 3, z - 0.2, z + 0.2, 0.0, 0.006)

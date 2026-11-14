@@ -1,13 +1,13 @@
 {
  "objects": 46,
  "unique_meshes": 45,
- "tris": 72707,
- "tris_drawn": 73879,
+ "tris": 76795,
+ "tris_drawn": 77967,
  "materials": 30,
- "out": "../../../tmp/claude-0/-home-user-Lawstudent/2ce44166-9539-55a9-b3d7-a71a95300975/scratchpad/flower_v3.glb",
- "bytes": 5565264,
+ "out": "assets/models/env/second_ai/flower_notes_interior.glb",
+ "bytes": 6229276,
  "texres": 512,
- "tris_total": 73879,
+ "tris_total": 77967,
  "walls": [
   "L0_E",
   "L0_N",

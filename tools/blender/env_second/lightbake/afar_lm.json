@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 438.3,
+ "bake_seconds": 352.6,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -43,5 +43,5 @@
   "WALL_right_afr_wood"
  ],
  "src": "assets/models/env/second_ai/aa_support/afar.glb",
- "src_sha256": "3b8a3093ff3535226f230e2dd8066bbf34d47e01528ba193609f88b7fe379b8b"
+ "src_sha256": "8e083c68e86da2685137fe640441a8e6869eed9ef40362c4cb9af4fa5a6d5554"
 }

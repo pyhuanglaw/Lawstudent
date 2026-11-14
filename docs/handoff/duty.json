@@ -13,12 +13,12 @@
   "C",
   "D"
  ],
- "onDuty": "C",
+ "onDuty": null,
  "previous": "C",
  "accountState": {
   "A": "off",
   "B": "off",
-  "C": "on",
+  "C": "off",
   "D": "unused"
  },
  "roles": {
@@ -26,89 +26,75 @@
    "account": "C",
    "session": "session_01Me1thu8Zn934H58kWKNfuF",
    "branch": "claude/adoring-meitner-mqzst8",
-   "sha": "78cc9431",
+   "sha": "84d21836",
    "sinceSha": "78cc9431",
    "since": "2026-11-13T08:50Z",
-   "state": "on",
+   "state": "handed-off",
    "prev": {
     "account": "C",
     "session": "session_01Me1thu8Zn934H58kWKNfuF",
     "branch": "claude/adoring-meitner-mqzst8",
     "sha": "d8268b3e"
-   }
+   },
+   "handedOffAt": "2026-11-14T02:06Z",
+   "handoffSnapshot": "2026-11-14T0206Z_C_LAWWW.json"
   },
   "LAWWW2": {
    "account": "C",
    "session": "session_015BuNi47yLUt5PviELapMNj",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "7d456096",
-   "since": "2026-11-13T08:54Z",
-   "state": "on",
+   "sha": "7a63bdf5",
+   "since": null,
+   "state": "handed-off",
    "progressFile": "docs/art-rebuild/second_ai/HANDOFF.md",
-   "sinceSha": "5b317a19",
-   "handedOffAt": "2026-11-12T22:12Z",
-   "handoffSnapshot": "2026-11-12T2212Z_C_LAWWW2.json"
+   "sinceSha": null,
+   "handedOffAt": "2026-11-14T02:02Z",
+   "handoffSnapshot": "2026-11-14T0202Z_C_LAWWW2.json"
   },
   "AA": {
    "account": "C",
    "session": "session_019evvieJUJD23EGf4nyLPgo",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "daad404e",
-   "since": "2026-11-13T08:57Z",
-   "state": "on",
+   "sha": "1dda5d26",
+   "since": null,
+   "state": "handed-off",
    "progressFile": "docs/story_planning/AA_交接紀錄.md（企劃線）",
-   "sinceSha": "0c9daff8",
-   "handedOffAt": "2026-11-12T22:09Z",
-   "handoffSnapshot": "2026-11-12T2209Z_C_AA.json"
+   "sinceSha": null,
+   "handedOffAt": "2026-11-14T02:00Z",
+   "handoffSnapshot": "2026-11-14T0200Z_C_AA.json"
   },
   "BB": {
    "account": "C",
    "session": "session_01QYQ1cdaSaRWCGfWi9kZFRU",
    "branch": "claude/wonderful-mayer-7fm9g6",
-   "sha": "e9557ef7",
-   "since": "2026-11-13T08:54Z",
-   "state": "on",
+   "sha": "361d6dac",
+   "since": null,
+   "state": "handed-off",
    "progressFile": "docs/story_planning/BB_00_交接紀錄.md（企劃線）",
-   "sinceSha": "0426a73d",
-   "handedOffAt": "2026-11-12T22:08Z",
-   "handoffSnapshot": "2026-11-12T2208Z_C_BB.json"
+   "sinceSha": null,
+   "handedOffAt": "2026-11-14T01:58Z",
+   "handoffSnapshot": "docs/handoff/snapshots/2026-11-14T0158Z_C_BB.json"
   },
   "CC": {
    "account": "C",
    "session": "session_01S1Gk9V6WCgJmkoo3wxHxhv",
    "branch": "claude/cc-testing",
-   "sha": "c6340b47",
-   "since": "2026-11-13T14:16Z",
-   "state": "on",
+   "sha": "141b4a7e",
+   "since": null,
+   "state": "handed-off",
    "progressFile": "docs/story_planning/CC/CC_00_交接紀錄.md（claude/cc-testing）",
-   "sinceSha": "67266911",
-   "handedOffAt": "2026-11-12T22:09Z",
-   "handoffSnapshot": "2026-11-12T2209Z_C_CC.json",
+   "sinceSha": null,
+   "handedOffAt": "2026-11-14T01:59Z",
+   "handoffSnapshot": "2026-11-14T0159Z_C_CC.json",
    "note": "CC-C 11:1x 只在 CC_00 寫了交班紀錄（41f993657），沒跑 duty handoff、沒存快照；LAWWW-C 11:4x 照交班紀錄手動標 handed-off（異常，HV-20 第①點：下一任 CC 交班一定要跑 duty handoff）"
   }
  },
  "lastHandoff": {
   "from": "C",
-  "at": "2026-11-12T22:12Z",
+  "at": "2026-11-14T02:06Z",
   "kind": "handoff",
   "snapshots": {
-   "AA": {
-    "file": "2026-11-12T2209Z_C_AA.json",
-    "ref": "origin/claude/magical-albattani-bk7b4n"
-   },
-   "BB": {
-    "file": "2026-11-12T2208Z_C_BB.json",
-    "ref": "origin/claude/wonderful-mayer-7fm9g6"
-   },
-   "CC": {
-    "file": "2026-11-12T2209Z_C_CC.json",
-    "ref": "origin/claude/cc-testing"
-   },
-   "LAWWW2": {
-    "file": "2026-11-12T2212Z_C_LAWWW2.json",
-    "ref": "origin/claude/focused-cray-c9uwvw"
-   },
-   "LAWWW": "docs/handoff/snapshots/2026-11-12T2223Z_C_LAWWW.json"
+   "LAWWW": "2026-11-14T0206Z_C_LAWWW.json"
   },
   "closed": true
  },
@@ -1234,7 +1220,7 @@
    "resolved": false
   }
  ],
- "seq": 148,
+ "seq": 150,
  "chain": [
   {
    "seq": 1,
@@ -2269,6 +2255,20 @@
    "seq": 148,
    "at": "2026-11-13T15:13Z",
    "account": "C",
+   "role": "LAWWW2,AA,BB,CC",
+   "event": "sync"
+  },
+  {
+   "seq": 149,
+   "at": "2026-11-14T02:06Z",
+   "account": "C",
+   "role": "LAWWW",
+   "event": "handoff"
+  },
+  {
+   "seq": 150,
+   "at": "2026-11-14T02:08Z",
+   "account": "-",
    "role": "LAWWW2,AA,BB,CC",
    "event": "sync"
   }

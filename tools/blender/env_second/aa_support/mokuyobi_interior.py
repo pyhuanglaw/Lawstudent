@@ -34,6 +34,7 @@ sh.M.update({
 sh.M['bulb'] = sh.M['shade']   # 燈泡和燈罩同一個發光材質（少一個材質）
 # SHOP-CC0-HELP-1113（D161）：頂點色零件換成 CC0 材質組（顏色照舊）；深色木作併進胡桃木材質（木紋）、墨綠沙發用 ambientCG 布料、紅棕單人沙發用皮革
 C.enable(sh, route=dict({h: 'walnut' for h in ('#6a4630', '#3a2a1e', '#3b2d22', '#4a3424', '#5a3a24')}, **{'vcg:#3f5a46': 'fabric', 'vcg:#8a4a3a': 'leather'}))
+C.fern_plants(sh)   # v2.2（LAWWW2-C 11-14 範圍定案）：小盆栽、垂吊黃金葛的葉片卡全部換 Poly Haven planter_pot_clay＋fern_02
 IT = {}
 for i in LAY['items']: IT.setdefault(i['kind'], []).append(i)
 WAL = '#5e3e29'; GREEN = '#3f5a46'; xf0 = Xf(0, 0)
@@ -311,7 +312,7 @@ for k in range(4):
     u = -0.97 + k * 0.485; sb.rbox(sh.a('vc'), u + 0.01, u + 0.475, 0.2, 0.74, 0.22, 0.232, r=0.004, col='#6a4630')
     sb.cyl(sh.a('vcm'), (u + 0.24, 0.62, 0.232), (u + 0.24, 0.62, 0.25), 0.011, col='#b8944a', seg=8)
 _bp = sb.p(-0.6, 0.78, 0.0); C.ph_put(sh, 'book_encyclopedia_set_01', _bp[0], 0.78, _bp[2], yaw=-math.pi / 2, height=0.24, decimate=0.015)   # 矮櫃上一排舊書（SHOP-CC0：Poly Haven 掃描；v3c 是四本疊起來的方塊）
-sh.plant(*sb.p(0.55, 0, 0.0)[::2], h=0.5, r=0.1, pot_col='#e8dcc0', y0=0.78)
+_pp = sb.p(0.55, 0, 0.0); C.ph_put(sh, 'potted_plant_02', _pp[0], 0.78, _pp[2], yaw=0.8, height=0.55, decimate=0.04, share=False)   # 矮櫃上的大葉盆栽（mokuyobi v2.1，LAWWW2-C P2：程式拼的平面葉片近看一片片切面 → Poly Haven 掃描）
 K.table_lamp(sh, *sb.p(-0.1, 0, -0.05)[::2], y=0.78, r=0.1)
 sh.wall_img('left', 'print', -2.8, 1.75, 0.5, 0.5, K.cell_uv(4, 0), off=0.03)
 Xf(0, 0).rbox(sh.w('left', 'walnut'), X0, X0 + 0.025, 1.75 - 0.29, 1.75 + 0.29, -2.8 - 0.29, -2.8 + 0.29, r=0.004)

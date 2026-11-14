@@ -5309,6 +5309,43 @@
    "status": "規則（永久）",
    "task": "HELPER-HANDOFF-1113",
    "note": "LAWWW-C 回：對，使用者不用開；下一班 LAWWW 照幫手 HANDOFF.md 自己用 create_session 開、登記。寫進 D163 第 4 點"
+  },
+  {
+   "id": "UA-LAWWW-1114-01",
+   "at": "2026-11-14 01:5x UTC",
+   "quote": "Release rc2e (Recommended)（選擇題：遊戲＋網頁原始碼全乾淨的 rc2e 先發；tests 250、tools 16、docs 2 檔另開 P0 下一版清）",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "wants": "X364",
+   "task": "CANON-REPO-CLEAN-1114",
+   "note": "LAWWW-C 問：X364 原話含「GitHub 上所有檔不留那些字」；rc2d 遊戲 src 0、index.html 隱藏按鈕 4 處、tests/tools/docs 268 檔。使用者選 rc2e（1404d5f2d4，只拿掉 index.html 那 4 處）。發布範圍＝遊戲與網頁原始碼；其餘 268 檔＝CANON-REPO-CLEAN-1114（P0，下一版）。"
+  },
+  {
+   "id": "UA-LAWWW-1114-02",
+   "at": "2026-11-14 02:0x UTC",
+   "quote": "現在交班",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "task": "HELPER-HANDOFF-1113",
+   "note": "P0 換班口令：通知 LAWWW2、AA、BB、CC、幫手 g1～g3 交班；LAWWW-C 寫快照、duty handoff、關喚醒。v9.10.26 不為交班發布，留給下一班（CANON-NO-ECON-1112）。"
+  },
+  {
+   "id": "UA-LAWWW-1114-03",
+   "at": "2026-11-14 09:4x UTC",
+   "quote": "你上次交班之後沒有人接班 等於你繼續即可 要不要繼續叫助手'幫你?",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "SHOP-CC0-HELP-1113",
+   "note": "LAWWW-C 繼續值班（沒有別的帳號接）。"
+  },
+  {
+   "id": "UA-LAWWW-1114-04",
+   "at": "2026-11-14 09:5x UTC",
+   "quote": "如果你要繼續請原本四位CC0幫手 因為每周的使用量隻剩下10%然後我希望他們趕快交一個版本給你然後這樣我換帳號的時候那個帳號的你就可以有比較完整的東西因為我猜是個幫手在使用量用完之前來不及做完全部的事情",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "SHOP-CC0-HELP-1113",
+   "note": "LAWWW-C 已叫 g1～g4 恢復：不開新店，最接近完成的先出 patch＋push＋更新 HANDOFF.md；用量快到先 commit＋push 再停。shop_cc0 還沒過的只剩 4 間：山嵐、頁間、轉角唱片、同弦（頁間 v4、同弦已交）。"
   }
  ]
 }

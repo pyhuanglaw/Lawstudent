@@ -1,7 +1,7 @@
 {
  "device": "CPU",
  "blender": "5.2.2 LTS",
- "bake_seconds": 1186.0,
+ "bake_seconds": 1044.9,
  "scale": 2.0,
  "intensity": 6.283185307179586,
  "res": 1024,
@@ -39,5 +39,5 @@
   "yy_wood"
  ],
  "src": "assets/models/env/second_ai/bb_support/yangyang_interior.glb",
- "src_sha256": "a84054a94ec8c02f772250df7ffca6f52f83caddeaf10d8b8b107c404aa029e7"
+ "src_sha256": "354e5307b1b69e0ae341484fac2cddaea1ee0b13bc2713b0b3db4bd2a79a78ad"
 }

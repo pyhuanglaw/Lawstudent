@@ -89,7 +89,7 @@ const Z3 = (function(){
   /* 正式街景模型門口、騎樓裡的雜物：人貼牆走會穿過去的那幾個，模型接上以後才擋住那幾格（ART-WZ0，LAWWW2 10-21；套件備用模型沒有這些雜物，不能先擋，不然是看不見的牆）。
      [x, z, 寬, 深]＝wenzhou_street.props.json／gongguan_shops.props.json 的腳印（wz_street.py 建模時寫出來）；pad 半格（blockRect 只擋格子中心在範圍裡的）。改了 Blender 的雜物要跟著改，tests/street_props_nav_unit.js 會抓 */
   const WZ_PROP_BLOCKS=[[-1.82,5.02,0.83,0.83],[-21.9,-4.9,0.6,0.46],[22.73,-7.6,1.46,0.44],[29.5,-7.5,0.6,0.44],[-37.2,-3.02,0.8,0.64],[-37.23,-3.5,0.63,0.61],[-36.78,-8.5,0.5,0.66]];   /* A2 公寓門邊盆栽、B1 鐵捲門前紙箱、B5 茶飲騎樓回收桶、冰菓室 A 字立牌、W0 兩個盆栽、日常失速門口的 A 字立牌（WZ-OFFBEAT-1104） */
-  const GG_PROP_BLOCKS=[[15.6,19.8,0.34,0.34],[-58.0,21.65,0.34,0.34],[-58.6,21.65,0.34,0.34],[-66.23,21.65,1.46,0.44],[-51.3,21.5,0.64,0.48],[-38.0,21.5,0.64,0.48],[-1.75,21.45,0.64,0.48],[-35.17,21.75,0.75,0.35],[-32.74,21.75,0.83,0.4],[-32.03,21.75,0.53,0.4],[-33.63,21.8,0.89,0.7],[-4.25,21.75,0.3,0.3],[-49.63,21.69,0.7,0.83],[-48.89,21.6,0.65,0.65],[-46.96,21.65,0.65,0.65],[-38.78,21.7,0.85,0.79],[-27.8,21.66,0.53,0.5],[-9.3,21.5,0.64,0.48],[75.7,21.5,0.64,0.48],[9.55,21.88,1.4,0.35],[52.6,21.85,0.8,0.4],[-13.3,21.8,0.7,0.4],[6.06,21.65,0.58,0.56],[51.69,21.67,0.82,0.68],[69.16,21.6,0.61,0.62],[76.95,21.66,0.55,0.58],[47.84,21.55,0.74,0.73],[45.35,21.54,0.74,0.73]];   /* 公館騎樓 14 間店玻璃前的雜物（G06 腳踏車行的車另外擋） */
+  const GG_PROP_BLOCKS=[[15.6,19.8,0.34,0.34],[-58.0,21.65,0.34,0.34],[-58.6,21.65,0.34,0.34],[-66.23,21.65,1.46,0.44],[-51.3,21.5,0.64,0.48],[-38.0,21.5,0.64,0.48],[-1.75,21.45,0.64,0.48],[-35.17,21.75,0.75,0.35],[-32.74,21.75,0.83,0.4],[-32.03,21.75,0.53,0.4],[-33.63,21.8,0.89,0.7],[-4.25,21.75,0.3,0.3],[-49.63,21.69,0.7,0.83],[-48.89,21.6,0.65,0.65],[-46.96,21.65,0.65,0.65],[-38.78,21.7,0.85,0.79],[-27.8,21.66,0.53,0.5],[-9.3,21.5,0.64,0.48],[75.7,21.5,0.64,0.48],[9.55,21.88,1.4,0.35],[52.6,21.85,0.8,0.4],[-13.3,21.8,0.7,0.4],[6.06,21.65,0.58,0.56],[51.69,21.67,0.82,0.68],[69.16,21.6,0.61,0.62],[76.95,21.66,0.55,0.58],[47.84,21.55,0.74,0.73],[45.35,21.54,0.74,0.73],[12.37,21.47,0.62,0.62],[12.87,21.36,0.46,0.56],[11.79,21.46,0.46,0.56]];   /* 公館騎樓 14 間店玻璃前的雜物（G06 腳踏車行的車另外擋）；最後三塊＝afar 門口的戶外小桌＋兩張椅子（ZQ-C504-LAPTOP-1101，gg_afar_terrace.glb） */
   function propBlocks(nav,list){ for(const [x,z,w,d] of list) nav.blockRect(x,z,w,d,0,0.25); }
   /* 正式模型載好才擋的雜物（盆栽、立牌…）擋好以後：玩家剛好站在擋到的地方就挪到最近站得住的地方（V7-RELOCATE-1104，BB-C 11-04 18:01：v7 舊存檔讀進公館，
      出生點照「模型還沒載好」的導航格找在 (−8.75, 20.75)；一兩秒後模型載好、頁間門口的盆栽（GG_PROP_BLOCKS (−9.3, 21.5)，01505ccd0）擋在旁邊，人站不住）。
@@ -1085,6 +1085,10 @@ const Z3 = (function(){
     /* 騎樓的板凳（ZQ-ARCADE-SEAT-1028，LAWWW2-B 11-01）：G07／G08 交界那根柱子（x 15.6、z 19.3）靠騎樓那一面一張紅色塑膠凳（背靠柱子、面向騎樓），柱子那一面離地 35 cm 一個插座（她左手邊）（都在 gongguan_shops.glb：wz_shopkit.py 的 G08 clutter）。
        子晴（heroine_04）linger 在 (16, 20.6)「坐在騎樓下的插座旁邊，筆電開著」：作息的 seatAt 找這一張（3.5 m 內最近的空位）；玩家也坐得下去。凳子只在正式模型裡，模型沒有登記就不放座位 */
     const seats=ggGLB?[{x:15.6,z:19.8,yaw:0,label:'坐在騎樓的板凳',kind:'stool'}]:[];
+    /* afar café 門口騎樓的戶外小桌（ZQ-C504-LAPTOP-1101 方案 A，LAWWW2-C 11-13；LAWWW-C 選 A）：tools/blender/env_second/gg_afar_terrace.py → bldg.gg_afar_terrace（Poly Haven outdoor_table_chair_set_01 CC0），
+       afar 大窗前（玻璃 z 22）一張摺疊桌＋東西兩張椅子面對面、桌上一杯冰美式。子晴 c504_4_3（2026 暑假）在 (12, 20.6)「咖啡店桌邊、筆電開著」：seatAt 找 3.5 m 內最近的空位＝西邊那張（0.9 m）。
+       座位＝椅面中心（gg_afar_terrace.json 的 seats，往桌子收 0.08 m）、面向桌子；從騎樓那一側（z 20.55）走過去坐（ap）。桌椅的腳印在 GG_PROP_BLOCKS 最後三塊（模型接上時才擋），騎樓 z 19.6～20.9 照樣走得通。模型沒有登記就不放座位 */
+    if(ggGLB&&typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gg_afar_terrace']) seats.push({x:11.87,z:21.46,yaw:1.552,label:'坐在 afar 門口的小桌',kind:'chair',ap:[11.87,20.55]},{x:12.79,z:21.37,yaw:-1.357,label:'坐在 afar 門口的小桌',kind:'chair',ap:[12.79,20.55]});
     for(const s of seats) E.interactables.push({x:s.x,z:s.z,radius:1.4,label:s.label,seat:s});
     /* 預設落點（沒給落點就用這個；手機「地點」的「公館商圈」同一點，src/data/places.js）：面向南邊的店（yaw 0），鏡頭在背後、校門那一側。
        原本 yaw π（面向校門）：鏡頭在羅斯福路那一側看著校門，店在鏡頭後面——要去店裡只能往鏡頭走，鏡頭不會轉（CAM-GONGGUAN-GATE-1107，CC 試玩 8/30 07:51，LAWWW2-B）。
@@ -1095,6 +1099,7 @@ const Z3 = (function(){
     /* GG-LANE-CLOSE-1110（X199 配套，LAWWW2 帳號 A 11-10；LAWWW 14:21 派）：往溫州街那條巷子，騎樓店面玻璃那條線往裡 0.3 m 一道住戶的鐵門（混凝土門柱、深綠鐵門、「私人巷道 請勿進入」告示牌），
        tools/blender/env_second/gg_lane_gate.py → bldg.gg_lane_gate（這一區的座標）。正式模型 gongguan_shops.glb 照舊看得到巷子往南延伸，現在一看就是關著的門（D36，不是隱形牆）。
        導航不動：巷口那一塊照舊是上面的 blockRect、門後面本來就在 blockOutside 外面。載入失敗＝只有盆栽（和原本一樣）。測試：node tests/gg_lane_close_unit.js */
+    if(ggGLB&&typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gg_afar_terrace']) ASSETS.loadOne('bldg.gg_afar_terrace').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); attachWenzhouModel(E,g,r,'ggAfarTerrace','gg_afar_terrace_glb'); r.userData.dyn=true; }).catch(e=>console.warn('afar 門口小桌載入失敗（座位照樣在，只是看不到桌椅）',e));   /* ZQ-C504-LAPTOP-1101（上面座位那段） */
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gg_lane_gate']){
       ASSETS.loadOne('bldg.gg_lane_gate').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); attachWenzhouModel(E,g,r,'ggLaneGate','gg_lane_gate_glb'); r.userData.dyn=true; }).catch(e=>console.warn('公館巷口鐵門載入失敗（照舊只有盆栽）',e)); }
     if(ggGLB) ASSETS.loadOne('bldg.gongguan_shops').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); attachWenzhouModel(E,g,r,'ggShop','gongguan_shops_glb'); shopInsideLit(r,zone,GG_IN_PLACE); shopInsideReal(E,g,zone,GG_SHOP_REAL); propBlocks(nav,GG_PROP_BLOCKS); propReStand(E,nav); ggShopLit(r,zone,GG_SHOP_REAL); }).catch(e=>console.warn('公館店面正式模型載入失敗，用套件的外觀',e));

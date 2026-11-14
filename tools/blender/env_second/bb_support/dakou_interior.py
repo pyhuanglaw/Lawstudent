@@ -34,6 +34,13 @@ NAVY, ORANGE, CREAM = (36, 52, 95), (232, 120, 42), (246, 236, 214)
 random.seed(621 + FL)
 B.reset(texres=512)
 root = B.group(f'dakou_{FL}f', props={'kind': f'dakou_{FL}f', 'w': W, 'd': D, 'y': Y0, 'h': HH, 'layout': LAY.get('version', 1) if 'version' in LAY else 1})
+# CC0 化（SHOP-REALISM-1112／SHOP-CC0-HELP-1113，D159、D160、D161；第③群幫手 2026-11-13）：工具 cc0_kit.py（tz_shops_interior.py 同一套）。
+#   黑色窗框、桌腳、椅腳＝ambientCG Metal009（校成 #26282c）；踢腳板＝ambientCG Plastic006；盆栽＝Poly Haven potted_plant_02（原本白方盆＋橢球葉子）；
+#   最後合併的頂點色材質（櫃檯、椅面、吧台、小東西）＝ambientCG Plastic006／Metal009 × 每一件的顏色（vc_tex：顏色照舊、多了材質組的細紋和法線）。
+#   牆（dk_wall）照舊乾淨的平塗（BB 11-10：油漆牆不給灰泥貼圖）。
+sys.path.insert(0, HERE)
+import cc0_kit   # noqa: E402
+K = cc0_kit.Kit(root, 'dk_')
 def font(sz): return ImageFont.truetype(FONT, sz)
 
 
@@ -438,7 +445,8 @@ for i in range(4): P[f'menu{i}'] = tex(f'menu{i}.png', (640, 360), t_menu(i))
 m_floor = img_mat('dk_floor', P['floor'], rough=0.35); m_floor['tile'] = 1.2
 m_lam = L.pbr('dk_laminate', 'laminate_floor_02', tile=1.4, target='#d7b78a', normal=0.2, maps=('diff',), rough_value=0.45)   # 桌面、吧台檯面、木椅、扶手（不是地板）
 m_wall = L.flat('dk_wall', '#e8c492' if FL == 2 else '#f2e0c6', rough=0.8)   # v2b：一樓的牆淺一點（外觀圖是暖白）   # v2：晚上暖光下的奶油色   # v2：暖一點的米白（晚上的暖光下）
-m_black = L.flat('dk_black', '#26282c', rough=0.45, metal=0.35)
+m_black = K.acg('dk_black', 'Metal009', maps=('diff',), target='#26282c', metal=0.35, rough_value=0.45, tile=1.0, res=256)   # CC0（原本純色）
+m_base = K.acg('dk_base', 'Plastic006', maps=('diff',), vary=0.05, target='#5a5c60', rough_value=0.6, tile=0.5, res=256)   # 踢腳板（PVC）
 m_steel = L.flat('dk_steel', '#b9bdc1', rough=0.3, metal=0.42)
 m_glass = L.flat('dk_glass', '#c8d4d8', rough=0.04, alpha=0.07)   # v2：透明的玻璃（不是霧面板），看得到窗外的夜景
 m_panel = glowmat('dk_lightpanel', '#ffc98a' if FL == 2 else '#ffcf96', 2.4 if FL == 2 else 26.0)   # v2b：一樓的燈板、崁燈再亮再暖（曝光 0 就接近參考圖）   # v2：晚上的燈板約 3000K 暖光   # v2：晚上的燈板，暖白、不刺眼
@@ -489,7 +497,7 @@ def floor_slab():
         for (a, b, c, d_) in ((X0, SH['x0'], Z0, Z1), (SH['x0'], X1, Z0, SH['z0']), (SH['x0'], X1, SH['z1'], Z1)): fm.box(a, b, Y0 - 0.05, Y0, c, d_)
     fm.finish(root)
     if FL == 1:   # 樓梯口的樓板邊（一樓抬頭看得到）
-        e = Mesh('STAIRHOLE_EDGE', m_wall); e.box(SH['x0'] - 0.02, SH['x0'], 3.4, 3.62, SH['z0'], SH['z1']); e.box(SH['x0'], X1, 3.4, 3.62, SH['z1'], SH['z1'] + 0.02); e.finish(root)
+        e = Mesh('STAIRHOLE_EDGE', m_wall); e.box(SH['x0'] - 0.02, SH['x0'], 3.402, 3.62, SH['z0'], SH['z1']); e.box(SH['x0'], X1, 3.402, 3.62, SH['z1'], SH['z1'] + 0.02); e.finish(root)   # SHOP-CC0-HELP-1113：疊面錯開（place_gate）：底面離天花板 2 mm
 
 
 def glass_wall(side, a0, a1, y0, y1, solid_runs=(), door=None):
@@ -498,8 +506,9 @@ def glass_wall(side, a0, a1, y0, y1, solid_runs=(), door=None):
     def seg(u0, u1):
         n = max(1, round((u1 - u0) / 1.6)); us = [u0 + (u1 - u0) * i / n for i in range(n + 1)]
         for u in us:
-            if side == 'front': fr.box(u - 0.04, u + 0.04, y0, y1, Z1 - 0.06, Z1 + 0.04)
-            else: fr.box(X0 - 0.04, X0 + 0.06, y0, y1, u - 0.04, u + 0.04)
+            # 直框比橫框薄 2 mm（前後各縮 2 mm）：兩個方塊的前、後面不在同一平面（SHOP-CC0-HELP-1113，place_gate 疊面：原本直框、橫框交接處整片疊在一起會閃）
+            if side == 'front': fr.box(u - 0.04, u + 0.04, y0, y1, Z1 - 0.058, Z1 + 0.038)
+            else: fr.box(X0 - 0.038, X0 + 0.058, y0, y1, u - 0.04, u + 0.04)
         if side == 'front':
             fr.box(u0, u1, y0, y0 + 0.1, Z1 - 0.06, Z1 + 0.04); fr.box(u0, u1, y1 - 0.08, y1, Z1 - 0.06, Z1 + 0.04); gl.box(u0, u1, y0 + 0.1, y1 - 0.08, Z1 - 0.01, Z1 + 0.0)
         else:
@@ -507,7 +516,7 @@ def glass_wall(side, a0, a1, y0, y1, solid_runs=(), door=None):
     if door:
         dx0, dx1 = door['x'] - door['w'] / 2, door['x'] + door['w'] / 2
         seg(a0, dx0); seg(dx1, a1)
-        for x in (dx0, (dx0 + dx1) / 2, dx1): fr.box(x - 0.04, x + 0.04, y0, 2.6, Z1 - 0.06, Z1 + 0.04)
+        x = (dx0 + dx1) / 2; fr.box(x - 0.04, x + 0.04, y0, 2.6, Z1 - 0.058, Z1 + 0.038)   # 門中間的直框（門兩邊的直框 seg() 已經有了：原本又疊一根一模一樣的）
         fr.box(dx0, dx1, 2.52, 2.6, Z1 - 0.06, Z1 + 0.04); gl.box(dx0 + 0.04, dx1 - 0.04, 0.05, 2.52, Z1 - 0.01, Z1)
         fr.box(dx0, dx1, 2.6, y1, Z1 - 0.06, Z1 + 0.04)   # 門上的窗框（簡化：一整塊）
         for x in ((dx0 + dx1) / 2 - 0.12, (dx0 + dx1) / 2 + 0.12): fr.box(x - 0.015, x + 0.015, 0.9, 1.3, Z1 - 0.12, Z1 - 0.06)   # 門把
@@ -525,9 +534,9 @@ def solid_wall(side):
     if side == 'right': w.box(X1, X1 + T, Y0, Y0 + HH, Z0, Z1)
     elif side == 'back': w.box(X0, X1, Y0, Y0 + HH, Z0 - T, Z0)
     w.finish(g)
-    b = CMesh(f'WALL_{side}_base', m_vc)   # 踢腳板
-    if side == 'right': b.cbox(X1 - 0.015, X1, Y0, Y0 + 0.1, Z0, Z1, '#5a5c60')
-    else: b.cbox(X0, X1, Y0, Y0 + 0.1, Z0, Z0 + 0.015, '#5a5c60')
+    b = Mesh(f'WALL_{side}_base', m_base)   # 踢腳板（CC0 塑膠）
+    if side == 'right': b.box(X1 - 0.015, X1 - 0.002, Y0 + 0.001, Y0 + 0.1, Z0, Z1)   # SHOP-CC0-HELP-1113：疊面錯開（place_gate）：離牆 2 mm、離地 1 mm
+    else: b.box(X0, X1, Y0 + 0.001, Y0 + 0.1, Z0 + 0.002, Z0 + 0.015)
     b.finish(g); return g
 
 
@@ -562,8 +571,9 @@ def table(top, legs, x, z, w, d, h=0.75, round_=False):
 
 
 def plant(cm, x, z, s=1.0, y=None):
-    """盆栽：白色方盆＋一叢葉子（頂點色）"""
+    """盆栽：Poly Haven potted_plant_02（CC0 掃描模型；原本白色方盆＋一叢橢球葉子）。高度照原本的 1.25 m × s"""
     y = Y0 if y is None else y; r = random.Random(int(x * 100 + z * 7))
+    K.ph_put('potted_plant_02', x, y, z, r.uniform(0, 6.28), s, height=1.2, decimate=0.04); return
     cm.crbox(x - 0.25 * s, x + 0.25 * s, y, y + 0.5 * s, z - 0.25 * s, z + 0.25 * s, '#e8e6e0', r=0.02)
     cm.cbox(x - 0.22 * s, x + 0.22 * s, y + 0.48 * s, y + 0.5 * s, z - 0.22 * s, z + 0.22 * s, '#4a3a2a')
     n0 = set(cm.bm.faces)
@@ -656,13 +666,13 @@ if FL == 1:
     for k in range(6): kp.add_bm(L.lathe([(0.0, 0.0), (0.04, 0.0), (0.05, 0.14), (0.0, 0.14)], seg=10), Matrix.Translation(g2b(-4.9 + k * 0.11, 1.0, ct['z0'] - 0.5)))
     st.finish(root); kp.finish(root, smooth=True)
     # 員工通道的牆＋門
-    sf = F['staff']; sw = Mesh('STAFF_WALL', m_wall); sw.box(sf['x0'], sf['x0'] + 0.1, 0.0, YC, Z0, sf['z1']); sw.box(sf['x0'], sf['x1'], 0.0, YC, sf['z1'] - 0.1, sf['z1']); sw.box(sf['x1'] - 0.1, sf['x1'], 0.0, YC, sf['z1'], ST['za']); sw.finish(root)
+    sf = F['staff']; sw = Mesh('STAFF_WALL', m_wall); sw.box(sf['x0'], sf['x0'] + 0.1, 0.0, YC, Z0, sf['z1'] - 0.1); sw.box(sf['x0'], sf['x1'], 0.0, YC, sf['z1'] - 0.1, sf['z1']); sw.box(sf['x1'] - 0.1, sf['x1'], 0.0, YC, sf['z1'], ST['za']); sw.finish(root)
     # （員工通道後面 x 4.55～6、z −8～−1.6 整塊關著：倉庫、廁所，這一版不做室內）
     props.crbox(3.55, 4.4, 0.0, 2.1, sf['z1'] + 0.0, sf['z1'] + 0.03, '#d8d4cc', r=0.01); props.cbox(4.25, 4.3, 0.95, 1.05, sf['z1'] + 0.03, sf['z1'] + 0.07, '#9a9c9e')
     zcard('STAFF_SIGN', sf['z1'] + 0.035, 3.7, 4.25, 1.6, 1.78, IM['staff'], +1)
     # 點餐櫃檯：檯面、正面貼圖、收銀機、取餐區
     Mesh('COUNTER_TOP', L.flat('dk_quartz', '#f2e4cc', rough=0.25)).rbox(ct['x0'], ct['x1'], ct['h'] - 0.04, ct['h'], ct['z0'], ct['z1'] + 0.04, r=0.01, seg=2).finish(root)
-    Mesh('COUNTER_BODY', m_wall).box(ct['x0'], ct['x1'], 0.0, ct['h'] - 0.04, ct['z0'], ct['z1'] - 0.02).box(ct['x1'] - 0.02, ct['x1'], 0.0, ct['h'] - 0.04, ct['z0'], ct['z1']).finish(root)
+    Mesh('COUNTER_BODY', m_wall).box(ct['x0'], ct['x1'] - 0.02, 0.0, ct['h'] - 0.04, ct['z0'], ct['z1'] - 0.02).box(ct['x1'] - 0.02, ct['x1'], 0.0, ct['h'] - 0.04, ct['z0'], ct['z1']).finish(root)
     zcard('COUNTER_FACE', ct['z1'] + 0.001 - 0.02, ct['x0'], ct['x1'], 0.0, ct['h'] - 0.04, IM['counter'], +1)
     for x in (-2.6, 0.2):
         props.crbox(x - 0.18, x + 0.18, ct['h'], ct['h'] + 0.06, ct['z0'] + 0.2, ct['z0'] + 0.5, '#2a2c30', r=0.01)
@@ -898,11 +908,15 @@ else:
 props.finish(root, smooth=True); legs.finish(root); tops.finish(root); SCR.finish(root, uv=False)
 for ob in list(root.children_recursive):
     if ob.type == 'MESH' and ob.data and len(ob.data.polygons) == 0: B.remove(ob)
-vc_m = L.vc_material('dk_vc_matte', rough=0.62); vc_g = L.vc_material('dk_vc_gloss', rough=0.3); vc_x = L.vc_metal('dk_vc_metal', rough=0.35, metal=0.4)
-grp = L.auto_vc_groups(root, vc_m, vc_x, gloss=vc_g, protect={'dk_glass', 'dk_warm', 'dk_lightpanel', 'dk_ceiling', 'dk_props_vc', 'GLOW_dk_screens'})
+vc_m = K.vc_tex('dk_vc_matte', 'Plastic006', vary=0.05, maps=('diff', 'nor'), rough_value=0.62, tile=0.5, res=256)
+vc_g = K.vc_tex('dk_vc_gloss', 'Plastic006', vary=0.05, maps=('diff', 'nor'), rough_value=0.3, tile=0.5, res=256)
+vc_x = K.vc_tex('dk_vc_metal', 'Metal009', maps=('diff',), metal=0.4, rough_value=0.35, tile=1.0, res=256)
+CC0_PROTECT = {'dk_wall', 'dk_black', 'dk_base', 'dk_vc_matte', 'dk_vc_gloss', 'dk_vc_metal'} | {m.name for m in bpy.data.materials if m.name.startswith('dk_ph_')}
+grp = L.auto_vc_groups(root, vc_m, vc_x, gloss=vc_g, protect={'dk_glass', 'dk_warm', 'dk_lightpanel', 'dk_ceiling', 'dk_props_vc', 'GLOW_dk_screens'} | CC0_PROTECT)
 grp['dk_props_vc'] = vc_m
 L.vc_consolidate(root, grp)
-L.atlas_small(root, os.path.join(TMP, f'dk{FL}_atlas.png'), f'dk{FL}_atlas', protect={'dk_ceiling', 'dk_floor', 'dk_laminate', 'GLOW_dk_screens'}, max_tris=6000, max_rep=1, cell=512, rough=0.55)
+L.atlas_small(root, os.path.join(TMP, f'dk{FL}_atlas.png'), f'dk{FL}_atlas', protect={'dk_ceiling', 'dk_floor', 'dk_laminate', 'GLOW_dk_screens'} | CC0_PROTECT, max_tris=6000, max_rep=1, cell=512, rough=0.55)
 L.merge_by_material(root, keep=lambda ob: ob.name.startswith('WALL_') or ob.name.startswith('NIGHT_'), key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
+K.report()
 L.export(OUT)
 print('OK', OUT, B.stats())

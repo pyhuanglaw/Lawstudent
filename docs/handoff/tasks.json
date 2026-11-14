@@ -406,6 +406,16 @@
     "match": "清州刀削麵打烊後門口湯鍋檯",
     "task": "L118-KOREA-STAND-1112",
     "why": "LAWWW2-C 11-12 22:12 交班表外，LAWWW-C 開 ID"
+   },
+   {
+    "role": "LAWWW2",
+    "match": "OFFBEAT-VIEW-P3-1114",
+    "task": "OFFBEAT-VIEW-P3-1114"
+   },
+   {
+    "role": "LAWWW2",
+    "match": "GG-STREET-TREES",
+    "task": "GG-STREET-TREES"
    }
   ],
   "timeNote1023": "LAWWW-B 10-23 17:2x～18:0x 的紀錄（tasks notes、USER_WANTS、BB 清單、commit 訊息、給其他 AI 的訊息）裡寫的「19:0x～21:1x」是時間標錯：實際都在 17:2x～18:0x UTC 之間（18:05 核對 date -u）。內容照舊有效。"
@@ -46327,7 +46337,8 @@
     "acceptance": "lampshade_flip ALL PASS、畫面不變（Blender 同鏡頭像素差 0）",
     "receiver": "LAWWW",
     "ack": "ACTIONED"
-   }
+   },
+   "note": "｜2026-11-14 00:2x LAWWW-C：舊的「lampshade_flip_unit.js FAIL」已過時——0c49bcf64e 起 ALL PASS（LAWWW2-C 核對五組吊燈燈罩沒有裡外相反；LAWWW 在 ccbd520b61 上重跑 ALL PASS）。"
   },
   {
    "id": "PE-IN-GYM-AA644-1103",
@@ -48266,7 +48277,8 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "src": "UA-LAWWW-1105-41"
+   "src": "UA-LAWWW-1105-41",
+   "note": "｜2026-11-14 00:3x LAWWW-C：公館第三批（安泰、汀州鮮果、榮恩典）LAWWW2 5be14598a1 已整合：6 張原位窗景（校門、照遊戲位置的樹、人行道地磚紋），tz_shops_layout 三間不再借 cvs／noodle／bookstore。窗景測試 6 支＋tz_shops 相關全 PASS、place_gate ALL PASS。剩 CC 進三間往窗外拍、BB 判。已知：14:00 南側店面影子罩人行道，窗外地面比遊戲暗。"
   },
   {
    "id": "TAP-SEAT-REACH-1105",
@@ -56047,7 +56059,8 @@
     "spec": "使用者原話",
     "ack": "SENT",
     "acceptance": "BB 瀏覽器判：新遊戲直接從法律系迎新宿營開始、遊戲裡找不到舊序章和外校的任何內容、可昕在法律系出現且不是女朋友；canon_scan.py 結束碼 0"
-   }
+   },
+   "note": "｜2026-11-14 01:5x 使用者選擇題（UA-LAWWW-1114-01）：發布 rc2e 1404d5f2d4（遊戲＋網頁原始碼全乾淨）；tests／tools／docs 268 檔拆到 CANON-REPO-CLEAN-1114（P0，下一版）。BB GO（BB_467：rc2d 全部依據＋rc2e 靜態）後改已驗收。"
   },
   {
    "id": "TZ-SHUTTER-POS-1112",
@@ -56541,7 +56554,7 @@
    "id": "L118-SEAT-FIX-1112",
    "title": "118 巷座位小問題（和鏡頭無關）：118牛排 #1 起身被推到 5.4 m 外（fb 備援）P2、辛亥韓食 #6 坐下偏 0.5 m P2、幾張點椅子停錯張 P3",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -56564,7 +56577,8 @@
     "spec": "BB_379",
     "acceptance": "起身落在椅子旁邊、坐下對準椅子、點哪張走哪張；CC ALLSEATS PASS",
     "ack": "DELIVERED"
-   }
+   },
+   "note": "2026-11-14 00:2x LAWWW-C：r4（LAWWW2 853e7e3d86）已在 d8d3a61b5e 整合；l118_seat_* 等 7 支 ALL PASS（LAWWW2 在 e0525231f6 跑）。待 CC 重跑 L118_CAM36_a／b（辛亥韓食 #6／#12、大學食堂 #5／#6／#8）。"
   },
   {
    "id": "RONG-SIGN-1112",
@@ -56740,7 +56754,10 @@
      "opened": "2026-11-13 19:4x",
      "branch": "claude/shop-cc0-g1",
      "handoff": "docs/art-rebuild/second_ai/shop_cc0_g1/HANDOFF.md",
-     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）"
+     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）｜11-14 00:2x 日常失速 v2.1（37ee5046b9，吊盆換 Poly Haven fern_02）LAWWW2 PASS、LAWWW 已整合（7db3174dd4 patch）",
+     "lastSha": "bbd34c9afc",
+     "handoff_1114": "02:0x 交班完成（使用者「現在交班」），最後 SHA bbd34c9afc，之後不再寫入；下一班 LAWWW 照它的 HANDOFF.md 決定要不要另開幫手（D163 第 4 點）",
+     "closed": "2026-11-14 02:0x LAWWW-C：第①群五間全部 LAWWW2 PASS；已整合到木曜日 v2.2、日常失速 v2.1；一盞 v1.1（LAWWW2 15124fd457）還沒整合＝下一班；只剩 P3 霧面雲狀斑。最後 SHA bbd34c9afc"
     },
     {
      "name": "幫手 g2",
@@ -56750,7 +56767,9 @@
      "opened": "2026-11-13 19:4x",
      "branch": "claude/shop-cc0-g2",
      "handoff": "docs/art-rebuild/second_ai/shop_cc0_g2/HANDOFF.md",
-     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）"
+     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）｜11-14 00:2x 慢輪單車 CC0（c180ee1f75）LAWWW2 PASS、LAWWW 已整合（4fd3c0d98d patch）；層架商品 v2 g2 續做",
+     "lastSha": "f58cf983e2",
+     "handoff_1114": "02:0x 交班完成（使用者「現在交班」），最後 SHA f58cf983e2，之後不再寫入；下一班 LAWWW 照它的 HANDOFF.md 決定要不要另開幫手（D163 第 4 點）"
     },
     {
      "name": "幫手 g3",
@@ -56760,7 +56779,9 @@
      "opened": "2026-11-13 19:4x",
      "branch": "claude/shop-cc0-g3",
      "handoff": "docs/art-rebuild/second_ai/shop_cc0_g3/HANDOFF.md",
-     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）"
+     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）｜11-14 01:1x 新生運動改由 LAWWW2-C 自己接手（g3 留大口一樓、二樓、同弦）",
+     "lastSha": "12b0fd3def",
+     "handoff_1114": "02:0x 交班完成（使用者「現在交班」），最後 SHA 12b0fd3def，之後不再寫入；下一班 LAWWW 照它的 HANDOFF.md 決定要不要另開幫手（D163 第 4 點）"
     },
     {
      "name": "幫手 g4",
@@ -56770,9 +56791,13 @@
      "opened": "2026-11-13 19:4x",
      "branch": "claude/shop-cc0-g4",
      "handoff": "docs/art-rebuild/second_ai/shop_cc0_g4/HANDOFF.md",
-     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）"
+     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）",
+     "closed": "2026-11-14 00:1x LAWWW-C：第④群六間（燒臘、林家、花序、阿德 v2.1、南洋 v6、洋洋 v2b）全部 LAWWW2 PASS、已整合（最後一包 d58846ba9a）；g4 最後 SHA 7758962c2（交班補一個 HANDOFF commit；原 dddc6a19d）、HANDOFF.md 列下一版 P2 四點（南洋瓶子／紅杯／入口黑方箱、洋洋層架瓶罐）——要做 P2 再另開",
+     "lastSha": "7758962c2",
+     "handoff_1114": "02:0x 交班完成（使用者「現在交班」），最後 SHA 7758962c2，之後不再寫入；下一班 LAWWW 照它的 HANDOFF.md 決定要不要另開幫手（D163 第 4 點）"
     }
-   ]
+   ],
+   "note": "｜11-14 01:5x 新生運動廣場 CC0（g3 252bc3765a＋LAWWW2 3073f2ee07）已整合：純色 62%→5%。｜02:0x 交班時還沒整合（LAWWW2 已驗收或待驗收）：一盞 v1.1 15124fd457（PASS）；青木（g2，PASS 待整合）；頁間 v4 389adca8c0（待 LAWWW2）；同弦 768816c33c（待 LAWWW2）；glb_coplanar instancing edb96e33ec（待 LAWWW2；之後整合的店要重跑 --coplanar）。g2 唱片 v2／山嵐 v3／單車 v2／Daybreak v2.1b、g3 大口／好拍／大步 v2：腳本好了、沒烘。"
   },
   {
    "id": "KX-GF-PLACES-1113",
@@ -56846,6 +56871,269 @@
    },
    "next": "【LAWWW-C 11-13 23:5x】camp_y1.js 19、197 行 bg:'dark'→'ntu_avenue'；tools/story/black_bg_audit.js 加讀 camp_y1.js（改前抓到 2 場、改後 0）；camp_y1／camp_era_lines／ui_night_bg／t1_time_bugs／friend_cards ALL PASS。待：BB 看第一個畫面；新圖到了換掉（BG-3DSHOT-1021）",
    "xai": []
+  },
+  {
+   "id": "GG-STREET-TREES",
+   "title": "公館街上的行道樹從店裡看出去是一顆顆浮著的綠球",
+   "owner": "LAWWW2",
+   "priority": "P2",
+   "status": "已整合待測試",
+   "source": "LAWWW2-C 2026-11-13 23:50（驗收空檔查）",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   },
+   "next": "LAWWW2 驗收空檔查",
+   "xai": [],
+   "note": "2026-11-14 00:2x LAWWW-C：LAWWW2 ee53e06709 gg_street_trees_views.patch 已整合（afar、青木、頁間、Daybreak 四間窗景日夜 8 張 webp 照遊戲 103 棵樹重拍，程式不動；窗景測試 25 支 ALL PASS）。待 BB 看圖判、CC 第二層拍窗景。｜00:2x 第二份：慢輪單車視差窗 views/bikeshop_{day,night}.webp 重拍（LAWWW2 b358759861）已整合；窗景／單車 5 支 ALL PASS。"
+  },
+  {
+   "id": "RC2-PORT-DEV-1114",
+   "title": "76f8 rc2／rc2b／rc2c 的可昕同校換字（AA_987 pairs 20＋rows 26＋D158 5 列＋AA_1012 兩句＋AA_1015）補進開發分支——發布樹以後開發分支會換回自己的 src，沒補＝下一版把舊句帶回來",
+   "owner": "LAWWW",
+   "priority": "P0",
+   "status": "待開工",
+   "source": "LAWWW-C 2026-11-14；X364（CANON-NO-ECON-1112）",
+   "first": {
+    "term": "Y1S1",
+    "mainline": true,
+    "confirmed": true
+   },
+   "next": "發布後：開發分支換 AA_959 最新表（含 D158-KX-SAMESCHOOL、AA_987 rows、AA_1012；fb528ac391 以後）＋canon897_fix.json 加 AA_987 pairs（study_scenes 重匯）＋白名單 AA_749_termend_kx_v2→b45c888f94（AA_1015 第二版；110b0fd990 是第一版、已被 BB 退件——AA-C 11-14 09:43 更正） 重匯＋tests/kexin_sameschool_unit.js（含 ALLOW 4 句、禁用字等我到台北）；驗：kexin_sameschool ALL PASS、BB_467 grep 全 0。rc2 分支 claude/rc2-76f8-wip a9c0d3376f 可對照",
+   "xai": []
+  },
+  {
+   "id": "KX-HEARD-1014",
+   "title": "AA_1014 別人說起可昕 10 句（heard_lines talk，h1014_1～10）",
+   "owner": "LAWWW",
+   "priority": "P2",
+   "status": "已整合待測試",
+   "source": "AA-C 2026-11-13 23:51（企劃線 774afd5fcf，BB_465 照用）",
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-14 00:1x】heard_lines.js 加 10 句，說話的人照稿（pool_4／pool_10／pool_1／pool_13 都在同學池 pool3d／pool_more3d 的名單，不用換備案人）；國考 2029-08-04 → 第 10 列 until 2029-08-03；aa503_others（逐句對稿＋每句時間）、aa510_511 改期望，heard 相關 45 支 ALL PASS。待 BB／CC 瀏覽器看一句（例：大一上第 3 週郁婷）",
+   "xai": []
+  },
+  {
+   "id": "FN-LOOK-REACH-1114",
+   "title": "「看門口的花」(44,20.8) 溫州街按不到（REL76_reach）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "source": "BB-C REL76_reach（76f8，2026-11-14）",
+   "note": "原因：season_stalls3d.js plainLook 用 zone.id 判斷是不是公館，但 zones3d 的 build 回傳的 z 沒有 id → 溫州街也放一顆在 (44,20.8)（溫州街那裡是房子，按不到）。改：S.hook 把區域 id 傳進 attach → plainLook，不知道哪一區就不放。測試 season3_lines_1112_unit.js 加 7b（改前 FAIL：溫州街 1 顆）。只在開發分支，下一版；rc2d 不動。待 CC 重跑 reachability_all（溫州街 0 FAIL、公館「看門口的花」站得到）。"
+  },
+  {
+   "id": "COPLANAR-CREEP-1114",
+   "title": "yizhan、yangyang 疊面比 4556c4be0c 多（0.04／0.12 m²）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "LAWWW2-C 2026-11-14 00:41 自查",
+   "note": "yizhan.glb always 2.03→2.07；yangyang_interior.glb always 2.13→2.25（Poly Haven 紙箱貼右牆）。最大一對和原本一樣、量小，不退回；下一版 g1、g4 修。工具已改成基準只准變少（8f1b338c22）。｜01:1x 洋洋那一半 LAWWW2 b9b69422cd 已整合：冷飲櫃踢腳板凸 3 mm、底座頂蓋從背板前開始；always 2.25→1.46、wall 0.64→0.53（低於原基準 2.13）。剩驛站 +0.04（g1 下一版）。｜驛站那一半：一盞 v1.1（LAWWW2 15124fd457，2.07→2.03）已驗收、還沒整合；整合後本任務可結案。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "PLACEGATE-WALL-NAME-1114",
+   "title": "place_gate 的「牆」分類同時看材質名，和 shop_cc0 要求油漆牆材質叫 _wall 互相牽動",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "幫手 g3 2026-11-14 00:41（大口漢堡一樓）",
+   "note": "WALL_RE=/wall|shell|外殼|牆/i 比對 node 名或材質名（place_gate_unit.js 第 200 行）。材質改叫 dk_wall 以後，原本就有的隔牆／踢腳疊面被算進「牆」，wall 5.13→6.81，但 always 10.55→10.20 是變少。這次照 g3 建議真的修疊面（b）。之後再評估：wall 只看 node 名，或 wall 指標允許「always 變少時 wall 重新分類」。不急：always 已經涵蓋所有會閃的面。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "DATE-D05-PICK-1114",
+   "title": "光典臺北看完電影後的選點走 GM.choose，沒走 DATE.pickChoose（date_hotspots D05 用不到）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "BB-C 2026-11-14 01:00 DATE_LAYER r2 判讀（BB_458、BB_466 #25）",
+   "note": "不擋 v9.10.26：能選、不卡、存檔不壞，玩家看到文字選單（同 D33）。發布後決定：改走 pickChoose（用 date_hotspots D05 的圖層選點），或把 D05 標成照設計走文字選單。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "CANON-REPO-CLEAN-1114",
+   "title": "X364 剩下的：tests 250 檔、tools 16 檔、docs 2 檔還有 D158 的字（玩家看不到）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P0",
+   "source": "使用者選擇題 2026-11-14 01:5x（UA-LAWWW-1114-01）",
+   "wants": "X364",
+   "note": "rc2 樹 canon_scan（暫時 git 倉庫）：tests 250 檔 971 處、tools 16 檔 64 處、docs 2 檔 36 處（story_import_allow.json 35、release_9103 log 1）。開發分支另有同類。跟 RC2-PORT-DEV-1114 一起做：測試裡的禁字改成編碼／代號，story_import_allow 的說明欄改寫。做完 canon_scan 全倉 0 才算。下一版發布前必須完成。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": true
+   }
+  },
+  {
+   "id": "OFFBEAT-VIEW-P3-1114",
+   "title": "日常失速前窗：對面整片平灰泥牆太單調；offbeat_view_front_day／night 最下面約 60 px 是天空色",
+   "owner": "LAWWW2",
+   "status": "已實作待整合",
+   "priority": "P3",
+   "source": "BB_379（BB-C 11-14，日常失速 21:00 PASS 附註）",
+   "note": "LAWWW2：wz_street 那棟加窗、冷氣、雨遮；前窗兩張重拍（地面畫到底）。｜LAWWW2 b6b30dd52c 交件（溫州街 B1 西牆開窗＋前窗兩張重拍；另修 wenzhou_street.props.json A 字板位置 44.3→43.1）。整合後 CC 拍日常失速前窗日／夜、BB 判。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "ZQ-C504",
+   "title": "ZQ-C504（LAWWW2 交接檔「全部待辦」裡有、總表沒有；待查）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "roles 2026-11-14 02:0x（LAWWW-C 交班時補）",
+   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 LAWWW2 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "A6-5",
+   "title": "A6-5（AA 交接檔「全部待辦」裡有、總表沒有；待查）",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "roles 2026-11-14 02:0x（LAWWW-C 交班時補）",
+   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 AA 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "P2-L5",
+   "title": "P2-L5（AA 交接檔「全部待辦」裡有、總表沒有；待查）",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "roles 2026-11-14 02:0x（LAWWW-C 交班時補）",
+   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 AA 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "STALE-SOURCES",
+   "title": "STALE-SOURCES（AA 交接檔「全部待辦」裡有、總表沒有；待查）",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "roles 2026-11-14 02:0x（LAWWW-C 交班時補）",
+   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 AA 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "Z5-L8",
+   "title": "Z5-L8（AA 交接檔「全部待辦」裡有、總表沒有；待查）",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "roles 2026-11-14 02:0x（LAWWW-C 交班時補）",
+   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 AA 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "FA-01",
+   "title": "FA-01（BB 交接檔「全部待辦」裡有、總表沒有；待查）",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "roles 2026-11-14 02:0x（LAWWW-C 交班時補）",
+   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 BB 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "SE-01",
+   "title": "SE-01（BB 交接檔「全部待辦」裡有、總表沒有；待查）",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "roles 2026-11-14 02:0x（LAWWW-C 交班時補）",
+   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 BB 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "SE-03",
+   "title": "SE-03（BB 交接檔「全部待辦」裡有、總表沒有；待查）",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "roles 2026-11-14 02:0x（LAWWW-C 交班時補）",
+   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 BB 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "SHOP-FIRST-APPROACH",
+   "title": "SHOP-FIRST-APPROACH（BB 交接檔「全部待辦」裡有、總表沒有；待查）",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "roles 2026-11-14 02:0x（LAWWW-C 交班時補）",
+   "note": "待查：LAWWW-C 交班時從 roles 補進總表，沒來得及核對內容。下一班 LAWWW 和 BB 對一下：是任務就補標題和狀態；是子項就移到 meta.reconcileIgnore 寫原因。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "WINVIEW-EDGE-STRIPE-1114",
+   "title": "公館窗外看到的條紋：視差窗 W3.windowMat 照片外面 clamp 到邊上一排像素（GG-STREET-TREES 以後邊上有樹，就拉成條紋）",
+   "owner": "LAWWW2",
+   "status": "已實作待整合",
+   "priority": "P2",
+   "source": "BB_379（BB-C 11-14 WINVIEW_GG3_r2）；LAWWW2-C 查到原因",
+   "note": "patch：claude/focused-cray-c9uwvw @ 042661aff6 docs/art-rebuild/second_ai/wip/winview_edge_1114/winview_edge_mirror_on_2da495e693.patch（shader 1 行改鏡像取樣 wvMirror＋新測試，改前 FAILED 2、改後 ALL PASS）。整合後 CC 重拍安泰、鮮果、榮恩典、Daybreak、afar、aoki、夜間 14:00 窗外，交下一班 BB 判（BB-C 交班後補的要求）。發布版有沒有：WINVIEW_GG3_REL 在 CC 佇列前面，下一班 BB 判。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "AA-D99-BLOCKERS-1114",
+   "title": "AA 問：寒暑假、美國交換（D99 兩個優先項目）有沒有擋住的劇情（缺字、接不上、條件卡住）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "source": "AA-C 2026-11-14 01:57",
+   "note": "LAWWW-C 回（交班時寫進 GitHub，AA 下一班第一件讀這裡）：這一班（11-13～14）整合的都是店面、窗景、rc2 換字，沒有碰寒暑假、美國交換的流程，所以沒有遇到這兩塊的缺字或卡住——不是「確定沒有」。下一班 LAWWW：照 §6 跑一次寒暑假＋美國交換完整流程（或請 CC 排 flow 探針），把缺字、接不上的列成任務給 AA。AA 這段時間先照它說的，拿企劃線 AA_340 美國交換逐週劇本對照開發分支找缺的。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
   }
  ]
 }

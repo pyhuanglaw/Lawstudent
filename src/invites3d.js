@@ -322,7 +322,7 @@ const INV=(function(){
      數值：大家照 AA_124 一般的「一起運動」（SOCIAL.ACT.sport）；子晴、可昕另外自在 +3、她的戀愛 +3（AA_126 6-3，一天一次；交往中也一樣）。
      羽球＝和一個人打羽球一樣算體能（src/gym3d.js：+1，每週最多 2 次，和自己去打的共用次數）。存檔：G.flags.sportChatN＝{人物:地點: 第幾次}（輪流）*/
   S.sportLines=function(G,id,pid){ const p=(D().people||{})[id]||{}, sh=(D().sport||{})[pid]||{};
-    const own=p.sport&&p.sport[pid]&&!(id==='kexin'&&(G.stage||'law')!=='law')?p.sport[pid]:null;   /* 可昕的版本是外校那幾年（「從山上下來」）*/
+    const own=p.sport&&p.sport[pid]&&!(id==='kexin'&&(G.stage||'law')!=='law')?p.sport[pid]:null;   /* 可昕的版本只在法律系那幾年用（stage law）；舊階段不用（D158） */
     if(!own) return {during:(sh.during||[]).slice(),end:(sh.end||[]).slice(),next(){},own:false};
     const F=G.flags||(G.flags={}), N=F.sportChatN||(F.sportChatN={}), k=id+':'+pid, n=N[k]|0, L=own.during||[];
     return {during:L.length?L[n%L.length].slice():[],end:(own.end||[]).slice(),next(){ N[k]=n+1; },own:true}; };

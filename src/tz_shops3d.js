@@ -16,7 +16,8 @@ const TZS3=(function(){
   /* SHOP-INTERIOR-VIEW-1112（使用者 11-12 進泰米村食：「窗景呢」——兩扇大窗、門的玻璃外面是一片藍，這一批店從來沒有放窗景）：
      正面玻璃外 0.3 m 一片視差窗（Z3.shopViewPane＋W3.windowMat；新生南路各店同一套）。照片 assets/models/env/views/<區域>_{day,night}.webp＝
      Blender 用汀州路／公館的正式模型，站在這間店的玻璃中心往街上拍（docs/art-rebuild/second_ai/wip/shop_views_1112/render.sh）。
-     公館三間（安泰、汀州鮮果、榮恩典）：Blender 拍不到遊戲程式畫的校門、圍牆、行道樹，先用同一條店面街在遊戲裡拍的照片（配置的 view：cvs／noodle／bookstore，兩層景深），位置差幾十公尺。
+     公館三間（安泰、汀州鮮果、榮恩典）：原本 Blender 拍不到遊戲程式畫的校門、圍牆、行道樹，借同一條街別間的照片（cvs／noodle／bookstore）；WINVIEW-AUDIT-1105（LAWWW2-C 11-14）改成原位拍：
+     --gg-street＋campus_gate＋照遊戲 TK.tree／royalPalm 位置種的樹（wip/gg_street_trees_1114/trees_gg.json），照片＝<區域>_{day,night}.webp（配置不再寫 view）。
      景深 viewDepth（配置可以寫）：對面店面的距離。一間只放一片（蓋住整面正面牆：窗、門、敞開的店面都看得到同一面景）*/
   S.pane=function(L){ return {kind:L.view||L.zone,x:0,y:1.6,z:+(L.d/2+0.5).toFixed(2),w:+(L.w+1.2).toFixed(2),h:3.2,ry:Math.PI,depth:L.viewDepth||14}; };
   S.viewPane=function(z,g0,L){ if(z.viewPanes||typeof Z3==='undefined'||!Z3.shopViewPane) return null; return Z3.shopViewPane(z,g0,S.pane(L)); };
