@@ -1,0 +1,14 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_aa_scenes_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\AA_SCENES_GIFT_r3_yt\out
+CC AA 重匯抽演：SHA 6106fae2d2；PARTS ['GIFT']；EVS ['ev_sis_w1', 'ev_sis_family_dinner', 'ev_grad_debate', 'ev_sis_video', 'ev_sis_video_gf', 'ev_us_canyon']；ARCS ['heroine_01', 'heroine_05', 'heroine_03'] 第 1 拍
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [GIFT heroine_03 2026-02-14] 【前置／捷徑】flags.YT_MET_JOB＝true（語彤在一盞認識才算見過）
+  [前置／捷徑] [GIFT heroine_03 2026-02-14] 【前置／捷徑】讀檔到 campus 2026-02-14 15:00、她站到前面、包包放她 love 的「一本薄薄的詩集」＋ok 的「一本商事法的書」：{"love": "g_poems", "loveName": "一本薄薄的詩集", "ok": "g_law_book", "okName": "一本商事法的書", "bagFound": true, "state": {"h": {"k": "vday", "y": 2026}, "items": [{"id": "g_poems", "shop": "xs_shanlan"}, {"id": "g_law_book", "shop": "xs_shanlan"}], "capped": false}, "hol": {"k": "vday", "y": 2026}, "npc": [34, -96.6]}
+PASS [GIFT heroine_03 2026-02-14] 今天是她的節日、包包有東西（GIFTH.state）  {"love": "g_poems", "loveName": "一本薄薄的詩集", "ok": "g_law_book", "okName": "一本商事法的書", "bagFound": true, "state": {"h": {"k": "vday", "y": 2026}, "items": [{"id": "g_poems", "shop": "xs_shanlan"}, {"id": "g_law_book", "shop": "xs_shanlan"}], "capped": false}, "hol": {"k": "vday", "y": 2026}, "npc": [34, -96.6]}
+  [  63.4s] 到達「heroine_03」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [  75.2s] [GIFT heroine_03 2026-02-14] 選單一路 [[["送她禮物…包包裡有 2 樣可以送她", "（說點不一樣的）看你們現在多熟", "約她去…念書、吃飯、喝咖啡、散步、運動、出去玩", "就這樣"], "送她禮物…包包裡有 2 樣可以送她"], [["一本薄薄的詩集山嵐書店（書架）", "一本商事法的書山嵐書店（書架）", "算了"], "一本薄薄的詩集山嵐書店（書架）"]]
+  [  75.2s] [GIFT heroine_03 2026-02-14] 句子：["陳語彤｜……嗯。", "｜你把一本薄薄的詩集遞給陳語彤。", "陳語彤｜情人節。……這個我不知道能不能收。", "｜（她翻開一頁，看了很久。）", "陳語彤｜一頁只有幾行。", "陳語彤｜這種我可以慢慢看。"]
+  [  75.2s] [GIFT heroine_03 2026-02-14] 送完 GIFTH.state {"state": null}（null＝這個節日送過了）
+PASS [GIFT heroine_03 2026-02-14] 送得出去（有她的反應）
+PASS 沒有 JS 例外  []
+ALL PASS

@@ -1,12 +1,3 @@
-[17:45:55] skip HELP_GUIDE_b (already done on 1ca8b70aac5125afdaf5e955430403f85252d659)
-[17:45:55] skip HELP_GUIDE_b2 (already done on 1ca8b70aac5125afdaf5e955430403f85252d659)
-[17:45:55] skip HELP_GUIDE_new2 (already done on 1ca8b70aac5125afdaf5e955430403f85252d659)
-[17:45:55] skip HELP_GUIDE_b3 (already done on 1ca8b70aac5125afdaf5e955430403f85252d659)
-[17:45:55] skip HELP_GUIDE_new3 (already done on 1ca8b70aac5125afdaf5e955430403f85252d659)
-[17:45:55] skip ZN_SHANLAN (already done on d4daa6326c81c2ba7a57c266235dec49cd7b5ab6)
-[17:45:55] skip YUE_MEAL (already done on d4daa6326c81c2ba7a57c266235dec49cd7b5ab6)
-[17:45:55] skip ZN_SHANLAN_r2 (already done on d4daa6326c81c2ba7a57c266235dec49cd7b5ab6)
-[17:45:55] skip LT_CLERK_2bfe (already done on 2bfea29f1bd41b948c05b249c746cd556405212e)
 [17:45:55] skip LT_CLERK_d4da (already done on d4daa6326c81c2ba7a57c266235dec49cd7b5ab6)
 [17:45:55] skip XS_REAL_perf_r2 (already done on 8d459e6226513748c198013c2a4dc0730fa609f7)
 [17:45:55] skip TZ_REAL_perf (already done on 257e05a852adb29ec5851db99cebfa24b8f967cc)
@@ -1998,3 +1989,12 @@
 [20:11:22] [res] cpu=3% mem=48% (15.2/31.4 GB) chrome_testing=10  START GATE2_MOKUYOBI_r4
 [20:15:55] 正在跑：DATE35_PS_ARR_r2（已跑 17 分／上限 30 分）、AA_SCENES_DATE_r2（已跑 8 分／上限 30 分）、GATE2_MOKUYOBI_r4（已跑 4 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
 [20:19:28] [res] cpu=3% mem=49% (15.6/31.4 GB) chrome_testing=10  END GATE2_MOKUYOBI_r4
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       f9f628cef5..55db182c9a  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:19:39] ==== END   GATE2_MOKUYOBI_r4  exit=1  490s   ====
+[20:20:14] memory 48% before starting AA_SCENES_GIFT_r3_yt (2 running)
+[20:20:14] ==== START AA_SCENES_GIFT_r3_yt  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
+[20:20:17] [res] cpu=4% mem=48% (15.1/31.4 GB) chrome_testing=10  START AA_SCENES_GIFT_r3_yt
+[20:20:55] 正在跑：DATE35_PS_ARR_r2（已跑 22 分／上限 30 分）、AA_SCENES_DATE_r2（已跑 13 分／上限 30 分）、AA_SCENES_GIFT_r3_yt（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:22:10] [res] cpu=4% mem=47% (14.9/31.4 GB) chrome_testing=10  END AA_SCENES_GIFT_r3_yt
