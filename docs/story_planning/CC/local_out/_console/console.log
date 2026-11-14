@@ -1,12 +1,3 @@
-[17:45:55] skip L5F03_CLOSED8 (already done on a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492)
-[17:45:55] skip L2C82_ALL (already done on a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492)
-[17:45:55] skip L77DE_ALL (already done on a1efc3b6ab2a192abd6982d0ffc4ec2d60b32492)
-[17:45:55] skip X352_CON_dabu (already done on 42c493ca277073a91d87dca7f971f6625a56d6a0)
-[17:45:55] skip X352_CON_nanyang (already done on 42c493ca277073a91d87dca7f971f6625a56d6a0)
-[17:45:55] skip X352B_new_a (already done on 42c493ca277073a91d87dca7f971f6625a56d6a0)
-[17:45:55] skip X352B_new_b (already done on 42c493ca277073a91d87dca7f971f6625a56d6a0)
-[17:45:55] skip X352_DABU_new (already done on 207a8216d90c98f979b857f258e496209c2499a8)
-[17:45:55] skip X352_DABU_old (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
 [17:45:55] skip P0_LONGPLAY_dc3d (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
 [17:45:55] skip P0_LONGPLAY_98ec (already done on 98ec5b0f66120b7dcb37acfc5c362be73051f6bf)
 [17:45:55] skip P0_LONGPLAY_dc3d_solo (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
@@ -1998,3 +1989,12 @@
 [21:23:26] ==== START HL2_FEED_1028_r2  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
 [21:23:29] [res] cpu=7% mem=48% (15.2/31.4 GB) chrome_testing=5  START HL2_FEED_1028_r2
 [21:24:51] [res] cpu=1% mem=47% (14.9/31.4 GB) chrome_testing=5  END HL2_FEED_1028_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       4b1207d259..79619ea403  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:24:57] ==== END   HL2_FEED_1028_r2  exit=0  85s   ====
+[21:25:12] memory 48% before starting HL1_CIRCLE_1028_r3 (2 running)
+[21:25:12] ==== START HL1_CIRCLE_1028_r3  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
+[21:25:15] [res] cpu=11% mem=48% (15.2/31.4 GB) chrome_testing=5  START HL1_CIRCLE_1028_r3
+[21:25:55] 正在跑：HL3_DMS_1028（已跑 6 分／上限 90 分）、LIMAO_REAL_r1（已跑 5 分／上限 45 分）、HL1_CIRCLE_1028_r3（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:30:06] [res] cpu=2% mem=50% (15.8/31.4 GB) chrome_testing=10  END HL3_DMS_1028

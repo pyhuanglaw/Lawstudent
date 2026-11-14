@@ -1,0 +1,25 @@
+{
+  "rerun": "",
+  "id": "HL3_DMS_1028",
+  "sha": "6106fae2d278ba8ac97ebbf9265ca141c5e0ab35",
+  "kind": "node",
+  "script": "docs/story_planning/test_tools/cc/random_play_sim.js",
+  "env": "XARGS=--track law --seed-list 1,2 --jobs 2 --from 2025-09-01 --to 2026-01-31 --root . --out {out} --dump-msgs {out}/msgs.json",
+  "machine": "MSI",
+  "start": "2026-11-14T21:19:33",
+  "end": "2026-11-14T21:30:07",
+  "seconds": 633,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "21",
+  "url": "http://127.0.0.1:8801/index.html",
+  "res_peak": {
+    "cpu": 60,
+    "mem": 54,
+    "used_gb": 17.1,
+    "chrome_testing": 10
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false
+}

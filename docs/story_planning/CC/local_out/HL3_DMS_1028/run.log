@@ -1,0 +1,24 @@
+隨機玩家快轉：root=C:\Users\USER\Documents\wt_cc_HL3_DMS_1028　track=law　2025-09-01 → 2026-01-31　種子 1,2　同時 2 個
+遊戲版本：6106fae2d2 v9.10.26：拿掉舊序章和外校（X364）（#38）
+種子   2  PASS   526.8 秒  到 2026-02-01  步數 11338  格數 238264
+種子   1  PASS   593.3 秒  到 2026-02-01  步數 12649  格數 247946
+
+================ 總結 ================
+種子   1  PASS   593.3 秒  到 2026-02-01  步數 12649  格數 247946
+種子   2  PASS   526.8 秒  到 2026-02-01  步數 11338  格數 238264
+PASS 2／2　總時間 593.4 秒（每個種子平均 560.1 秒）
+
+---------- 注意（不算 FAIL：遊戲自己有保底或只是提示）----------
+  262 次（種子 1,2）立繪缺檔 → 用 neutral（素材，不算）　例：portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）
+  253 次（種子 1,2）3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗　例：unknown asset prop.bike_ride（2025-08-30 21:01 campus）
+  32 次（種子 1,2）星期和日期對不上（syncWeekday 改回來）　例：星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）
+  24 次（種子 1,2）3D／素材相關的例外（不算，假的 THREE）：滷味攤模型載入失敗　例：NO_NET（random_play_sim 不下載素材）（2025-10-23 21:02 gongguan）
+  15 次（種子 1,2）3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-09-16 12:15 afar）
+  11 次（種子 1,2）3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-10-15 12:34 cafe）
+  9 次（種子 1,2）說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）　例：說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-09-13 14:14 dorm）
+  3 次（種子 1,2）3D／素材相關的例外（不算，假的 THREE）：日常失速 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-12-19 20:11 wz_offbeat）
+  3 次（種子 2）3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-11-03 20:07 cvs）
+  3 次（種子 2）3D／素材相關的例外（不算，假的 THREE）：轉角唱片 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-11-03 20:53 corner_records）
+  2 次（種子 1,2）migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.l118.mv772　例：G.l118.mv772：undefined → 2（2025-09-03 15:27 l118_korea）
+  2 次（種子 1,2）3D／素材相關的例外（不算，假的 THREE）：洋洋鹹酥雞 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2026-01-06 22:24 yangyang）
+  1 次（種子 1）migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.GG3_REN　例：G.flags.GG3_REN：undefined → true（2025-09-03 15:27 l118_korea）
