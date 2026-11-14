@@ -158,7 +158,7 @@ const ell=c=>texts({lines:[...(c.steps||[]),...(c.dating||[])]}).concat((c.greet
     const zr=['Y1S2','Y2S1','Y2S2'].map(term=>((cell(L,term,'heroine_02').greet||{}).when||[])).flat().map(w=>w.t);
     check('7. 芷若大一下～大二下的招呼是新字（舊字「要打烊了。……」「（她在吧檯後面抬頭）……嗨。」都不在了）',zr.includes('要打烊了。你可以坐到我擦完這張桌子。')&&!zr.includes('要打烊了。……你可以坐到我擦完這張桌子。')&&!zr.includes('（她在吧檯後面抬頭）……嗨。'),J(zr.filter(t=>/打烊|吧檯後面抬頭/.test(t))));
     const gcS=fs.readFileSync(path.join(H.ROOT,'src/data/greet_classday.js'),'utf8'), GC=JSON.parse(gcS.slice(gcS.indexOf('{'),gcS.lastIndexOf('}')+1));
-    check('7. 以安大一上「進度我抄完了。字有點醜，你不要笑。」只在上課日說（greet_classday.js classDay，舊字拿掉）',(GC.classDay.heroine_01||[]).includes('進度我抄完了。字有點醜，你不要笑。')&&!(GC.classDay.heroine_01||[]).includes('今天的進度我抄完了。你要的話晚上傳給你。'));
+    check('7. 以安大一上「進度我抄完了。字有點醜，你不要笑。」只在上課日說（greet_classday.js classDay，舊字拿掉）',(GC.classDay.heroine_01||[]).includes('進度我抄完了。字有點醜，你湊合著看。'/* AA_959 第 720、721 列（AA_1020）又換了句尾 */)&&!(GC.classDay.heroine_01||[]).includes('今天的進度我抄完了。你要的話晚上傳給你。'));
     const r=cp.spawnSync('python3',[path.join(H.ROOT,'tools/story/import_greet_classday.py'),'--check'],{encoding:'utf8',timeout:120000});
     check('7. greet_classday.js 和重匯一致（tools/story/import_greet_classday.py --check）',r.status===0,(r.stdout||r.stderr||'').slice(-200)); });
 

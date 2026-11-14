@@ -33,7 +33,9 @@ function rows(file, who) {
   for (const [src, fs_] of Object.entries(LINKED)) if (b && fs_.includes(b)) b = src;
   return T.rows.concat(SYN).filter(r => !code(r) && (!w || r.speaker === w || !r.speaker || /見檔/.test(r.speaker)/* speaker 寫「（見檔）」的列（AA_994～）＝不分人 */) && r.files.some(f => (!b || f === b || f === b0) && !skip(f, r.old)))   /* b0：表上直接標這個檔的列（AA_997 aa555_3d.js）也算 */.sort((a, c) => c.old.length - a.old.length);
 }
-function map(s, file, who) {
+/* 一句被換兩次的（AA_953 砍「今天」→ AA_1020 再換句尾）：map／unmap 換到不動為止（最多三輪） */
+const fix3 = f => (s, file, who) => { for (let i = 0; i < 3; i++) { const t = f(s, file, who); if (t === s) break; s = t; } return s; };
+function map1(s, file, who) {
   if (typeof s !== 'string') return s;
   for (const r of rows(file, who)) {
     if (r.nomap) continue;
@@ -45,7 +47,8 @@ function map(s, file, who) {
   }
   return s;
 }
-function unmap(s, file, who) {
+const map = fix3(map1);
+function unmap1(s, file, who) {
   if (typeof s !== 'string') return s;
   for (const r of rows(file, who)) {
     const n = nw(r);
@@ -56,6 +59,7 @@ function unmap(s, file, who) {
   }
   return s;
 }
+const unmap = fix3(unmap1);
 /* mapText(s, file, who)：s 是好幾句接起來的字——每一列的 old 在 s 裡（前一個字不是中文字）就換成 new（長的先換；同 overlay_expect.fwdText） */
 const CJK = /[\u3400-\u9fff…]/;
 function mapText(s, file, who) {

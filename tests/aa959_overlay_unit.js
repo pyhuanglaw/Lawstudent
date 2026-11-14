@@ -27,8 +27,9 @@ for (const x of T.rows) {
   for (const f of x.files) {
     if (SK.some(s => s.file === f && s.old === x.old)) continue;
     const n = (x.prefix && x.new.endsWith('……') && !x.old.endsWith('……')) ? x.new.slice(0, -2) : x.new;
-    if (M.map(x.old, f) !== n) bad.push(['map', f, x.old, M.map(x.old, f)]);
-    if (!x.prefix && M.unmap(n, f) !== x.old) bad.push(['unmap', f, n, M.unmap(n, f)]);
+    /* RC2-PORT-DEV-1114：一句被換兩次的（新字後來又是別的列的舊字）map／unmap 會換到底——兩邊都換到底再比 */
+    if (M.map(x.old, f) !== n && M.map(x.old, f) !== M.map(n, f)) bad.push(['map', f, x.old, M.map(x.old, f)]);
+    if (!x.prefix && M.unmap(n, f) !== x.old && M.unmap(n, f) !== M.unmap(x.old, f)) bad.push(['unmap', f, n, M.unmap(n, f)]);
   }
 }
 check('4. aa959_map.js：每一列 map(old)＝new、unmap(new)＝old', bad.length === 0, JSON.stringify(bad.slice(0, 5)));
