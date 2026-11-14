@@ -2574,6 +2574,10 @@ HL2_FEED_1028_r2 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story
 HL1_CIRCLE_1028_r3 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;ROWS=c503_4_2,c503_5_2,c503_6_2;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 # CC-B 11-14 13:2x：BB-B 13:26——BB-C 的五列漏了學姊，加 c503_8_1（學姊×陳助教，週五 18:30～20:30 公館，Y1S1）①～④ 照別列（r3 可能已經在跑，另排一項）
 HL1_CIRCLE_1028_r3b | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;ROWS=c503_8_1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+# CC-B 11-14 13:3x：HL1 r3——4_2 跟的時候有兩輪自動跑（點地面 >16 m 遊戲會跑）、5_2 吧檯點的鍵是「和林芷若說話」探針沒按 → r4（每次點 14 m 內＝走路；她的名字也按）
+HL1_CIRCLE_1028_r4 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_heroine_life1028_probe.py | index.html | 40 | PARTS=HL1;ROWS=c503_4_2,c503_5_2;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+# CC-B 11-14 13:3x：BB_462 AA358_24_natural（不用捷徑三路）——雲端 81e5 三路 ALL PASS（A 賠十倍、B 你先看＋兩選項、C 不演），電腦正式跑
+AA358_24_natural | 81e5f197fb0e017257ad3dfd359dfafffe54f95b | probe | docs/story_planning/test_tools/cc/cc_aa355_358_probe.py | index.html | 40 | PARTS=NATURAL;SHA=81e5f197fb0e017257ad3dfd359dfafffe54f95b
 # CC-B 11-14 13:2x：sports r2 關了手機一鍵還是空的——r3 記按鈕上蓋著什麼，點不開就【捷徑】ONETAP.openPop，只跑 Y2
 AA355_6_sports_r3 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_aa355_358_probe.py | index.html | 20 | PARTS=SPORTS;ROUTES=Y2;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 LIMAO_DOOR_r1 | c109767aaeeb910d28d9e15b04906a82ea43b7f7 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 45 | TAG=limao_door_r1;ZONES=tz_limao;HOURS=14,23.5;NODEBUG=1;SIDE_OFF=0.8;SHA=c109767aaeeb910d28d9e15b04906a82ea43b7f7

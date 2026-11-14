@@ -136,15 +136,19 @@ async def part_hl1(pg, cdp, sv0, res):
             await pg.evaluate("window.__ccCap=[]")
             R.setup('%s 【捷徑】玩家放到她背後 %s m（%s），字幕重新收' % (tag, pl_ and pl_['d'], J(pl_)))
             fol_ = []; t0_ = time.time()
-            for k_ in range(10):
-                if len(await pg.evaluate("(window.__ccCap||[])")) >= len(info['lines']) or time.time() - t0_ > 120: break
+            for k_ in range(20):
+                if len(await pg.evaluate("(window.__ccCap||[])")) >= len(info['lines']) or time.time() - t0_ > 180: break
                 h2 = (await pg.evaluate(NPCPOS, {'ids': [info['who']], 'who': info['who'], 'row': rid}))['pos'].get(info['who'])
                 if not h2 or not h2.get('vis'): fol_.append('不見了'); break
                 sp_ = await pg.evaluate("(()=>{ const P=GAME.E.player; return {x:+P.obj.position.x.toFixed(2), z:+P.obj.position.z.toFixed(2), run:!!(P.run||(GAME.G&&GAME.G.run))}; })()")
                 fol_.append({'k': k_ + 1, 'her': [h2['x'], h2['z']], 'me': [sp_['x'], sp_['z']], 'd': round(math.hypot(h2['x'] - sp_['x'], h2['z'] - sp_['z']), 1), 'run': sp_['run']})
-                await L.go_to(pg, cdp, R, h2['x'], h2['z'], 2.5, '%s 走路跟著她（第 %d 輪）' % (tag, k_ + 1), max_s=20, lv=h2['lv'], stop=lambda st_: False)
+                dd_ = math.hypot(h2['x'] - sp_['x'], h2['z'] - sp_['z']); st_ = min(max(dd_ - 2.5, 0.5), 14.0)   # CC-B 11-14（HL1 r3：點地面超過 16 m 遊戲會自動跑，engine3d.js P.run＝距離>16）：每次只點 14 m 內＝走路
+                tx_, tz_ = sp_['x'] + (h2['x'] - sp_['x']) / (dd_ or 1) * st_, sp_['z'] + (h2['z'] - sp_['z']) / (dd_ or 1) * st_
+                await L.go_to(pg, cdp, R, tx_, tz_, 1.0, '%s 走路跟著她（第 %d 輪）' % (tag, k_ + 1), max_s=20, lv=h2['lv'], stop=lambda st_: False)
             out['follow'] = fol_; R.note('%s 跟著走：%s' % (tag, J(fol_)))
             got_ = await pg.evaluate("(window.__ccCap||[])")
+            ran_ = any(isinstance(x, dict) and x.get('run') for x in fol_)
+            R.check('FAIL_SETUP 檢查：%s ③b 跟的時候都是走路（沒有自動跑）' % tag, not ran_, J(fol_))
             R.check('%s ③b 正常走路從 15 m 外跟上去，聽得完 %d 句（聽不完＝遊戲：她們走太快／聽的距離不夠，交 BB）' % (tag, len(info['lines'])), len(got_) >= len(info['lines']), J({'got': [c['t'] for c in got_], 'follow': fol_}))
         caps = []; shot_cap = False
         for _ in range(36):
@@ -169,9 +173,9 @@ async def part_hl1(pg, cdp, sv0, res):
         if tm is None and info.get('act') == 'barista':   # CC-B 11-14（BB-B 13:22 HL1 r2 5_2）：吧檯班的她走不進吧檯，「找她說話」＝到吧檯點餐那一條（story3d.js n.staff==='cafe'）；把那條一路的選單印出來，沒有「約她去…」＝PASS
             bar_ = await pg.evaluate("(()=>{ const E=GAME.E, lab=i=>String(typeof i.label==='function'?i.label():i.label||''); const it=(E.interactables||[]).filter(i=>!i.hidden&&/點餐/.test(lab(i)))[0]; return it?{x:it.x,z:it.z,lv:it.lv|0,label:lab(it)}:null; })()")
             if R.check('FAIL_SETUP 檢查：%s 吧檯班：找得到「點餐」互動點' % tag, bool(bar_), J(bar_)):
-                await L.go_to(pg, cdp, R, bar_['x'], bar_['z'], 0.9, '%s 走到吧檯點餐點' % tag, max_s=60, lv=bar_['lv'], stop=lambda st_: '點餐' in (st_.get('interact') or ''))
+                await L.go_to(pg, cdp, R, bar_['x'], bar_['z'], 0.9, '%s 走到吧檯點餐點' % tag, max_s=60, lv=bar_['lv'], stop=lambda st_, w_=(h.get('name') or '@@'): '點餐' in (st_.get('interact') or '') or w_ in (st_.get('interact') or ''))
                 q_ = await D.st(pg); menus_ = []; lines_ = []
-                if '點餐' in (q_.get('interact') or ''):
+                if '點餐' in (q_.get('interact') or '') or (h.get('name') or '@@') in (q_.get('interact') or ''):   # CC-B 11-14（HL1 r3）：走到吧檯點，鍵是「和林芷若說話」＝她本人；照樣按、把選單印出來
                     await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(900)
                     for _ in range(40):
                         s_ = await D.st(pg)
