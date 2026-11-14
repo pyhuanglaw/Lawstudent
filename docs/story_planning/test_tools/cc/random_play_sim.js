@@ -17,6 +17,7 @@
  *     --stay-up YYYY-MM-DD      情境（T1_FIX ①的原因）：那天晚上玩家不睡（不改存檔），凌晨被 forceHome 送回去睡以後，馬上看自動存檔裡有沒有 _forcing=true（舊版會存進去）
  *     --start-save <存檔.json>  （SAVE-LZ-1104，BB_384 存檔 B）不開新遊戲：開機後把這份存檔放進自動存檔、按標題的「繼續」從那裡玩（只配 --seed 單一種子）
  *     --save-out <檔>           結束時（到 --to、卡住放棄、步數上限都算）先 GM.autosave(true) 再把自動存檔原文寫到這個檔；印大小（字元數）
+ *     --dump-msgs <檔>          （BB_468 HL3）收整段的手機訊息（每個動作掃一次 G.msgs，舊的被刪也留得住），結束時寫 JSON：heroine＝heroine_01～05 傳的、all＝全部；多個種子＝檔名加 _seed<n>
  *   結束碼：全部 PASS＝0，有 FAIL＝1。跑到一半要讓出 CPU：在 --out 資料夾放一個 STOP 檔，還沒開始的種子會直接回報「略過」。
  *
  * 做法（和 tests/pg_harness.js 不一樣：pg_harness 的假 GM 沒有 enter、quickGo、seatMenu、手機、存讀檔，隨機玩家要的這些都得自己再寫一份，所以改成跑真的 game3d.js）：
@@ -54,7 +55,7 @@ function parseArgs(argv){
   for(let i=0;i<argv.length;i++){ const a=argv[i], nx=()=>argv[++i];
     if(a==='--seeds') o.seeds=+nx(); else if(a==='--seed-list') o.seedList=nx().split(',').map(Number).filter(x=>Number.isFinite(x)); else if(a==='--seed') o.seed=+nx(); else if(a==='--from') o.from=nx(); else if(a==='--to') o.to=nx();
     else if(a==='--root') o.root=path.resolve(nx()); else if(a==='--max-steps') o.maxSteps=+nx(); else if(a==='--track') o.track=nx(); else if(a==='--jobs') o.jobs=+nx();
-    else if(a==='--child') o.child=true; else if(a==='-v'||a==='--verbose') o.verbose=true; else if(a==='--json') o.json=nx(); else if(a==='--hang-ms') o.hangMs=+nx(); else if(a==='--out') o.out=nx(); else if(a==='--procedural') o.procedural=true; else if(a==='--old-forcing') o.oldForcing=nx(); else if(a==='--stay-up') o.stayUp=nx(); else if(a==='--start-save'){ const v=nx(), c=[path.resolve(v), path.join(__dirname,v), path.join(__dirname,'fixtures',path.basename(v))]; o.startSave=c.find(f=>{ try{ return fs.existsSync(f); }catch(e){ return false; } })||c[0]; }   /* 11-14 CC-C：電腦上 cwd＝受測版本工作樹，fixtures 在 cc-testing（這支腳本旁邊）——找不到就到腳本旁邊、fixtures/ 找 */ else if(a==='--save-out') o.saveOut=path.resolve(nx());
+    else if(a==='--child') o.child=true; else if(a==='-v'||a==='--verbose') o.verbose=true; else if(a==='--json') o.json=nx(); else if(a==='--hang-ms') o.hangMs=+nx(); else if(a==='--out') o.out=nx(); else if(a==='--procedural') o.procedural=true; else if(a==='--old-forcing') o.oldForcing=nx(); else if(a==='--stay-up') o.stayUp=nx(); else if(a==='--start-save'){ const v=nx(), c=[path.resolve(v), path.join(__dirname,v), path.join(__dirname,'fixtures',path.basename(v))]; o.startSave=c.find(f=>{ try{ return fs.existsSync(f); }catch(e){ return false; } })||c[0]; }   /* 11-14 CC-C：電腦上 cwd＝受測版本工作樹，fixtures 在 cc-testing（這支腳本旁邊）——找不到就到腳本旁邊、fixtures/ 找 */ else if(a==='--save-out') o.saveOut=path.resolve(nx()); else if(a==='--dump-msgs') o.dumpMsgs=path.resolve(nx());
     else if(a==='-h'||a==='--help') o.help=true; else throw new Error('不認得的參數：'+a); }
   const TR={law:{from:'2025-08-29',to:'2026-06-30'},econ:{from:'2024-08-23',to:'2025-08-28'}};
   if(!TR[o.track]) throw new Error('--track 只有 law、econ');
@@ -86,7 +87,7 @@ async function parent(o){
   RC.log('隨機玩家快轉：root='+o.root+'　track='+o.track+'　'+o.from+' → '+o.to+'　種子 '+seeds.join(',')+'　同時 '+o.jobs+' 個');
   try{ RC.log('遊戲版本：'+cp.execSync('git -C '+JSON.stringify(o.root)+' log --oneline -1',{encoding:'utf8'}).trim()); }catch(e){}
   const t0=realMs(); const results=[]; let next=0;
-  const runOne=seed=>new Promise(res=>{ const args=[SELF,'--child','--seed',String(seed),'--root',o.root,'--from',o.from,'--to',o.to,'--track',o.track,'--max-steps',String(o.maxSteps),'--out',outDir].concat(o.procedural?['--procedural']:[]).concat(o.oldForcing?['--old-forcing',o.oldForcing]:[]).concat(o.stayUp?['--stay-up',o.stayUp]:[]).concat(o.startSave&&seeds.length===1?['--start-save',o.startSave]:[]).concat(o.saveOut&&seeds.length===1?['--save-out',o.saveOut]:[]);   /* 11-14 CC-C：--start-save／--save-out 也傳給子程序（--seed-list 只給一個種子時）；只配單一種子 */
+  const runOne=seed=>new Promise(res=>{ const args=[SELF,'--child','--seed',String(seed),'--root',o.root,'--from',o.from,'--to',o.to,'--track',o.track,'--max-steps',String(o.maxSteps),'--out',outDir].concat(o.procedural?['--procedural']:[]).concat(o.oldForcing?['--old-forcing',o.oldForcing]:[]).concat(o.stayUp?['--stay-up',o.stayUp]:[]).concat(o.startSave&&seeds.length===1?['--start-save',o.startSave]:[]).concat(o.saveOut&&seeds.length===1?['--save-out',o.saveOut]:[]).concat(o.dumpMsgs?['--dump-msgs',seeds.length===1?o.dumpMsgs:o.dumpMsgs.replace(/(\.json)?$/,'_seed'+seed+'.json')]:[]);   /* 11-14 CC-C：--start-save／--save-out 也傳給子程序（--seed-list 只給一個種子時）；只配單一種子 */
     const ch=cp.spawn(process.execPath,['--max-old-space-size=3072',...args],{stdio:['ignore','pipe','pipe']}); const ts=realMs(); let buf='', lastHb=realMs(), result=null, hb=null, errTail='';
     ch.stdout.on('data',d=>{ buf+=d; let k; while((k=buf.indexOf('\n'))>=0){ const line=buf.slice(0,k); buf=buf.slice(k+1); lastHb=realMs();
       if(line.startsWith('@@RESULT ')){ try{ result=JSON.parse(line.slice(9)); }catch(e){ errTail+='結果解析失敗 '; } } else if(line.startsWith('@@HB ')){ try{ hb=JSON.parse(line.slice(5)); }catch(e){} } } });
@@ -156,7 +157,9 @@ async function child(o){
   const gSum=()=>{ const g=GM&&GM.G; if(!g) return null; const F=g.flags||{}; const iv=(g.invites||[]).filter(v=>['offered','accepted','going','changed'].includes(v.state)).map(v=>v.id+':'+v.who+'@'+v.place+':'+v.state);
     return {day:g.day,date:dayKey(g.day),hour:+(+g.hour).toFixed(3),zone:g.zone,stage:g.stage,money:g.money,energy:g.energy,weekday:g.weekday,busy:!!(E&&E.player&&E.player.busy),depth:D&&D.busyDepth,busyWho:D&&D.busyWho&&D.busyWho.slice(0,3),
       evRunning:W&&W.EVENTS?W.EVENTS.running||null:null,companion:F.companion||null,dating_kexin:F.dating_kexin,invites:iv.slice(0,4),evDone:g.events&&g.events.count,page:P&&P.id}; };
-  const act=t=>{ const g=GM&&GM.G; const s='#'+R.step+' f'+R.frame+' '+(g?dayKey(g.day)+' '+fmtH(g.hour)+' '+g.zone:'')+'｜'+t; R.actions.push(s); if(R.actions.length>20) R.actions.shift(); if(o.verbose) RC.log(s); };
+  /* 11-14 CC-C（BB_468 HEROINE-LIFE-1028 HL3）：--dump-msgs <檔>＝收手機訊息（G.msgs 最多 200 則、舊的會刪＝每個動作掃一次，新的記下來），結束時寫成 JSON（預設不開，不影響原本） */
+  const MSGS=new Map(); const scanMsgs=()=>{ if(!o.dumpMsgs) return; const g=GM&&GM.G; if(!g||!Array.isArray(g.msgs)) return; for(const m of g.msgs){ if(!m) continue; const k=[m.day,m.h,m.th||'',m.from||'',m.who||'',m.text||''].join('|'); if(!MSGS.has(k)) MSGS.set(k,{date:dayKey(m.day),day:m.day,h:m.h,th:m.th||(m.who?'p:'+m.who:'sys'),from:m.from||null,who:m.who||null,text:m.text,tag:m.tag||null,ask:m.ask?(m.ask.id||true):null}); } };
+  const act=t=>{ scanMsgs(); const g=GM&&GM.G; const s='#'+R.step+' f'+R.frame+' '+(g?dayKey(g.day)+' '+fmtH(g.hour)+' '+g.zone:'')+'｜'+t; R.actions.push(s); if(R.actions.length>20) R.actions.shift(); if(o.verbose) RC.log(s); };
   function fail(kind,cls,why,msg,extra){ const sig=kind==='TIME_BACK'?kind:kind+'|'+String(msg).split('\n')[0].slice(0,200); if(R.sig.has(sig)){ R.sig.get(sig).count++; return R.sig.get(sig); }
     const f={kind,cls,why,msg:String(msg).slice(0,4000),step:R.step,frame:R.frame,G:gSum(),lastActions:R.actions.slice(),extra:extra||null,count:1};
     if(f.cls==='UNKNOWN'||kind==='EXCEPTION'){ for(const k of KNOWN){ if(!k.kinds.includes(kind)) continue; if(!k.re.test(f.why+'\n'+f.msg)) continue; try{ if(k.need&&!k.need(FEAT,f)) continue; }catch(e){ continue; } f.cls=k.cls; f.known=k.id; f.why=k.why+'｜（原本的判斷：'+why+'）'; break; } }
@@ -600,6 +603,8 @@ async function child(o){
   return finish();
 
   function finish(){ R.steps=R.step; R.frames=R.frame; if(GM&&GM.G) R.reached=dayKey(GM.G.day);
+    if(o.dumpMsgs){ try{ scanMsgs(); const all=[...MSGS.values()].sort((a,b)=>(a.day*24+a.h)-(b.day*24+b.h)); const her=all.filter(m=>/^heroine_0[1-5]$/.test(m.from||'')||(!m.from&&/^heroine_0[1-5]$/.test(m.who||'')));
+      fs.writeFileSync(o.dumpMsgs,JSON.stringify({seed:R.seed,from:o.from,to:o.to,reached:GM&&GM.G?dayKey(GM.G.day):null,n:all.length,heroine:her,all},null,1)); RC.log('--dump-msgs：'+o.dumpMsgs+'　全部 '+all.length+' 則、heroine_01～05 傳的 '+her.length+' 則'); }catch(e){ RC.log('--dump-msgs 寫不出來：'+e); } }
     if(o.saveOut){ try{ if(GM&&GM.G&&GM.autosave) GM.autosave(true); const raw=LS.getItem((T&&T.KEY_AUTO)||'fatiao3d_auto'); if(raw){ fs.writeFileSync(o.saveOut,raw); RC.log('--save-out：'+o.saveOut+'　'+raw.length+' 字元（'+(GM&&GM.G?dayKey(GM.G.day):'?')+'）'); } else RC.log('--save-out：沒有自動存檔'); }catch(e){ RC.log('--save-out 寫不出來：'+e); } }
     const missTop=[...missing.entries()].sort((a,b)=>b[1]-a[1]).slice(0,15).map(([k,n])=>k+'×'+n);
     const out={seed:R.seed,scen:SCEN?{mode:o.oldForcing?'old-forcing':'stay-up',day:SCEN,savedTrue:SC.savedTrue,res:SC.res,pass:R.scenPass||null,calls:SC.calls,sent:SC.sent,log:SC.log}:undefined,ok:R.ok&&R.fails.length===0,reached:R.reached,steps:R.steps,frames:R.frames,vms:VC.now,pages:R.pages,fails:R.fails,notes:[...R.notes.values()],missingE:missTop,persona,sayStack:SAY_STACK,chooseStack:CHOOSE_STACK,
