@@ -10151,6 +10151,26 @@
    "tests": "shop_cc0、place_gate（已知未過 0）、20 支 Node ALL PASS",
    "notDone": "LAWWW 整合；CC 第二層；BB 判",
    "next": "LAWWW 套 daily_offbeat_v21_on_e0525231f6.patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "PENDING",
+   "receiver": "LAWWW-C、BB-C",
+   "ack": "DELIVERED",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "GG-STREET-TREES（待 LAWWW 開 ID）",
+   "title": "公館 afar／青木／頁間／Daybreak 窗景重拍：照遊戲 103 棵樹的位置與種類（原本四種樹疊在同一點＝綠球插椰子）；Daybreak 捷運出口放回遊戲位置",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/gg_street_trees_1114/gg_street_trees_views.patch",
+    "docs/art-rebuild/second_ai/wip/gg_street_trees_1114/gg4_cmp.jpg",
+    "docs/art-rebuild/second_ai/wip/gg_street_trees_1114/README.md"
+   ],
+   "base": "e0525231f6",
+   "at": "2026-11-14T00:35Z",
+   "tests": "窗景 7 支 ALL PASS",
+   "notDone": "LAWWW 整合；CC 四間靠窗拍日夜；BB 判",
+   "next": "LAWWW 套 gg_street_trees_views.patch"
   }
  ]
 }
