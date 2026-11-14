@@ -1,0 +1,44 @@
+diff --git a/tests/wz_vc_pack_unit.js b/tests/wz_vc_pack_unit.js
+index 66eb780400..51902c2da3 100644
+--- a/tests/wz_vc_pack_unit.js
++++ b/tests/wz_vc_pack_unit.js
+@@ -35,7 +35,7 @@ J.nodes.forEach((n,ni)=>{ if(n.mesh==null) return; const ch=chain(ni), hidden=ch
+       add(CELL[k]+'｜'+(inst?'instancing':(mn==='wz_vc_pack'?'投影':'不投影'))+(hidden?'｜藏':''), inst||1); } } });
+ check('2. 打包材質每個三角形三個頂點 UV 一樣、落在一格的正中央', badUV===0, badUV?badUV+' 個不對，例如 '+uvInfo:'');
+ // 改之前（WZ_NOPACK=1 重建、和 repo 原本的 GLB 比過完全一樣）每一類的三角形數（instancing 乘實例數）
+-const WANT={'亮面｜不投影':1776,'亮面｜instancing':11040,'金屬｜不投影':13612,'金屬｜不投影｜藏':36,'金屬｜instancing':31200,'金屬｜投影':1928,'霧面｜不投影':21266,'霧面｜instancing':13320,'霧面｜投影':2054};   /* WZ-LIN-STREET-REF-1112（LAWWW2-C 11-12）：林家乾麵門口的紅、藍塑膠凳拿掉（金屬 13744→13612、霧面 21362→21266）；SHOP-REAL-INSIDE 溫州街（11-12）：SUNNY SIDE、小路的簡化店內拿掉（霧面 21266→21230） */
++const WANT={'亮面｜不投影':1776,'亮面｜instancing':11040,'金屬｜不投影':13612,'金屬｜不投影｜藏':36,'金屬｜instancing':31674,'金屬｜投影':1928,'霧面｜不投影':21274,'霧面｜instancing':13360,'霧面｜投影':2054};   /* WZ-LIN-STREET-REF-1112（LAWWW2-C 11-12）：林家乾麵門口的紅、藍塑膠凳拿掉（金屬 13744→13612、霧面 21362→21266）；SHOP-REAL-INSIDE 溫州街（11-12）：SUNNY SIDE、小路的簡化店內拿掉（霧面 21266→21230）；OFFBEAT-VIEW-P3-1114（LAWWW2-C 11-14）：B1 西側牆開窗（日常失速前窗看出去那一面），多了窗框、鐵窗、冷氣（金屬 instancing 31200→31674、霧面不投影 21266→21274、霧面 instancing 13320→13360） */
+ const diff=Object.keys({...WANT,...cnt}).filter(k=>WANT[k]!==cnt[k]);
+ check('3. 每一格×投影／不投影／instancing 的三角形數和改之前一樣（同一個面讀到同一個粗糙度、金屬度，影子照舊）', !diff.length, diff.length?diff.map(k=>k+' 要 '+WANT[k]+' 實際 '+cnt[k]).join('；'):'');
+ check('4. 頂點色的 primitive 28 → 16（含 COPY_ 兩種外觀）', vcPrims===16, String(vcPrims));
+diff --git a/tools/blender/env_second/wz_street.py b/tools/blender/env_second/wz_street.py
+index 9c4eee0f6e..d494f07012 100644
+--- a/tools/blender/env_second/wz_street.py
++++ b/tools/blender/env_second/wz_street.py
+@@ -36,7 +36,7 @@ SPECS = [
+     dict(id='A4', side='A', x0=32, x1=40, floors=4, wall='tile', color='#e9e6df', ground='shop', shop=SHOP(type='noodle', name='林家乾麵', sub='乾麵・餛飩・滷味', signBg='#2f5a47', signColor='#e9d9a8', awning='#2f5a47', atlas='wz_lin_h')),
+     dict(id='A5', side='A', x0=40, x1=48, floors=3, wall='tile', color='#b8a088', roofAdd=True, ground='shop', shop=SHOP(type='cvs', name='日和便利店', sub='24H', signBg='#f4efe2', signColor='#4b4a2c', band='#8a9a4a', frame='#cfd6d6')),   # 11-04 日日便利 → 日和便利店（AA_647 §6，和公館 G03 同一家連鎖：米白燈箱、橄欖綠字和色帶、橘色太陽）
+     # B 側（z<0，立面朝 +z）：aptB → 位置 ((x0+x1)/2, −5)、rotation.y=0
+-    dict(id='B1', side='B', x0=-30, x1=-21, floors=3, wall='plaster', color='#d8d0c0', roofAdd=True, ground='shutter'),
++    dict(id='B1', side='B', x0=-30, x1=-21, floors=3, wall='plaster', color='#d8d0c0', roofAdd=True, ground='shutter', side_wins='-x', side_wins_rng=1114),   # OFFBEAT-VIEW-P3-1114（BB_379）：西側牆就是日常失速前窗看出去的那一面，原本整片平灰泥 → 開窗（冷氣、鐵窗照 side_windows）；side_wins_rng＝側窗自己一個亂數，不吃整條街共用的那一個（不然後面每一棟的冷氣、鐵窗都會跟著變）
+     dict(id='B2', side='B', x0=-21, x1=-15, floors=4, wall='tile', color='#bfb3a3', ground='shop', shop=SHOP(type='laundry', name='常在洗衣', sub='24 小時營業', signBg='#e9f2f6', signColor='#2a5f8a', frame='#cfd6d6')),
+     dict(id='B3', side='B', x0=-9.6, x1=4, floors=5, wall='tile', color='#bba98f', ground='shop', shop=SHOP(type='teishoku', name='小路', sub='居酒屋', signBg='#2e2219', signColor='#f4ead8', serif=True, awning='#3a2a1f', atlas='wz_komichi_h')),
+     dict(id='B4', side='B', x0=4, x1=16, floors=4, wall='mosaic', color='#d8d2c6', ground='door', door='#2f4a3a'),
+@@ -963,7 +963,7 @@ def apartment(spec):
+         if HI: xf.box(m, x0, x1, GH, HI, z0, z1); xf.box(wall_hi, x0, x1, HI, totalH + 0.9, z0, z1)
+         else: xf.box(m, x0, x1, GH, totalH + 0.9, z0, z1)
+     for sd in (-1, 1):
+-        if spec.get('side_wins') == ('+x' if sd > 0 else '-x'): side_windows(spec, xf, wall, band, W, D, F, totalH, sd, rng, wall_hi=wall_hi, band_hi=band_hi, hi_f=6 if HI else None)   # 側面朝巷子：開窗
++        if spec.get('side_wins') == ('+x' if sd > 0 else '-x'): side_windows(spec, xf, wall, band, W, D, F, totalH, sd, (random.Random(spec['side_wins_rng']) if spec.get('side_wins_rng') else rng), wall_hi=wall_hi, band_hi=band_hi, hi_f=6 if HI else None)   # 側面朝巷子：開窗
+         elif sd < 0: tall(wall, -W / 2, -W / 2 + 0.2, -D, -0.25)
+         else: tall(wall, W / 2 - 0.2, W / 2, -D, -0.25)
+     tall(wall, -W / 2, W / 2, -D, -D + 0.2)
+@@ -1143,7 +1143,7 @@ def side_windows(spec, xf, wall, band, W, D, F, totalH, sd, rng, wall_hi=None, b
+             for w in ws: sx_.box(wl, w['x'] - ww / 2, w['x'] + ww / 2, y0, w['y0'] - 0.01, -T, 0); sx_.box(wl, w['x'] - ww / 2, w['x'] + ww / 2, w['y1'], y1, -T, 0)   # 窗下的牆停在窗台裡面
+         # 樓板線：往正面多伸 0.325 m 接到正面的樓板線（側牆座標 sd<0 時正面在 +x'）。比正面的薄 1 cm、停在正面樓板線的前緣後 5 mm：
+         # 重疊的地方不能有同一個平面上的面（Cycles 會變黑、遊戲裡會閃爍）
+-        if f > 1: sx_.box(bd, -Ls / 2 - (0.325 if sd > 0 else 0), Ls / 2 + (0.325 if sd < 0 else 0), y0 - 0.085, y0 + 0.085, -T, 0.08)
++        if f > 1: sx_.box(bd, -Ls / 2 - (0.325 if sd > 0 else 0), Ls / 2 + (0.325 if sd < 0 else 0), y0 - 0.085, y0 + 0.085, -T + 0.002, 0.08)   # 裡面那一面離牆 2 mm（OFFBEAT-VIEW-P3-1114：原本和牆的裡面同一個平面，glb_coplanar 算成疊面）
+     sx_.box(wall_hi if hi_f else wall, -Ls / 2 - (0.05 if sd > 0 else 0), Ls / 2 + (0.05 if sd < 0 else 0), totalH, totalH + 0.9, -T, 0)   # 女兒牆：接到正面的女兒牆（正面的在 z −0.2…0，原本中間有 5 cm 的縫）
+     ac_at = []
+     for w in wins:
