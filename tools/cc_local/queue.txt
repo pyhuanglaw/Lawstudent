@@ -2368,6 +2368,9 @@ REL76_social | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/story_pla
 DATE_LAYER_76f8 | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/story_planning/test_tools/cc/cc_date_layer_probe.py | index.html | 60 | CASES=D01,D05,D12,D28,D33,D05@20;WHO=heroine_02;SHA=76f8b639f0641f93a99736d06a9d0d0675966343
 DATE_LAYER_NODL_76f8 | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/story_planning/test_tools/cc/cc_date_layer_probe.py | index.html?nodatelayer | 15 | CASES=D01;WHO=heroine_02;NODL=1;SHA=76f8b639f0641f93a99736d06a9d0d0675966343
 # FULL_b 不接 FULL_a 的存檔：runner 兩條並行，FULL_b 可能在 FULL_a 跑完以前就開跑；cc_flow_semester 也還沒有「從存檔接著跑」——照 BB-C 的備案，新玩家一路跑到 2026-02-23、上限 420 分鐘
+# HOLD BB-C 01:26 X364 GO（發布 rc2d bcc99693a7）：LAWWW 推 main、Pages 上線、BB 轉發布 SHA 以後拿掉 HOLD、填 <SHA>／<VER>（線上版本字樣，bcc9 index.html 目前寫 v9.10.25，以上線那份為準）；部署沒好隔 5 分鐘 RERUN，最多 3 次；放佇列最前面
+# HOLD LIVE_X364_deploy | <SHA> | game | tests/deploy_check.py | index.html | 15 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html <VER>;CC_HEADLESS=0
+# HOLD LIVE_X364_p0 | <SHA> | game | tests/p0_movement.py | index.html | 20 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html;CC_HEADLESS=0
 # BB-C 23:28 P0：rc2＝d5a12a9a62（claude/rc2-76f8-wip，父 76f8，只換字）→ INV_LIB_r7、T1_rc2 放最前面（哪條線先空先跑），再 DATE_LAYER_76f8_r2，再 FULL
 CANON458_INV_LIB_r7 | d5a12a9a626a640470107a20413128f7c4829b3b | probe | docs/story_planning/test_tools/cc/cc_invite_phone_probe.py | index.html | 20 | TAG=c458_lib;ZONE=campus;WHO=kexin;DAY=2026-10-14;HOUR=14;REL=30;PICKS=念書>總圖>今天;ROUTE=travel:library_hall;EXPECT_SIT=總圖好大。我到現在還會走錯邊。;SEAT_R=3;SHA=d5a12a9a626a640470107a20413128f7c4829b3b;SEED_MET=pool_2;ALSO=pool_2;MEET_LEAD=1;FORBID=你們的總圖,妳們的圖書館
 T1_rc2 | d5a12a9a626a640470107a20413128f7c4829b3b | node | docs/story_planning/test_tools/cc/random_play_sim.js | index.html | 120 | XARGS=--track law --seeds 8 --from 2025-08-22 --to 2026-06-30 --jobs 4 --root . --json {out}/t1.json --out {out}
