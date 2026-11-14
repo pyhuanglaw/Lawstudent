@@ -17,6 +17,23 @@
 上一班：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜最後 commit 4ec1acd5c0｜正常交班（快照 2026-11-14T0202Z_C_LAWWW2）
 本班交班：使用者 11:4x「現在交班」（UA-LAWWW2-1114-02）；快照 2026-11-14T1156Z_C_LAWWW2；duty handoff 已寫。
 
+### LAWWW2-B 這一班（帳號 B，11-14 12:2x 起）新增和進度
+
+| 任務 ID | 狀態 | 在哪、還沒做的 |
+|---|---|---|
+| SHOP-REALISM-1112 輪轉單車 v2.1 | 驗收 PASS、已交 LAWWW-B（ACK，排 RC2-PORT-DEV-1114 之後整合） | `wip/shop_cc0_accept_1113/bike_v21_on_166e9d3096.patch`；6f351e00e7 |
+| SHOP-REALISM-1112 大步球鞋 v2 | 驗收 PASS、已交 LAWWW-B（ACK） | `wip/shop_cc0_accept_1113/dabu_v2_on_166e9d3096.patch`；07863112d4。還沒做：左牆 `WALL_left_left_vc × WALL_left_print` 4.372 m² 疊面 |
+| GATE-REF-1114【使用者】校門照參考圖改（UA-LAWWW2-1114-05） | 進行中：第 1 版模型補齊拆圖清單（3e9832c436），只有 Blender 預覽 | `wip/gate_ref_1114/README.md`。還沒做：`src/campuskit3d.js` 的 `GATE` 導航 patch、同角度疊圖、Node 測試、四格圖、交 BB-B；BB-B 11-14 判現在線上的校門 FAIL P2：左門柱後一大塊黑色半圓（相機 [-129.5,2.2,4.0]→[-60,5,0]、08:30；圖在 claude/cc-local `docs/story_planning/CC/local_out/BG3D_GATE_campus_r2/out/bg3d_ntu_gate_wide.png`；BB_379），一起查 |
+| MOKU-2F-WINDOW-1114（P3） | 還沒做 | 木曜日二樓的窗晚上看不出是店；證據 cc-local `GATE2_MOKUYOBI_r5` lookup 兩張圖。排在 GATE-REF-1114 後面 |
+| WZ-REAL-LITE-EMPTY-1114（P2） | 還沒做 | BB-B 判圖；LAWWW-B 166e9d3096 開的 |
+| WINVIEW-MIRROR-TREE-1114（P2） | 還沒做 | BB-B 線索：公館三間窗景分層檢查圖（claude/cc-testing `docs/story_planning/CC/cloud_out/WINVIEW_GG3_1939_r3_remat/remat_check.png`）近景層多了一小撮樹葉和圓形花台面——樹在分近景／遠景時被切開；整棵樹和花台要放同一層（鮮果、安泰的浮空樹應該是這個） |
+| MOKU-BAR-PLANT-CAM-1114、US-BAMBOO-COUNTER-TAP-1114、HAOPAI-FIRST-APPROACH-1114（P3） | 還沒做 | LAWWW-B 166e9d3096 開的 |
+| HANDOFF-RULE-GAPS-1114【使用者】（UA-LAWWW2-1114-08） | LAWWW-B 改了三點（D165，6698f10eb8）；第 2 點沒做機器擋 | 已回報使用者；規則包已同步 2e08b9b0fd |
+| SIS-STATIONERY-1110、AVENUE-FAR-SIGNS-1110【使用者】 | 照舊（見下面） | `wip/sis_stationery_1110/`；遠景招牌只查了 `gg_textures.py` BILLBOARDS |
+
+本機分支 `d88/second-ai-env-art-wip-trees`（10-14 的檢查點；street_trees.glb 已在開發分支）：不需要了，可以刪。
+
+
 ### 暫停中
 - BADMINTON-CLIP v4（WIP 1aba3ec42）、FAIR-TENT-CAM（WIP 未交）：
   - 誰決定：使用者（室內美術優先）。為什麼：室內美術優先。
