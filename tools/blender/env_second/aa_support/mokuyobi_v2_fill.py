@@ -133,18 +133,18 @@ def east_cell(xf, k, j, u0, u1, y, y1):
     if j == 1:   # 一排杯子
         for q in range(3): K.mug(sh, *xf.p(u0 + 0.1 + q * 0.18, 0, 0.0)[::2], y, col=('#f2efe8', '#c9b48a', '#8a6a4a')[(q + k) % 3])
         return
-    if (k, j) == (1, 3): small_plant_at(xf, mid, y, h=0.3); return
+    if (k, j) == (1, 3): _cx, _, _cz = xf.p(mid, 0, 0.0); C.ph_put(sh, 'planter_pot_clay', _cx, y, _cz, yaw=0.7, height=0.1, decimate=0.25); C.ph_put(sh, 'fern_02', _cx, y + 0.07, _cz, yaw=1.9, s=0.5, part=0, tag='_p0', decimate=0.6); return   # mokuyobi v2.2：格子裡的白盆＋黃金葛葉片卡 → Poly Haven 陶盆＋蕨類
     if (k, j) == (0, 3): lying_books(xf, mid, 0.0, y, 5); return
     books_in(xf, u0, u1, y, y1, 0.38)
 _EB = [i for i in LAY['items'] if i['kind'] == 'bookcase_east'][0]   # v3：東牆的高書櫃（參考圖左牆那座）
 ec = case(X1 - 0.19, _EB['z'], -math.pi / 2, _EB['w'], _EB['h'], 0.38, 2, [0.08, 0.48, 0.88, 1.28, 1.68, 2.02], east_cell)
-sh.plant(X1 - 0.2, _EB['z'] + 0.4, h=0.35, r=0.08, pot_col='#e8dcc0', y0=_EB['h'] + 0.05); sh.hanging_pothos('pothos', X1 - 0.2, _EB['h'] + 0.15, _EB['z'] + 0.45, n=8, drop=1.0)
-sh.plant(X1 - 0.2, _EB['z'] - 0.45, h=0.3, r=0.07, pot_col='#b0653e', y0=_EB['h'] + 0.05); sh.hanging_pothos('pothos', X1 - 0.2, _EB['h'] + 0.12, _EB['z'] - 0.4, n=6, drop=0.7)
+C.ph_put(sh, 'planter_pot_clay', X1 - 0.2, _EB['h'] + 0.05, _EB['z'] + 0.4, yaw=1.1, height=0.14, decimate=0.25); C.ph_put(sh, 'fern_02', X1 - 0.2, _EB['h'] + 0.15, _EB['z'] + 0.4, yaw=0.3, s=0.9, part=0, tag='_p0', decimate=0.6)   # mokuyobi v2.2（LAWWW2-C 11-14 P2）：書櫃頂的盆＋垂藤葉片卡 → Poly Haven 陶盆＋蕨類
+C.ph_put(sh, 'planter_pot_clay', X1 - 0.2, _EB['h'] + 0.05, _EB['z'] - 0.45, yaw=2.6, height=0.12, decimate=0.25); C.ph_put(sh, 'fern_02', X1 - 0.2, _EB['h'] + 0.13, _EB['z'] - 0.45, yaw=4.0, s=0.8, part=3, tag='_p3', decimate=0.6)
 es = Xf(X1 - 0.11, -1.0, -math.pi / 2)                                                                                 # 矮櫃上方的層板（z −1.95～−0.05、y 1.5）
 es.rbox(sh.w('right', 'walnut'), -0.95, 0.95, 1.47, 1.5, -0.11, 0.11, r=0.004)
 for u in (-0.75, 0.75): es.rbox(sh.w('right', 'vcm'), u - 0.012, u + 0.012, 1.3, 1.47, -0.11, -0.09, r=0.002, col='#2a2a2a')
 lying_books(es, -0.6, 0.0, 1.5, 3, w=0.2, d=0.15); K.book_rows(sh, 'books', es, -0.4, 0.15, 1.5, 0.08, hgt=0.24, depth=0.16, rng=R2)
-small_plant_at(es, 0.4, 1.5, h=0.28, r=0.06); _px, _, _pz = es.p(0.4, 0, 0); sh.hanging_pothos('pothos', _px, 1.62, _pz, n=5, drop=0.5)
+_px, _, _pz = es.p(0.4, 0, 0); C.ph_put(sh, 'planter_pot_clay', _px, 1.5, _pz, yaw=0.4, height=0.12, decimate=0.25); C.ph_put(sh, 'fern_02', _px, 1.58, _pz, yaw=2.2, s=0.75, part=3, tag='_p3', decimate=0.6)   # mokuyobi v2.2（LAWWW2-C 11-14 P2）：程式畫的盆＋黃金葛葉片卡 → Poly Haven 陶盆＋蕨類
 K.jar(sh, *es.p(0.75, 0, 0.0)[::2], 1.5, h=0.12, r=0.04, col='#e8dcc0', lid='#6a4630')
 sh.tally('v2 east')
 
@@ -163,7 +163,7 @@ for (x, zz) in ((3.75, 1.2), (1.8, 3.6), (3.1, -3.4), (-1.4, -3.4), (-2.1, 5.2))
     hx.lathe(sh.a('vcg'), [(0.05, 0.0), (0.09, 0.03), (0.12, 0.12), (0.125, 0.15), (0.115, 0.15)], 0, 0, 0, seg=14, col=R2.choice(['#b0653e', '#e8dcc0', '#c98a5a']))
     for a in range(3): t = a * 2.094; hx.cyl(sh.a('vc'), (math.cos(t) * 0.12, 0.15, math.sin(t) * 0.12), (0, H - 0.2 - py, 0), 0.003, col='#c9b48a', seg=3, caps=False)
     sh.hanging_pothos('pothos', x, py + 0.16, zz, n=9, drop=0.5, size=0.11)   # 小一點的葉子（0.16 的卡片從近看像紙片）
-    for k in range(5): a = k * 1.26; CL.card(sh.a('pothos'), x + math.cos(a) * 0.1, py + 0.2, zz + math.sin(a) * 0.1, 0.12, 0.12, ry=a, rx=0.7, uv=CL.rand_uv(0.5))
+    # v2.2：盆口那圈葉片卡拿掉（吊盆裡改種 fern_02，aa_cc0.fern_plants）
 sh.tally('v2 hanging')
 
 # ---------------------------------------------------------------- 7. 桌上：小蠟燭、杯子、書；大書櫃頂上的書、籃子

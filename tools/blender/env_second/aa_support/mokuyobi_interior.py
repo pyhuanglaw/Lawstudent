@@ -34,6 +34,7 @@ sh.M.update({
 sh.M['bulb'] = sh.M['shade']   # 燈泡和燈罩同一個發光材質（少一個材質）
 # SHOP-CC0-HELP-1113（D161）：頂點色零件換成 CC0 材質組（顏色照舊）；深色木作併進胡桃木材質（木紋）、墨綠沙發用 ambientCG 布料、紅棕單人沙發用皮革
 C.enable(sh, route=dict({h: 'walnut' for h in ('#6a4630', '#3a2a1e', '#3b2d22', '#4a3424', '#5a3a24')}, **{'vcg:#3f5a46': 'fabric', 'vcg:#8a4a3a': 'leather'}))
+C.fern_plants(sh)   # v2.2（LAWWW2-C 11-14 範圍定案）：小盆栽、垂吊黃金葛的葉片卡全部換 Poly Haven planter_pot_clay＋fern_02
 IT = {}
 for i in LAY['items']: IT.setdefault(i['kind'], []).append(i)
 WAL = '#5e3e29'; GREEN = '#3f5a46'; xf0 = Xf(0, 0)
