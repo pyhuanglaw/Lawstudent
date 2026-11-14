@@ -1,5 +1,16 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+
+## ✅ 值班登記（2026-11-14 12:2x UTC；帳號 B LAWWW2-B；使用者：「現在接班」）
+
+- 工作階段 `session_01GV1WG3UeT2DhuDpxeWJsvD`，分支 `claude/funny-albattani-iawshm`。接班基準 `e80450eb00`：上一任帳號 C 的 `claude/focused-cray-c9uwvw` 最後一筆，快轉併入，沒有衝突。
+- 開發分支 `claude/modest-rubin-2lyp7g` 接班時在 `938f09195`（LAWWW-B 已接 LAWWW）。
+- 上一班交下來的順序照「下一班第一件事」1～6：先接單車 v2.1 驗收、大步 v2 驗收（SHOP-REALISM-1112）。
+- 使用者 11-14 12:1x 新指示（P0，附參考圖）：**校園的校門照參考圖改**。中間紅磚警衛亭（石材門楣「首都帝國大學」、旗桿、半圓花圃），兩側車道，外側石柱＋燈＋鐵柵門，接紅磚矮牆與鐵欄杆。排在最前面。
+- 使用者 11-14 12:1x：可以自己開對話請其他 AI 幫忙（上一班的幫手 g2、g3 是帳號 C 的，D75 不傳訊息給它們）。
+- BB-B 12:16 窗景判定：汀州鮮果、安泰窗景鏡像出對稱的樹（P2）；榮恩典 P3；竹葉超市結帳櫃台點地難走到（P3）。待排。
+- 接班時這台機器暫存空間滿了（0 MB），清掉 scratchpad 的舊暫存（含上一班說不用接的 `wt_limao`）。
+
 ## 全部待辦（2026-11-14 11:5x UTC 交班；LAWWW2-C）——以這一節為準
 
 值班登記：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜claude/focused-cray-c9uwvw｜接班基準 4ec1acd5c0｜2026-11-14 02:0x UTC
