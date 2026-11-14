@@ -1,10 +1,3 @@
-[00:53:15] memory 46% before starting GUIDE_fc29 (2 running)
-[00:53:15] ==== START GUIDE_fc29  (game @ fc2984aa1a5fdbd4decdf6beaa2cef4128544f90) ====
-[00:53:18] [res] cpu=5% mem=46% (14.5/31.4 GB) chrome_testing=10  START GUIDE_fc29
-[00:53:18] worktree add fc2984aa1a5fdbd4decdf6beaa2cef4128544f90: invalid reference - fetching main and the commit itself
-[00:56:52] 正在跑：CANON_NEWGAME_B2_r2（已跑 28 分／上限 240 分）、CANON_NEWGAME_FULL_d21c（已跑 13 分／上限 600 分）、GUIDE_fc29（已跑 3 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
-[00:59:01] [res] cpu=2% mem=45% (14.2/31.4 GB) chrome_testing=10  END GUIDE_fc29
-    To https://github.com/pyhuanglaw/Lawstudent.git
        a00fb122b6..0ca6b3a94a  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [00:59:38] ==== END   GUIDE_fc29  exit=0  346s   ====
@@ -1998,3 +1991,10 @@
 [14:32:11] [res] cpu=19% mem=42% (13.2/31.4 GB) chrome_testing=5  END NAV_FLOWER_2F_tap_r5B
 [14:32:11] memory 42% before starting AA_SCENES_DATE (2 running)
 [14:32:11] ==== START AA_SCENES_DATE  (probe @ 762104842ae5c75400e4c380d1e4d746d0998376) ====
+[14:32:14] [res] cpu=10% mem=42% (13.2/31.4 GB) chrome_testing=5  START AA_SCENES_DATE
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       14cbb55e5b..0b3d8b5711  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[14:32:20] ==== END   NAV_FLOWER_2F_tap_r5B  exit=0  381s   ====
+[14:32:48] solo item SAVE_LZ_A waits: no new items start until the 2 running item(s) finish
+[14:32:56] [res] cpu=9% mem=34% (10.9/31.4 GB) chrome_testing=4  END AA_SCENES_EV_ARC
