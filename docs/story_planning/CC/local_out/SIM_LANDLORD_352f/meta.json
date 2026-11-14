@@ -1,0 +1,25 @@
+{
+  "rerun": "",
+  "id": "SIM_LANDLORD_352f",
+  "sha": "352f02cb550bee2327628f5d9d29c826ba2f33f8",
+  "kind": "node",
+  "script": "docs/story_planning/test_tools/cc/random_play_sim.js",
+  "env": "XARGS=--seed 1 --root . --start-save tests/fixtures/user_save_day54_1110.json --to 2026-06-01 --max-steps 6000000",
+  "machine": "MSI",
+  "start": "2026-11-14T12:30:41",
+  "end": "2026-11-14T12:43:21",
+  "seconds": 761,
+  "exit": 1,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8800/index.html",
+  "res_peak": {
+    "cpu": 36,
+    "mem": 35,
+    "used_gb": 11.1,
+    "chrome_testing": 0
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false
+}

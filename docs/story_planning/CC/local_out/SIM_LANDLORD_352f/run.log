@@ -1,0 +1,420 @@
+@@HB {"seed":1,"day":"2025-11-09","step":0,"frame":1}
+@@HB {"seed":1,"day":"2025-11-09","step":2,"frame":29}
+@@HB {"seed":1,"day":"2025-11-09","step":84,"frame":1291}
+@@HB {"seed":1,"day":"2025-11-09","step":114,"frame":1726}
+@@HB {"seed":1,"day":"2025-11-10","step":118,"frame":1783}
+@@HB {"seed":1,"day":"2025-11-11","step":184,"frame":2853}
+@@HB {"seed":1,"day":"2025-11-11","step":207,"frame":3604}
+@@HB {"seed":1,"day":"2025-11-12","step":282,"frame":5262}
+@@HB {"seed":1,"day":"2025-11-13","step":433,"frame":7333}
+@@HB {"seed":1,"day":"2025-11-14","step":516,"frame":8373}
+@@HB {"seed":1,"day":"2025-11-15","step":555,"frame":9301}
+@@HB {"seed":1,"day":"2025-11-15","step":629,"frame":10167}
+@@HB {"seed":1,"day":"2025-11-16","step":661,"frame":10955}
+@@HB {"seed":1,"day":"2025-11-17","step":780,"frame":13340}
+@@HB {"seed":1,"day":"2025-11-17","step":829,"frame":14400}
+@@HB {"seed":1,"day":"2025-11-17","step":859,"frame":15420}
+@@HB {"seed":1,"day":"2025-11-17","step":872,"frame":16329}
+@@HB {"seed":1,"day":"2025-11-18","step":889,"frame":16630}
+@@HB {"seed":1,"day":"2025-11-18","step":965,"frame":17930}
+@@HB {"seed":1,"day":"2025-11-19","step":983,"frame":18110}
+@@HB {"seed":1,"day":"2025-11-20","step":1111,"frame":20082}
+@@HB {"seed":1,"day":"2025-11-20","step":1199,"frame":21720}
+@@HB {"seed":1,"day":"2025-11-20","step":1250,"frame":22775}
+@@HB {"seed":1,"day":"2025-11-21","step":1269,"frame":23305}
+@@HB {"seed":1,"day":"2025-11-22","step":1343,"frame":24293}
+@@HB {"seed":1,"day":"2025-11-22","step":1448,"frame":25836}
+@@HB {"seed":1,"day":"2025-11-23","step":1458,"frame":25917}
+@@HB {"seed":1,"day":"2025-11-23","step":1471,"frame":26618}
+@@HB {"seed":1,"day":"2025-11-23","step":1497,"frame":27755}
+@@HB {"seed":1,"day":"2025-11-23","step":1513,"frame":28330}
+@@HB {"seed":1,"day":"2025-11-23","step":1528,"frame":29703}
+@@HB {"seed":1,"day":"2025-11-24","step":1559,"frame":30749}
+@@HB {"seed":1,"day":"2025-11-25","step":1631,"frame":32400}
+@@HB {"seed":1,"day":"2025-11-26","step":1698,"frame":33277}
+@@HB {"seed":1,"day":"2025-11-26","step":1721,"frame":33716}
+@@HB {"seed":1,"day":"2025-11-26","step":1770,"frame":34676}
+@@HB {"seed":1,"day":"2025-11-26","step":1790,"frame":35427}
+@@HB {"seed":1,"day":"2025-11-26","step":1799,"frame":36295}
+@@HB {"seed":1,"day":"2025-11-27","step":1808,"frame":36557}
+@@HB {"seed":1,"day":"2025-11-27","step":1835,"frame":37108}
+@@HB {"seed":1,"day":"2025-11-27","step":1841,"frame":37352}
+@@HB {"seed":1,"day":"2025-11-27","step":1854,"frame":38233}
+@@HB {"seed":1,"day":"2025-11-27","step":1897,"frame":39222}
+@@HB {"seed":1,"day":"2025-11-28","step":1913,"frame":39611}
+@@HB {"seed":1,"day":"2025-11-29","step":1947,"frame":39912}
+@@HB {"seed":1,"day":"2025-11-29","step":1972,"frame":40821}
+@@HB {"seed":1,"day":"2025-11-29","step":1994,"frame":41963}
+@@HB {"seed":1,"day":"2025-11-29","step":2051,"frame":43648}
+@@HB {"seed":1,"day":"2025-11-30","step":2073,"frame":44060}
+@@HB {"seed":1,"day":"2025-11-30","step":2155,"frame":45538}
+@@HB {"seed":1,"day":"2025-12-01","step":2195,"frame":46639}
+@@HB {"seed":1,"day":"2025-12-01","step":2234,"frame":47589}
+@@HB {"seed":1,"day":"2025-12-02","step":2248,"frame":48155}
+@@HB {"seed":1,"day":"2025-12-02","step":2292,"frame":49192}
+@@HB {"seed":1,"day":"2025-12-02","step":2306,"frame":49912}
+@@HB {"seed":1,"day":"2025-12-03","step":2320,"frame":50248}
+@@HB {"seed":1,"day":"2025-12-03","step":2342,"frame":50403}
+@@HB {"seed":1,"day":"2025-12-03","step":2344,"frame":50420}
+@@HB {"seed":1,"day":"2025-12-03","step":2354,"frame":50945}
+@@HB {"seed":1,"day":"2025-12-04","step":2422,"frame":52385}
+@@HB {"seed":1,"day":"2025-12-04","step":2470,"frame":52834}
+@@HB {"seed":1,"day":"2025-12-04","step":2522,"frame":53316}
+@@HB {"seed":1,"day":"2025-12-04","step":2527,"frame":53857}
+@@HB {"seed":1,"day":"2025-12-04","step":2538,"frame":54531}
+@@HB {"seed":1,"day":"2025-12-05","step":2569,"frame":54989}
+@@HB {"seed":1,"day":"2025-12-05","step":2611,"frame":56089}
+@@HB {"seed":1,"day":"2025-12-05","step":2646,"frame":56735}
+@@HB {"seed":1,"day":"2025-12-05","step":2700,"frame":58119}
+@@HB {"seed":1,"day":"2025-12-06","step":2701,"frame":58143}
+@@HB {"seed":1,"day":"2025-12-06","step":2813,"frame":59323}
+@@HB {"seed":1,"day":"2025-12-06","step":2838,"frame":59916}
+@@HB {"seed":1,"day":"2025-12-07","step":2876,"frame":60878}
+@@HB {"seed":1,"day":"2025-12-07","step":2941,"frame":62280}
+@@HB {"seed":1,"day":"2025-12-07","step":2957,"frame":62585}
+@@HB {"seed":1,"day":"2025-12-07","step":2976,"frame":62814}
+@@HB {"seed":1,"day":"2025-12-07","step":2983,"frame":63868}
+@@HB {"seed":1,"day":"2025-12-08","step":3009,"frame":64536}
+@@HB {"seed":1,"day":"2025-12-08","step":3067,"frame":65248}
+@@HB {"seed":1,"day":"2025-12-09","step":3139,"frame":66036}
+@@HB {"seed":1,"day":"2025-12-09","step":3189,"frame":67091}
+@@HB {"seed":1,"day":"2025-12-09","step":3200,"frame":67829}
+@@HB {"seed":1,"day":"2025-12-10","step":3211,"frame":68495}
+@@HB {"seed":1,"day":"2025-12-11","step":3285,"frame":70182}
+@@HB {"seed":1,"day":"2025-12-12","step":3358,"frame":71123}
+@@HB {"seed":1,"day":"2025-12-12","step":3395,"frame":71539}
+@@HB {"seed":1,"day":"2025-12-12","step":3399,"frame":72183}
+@@HB {"seed":1,"day":"2025-12-12","step":3460,"frame":73379}
+@@HB {"seed":1,"day":"2025-12-13","step":3465,"frame":73439}
+@@HB {"seed":1,"day":"2025-12-13","step":3531,"frame":74589}
+@@HB {"seed":1,"day":"2025-12-14","step":3565,"frame":75433}
+@@HB {"seed":1,"day":"2025-12-14","step":3683,"frame":77756}
+@@HB {"seed":1,"day":"2025-12-15","step":3684,"frame":77779}
+@@HB {"seed":1,"day":"2025-12-16","step":3785,"frame":79403}
+@@HB {"seed":1,"day":"2025-12-17","step":3859,"frame":80305}
+@@HB {"seed":1,"day":"2025-12-18","step":3930,"frame":81087}
+@@HB {"seed":1,"day":"2025-12-19","step":4133,"frame":83203}
+@@HB {"seed":1,"day":"2025-12-19","step":4195,"frame":84697}
+@@HB {"seed":1,"day":"2025-12-20","step":4234,"frame":85805}
+@@HB {"seed":1,"day":"2025-12-20","step":4323,"frame":88181}
+@@HB {"seed":1,"day":"2025-12-21","step":4334,"frame":88435}
+@@HB {"seed":1,"day":"2025-12-21","step":4380,"frame":89079}
+@@HB {"seed":1,"day":"2025-12-21","step":4393,"frame":89914}
+@@HB {"seed":1,"day":"2025-12-22","step":4409,"frame":90082}
+@@HB {"seed":1,"day":"2025-12-23","step":4452,"frame":90702}
+@@HB {"seed":1,"day":"2025-12-24","step":4520,"frame":92584}
+@@HB {"seed":1,"day":"2025-12-25","step":4568,"frame":93461}
+@@HB {"seed":1,"day":"2025-12-26","step":4661,"frame":94350}
+@@HB {"seed":1,"day":"2025-12-26","step":4679,"frame":94867}
+@@HB {"seed":1,"day":"2025-12-26","step":4716,"frame":95818}
+@@HB {"seed":1,"day":"2025-12-27","step":4733,"frame":96095}
+@@HB {"seed":1,"day":"2025-12-28","step":4794,"frame":96673}
+@@HB {"seed":1,"day":"2025-12-28","step":4880,"frame":97697}
+@@HB {"seed":1,"day":"2025-12-28","step":4894,"frame":98299}
+@@HB {"seed":1,"day":"2025-12-29","step":4904,"frame":98683}
+@@HB {"seed":1,"day":"2025-12-29","step":4960,"frame":99715}
+@@HB {"seed":1,"day":"2025-12-29","step":4976,"frame":100635}
+@@HB {"seed":1,"day":"2025-12-30","step":5005,"frame":101164}
+@@HB {"seed":1,"day":"2025-12-30","step":5018,"frame":101481}
+@@HB {"seed":1,"day":"2025-12-31","step":5084,"frame":102739}
+@@HB {"seed":1,"day":"2026-01-01","step":5108,"frame":103294}
+@@HB {"seed":1,"day":"2026-01-02","step":5139,"frame":104011}
+@@HB {"seed":1,"day":"2026-01-05","step":5163,"frame":104462}
+@@HB {"seed":1,"day":"2026-01-06","step":5215,"frame":105086}
+@@HB {"seed":1,"day":"2026-01-06","step":5259,"frame":106825}
+@@HB {"seed":1,"day":"2026-01-07","step":5274,"frame":107316}
+
+!!! FAIL EXCEPTION（UNKNOWN）TypeError: Cannot read properties of undefined (reading 'replace')
+@@HB {"seed":1,"day":"2026-01-07","step":5365,"frame":108611}
+@@HB {"seed":1,"day":"2026-01-07","step":5376,"frame":109527}
+@@HB {"seed":1,"day":"2026-01-08","step":5381,"frame":109666}
+@@HB {"seed":1,"day":"2026-01-08","step":5429,"frame":110493}
+@@HB {"seed":1,"day":"2026-01-09","step":5450,"frame":111222}
+@@HB {"seed":1,"day":"2026-01-09","step":5495,"frame":112193}
+@@HB {"seed":1,"day":"2026-01-09","step":5526,"frame":113151}
+@@HB {"seed":1,"day":"2026-01-10","step":5560,"frame":113697}
+@@HB {"seed":1,"day":"2026-01-11","step":5621,"frame":114305}
+@@HB {"seed":1,"day":"2026-01-12","step":5626,"frame":114348}
+@@HB {"seed":1,"day":"2026-01-13","step":5645,"frame":114825}
+@@HB {"seed":1,"day":"2026-01-14","step":5651,"frame":114879}
+@@HB {"seed":1,"day":"2026-01-15","step":5655,"frame":114935}
+@@HB {"seed":1,"day":"2026-01-16","step":5656,"frame":114971}
+@@HB {"seed":1,"day":"2026-01-16","step":5668,"frame":115750}
+@@HB {"seed":1,"day":"2026-01-16","step":5744,"frame":117751}
+@@HB {"seed":1,"day":"2026-01-17","step":5751,"frame":118270}
+@@HB {"seed":1,"day":"2026-01-18","step":5760,"frame":118363}
+@@HB {"seed":1,"day":"2026-01-18","step":5841,"frame":120561}
+@@HB {"seed":1,"day":"2026-01-19","step":5891,"frame":121660}
+@@HB {"seed":1,"day":"2026-01-20","step":5896,"frame":121708}
+@@HB {"seed":1,"day":"2026-01-20","step":6033,"frame":123754}
+@@HB {"seed":1,"day":"2026-01-21","step":6063,"frame":124277}
+@@HB {"seed":1,"day":"2026-01-22","step":6121,"frame":124967}
+@@HB {"seed":1,"day":"2026-01-23","step":6219,"frame":127082}
+@@HB {"seed":1,"day":"2026-01-24","step":6249,"frame":127503}
+@@HB {"seed":1,"day":"2026-01-25","step":6250,"frame":127536}
+@@HB {"seed":1,"day":"2026-01-26","step":6252,"frame":127602}
+@@HB {"seed":1,"day":"2026-01-27","step":6261,"frame":127763}
+@@HB {"seed":1,"day":"2026-01-28","step":6266,"frame":127836}
+@@HB {"seed":1,"day":"2026-01-29","step":6291,"frame":128406}
+@@HB {"seed":1,"day":"2026-01-30","step":6293,"frame":128466}
+@@HB {"seed":1,"day":"2026-01-31","step":6302,"frame":128598}
+@@HB {"seed":1,"day":"2026-02-01","step":6312,"frame":128789}
+@@HB {"seed":1,"day":"2026-02-02","step":6318,"frame":128969}
+@@HB {"seed":1,"day":"2026-02-03","step":6324,"frame":129015}
+@@HB {"seed":1,"day":"2026-02-04","step":6329,"frame":129099}
+@@HB {"seed":1,"day":"2026-02-05","step":6334,"frame":129150}
+@@HB {"seed":1,"day":"2026-02-06","step":6371,"frame":129573}
+@@HB {"seed":1,"day":"2026-02-07","step":6442,"frame":130666}
+@@HB {"seed":1,"day":"2026-02-07","step":6501,"frame":132725}
+@@HB {"seed":1,"day":"2026-02-08","step":6541,"frame":133213}
+@@HB {"seed":1,"day":"2026-02-08","step":6576,"frame":133922}
+@@HB {"seed":1,"day":"2026-02-09","step":6683,"frame":135654}
+@@HB {"seed":1,"day":"2026-02-10","step":6723,"frame":137191}
+@@HB {"seed":1,"day":"2026-02-11","step":6754,"frame":137771}
+@@HB {"seed":1,"day":"2026-02-12","step":6864,"frame":140159}
+@@HB {"seed":1,"day":"2026-02-13","step":6949,"frame":141769}
+@@HB {"seed":1,"day":"2026-02-14","step":6998,"frame":142249}
+@@HB {"seed":1,"day":"2026-02-14","step":7048,"frame":143294}
+@@HB {"seed":1,"day":"2026-02-14","step":7076,"frame":145239}
+@@HB {"seed":1,"day":"2026-02-15","step":7089,"frame":145596}
+@@HB {"seed":1,"day":"2026-02-16","step":7181,"frame":147901}
+@@HB {"seed":1,"day":"2026-02-16","step":7196,"frame":148031}
+@@HB {"seed":1,"day":"2026-02-16","step":7251,"frame":149206}
+@@HB {"seed":1,"day":"2026-02-17","step":7298,"frame":150977}
+@@HB {"seed":1,"day":"2026-02-17","step":7390,"frame":152672}
+@@HB {"seed":1,"day":"2026-02-17","step":7407,"frame":153475}
+@@HB {"seed":1,"day":"2026-02-18","step":7418,"frame":154171}
+@@HB {"seed":1,"day":"2026-02-19","step":7423,"frame":154219}
+@@HB {"seed":1,"day":"2026-02-20","step":7430,"frame":154312}
+@@HB {"seed":1,"day":"2026-02-21","step":7433,"frame":154411}
+@@HB {"seed":1,"day":"2026-02-22","step":7436,"frame":154510}
+@@HB {"seed":1,"day":"2026-02-23","step":7491,"frame":155825}
+@@HB {"seed":1,"day":"2026-02-23","step":7604,"frame":157413}
+@@HB {"seed":1,"day":"2026-02-24","step":7622,"frame":158173}
+@@HB {"seed":1,"day":"2026-02-25","step":7717,"frame":159404}
+@@HB {"seed":1,"day":"2026-02-25","step":7819,"frame":161189}
+@@HB {"seed":1,"day":"2026-02-26","step":7868,"frame":161827}
+@@HB {"seed":1,"day":"2026-02-26","step":7959,"frame":163394}
+@@HB {"seed":1,"day":"2026-02-27","step":8017,"frame":163903}
+@@HB {"seed":1,"day":"2026-02-27","step":8028,"frame":164086}
+@@HB {"seed":1,"day":"2026-02-28","step":8087,"frame":165076}
+@@HB {"seed":1,"day":"2026-03-01","step":8094,"frame":165143}
+@@HB {"seed":1,"day":"2026-03-02","step":8157,"frame":167246}
+@@HB {"seed":1,"day":"2026-03-03","step":8233,"frame":168040}
+@@HB {"seed":1,"day":"2026-03-03","step":8388,"frame":170180}
+@@HB {"seed":1,"day":"2026-03-04","step":8398,"frame":170250}
+@@HB {"seed":1,"day":"2026-03-04","step":8482,"frame":171295}
+@@HB {"seed":1,"day":"2026-03-05","step":8498,"frame":171988}
+@@HB {"seed":1,"day":"2026-03-05","step":8609,"frame":173494}
+@@HB {"seed":1,"day":"2026-03-06","step":8644,"frame":174392}
+@@HB {"seed":1,"day":"2026-03-07","step":8788,"frame":176800}
+@@HB {"seed":1,"day":"2026-03-07","step":8833,"frame":177901}
+@@HB {"seed":1,"day":"2026-03-08","step":8907,"frame":179288}
+@@HB {"seed":1,"day":"2026-03-08","step":8974,"frame":181042}
+@@HB {"seed":1,"day":"2026-03-09","step":8989,"frame":181427}
+@@HB {"seed":1,"day":"2026-03-10","step":9111,"frame":183405}
+@@HB {"seed":1,"day":"2026-03-11","step":9199,"frame":185219}
+@@HB {"seed":1,"day":"2026-03-11","step":9343,"frame":187478}
+@@HB {"seed":1,"day":"2026-03-12","step":9346,"frame":187506}
+@@HB {"seed":1,"day":"2026-03-12","step":9431,"frame":188668}
+@@HB {"seed":1,"day":"2026-03-12","step":9443,"frame":188816}
+@@HB {"seed":1,"day":"2026-03-13","step":9497,"frame":190504}
+@@HB {"seed":1,"day":"2026-03-14","step":9589,"frame":191839}
+@@HB {"seed":1,"day":"2026-03-15","step":9660,"frame":193196}
+@@HB {"seed":1,"day":"2026-03-15","step":9759,"frame":195832}
+@@HB {"seed":1,"day":"2026-03-16","step":9763,"frame":195910}
+@@HB {"seed":1,"day":"2026-03-17","step":9793,"frame":196172}
+@@HB {"seed":1,"day":"2026-03-18","step":9853,"frame":197582}
+@@HB {"seed":1,"day":"2026-03-19","step":9899,"frame":198414}
+@@HB {"seed":1,"day":"2026-03-20","step":9949,"frame":199234}
+@@HB {"seed":1,"day":"2026-03-21","step":9995,"frame":200238}
+@@HB {"seed":1,"day":"2026-03-21","step":10068,"frame":201667}
+@@HB {"seed":1,"day":"2026-03-22","step":10079,"frame":202087}
+@@HB {"seed":1,"day":"2026-03-22","step":10131,"frame":203133}
+@@HB {"seed":1,"day":"2026-03-22","step":10188,"frame":205531}
+@@HB {"seed":1,"day":"2026-03-23","step":10198,"frame":205738}
+@@HB {"seed":1,"day":"2026-03-23","step":10287,"frame":206887}
+@@HB {"seed":1,"day":"2026-03-23","step":10330,"frame":208509}
+@@HB {"seed":1,"day":"2026-03-24","step":10341,"frame":209280}
+@@HB {"seed":1,"day":"2026-03-25","step":10393,"frame":210288}
+@@HB {"seed":1,"day":"2026-03-26","step":10507,"frame":212312}
+@@HB {"seed":1,"day":"2026-03-27","step":10626,"frame":214157}
+@@HB {"seed":1,"day":"2026-03-28","step":10677,"frame":214702}
+@@HB {"seed":1,"day":"2026-03-28","step":10781,"frame":216503}
+@@HB {"seed":1,"day":"2026-03-29","step":10817,"frame":217075}
+@@HB {"seed":1,"day":"2026-03-30","step":10902,"frame":217670}
+@@HB {"seed":1,"day":"2026-03-30","step":11049,"frame":219724}
+@@HB {"seed":1,"day":"2026-03-31","step":11055,"frame":219778}
+@@HB {"seed":1,"day":"2026-03-31","step":11096,"frame":220834}
+@@HB {"seed":1,"day":"2026-03-31","step":11131,"frame":222221}
+@@HB {"seed":1,"day":"2026-04-01","step":11169,"frame":223538}
+@@HB {"seed":1,"day":"2026-04-01","step":11247,"frame":224902}
+@@HB {"seed":1,"day":"2026-04-02","step":11256,"frame":224989}
+@@HB {"seed":1,"day":"2026-04-03","step":11469,"frame":228083}
+@@HB {"seed":1,"day":"2026-04-04","step":11512,"frame":228627}
+@@HB {"seed":1,"day":"2026-04-04","step":11548,"frame":229581}
+@@HB {"seed":1,"day":"2026-04-05","step":11596,"frame":230386}
+@@HB {"seed":1,"day":"2026-04-05","step":11641,"frame":231722}
+@@HB {"seed":1,"day":"2026-04-05","step":11671,"frame":233460}
+@@HB {"seed":1,"day":"2026-04-06","step":11680,"frame":233656}
+@@HB {"seed":1,"day":"2026-04-07","step":11721,"frame":234397}
+@@HB {"seed":1,"day":"2026-04-08","step":11768,"frame":235031}
+@@HB {"seed":1,"day":"2026-04-08","step":11818,"frame":236642}
+@@HB {"seed":1,"day":"2026-04-09","step":11831,"frame":236819}
+@@HB {"seed":1,"day":"2026-04-09","step":11883,"frame":237584}
+@@HB {"seed":1,"day":"2026-04-10","step":11922,"frame":238265}
+@@HB {"seed":1,"day":"2026-04-10","step":12110,"frame":241599}
+@@HB {"seed":1,"day":"2026-04-11","step":12125,"frame":242015}
+@@HB {"seed":1,"day":"2026-04-12","step":12142,"frame":242293}
+@@HB {"seed":1,"day":"2026-04-12","step":12204,"frame":243332}
+@@HB {"seed":1,"day":"2026-04-12","step":12209,"frame":244410}
+@@HB {"seed":1,"day":"2026-04-13","step":12246,"frame":245465}
+@@HB {"seed":1,"day":"2026-04-14","step":12351,"frame":247231}
+@@HB {"seed":1,"day":"2026-04-14","step":12399,"frame":248542}
+@@HB {"seed":1,"day":"2026-04-14","step":12432,"frame":250606}
+@@HB {"seed":1,"day":"2026-04-15","step":12450,"frame":250801}
+@@HB {"seed":1,"day":"2026-04-15","step":12595,"frame":252931}
+@@HB {"seed":1,"day":"2026-04-16","step":12601,"frame":253200}
+@@HB {"seed":1,"day":"2026-04-17","step":12690,"frame":254654}
+@@HB {"seed":1,"day":"2026-04-18","step":12801,"frame":257225}
+@@HB {"seed":1,"day":"2026-04-19","step":12889,"frame":258496}
+@@HB {"seed":1,"day":"2026-04-20","step":12982,"frame":260759}
+@@HB {"seed":1,"day":"2026-04-20","step":13038,"frame":262199}
+@@HB {"seed":1,"day":"2026-04-21","step":13059,"frame":262348}
+@@HB {"seed":1,"day":"2026-04-21","step":13119,"frame":263429}
+@@HB {"seed":1,"day":"2026-04-21","step":13164,"frame":264863}
+@@HB {"seed":1,"day":"2026-04-22","step":13174,"frame":264947}
+@@HB {"seed":1,"day":"2026-04-22","step":13249,"frame":266136}
+@@HB {"seed":1,"day":"2026-04-23","step":13275,"frame":266982}
+@@HB {"seed":1,"day":"2026-04-23","step":13327,"frame":267789}
+@@HB {"seed":1,"day":"2026-04-23","step":13359,"frame":268487}
+@@HB {"seed":1,"day":"2026-04-23","step":13389,"frame":269891}
+@@HB {"seed":1,"day":"2026-04-24","step":13410,"frame":270457}
+@@HB {"seed":1,"day":"2026-04-25","step":13480,"frame":272062}
+@@HB {"seed":1,"day":"2026-04-25","step":13551,"frame":273594}
+@@HB {"seed":1,"day":"2026-04-26","step":13569,"frame":274312}
+@@HB {"seed":1,"day":"2026-04-27","step":13648,"frame":276622}
+@@HB {"seed":1,"day":"2026-04-27","step":13716,"frame":278492}
+@@HB {"seed":1,"day":"2026-04-27","step":13729,"frame":279188}
+@@HB {"seed":1,"day":"2026-04-28","step":13742,"frame":279742}
+@@HB {"seed":1,"day":"2026-04-28","step":13781,"frame":280633}
+@@HB {"seed":1,"day":"2026-04-28","step":13809,"frame":281704}
+@@HB {"seed":1,"day":"2026-04-29","step":13871,"frame":283057}
+@@HB {"seed":1,"day":"2026-04-30","step":13938,"frame":284118}
+@@HB {"seed":1,"day":"2026-04-30","step":14068,"frame":286368}
+@@HB {"seed":1,"day":"2026-05-01","step":14121,"frame":287043}
+@@HB {"seed":1,"day":"2026-05-01","step":14138,"frame":287428}
+@@HB {"seed":1,"day":"2026-05-01","step":14216,"frame":289443}
+@@HB {"seed":1,"day":"2026-05-02","step":14221,"frame":289472}
+@@HB {"seed":1,"day":"2026-05-03","step":14328,"frame":291410}
+@@HB {"seed":1,"day":"2026-05-03","step":14397,"frame":293289}
+@@HB {"seed":1,"day":"2026-05-04","step":14429,"frame":293568}
+@@HB {"seed":1,"day":"2026-05-05","step":14498,"frame":294476}
+@@HB {"seed":1,"day":"2026-05-05","step":14545,"frame":295400}
+@@HB {"seed":1,"day":"2026-05-05","step":14601,"frame":297074}
+@@HB {"seed":1,"day":"2026-05-05","step":14625,"frame":298078}
+@@HB {"seed":1,"day":"2026-05-06","step":14650,"frame":298564}
+@@HB {"seed":1,"day":"2026-05-07","step":14743,"frame":299961}
+@@HB {"seed":1,"day":"2026-05-08","step":14794,"frame":300801}
+@@HB {"seed":1,"day":"2026-05-09","step":14875,"frame":302247}
+@@HB {"seed":1,"day":"2026-05-10","step":14905,"frame":302526}
+@@HB {"seed":1,"day":"2026-05-11","step":14907,"frame":302600}
+@@HB {"seed":1,"day":"2026-05-14","step":14910,"frame":302705}
+@@HB {"seed":1,"day":"2026-05-15","step":14911,"frame":302740}
+@@HB {"seed":1,"day":"2026-05-16","step":14912,"frame":302775}
+@@HB {"seed":1,"day":"2026-05-16","step":14969,"frame":303926}
+@@HB {"seed":1,"day":"2026-05-16","step":14981,"frame":304929}
+@@HB {"seed":1,"day":"2026-05-16","step":15031,"frame":306260}
+@@HB {"seed":1,"day":"2026-05-17","step":15049,"frame":306635}
+@@HB {"seed":1,"day":"2026-05-17","step":15214,"frame":309215}
+@@HB {"seed":1,"day":"2026-05-18","step":15247,"frame":310131}
+@@HB {"seed":1,"day":"2026-05-18","step":15268,"frame":310778}
+@@HB {"seed":1,"day":"2026-05-19","step":15299,"frame":311226}
+@@HB {"seed":1,"day":"2026-05-19","step":15425,"frame":312968}
+@@HB {"seed":1,"day":"2026-05-20","step":15433,"frame":313438}
+@@HB {"seed":1,"day":"2026-05-21","step":15518,"frame":314826}
+@@HB {"seed":1,"day":"2026-05-21","step":15592,"frame":316642}
+@@HB {"seed":1,"day":"2026-05-21","step":15656,"frame":318153}
+@@HB {"seed":1,"day":"2026-05-22","step":15671,"frame":318293}
+@@HB {"seed":1,"day":"2026-05-22","step":15727,"frame":319922}
+@@HB {"seed":1,"day":"2026-05-23","step":15737,"frame":320001}
+@@HB {"seed":1,"day":"2026-05-24","step":15779,"frame":320844}
+@@HB {"seed":1,"day":"2026-05-25","step":15810,"frame":321753}
+@@HB {"seed":1,"day":"2026-05-26","step":15889,"frame":323452}
+@@HB {"seed":1,"day":"2026-05-26","step":15945,"frame":324558}
+@@HB {"seed":1,"day":"2026-05-27","step":15971,"frame":325033}
+@@HB {"seed":1,"day":"2026-05-27","step":16025,"frame":326183}
+@@HB {"seed":1,"day":"2026-05-28","step":16070,"frame":327453}
+@@HB {"seed":1,"day":"2026-05-29","step":16163,"frame":328706}
+@@HB {"seed":1,"day":"2026-05-29","step":16191,"frame":329288}
+@@HB {"seed":1,"day":"2026-05-30","step":16222,"frame":330114}
+@@HB {"seed":1,"day":"2026-05-31","step":16295,"frame":330867}
+@@HB {"seed":1,"day":"2026-05-31","step":16373,"frame":332520}
+@@HB {"seed":1,"day":"2026-05-31","step":16418,"frame":333654}
+@@HB {"seed":1,"day":"2026-06-01","step":16427,"frame":333705}
+@@HB {"seed":1,"day":"2026-06-02","step":16521,"frame":335598}
+
+================ 種子 1：FAIL ================
+區域 build 965 次、209.1 秒；turbo 格 140359
+到 2026-06-02　步數 16521　格數 335598　虛擬時間 17.1 小時　開頁面 11 次　真實 724.9 秒　（game3d.js：對話有 sayStack）
+結束時：{"attended":143,"day":259,"date":"2026-06-02","evDone":98,"money":303980,"stage":"law","contacts":11,"invites":37,"invDone":14,"goingSeen":1,"msgs":200}
+個性：{"classP":0.46377366874367,"lateP":0.21738413767889142,"phoneP":0.34350345729617404,"talkP":0.24267076239921154,"reloadP":0.002,"snapP":0.0025,"midReloadP":0.0002}
+假引擎 E 被讀但沒有的屬性：simWalk×16、preObjs×8
+
+【UNKNOWN】EXCEPTION（同樣的 4 次）　第 5290 步、第 107564 格
+  為什麼：例外在遊戲程式（subst (src/game3d.js:105:31)），互動（doInteract）之後；還沒確認是不是假物件不夠真
+  內容：TypeError: Cannot read properties of undefined (reading 'replace')
+             at subst (src/game3d.js:105:31)
+             at showLine (src/game3d.js:126:471)
+             at src/game3d.js:114:7
+             at new Promise (<anonymous>)
+             at Object.say (src/game3d.js:113:12)
+             at GM.say (src/sup519_3d.js:142:223)
+             at globalThis.ROM1016.S.readCard (src/rom1016_3d.js:104:41)
+  G：{"day":113,"date":"2026-01-07","hour":7.79,"zone":"dorm","stage":"law","money":155495,"energy":100,"weekday":3,"busy":false,"depth":0,"busyWho":[],"evRunning":null,"companion":null,"dating_kexin":true,"invites":["iv82:heroine_05@teahouse_ceremony:accepted"],"evDone":75,"page":4}
+  最後 20 個動作：
+    #5272 f107302 2026-01-06 22:26 dorm｜一鍵選單：回去睡覺正在前往
+    #5272 f107303 2026-01-06 22:26 dorm｜（提示）正在前往
+    #5273 f107304 2026-01-06 22:26 dorm｜一鍵選單：到下一堂課的教室正在前往
+    #5274 f107306 2026-01-06 22:26 dorm｜一鍵（收起來）：一鍵
+    #5275 f107375 2026-01-07 07:31 dorm｜走去阿凱（2.7 m）
+    #5276 f107388 2026-01-07 07:32 dorm｜按互動：和阿凱說話（想找 阿凱）
+    #5277 f107390 2026-01-07 07:32 dorm｜點對話：今天第三台筆電進水了。你們法律系的都把飲料放鍵盤旁邊嗎。
+    #5278 f107392 2026-01-07 07:32 dorm｜點對話：今天第三台筆電進水了。你們法律系的都把飲料放鍵盤旁邊嗎。
+    #5279 f107397 2026-01-07 07:32 dorm｜等一下（19 秒）
+    #5280 f107462 2026-01-07 07:40 dorm｜等一下（17 秒）
+    #5281 f107519 2026-01-07 07:47 dorm｜走去看看房間裡的東西（2.1 m）
+    #5282 f107533 2026-01-07 07:47 dorm｜按互動：看看房間裡的東西
+    #5283 f107537 2026-01-07 07:47 dorm｜選單（9 個）：她的週年卡片
+    #5284 f107540 2026-01-07 07:47 dorm｜點對話：那天吃完飯，回去的路上，我們說好在一起。我還記得是哪一盞路燈。
+    #5285 f107542 2026-01-07 07:47 dorm｜點對話：那天吃完飯，回去的路上，我們說好在一起。我還記得是哪一盞路燈。
+    #5286 f107547 2026-01-07 07:47 dorm｜選單（2 個）：翻後面幾頁
+    #5287 f107553 2026-01-07 07:47 dorm｜點對話：2024.8.23　遊覽車。你睡了一個小時。我手上那張名單，其實早就背好
+    #5288 f107558 2026-01-07 07:47 dorm｜點對話：2024.8.23　遊覽車。你睡了一個小時。我手上那張名單，其實早就背好
+    #5289 f107559 2026-01-07 07:47 dorm｜點對話：2024.10.17　你說：說完妳可以下車。……想得美。
+    #5290 f107564 2026-01-07 07:47 dorm｜點對話：2024.10.17　你說：說完妳可以下車。……想得美。
+  重現：node ..\Lawstudent_cclocal\docs\story_planning\test_tools\cc\random_play_sim.js --seed 1 --root C:\Users\USER\Documents\wt_cc_SIM_LANDLORD_352f --from 2025-08-29 --to 2026-06-01
+
+注意（不算 FAIL）：
+  217 次　3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗　例：unknown asset prop.bike_ride（2025-11-09 12:14 campus）
+  130 次　立繪缺檔 → 用 neutral（素材，不算）　例：portrait missing → fallback assets/portraits/heroine_05/campus/neutral.webp（2025-11-10 12:27 xs_shanlan）
+  29 次　3D／素材相關的例外（不算，假的 THREE）：滷味攤模型載入失敗　例：NO_NET（random_play_sim 不下載素材）（2025-11-17 22:33 gongguan）
+  12 次　星期和日期對不上（syncWeekday 改回來）　例：星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）
+  8 次　3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-11-21 20:31 cafe）
+  4 次　3D／素材相關的例外（不算，假的 THREE）：頁間書屋 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-11-12 15:16 bookstore）
+  4 次　3D／素材相關的例外（不算，假的 THREE）：一盞 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-12-06 13:00 wz_teahouse）
+  4 次　3D／素材相關的例外（不算，假的 THREE）：洋洋鹹酥雞 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2026-02-08 20:56 yangyang）
+  4 次　3D／素材相關的例外（不算，假的 THREE）：日常失速 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2026-02-15 21:28 wz_offbeat）
+  3 次　3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-12-05 21:26 cvs）
+  2 次　說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）　例：說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和不認識的女生說話（2025-12-03 21:08 wancai）
+  2 次　3D／素材相關的例外（不算，假的 THREE）：公館燒臘室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-12-05 21:20 noodle）
+  2 次　3D／素材相關的例外（不算，假的 THREE）：青木茶室 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-12-29 13:28 aoki）
+  2 次　3D／素材相關的例外（不算，假的 THREE）：轉角唱片 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2026-04-30 16:52 corner_records）
+  1 次　3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-11-14 19:05 afar）
+  1 次　3D／素材相關的例外（不算，假的 THREE）：阿德影印輸出 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2026-01-20 09:04 wz_print）
+  1 次　console.warn：MOVIES 海報載入失敗 assets/posters/m2601a.webp　例：MOVIES 海報載入失敗 assets/posters/m2601a.webp（2026-02-26 21:16 xs_nanyang）
+  1 次　console.warn：MOVIES 海報載入失敗 assets/posters/m2601b.webp　例：MOVIES 海報載入失敗 assets/posters/m2601b.webp（2026-02-26 21:16 xs_nanyang）
+  1 次　console.warn：MOVIES 海報載入失敗 assets/posters/m2603a.webp　例：MOVIES 海報載入失敗 assets/posters/m2603a.webp（2026-04-04 20:37 xs_nanyang）
+  1 次　console.warn：MOVIES 海報載入失敗 assets/posters/m2603b.webp　例：MOVIES 海報載入失敗 assets/posters/m2603b.webp（2026-04-04 20:37 xs_nanyang）
+@@RESULT {"seed":1,"ok":false,"reached":"2026-06-02","steps":16521,"frames":335598,"vms":61671700,"pages":11,"fails":[{"kind":"EXCEPTION","cls":"UNKNOWN","why":"例外在遊戲程式（subst (src/game3d.js:105:31)），互動（doInteract）之後；還沒確認是不是假物件不夠真","msg":"TypeError: Cannot read properties of undefined (reading 'replace')\n    at subst (src/game3d.js:105:31)\n    at showLine (src/game3d.js:126:471)\n    at src/game3d.js:114:7\n    at new Promise (<anonymous>)\n    at Object.say (src/game3d.js:113:12)\n    at GM.say (src/sup519_3d.js:142:223)\n    at globalThis.ROM1016.S.readCard (src/rom1016_3d.js:104:41)\n    at async roomItems (src/story3d.js:2818:270)\n    at async globalThis.STORY.S.interact (src/story3d.js:1344:23)\n    at async globalThis.USL.STORY.interact (src/us_life3d.js:407:151)","step":5290,"frame":107564,"G":{"day":113,"date":"2026-01-07","hour":7.79,"zone":"dorm","stage":"law","money":155495,"energy":100,"weekday":3,"busy":false,"depth":0,"busyWho":[],"evRunning":null,"companion":null,"dating_kexin":true,"invites":["iv82:heroine_05@teahouse_ceremony:accepted"],"evDone":75,"page":4},"lastActions":["#5272 f107302 2026-01-06 22:26 dorm｜一鍵選單：回去睡覺正在前往","#5272 f107303 2026-01-06 22:26 dorm｜（提示）正在前往","#5273 f107304 2026-01-06 22:26 dorm｜一鍵選單：到下一堂課的教室正在前往","#5274 f107306 2026-01-06 22:26 dorm｜一鍵（收起來）：一鍵","#5275 f107375 2026-01-07 07:31 dorm｜走去阿凱（2.7 m）","#5276 f107388 2026-01-07 07:32 dorm｜按互動：和阿凱說話（想找 阿凱）","#5277 f107390 2026-01-07 07:32 dorm｜點對話：今天第三台筆電進水了。你們法律系的都把飲料放鍵盤旁邊嗎。","#5278 f107392 2026-01-07 07:32 dorm｜點對話：今天第三台筆電進水了。你們法律系的都把飲料放鍵盤旁邊嗎。","#5279 f107397 2026-01-07 07:32 dorm｜等一下（19 秒）","#5280 f107462 2026-01-07 07:40 dorm｜等一下（17 秒）","#5281 f107519 2026-01-07 07:47 dorm｜走去看看房間裡的東西（2.1 m）","#5282 f107533 2026-01-07 07:47 dorm｜按互動：看看房間裡的東西","#5283 f107537 2026-01-07 07:47 dorm｜選單（9 個）：她的週年卡片","#5284 f107540 2026-01-07 07:47 dorm｜點對話：那天吃完飯，回去的路上，我們說好在一起。我還記得是哪一盞路燈。","#5285 f107542 2026-01-07 07:47 dorm｜點對話：那天吃完飯，回去的路上，我們說好在一起。我還記得是哪一盞路燈。","#5286 f107547 2026-01-07 07:47 dorm｜選單（2 個）：翻後面幾頁","#5287 f107553 2026-01-07 07:47 dorm｜點對話：2024.8.23　遊覽車。你睡了一個小時。我手上那張名單，其實早就背好","#5288 f107558 2026-01-07 07:47 dorm｜點對話：2024.8.23　遊覽車。你睡了一個小時。我手上那張名單，其實早就背好","#5289 f107559 2026-01-07 07:47 dorm｜點對話：2024.10.17　你說：說完妳可以下車。……想得美。","#5290 f107564 2026-01-07 07:47 dorm｜點對話：2024.10.17　你說：說完妳可以下車。……想得美。"],"count":4}],"notes":[{"k":"3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗","n":217,"ex":"unknown asset prop.bike_ride（2025-11-09 12:14 campus）"},{"k":"立繪缺檔 → 用 neutral（素材，不算）","n":130,"ex":"portrait missing → fallback assets/portraits/heroine_05/campus/neutral.webp（2025-11-10 12:27 xs_shanlan）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：滷味攤模型載入失敗","n":29,"ex":"NO_NET（random_play_sim 不下載素材）（2025-11-17 22:33 gongguan）"},{"k":"星期和日期對不上（syncWeekday 改回來）","n":12,"ex":"星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型","n":8,"ex":"NO_NET（random_play_sim 不下載素材）（2025-11-21 20:31 cafe）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：頁間書屋 室內正式模型載入失敗，用備用模型","n":4,"ex":"NO_NET（random_play_sim 不下載素材）（2025-11-12 15:16 bookstore）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：一盞 室內正式模型載入失敗，用備用模型","n":4,"ex":"NO_NET（random_play_sim 不下載素材）（2025-12-06 13:00 wz_teahouse）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：洋洋鹹酥雞 室內正式模型載入失敗，用備用模型","n":4,"ex":"NO_NET（random_play_sim 不下載素材）（2026-02-08 20:56 yangyang）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：日常失速 室內正式模型載入失敗，用備用模型","n":4,"ex":"NO_NET（random_play_sim 不下載素材）（2026-02-15 21:28 wz_offbeat）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型","n":3,"ex":"NO_NET（random_play_sim 不下載素材）（2025-12-05 21:26 cvs）"},{"k":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）","n":2,"ex":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和不認識的女生說話（2025-12-03 21:08 wancai）","all":[{"at":"2025-12-03 21:08","zone":"wancai","msg":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和不認識的女生說話","last":["#2400 f52211 2025-12-03 20:48 wancai｜選單（2 個）：坐一下，看看四周時間 +20 分鐘","#2401 f52230 2025-12-03 21:08 wancai｜走去不認識的女生（2.0 m）","#2402 f52239 2025-12-03 21:08 wancai｜按互動：和不認識的女生說話（想找 不認識的女生）"]},{"at":"2026-04-10 21:50","zone":"cafe","msg":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 和林芷若說話","last":["#12017 f240479 2026-04-10 21:47 cafe｜選單（3 個）：起身","#12018 f240482 2026-04-10 21:47 cafe｜走去林芷若（12.9 m）","#12019 f240568 2026-04-10 21:50 cafe｜按互動：和林芷若說話（想找 林芷若）"]}]},{"k":"3D／素材相關的例外（不算，假的 THREE）：公館燒臘室內正式模型載入失敗，用備用模型","n":2,"ex":"NO_NET（random_play_sim 不下載素材）（2025-12-05 21:20 noodle）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：青木茶室 室內正式模型載入失敗，用備用模型","n":2,"ex":"NO_NET（random_play_sim 不下載素材）（2025-12-29 13:28 aoki）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：轉角唱片 室內正式模型載入失敗，用備用模型","n":2,"ex":"NO_NET（random_play_sim 不下載素材）（2026-04-30 16:52 corner_records）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型","n":1,"ex":"NO_NET（random_play_sim 不下載素材）（2025-11-14 19:05 afar）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：阿德影印輸出 室內正式模型載入失敗，用備用模型","n":1,"ex":"NO_NET（random_play_sim 不下載素材）（2026-01-20 09:04 wz_print）"},{"k":"console.warn：MOVIES 海報載入失敗 assets/posters/m2601a.webp","n":1,"ex":"MOVIES 海報載入失敗 assets/posters/m2601a.webp（2026-02-26 21:16 xs_nanyang）"},{"k":"console.warn：MOVIES 海報載入失敗 assets/posters/m2601b.webp","n":1,"ex":"MOVIES 海報載入失敗 assets/posters/m2601b.webp（2026-02-26 21:16 xs_nanyang）"},{"k":"console.warn：MOVIES 海報載入失敗 assets/posters/m2603a.webp","n":1,"ex":"MOVIES 海報載入失敗 assets/posters/m2603a.webp（2026-04-04 20:37 xs_nanyang）"},{"k":"console.warn：MOVIES 海報載入失敗 assets/posters/m2603b.webp","n":1,"ex":"MOVIES 海報載入失敗 assets/posters/m2603b.webp（2026-04-04 20:37 xs_nanyang）"}],"missingE":["simWalk×16","preObjs×8"],"persona":{"classP":0.46377366874367,"lateP":0.21738413767889142,"phoneP":0.34350345729617404,"talkP":0.24267076239921154,"reloadP":0.002,"snapP":0.0025,"midReloadP":0.0002},"sayStack":true,"chooseStack":true,"g":{"attended":143,"day":259,"date":"2026-06-02","evDone":98,"money":303980,"stage":"law","contacts":11,"invites":37,"invDone":14,"goingSeen":1,"msgs":200}}
+（724.9 秒）
