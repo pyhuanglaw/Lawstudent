@@ -45,7 +45,7 @@
 
 ## 3. 接班、交班的 LAWWW 專屬步驟
 
-接班照 `CLAUDE.md` §4 十四步，LAWWW 另外做：
+接班照 `CLAUDE.md` §4（`takeover.py` 一頁），LAWWW 另外做（分批、不擋開工；下面寫「第 N 步」是舊編號，照內容做）：
 - **第 7、8 步**：`python3 tools/handoff/check_handoff.py incr --ref origin/<RULE_SOURCE>`（D94）：各職位（含 CC）水位線以後的新 commit 每一個都要有分類、`wip.json` 每項找得到、上一班的 WIP 沒有消失。合併、登記完、push 以後在自己分支 `incr --advance all --by <工作階段>`（通過且 push 才前進）。
 - **第 9 步**：`roles` 的異常全部補進 `tasks.json`（【表外】記 `meta.offList` 對到哪個任務）或寫進 `meta.reconcileIgnore` 附原因；`asks` 異常逐筆處理；`userwork --owner LAWWW` 另外印上一班交班快照的「下一班第一件事」和「B｜全部未完成」（讀 `HANDOFF_GAP_MATRIX.md` 第 11 節最上面那一則），沒有任務 ID 的先建任務。`python3 tools/handoff/branch_audit.py --write`（D114；淺層 clone 先 `git fetch --unshallow origin`）。
 - **第 11 步**：`git merge --no-edit origin/<RULE_SOURCE>`（不 rebase、不 force）。
