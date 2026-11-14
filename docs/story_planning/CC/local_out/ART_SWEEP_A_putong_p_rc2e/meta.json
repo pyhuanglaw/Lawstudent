@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "ART_SWEEP_A_putong_p_rc2e",
+  "sha": "1404d5f2d4cb740d50df75741764be18ee746992",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_closeup_probe.py",
+  "env": "TAG=art_sweep_a_putong_p;ZONE=putong;HOURS=14;VIEW=390x844;PLAIN_NAMES=1;CAMS=putong101_back@-5.0,1.6,-4.6>-16.4,1.1,-4.6@60/putong101_podium@-16.3,1.6,-2.0>-7,0.9,-5.2@60;SHA=1404d5f2d4cb740d50df75741764be18ee746992",
+  "machine": "MSI",
+  "start": "2026-11-14T18:07:00",
+  "end": "2026-11-14T18:08:16",
+  "seconds": 76,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "21",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 68,
+    "mem": 60,
+    "used_gb": 18.9,
+    "chrome_testing": 13
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}
