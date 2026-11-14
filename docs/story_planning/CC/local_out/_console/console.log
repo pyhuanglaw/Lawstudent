@@ -1685,3 +1685,12 @@
 [18:09:18] ==== START T1_SEED4_SAVE_stuck_76f8  (node @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
 [18:09:21] [res] cpu=4% mem=53% (16.9/31.4 GB) chrome_testing=4  START T1_SEED4_SAVE_stuck_76f8
 [18:10:34] [res] cpu=13% mem=40% (12.6/31.4 GB) chrome_testing=0  END LIVE_X364_deploy
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       554d3b4de7..863ca6e644  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:10:40] ==== END   LIVE_X364_deploy  exit=1  426s   ====
+[18:10:43] memory 40% before starting WINVIEW_GG3_1939_r2 (2 running)
+[18:10:43] ==== START WINVIEW_GG3_1939_r2  (game @ 19399e5d39f54b4da8e0a8caa78a72c48d98374f) ====
+[18:10:46] [res] cpu=8% mem=39% (12.6/31.4 GB) chrome_testing=0  START WINVIEW_GG3_1939_r2
+[18:10:55] 正在跑：T1_SEED4_SAVE_76f8（已跑 2 分／上限 30 分）、T1_SEED4_SAVE_stuck_76f8（已跑 1 分／上限 30 分）、WINVIEW_GG3_1939_r2（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:11:17] [res] cpu=3% mem=41% (12.9/31.4 GB) chrome_testing=0  END WINVIEW_GG3_1939_r2

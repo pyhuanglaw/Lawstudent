@@ -1,0 +1,23 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\_script_from\WINVIEW_GG3_1939_r2\docs\story_planning\test_tools\cc\cc_winview_patch_wrap.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WINVIEW_GG3_1939_r2\out
+CC WINVIEW-AUDIT-1105：工作樹 C:\Users\USER\Documents\wt_cc_WINVIEW_GG3_1939_r2；網址 http://127.0.0.1:8800/index.html；patch C:\Users\USER\Documents\_script_from\WINVIEW_GG3_1939_r2\docs\story_planning\test_tools\cc\fixtures\gg3_views_358eb72339.patch
+PASS FAIL_SETUP 檢查：patch 檔在  C:\Users\USER\Documents\_script_from\WINVIEW_GG3_1939_r2\docs\story_planning\test_tools\cc\fixtures\gg3_views_358eb72339.patch
+PASS FAIL_SETUP 檢查：工具在工作樹裡  tools\shots\shop_views_layers.py
+PASS FAIL_SETUP 檢查：工具的替代版本在（shop_views_layers_ddd38ce214.py）  C:\Users\USER\Documents\_script_from\WINVIEW_GG3_1939_r2\docs\story_planning\test_tools\cc\fixtures\shop_views_layers_ddd38ce214.py
+用 fixtures/shop_views_layers_ddd38ce214.py 取代 tools\shots\shop_views_layers.py（16510 → 19684 bytes）
+PASS FAIL_SETUP 檢查：patch 的錨點（aoki 那一行）在工具裡剛好一次  "    'aoki': ('gongguan', [-51.87, 14], [-51.87, 1.65, 21.7], [-51.87, 1.65, -40], 9.0, 3.4),"
+照 patch 插了 6 行（換行 '\n'）
+PASS FAIL_SETUP 檢查：三個名字都在 VIEWS  
+跑：C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe tools\shots\shop_views_layers.py http://127.0.0.1:8800/index.html gg_antai gg_xianguo gg_rongendian
+
+stderr：Traceback (most recent call last):
+  File "C:\Users\USER\Documents\wt_cc_WINVIEW_GG3_1939_r2\tools\shots\shop_views_layers.py", line 23, in <module>
+    from PIL import Image, ImageFilter
+ModuleNotFoundError: No module named 'PIL'
+
+FAIL shop_views_layers.py 結束碼 0  1
+收進 OUT/views：[]
+FAIL 六張遠景（gg_*_{day,night}.webp）都有  ["gg_antai_day.webp", "gg_antai_night.webp", "gg_xianguo_day.webp", "gg_xianguo_night.webp", "gg_rongendian_day.webp", "gg_rongendian_night.webp"]
+近景（_near_）：[]
+PASS shop_views_layers.json 在  tools\shots\shop_views_layers.json
+三間的景深：{}
+FAILED 2: shop_views_layers.py 結束碼 0；六張遠景（gg_*_{day,night}.webp）都有
