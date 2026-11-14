@@ -10347,6 +10347,25 @@
    "notDone": "CC 第二層；BB 判",
    "next": "LAWWW 套 patch",
    "integrated": "07bbd8564e"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "receiver": "LAWWW-C、幫手 g3",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "驗收 PASS 大口漢堡一樓＋二樓 CC0 第二次（g3 7157a25df7；疊面 1F 牆 5.13→0.32、2F 1.65→0.34）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/dakou_cc0_v2_on_07bbd8564e.patch",
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/dakou_cmp.jpg"
+   ],
+   "base": "07bbd8564e",
+   "at": "2026-11-14T01:45Z",
+   "tests": "place_gate 先查後寫、shop_cc0、21 支 ALL PASS",
+   "notDone": "LAWWW 整合；CC 第二層；BB 判；v2",
+   "next": "LAWWW 套 patch"
   }
  ]
 }

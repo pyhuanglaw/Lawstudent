@@ -178,3 +178,12 @@
   - g1 的 patch 裡也改了狀態表和疊面基準，我丟掉，用開發分支的版本重產。
 - **測試**：都 ALL PASS，包括 shop_cc0、木曜日 7 支、cafe 系列、wz_real_inside、shop_window ×2、seat_reach ×3。
 - **畫面**：`mokuyobi_v22_cmp.jpg`。葉片卡變成真的蕨類盆栽，東牆、木樑吊盆、書櫃頂上的差別最明顯。
+
+## 大口漢堡一樓＋二樓（g3 第二次交件 7157a25df7）——驗收 PASS（11-14 01:4x UTC）
+- **patch**：`dakou_cc0_v2_on_07bbd8564e.patch`；第一次退回的 `dakou_cc0_on_10aa10ed32.patch` 已經刪掉。
+- **疊面**：開發分支的基準不動，先跑 place_gate（不加 --write），新的問題 0；之後才跑 --coplanar --write，兩層都只有變少：
+  - dakou_1f：牆 5.13 → 0.32，一定會閃 10.55 → 3.71。
+  - dakou_2f：牆 1.65 → 0.34，一定會閃 8.29 → 6.30。
+- **修了哪些**：窗框直框、門邊重複的直框、樓梯口邊、踢腳板、員工通道牆、櫃檯身。
+- **測試**：都 ALL PASS，包括 shop_cc0（兩層都過）、dakou 系列 5 支、xs_lm、xsshop ×2、xs_wincard ×2、shop_real_inside、shop_window ×2、stair_tap、wall_onepass、shop_crowd_new、yue_meal_visible 等 21 支。
+- **畫面**：`dakou_cmp.jpg`，跟第一次交件差不多，看不出疊面修正的差別。v2（層架方塊、桌上的課本、紙袋、筆電）排在同弦後面。
