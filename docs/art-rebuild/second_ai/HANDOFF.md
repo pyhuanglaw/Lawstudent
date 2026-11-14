@@ -30,7 +30,7 @@
    - 日常失速前窗對面 B1 一樓還是平的（雨遮擋著，BB 判了再說）。
 5. 照舊：L118-SEAT-FIX-1112、SHOP-FIRST-APPROACH-1112、WZ-FRUIT-CLOSED（表外）、清州刀削麵打烊湯鍋檯（表外）。照 `check_handoff.py queue --owner LAWWW2` 看狀態。
 
-6. **交班時剛送到、還沒驗收的件（下一班照 SHOP_CC0_HOWTO 驗收）**：
+6. **（11-14 10:0x 已驗收，交 LAWWW-C 整合，順序：工具 → 同弦 → 頁間；b57169085b，`shop_cc0_accept_1113/` 三個 patch 底 6f4cf29026）** 頁間小盆栽葉片卡記 P3（之後換低面數 CC0 盆栽）。原清單：
    - g3 同弦 tongxian（claude/shop-cc0-g3 @ 768816c33c，`docs/art-rebuild/second_ai/cc0_help/g3/tongxian.patch`，底 2da495e693；純色 19%）。
    - g3 glb_coplanar 套用 instancing（edb96e33ec，`cc0_help/g3/coplanar_instancing.patch`＋`coplanar_instancing.md`）：51 個模型，8 個變少、0 個變多，附小測 `tests/glb_coplanar_instancing_check.py`。LAWWW 已同意修工具。同弦和這包誰後整合，誰的基準就要重跑一次 --coplanar。
    - g3 附帶發現：大步原本就有真的疊面 WALL_back_back_vc×WALL_back_back_paint 5.11 m²，大步 v2 時一起修。
