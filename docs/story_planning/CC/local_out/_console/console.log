@@ -1,11 +1,3 @@
-[22:25:55] skip X199_reach (already done on 99294fead8c3cd1350625007c8e8a72e0cbf1e47)
-[22:25:55] skip X199_touch (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
-[22:25:55] skip X199_day2an (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
-[22:25:55] skip X199_ggglb (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
-[22:25:55] skip X199_zone (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
-[22:25:55] skip XSGATE_new (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
-[22:25:55] skip XSGATE_old (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
-[22:25:55] skip WZCAT_new (already done on b296c6b562550f166bd8f7d78e0046cf4435e174)
 [22:25:55] skip WZCAT_old (already done on e9af1306192fe33a31db4c4b44a38f42d779913d)
 [22:25:55] skip GUIDE_063 (already done on 063cf14abca16d890ae7c7d82ac05bd12eea58ef)
 [22:25:55] skip GGNAV_063 (already done on 063cf14abca16d890ae7c7d82ac05bd12eea58ef)
@@ -1998,3 +1990,11 @@
 [09:08:46] ==== START GATE2_CC0_c_0c49  (probe @ 0c49bcf64ee779dc66efce1809455f57dfe0e010) ====
 [09:08:48] [res] cpu=9% mem=44% (13.8/31.4 GB) chrome_testing=5  START GATE2_CC0_c_0c49
 [09:09:24] [res] cpu=3% mem=42% (13.3/31.4 GB) chrome_testing=4  END GATE2_CC0_b_0c49
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       a3a9faee3a..867605de28  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:09:35] ==== END   GATE2_CC0_b_0c49  exit=1  964s   ====
+[09:09:38] memory 44% before starting GATE2_CC0_offbeat_win_0c49 (2 running)
+[09:09:38] ==== START GATE2_CC0_offbeat_win_0c49  (probe @ 0c49bcf64ee779dc66efce1809455f57dfe0e010) ====
+[09:09:41] [res] cpu=14% mem=45% (14.0/31.4 GB) chrome_testing=4  START GATE2_CC0_offbeat_win_0c49
+[09:11:05] [res] cpu=4% mem=43% (13.4/31.4 GB) chrome_testing=5  END GATE2_CC0_offbeat_win_0c49
