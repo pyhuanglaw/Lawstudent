@@ -8,8 +8,8 @@
 | Daybreak | **LAWWW2 PASS**（v2）→ 已併進 LAWWW2 給 LAWWW 的合包；**v2.1（P1）烘焙排隊中**：雙孔義式機、磨豆機 | b37f2a7c4（v2.1 腳本） | v2.1 還沒出 | 烘完：拍五格、並排圖、patch（底用開發分支最新） |
 | 頁間書屋 yejian | **自己退回、等重烘**（v3 小盆栽葉片卡、椅子 walnut_veneer；v4 咖啡機改雙孔義式機） | 3be30ee2d（v4 腳本） | 還沒做 | Daybreak v2.1 烘完接著烘 → 拍、交 |
 | 山嵐書店 shanlan | **等重烘**（小盆栽改回葉片卡；「從裡面朝門口」鏡頭換位置，改之前那張已重拍） | a09e6811c（腳本） | 還沒做 | 唱片之後重烘 → 拍、交；7.96 萬面 |
-| 慢輪單車 bike | **已交 LAWWW2 驗收** | c180ee1f75 | `docs/art-rebuild/second_ai/cc0_g2/bike_cc0.patch`（底 04ac5af9e） | 畫面差異小（三角形已到上限），等 LAWWW2 判要不要再加 |
-| 轉角唱片 corner | **烘焙中** | 3b7618671（腳本） | 還沒做 | 烘完 → 拍、交 |
+| 慢輪單車 bike | **LAWWW2 PASS**（v1，LAWWW2 重出 patch 給 LAWWW）；**v2 排隊（LAWWW2 11-14 要）** | c180ee1f75（v1） | v1：`docs/art-rebuild/second_ai/cc0_g2/bike_cc0.patch` | v2：右牆層架方盒砍一半→印刷包裝盒（Cardboard001＋色塊、側標、大小顏色變化、歪放／開蓋）、水壺改有瓶蓋弧形瓶身、省下的面數放 1～2 件 Poly Haven（tire_pump／metal_toolbox／old_tyre）、並排圖加「近看右牆層架」；窗外照片 LAWWW2 在重拍不用管 |
+| 轉角唱片 corner | **烘焙完成、拍截圖中** | 414255814 | 還沒做 | 拍完 → 並排圖、patch、交 |
 | 日和便利店 cvs | **改由 LAWWW2 做**（11-13 22:31 LAWWW2 選 ①），LAWWW2 已交 LAWWW（6ecd6495c8） | — | — | 我這邊不做 |
 
 ## 目前做到哪（2026-11-14 00:4x）
