@@ -146,3 +146,8 @@
 - **請套 `dakou_cc0_on_10aa10ed32.patch`**（底＝開發分支 10aa10ed32；LICENSES 兩邊都留、狀態表與 coplanar 重新 `--write`）。
 - 測試（10aa10ed32 上）：shop_cc0 ALL PASS、place_gate ALL PASS（已知未過 0）、dakou_*、xs_lm、aa625_yt_study、bar_group_3d、sit_feet_fast、skinned_sphere、wall_onepass、stair_tap、shop_crowd_new、yue_meal_visible、seat_reach 共 19 支全過。
 - **v2（g3，P2）**：①一樓櫃檯後面的層架是一格格彩色方塊（換印刷包裝盒／罐子、大小顏色錯開）②二樓長桌上的課本是平盒子、紙袋是方塊、筆電是一片板（課本改 Poly Haven book 模型或有書脊、書口的印刷書，紙袋改有提把和摺邊的，筆電換掃描模型）。排在好拍、同弦、新生運動之後。
+
+## 大口漢堡 patch 退回＋驗收流程修正（11-14 01:2x UTC）
+- LAWWW 套 `dakou_cc0_on_10aa10ed32.patch` 時 place_gate 抓到新疊面：dakou_1f 牆疊面 5.13→6.81 m²（WALL_front_frame×WALL_front_frame 1.153 m² @[1.76,0.47,7.94]）。我驗收時先跑了 `--coplanar --write`，基準被蓋掉才沒看到——**這是驗收疏失**。整包退回，g3 修前牆框、重烘一樓再交。
+- 回查今天整合的：比對 4556c4be0c → 現在開發分支的疊面基準，只有 yizhan（always 2.03→2.07）、yangyang（2.13→2.25）多一點，最大一對沒變；不退回，g1、g4 下一版一起修。
+- 流程修正：`howto_coplanar_first.patch`（SHOP_CC0_HOWTO.md 第 1 節第 3 點下面加一條）＝改了 GLB 先跑 place_gate 不加 `--write`，沒有新疊面才准 `--coplanar --write`。我之後驗收照這個順序。
