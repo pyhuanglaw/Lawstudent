@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "VACGAP_B",
+  "sha": "625fefcf1e40e4edcee58234fd6916b7fe89ff75",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_vacgap_probe.py",
+  "env": "CASES=MXGYM,KVJP,LNY,KXHOME_F,KXHOME_D;SHA=625fefcf1e40e4edcee58234fd6916b7fe89ff75",
+  "machine": "MSI",
+  "start": "2026-11-14T13:00:11",
+  "end": "2026-11-14T13:13:04",
+  "seconds": 773,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 40,
+    "mem": 52,
+    "used_gb": 16.7,
+    "chrome_testing": 15
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}

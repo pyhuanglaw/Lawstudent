@@ -1,13 +1,3 @@
-[23:34:24] [res] cpu=12% mem=45% (14.2/31.4 GB) chrome_testing=5  START CANON_NEWGAME_B1_d21c
-[23:36:52] 正在跑：SAVE_LZ_growB（已跑 70 分／上限 120 分）、CANON_NEWGAME_A1_d21c（已跑 3 分／上限 220 分）、CANON_NEWGAME_B1_d21c（已跑 2 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
-[23:41:52] 正在跑：SAVE_LZ_growB（已跑 75 分／上限 120 分）、CANON_NEWGAME_A1_d21c（已跑 8 分／上限 220 分）、CANON_NEWGAME_B1_d21c（已跑 7 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
-[23:44:46] [res] cpu=38% mem=43% (13.7/31.4 GB) chrome_testing=5  END CANON_NEWGAME_B1_d21c
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       7bf80d6ac6..0e285b0f67  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[23:45:39] ==== END   CANON_NEWGAME_B1_d21c  exit=1  625s   ====
-[23:45:45] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
-[23:45:45] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
 [23:45:45] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
 [23:45:45] memory 46% before starting CANON_NEWGAME_B2_d21c (2 running)
 [23:45:45] ==== START CANON_NEWGAME_B2_d21c  (probe @ d21c698bdef7b3ae434112ce7175ae9945deadd8) ====
@@ -1998,3 +1988,13 @@
 [13:03:52] ==== START VACGAP_C  (probe @ 625fefcf1e40e4edcee58234fd6916b7fe89ff75) ====
 [13:03:55] [res] cpu=0% mem=48% (15.0/31.4 GB) chrome_testing=10  START VACGAP_C
 [13:06:46] [res] cpu=5% mem=42% (13.2/31.4 GB) chrome_testing=10  END VACGAP_A
+[13:06:55] 正在跑：VACGAP_A（已跑 8 分／上限 60 分）、VACGAP_B（已跑 6 分／上限 60 分）、VACGAP_C（已跑 3 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       3af4f6a4a1..0ab145f6b3  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[13:07:00] ==== END   VACGAP_A  exit=0  475s   ====
+[13:07:03] memory 42% before starting VACGAP_D (2 running)
+[13:07:03] ==== START VACGAP_D  (probe @ 625fefcf1e40e4edcee58234fd6916b7fe89ff75) ====
+[13:07:06] [res] cpu=11% mem=42% (13.5/31.4 GB) chrome_testing=10  START VACGAP_D
+[13:11:55] 正在跑：VACGAP_B（已跑 11 分／上限 60 分）、VACGAP_C（已跑 8 分／上限 90 分）、VACGAP_D（已跑 4 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[13:13:04] [res] cpu=8% mem=44% (14.1/31.4 GB) chrome_testing=10  END VACGAP_B
