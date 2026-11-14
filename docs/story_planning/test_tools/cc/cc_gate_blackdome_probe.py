@@ -107,15 +107,15 @@ async def main():
                 await pg.evaluate(D.HUD + '(true)')
                 if h == HOURS[0]:
                     walks = []
-                    for zo in (0.0, 3.0, -3.0, 5.5, -5.5):
+                    for zo in (0.0, 1.5, -1.5, 3.0, -3.0, 5.5, -5.5):   # z 0：新校門（aa876 GATE-REF）正中間是門房＋半圓花圃，本來就擋（只記）
                         await pg.evaluate("(a=>{ const P=GAME.E.player.obj; P.position.set(a.x,0,a.z); GAME.E.player.path=null; })", {'x': GATE_X - 6, 'z': GATE_Z + zo}); await pg.wait_for_timeout(800)
                         st0 = await pg.evaluate("(a=>GAME.E.canStand(a.x,a.z,0.3))", {'x': GATE_X - 6, 'z': GATE_Z + zo})
                         ok = await L.go_to(pg, cdp, R, GATE_X + 6, GATE_Z + zo, 0.8, '[%s] 走過校門通道 z%+.1f' % (hh, zo), max_s=40)
                         p_ = await pg.evaluate("(()=>{ const P=GAME.E.player.obj.position; return [+P.x.toFixed(2), +P.z.toFixed(2)]; })()")
                         walks.append({'z_off': zo, 'start_stand': st0, 'reached': bool(ok), 'end': p_})
                     res['walk'] = walks; R.note('[%s] 走過校門通道（門柱連線外 6 m → 內 6 m）：%s' % (hh, J(walks)))
-                    R.check('[%s] 校門通道中心 ±3 m 走得過去' % hh, all(w['reached'] for w in walks if abs(w['z_off']) <= 3), J(walks))
-                    R.note('[%s] 通道 ±5.5 m：%s（BB 判；門房前半圓花圃會擋是預期）' % (hh, J([w for w in walks if abs(w['z_off']) > 3])))
+                    R.check('[%s] 門房兩側的通道（z ±3、±5.5）走得過去' % hh, all(w['reached'] for w in walks if abs(w['z_off']) >= 3), J(walks))
+                    R.note('[%s] 門房前（z 0、±1.5）：%s（門房、花圃擋＝預期，BB 判）' % (hh, J([w for w in walks if abs(w['z_off']) < 3])))
                 s = await D.load_zone(pg, cdp, 'gongguan', DAY, h, x=GG_GATE[0], z=GG_GATE[1] + 8, yaw=math.pi, wait=8000)
                 R.setup('[%s 公館側]【前置／捷徑】讀檔進 gongguan、站在校門前 8 m（%.1f, %.1f）面向校門（-z）' % (hh, GG_GATE[0], GG_GATE[1] + 8))
                 if R.check('FAIL_SETUP 檢查：[%s 公館側] 讀檔以後在 gongguan' % hh, s['zone'] == 'gongguan', s['zone']):
