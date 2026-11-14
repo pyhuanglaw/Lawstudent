@@ -2376,7 +2376,8 @@ DATE_LAYER_NODL_76f8 | 76f8b639f0641f93a99736d06a9d0d0675966343 | probe | docs/s
 # HOLD SIS_LIB_LOAD_rel | <SHA> | probe | docs/story_planning/test_tools/cc/cc_sis_lib_load_probe.py | index.html | 15 | DAYS=2025-09-05,2025-09-24;HOUR=10;SHA=<SHA>
 # ② HEROINE_LIFE463（BB_463）：原本 HOLD 那一行（2607 附近，cc_heroine_life463_probe）發布時改 <SHA> 移到這裡
 # ③ ROUTE_E4／E6／E8_r2（QA-REPRO-1020 結案）：原本 HOLD 那三行（route1a02_probe）發布時改 <SHA> 移到這裡
-# ④ ANNIV 第二年（2028-05-20）case：cc_canon458_probe 只有 ANNIV_A／C（第一年）——case 待寫（CC-C）
+# ④ ANNIV 第二年：cc_canon458_probe CASES=ANNIV_Y2（交往中、在一起 2026-05-20、第一年記過 → 前一週 21:00 她私訊「這次我選地方」、地點 shop → 那天 18:30 出遊照演）
+# HOLD ANNIV_Y2_rel | <SHA> | probe | docs/story_planning/test_tools/cc/cc_canon458_probe.py | index.html | 40 | CASES=ANNIV_Y2;SHA=<SHA>
 # ⑤ REL76_ladder 換時段：cc_test_patch_wrap PATCH=ladder_slots（頁面裡用 STORY.schedEnt 找以安、芷若、語彤、學姊、沛珊大一下第 5 週在場、不上班、有階梯的時段，語彤補 YT_MET_JOB）
 # HOLD REL76_ladder_r2 | <SHA> | game | docs/story_planning/test_tools/cc/cc_test_patch_wrap.py | index.html | 30 | SCRIPT_FROM=cc;TEST=flow_ladder_y1s2.py;PATCH=ladder_slots;XARGS={url} {out};CC_HEADLESS=0
 # ⑥ ROMTIER a1～b2：已排 @bc53f04880（GATE2 前面），沿用

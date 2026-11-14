@@ -8,6 +8,7 @@ CC_02 清單 2026-11-14：1✓（日子用 STORY.termDay('Y1S2',1,1) 在遊戲�
   XMAS_MET_A／XMAS_MET_B／XMAS_PREV／XMAS_ABROAD  #17 大三聖誕（@d999d036d8 當面版；BB 改定：當面版＋人在國外的視訊版）：12/24 21:00 兩則 → 「好。」→ 12/25 21:00 法律系館A（國外＝視訊）
   GRAD_KEY／GRAD_NOKEY  #15 6/2 畢業典禮（交往中；有／沒有長頸鹿鑰匙圈）：一路照演到 PG.done.grad，記 ADV.cg（不能有 cg_two_graduations）
   ORAL  #16 國考口試（【捷徑】畢業後篇＋JUDGE_PASS_2030，2031-01-11 09:50）：記「你為什麼念法律？」那一段，祐廷不提以前的系（D158 字表掃）
+  ANNIV_Y2  BB_466 ④ 第二年週年（2028；前一週 21:00 她私訊、地點她選＝shop → 那天 18:30 出遊照演）
   ANNIV_A／ANNIV_C  #3 週年（在一起 2026-05-20 → 2027-05-13 21:00 邀約選「後門那家湯餃」→ 5/19 準備發票 → 5/20 18:30 出遊；卡片第 1／第 3 個選項）
   WELCOME_Y2  #13 大二迎新小隊輔（9/4 21:00 g:law_class → 9/6 14:00 社科院旁的草地；第 3 題三個短版）——書店那句（第 4 次起 rot）另外排
   SPRING_Y2／SPRING_Y4  #4 春假女宿接人（@4af46fd8f6；選單選「春假：和可昕…」→ 她那句 → 4/3 07:40 出遊、地點字幕）
@@ -169,6 +170,30 @@ async def c_night(pg, cdp, tag):
         out.append(dict(day=day, ex=ex, send=sc, msgs=t['msgs'][-4:]))
     SP.d158(tag, *[{'msgs': o['msgs']} for o in out])
     return {'case': tag, 'nights': out}
+
+
+async def c_anniv2(pg, cdp, tag):
+    """BB_466 ④（BB-C 01:27）第二年週年（story3d.js 1856～1866：n＝2）：交往中、在一起 2026-05-20、第一年演過（KX_ANNIV[1]）→ STORY.kxAnnivAt(G,2)＝週年那天；
+       前一週 21:00 她私訊「下禮拜X週年。這次我選地方。」（kx_anniv_ask2，不用回、地點自動 shop）→ OUT kx_anniv2 那天 18:30 →【前置】跳那天 18:00 → 等「出發」→ 照演（卡片選第 1 個）"""
+    cd = (await P.day_of(pg, '2026-05-20'))['d']
+    d, seed = await SP.fresh(pg, cdp, tag, '2028-05-01', 12.0, 'dorm', {'kexin': 'DATING'}, {'confessed': {'kexin': cd}, 'KX_ANNIV': {'1': 'done'}})
+    at = await pg.evaluate("(()=>{ const A=STORY.kxAnnivAt?STORY.kxAnnivAt(GAME.G,2):null; return A?{day:A.day, key:CALENDAR.dateOf(A.day).key, early:!!A.early}:null; })()")
+    R.note('[%s] 墊完 %s；第二年週年 %s' % (tag, J(seed), J(at)))
+    if not R.check('FAIL_SETUP 檢查：[%s] 交往中、算得出第二年週年（2028-05-20 前後）' % tag, seed['kexin']['dating'] and bool(at) and at['key'].startswith('2028-05'), J(at)): return {'case': tag, 'skip': 'setup'}
+    ask_key = await pg.evaluate("(d=>CALENDAR.dateOf(d-7).key)", at['day'])
+    await SP.jump(pg, cdp, tag, ask_key, 20 + 50 / 60, 'dorm', None)
+    await SP.wait_h(pg, cdp, 21.1, tag); await pg.wait_for_timeout(3000)
+    t = await SP.thread(pg, cdp, tag + '_ask', 'p:kexin')
+    q = await pg.evaluate("(()=>{ const q=OUT.get(GAME.G,'kx_anniv2'); return {place:GAME.G.flags.KX_ANNIV_PLACE_2||null, out:q?{day:CALENDAR.dateOf(q.day).key,h:q.h,place:q.place,title:q.title,state:q.state}:null}; })()")
+    R.note('[%s] 前一週 %s 21:00 私訊 %s；KX_ANNIV_PLACE_2＝%s；OUT kx_anniv2＝%s' % (tag, ask_key, J(t)[:400], q['place'], J(q['out'])))
+    R.check('[%s] 前一週 21:00 她私訊「…週年。這次我選地方。」' % tag, '這次我選地方' in J(t), J(t)[:300])
+    if not R.check('FAIL_SETUP 檢查：[%s] 第二年週年出遊排上了（%s 18:30）' % (tag, at['key']), bool(q['out']) and q['out']['day'] == at['key'], J(q)): return {'case': tag, 'ask': t, 'q': q}
+    await SP.jump(pg, cdp, tag, at['key'], 18.0, 'dorm', None)
+    r = await SP.go_out(pg, cdp, tag + '_day', 0)
+    fl = await pg.evaluate("(()=>({KX_ANNIV:GAME.G.flags.KX_ANNIV||null, K7_GIFT:GAME.G.flags.K7_GIFT||null}))()"); R.note('[%s] 之後 %s' % (tag, J(fl)))
+    R.check('[%s] 第二年週年演完（KX_ANNIV[2] 有記）' % tag, bool(fl['KX_ANNIV']) and ('2' in fl['KX_ANNIV'] or 2 in fl['KX_ANNIV']), J(fl))
+    SP.d158(tag, t, r)
+    return {'case': tag, 'ask': t, 'q': q, 'r': r, 'after': fl}
 
 
 async def c_anniv(pg, cdp, tag):
@@ -483,6 +508,7 @@ async def one(pg, cdp, c):
     if c in SPRING: return await c_spring(pg, cdp, c)
     if c == 'WELCOME_Y2': return await c_welcome(pg, cdp, c)
     if c in ('ANNIV_A', 'ANNIV_C'): return await c_anniv(pg, cdp, c)
+    if c == 'ANNIV_Y2': return await c_anniv2(pg, cdp, c)
     if c == 'NIGHT_MSG': return await c_night(pg, cdp, c)
     if c in ('GRAD_KEY', 'GRAD_NOKEY'): return await c_grad(pg, cdp, c)
     if c == 'ORAL': return await c_oral(pg, cdp, c)
