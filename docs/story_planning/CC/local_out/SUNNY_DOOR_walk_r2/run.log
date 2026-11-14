@@ -1,0 +1,31 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_route_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SUNNY_DOOR_walk_r2\out
+CC 照玩家走路線：TAG sunny_door_walk；SHA a1efc3b6ab；wenzhou 2025-10-14 14.0；ROUTE ['exit:wz_brunch', 'burst:in', 'look:3.14', 'exit:wenzhou', 'burst:out', 'look:0']
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 wenzhou 2025-10-14 14.0（出生點）（條件事件關掉）
+PASS 讀到 wenzhou  {"zone": "wenzhou", "x": 44, "z": -1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "", "stand": true, "fb": 0, "hour": 14.01}
+PASS FAIL_SETUP 檢查：開跑前沒有對話、busy=false（先點完 0 下）  {"dlg": false, "choices": [], "busy": false}
+  [  55.0s] [00 start]  區域 wenzhou lv0 (44, -1) y=0 站得住=True 坐著=False pose=idle；鏡頭 [49.07, 2.78, -1] 到頭 5.17 m、被 [] 擋；互動鍵「互動」
+PASS [01 exit:wz_brunch] 找得到往 wz_brunch 的出口  [["往新生南路", "xinsheng"], ["進去日常失速", "wz_offbeat"], ["進入 2:30 AM", "cafe"], ["上二樓（木曜日）", "wz_mokuyobi"], ["進去 SUNNY SIDE", "wz_brunch"], ["進去阿德影印輸出", "wz_print"], ["進去一盞", "wz_teahouse"], ["進去林家乾麵", "wz_lin"], ["進去小路", "wz_teishoku"]]
+PASS [01 exit:wz_brunch] 有「進去 SUNNY SIDE」  [{"label": "往新生南路", "x": -33.4, "z": -28.4, "r": 2.2, "lv": 0, "to": "xinsheng"}, {"label": "進去日常失速", "x": -36.5, "z": -9.6, "r": 1.2, "lv": 0, "to": "wz_offbeat"}, {"label": "進入 2:30 AM", "x": 54.2, "z": 0, "r": 2.3, "lv": 0, "to": "cafe"}, {"label": "上二樓（木曜日）", "x": 7.4, "z": -4.55, "r": 1.4, "lv": 0, "to": "wz_mokuyobi"}, {"label": "進去 SUNNY SIDE", "x": 45, "z": -4.6, "r": 1.4, "lv": 0, "to": "wz_brunch"}, {"label": "進去阿德影印輸出", "x": -8, "z": 4.6, "r": 1.4, "lv": 0, "to": "wz_print"}, {"label": "進去一盞", "x": -20.5, "z": 4.6, "r": 1.4, "lv": 0, "to": "wz_teahouse"}, {"label": "進去林家乾麵", "x": 35, "z": 4.6, "r": 1.4, "lv": 0, "to": "wz_lin"}, {"label": "進去小路", "x": -4.8, "z": -4.6, "r": 1.4, "lv": 0, "to": "wz_teishoku"}]
+  [  55.2s] [01 exit:wz_brunch] 「進去 SUNNY SIDE」在 (45, -4.6) 半徑 1.4；走到範圍裡站得住的 {"x": 44.79, "z": -3.83, "d": 2.9363509273264565}
+PASS [01 exit:wz_brunch] 「進去 SUNNY SIDE」範圍裡有站得住的地方  {"label": "進去 SUNNY SIDE", "x": 45, "z": -4.6, "r": 1.4, "lv": 0, "to": "wz_brunch"}
+  [  58.2s] 到達「[01 exit:wz_brunch] 進去 SUNNY SIDE」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [01 exit:wz_brunch] 走到那裡，互動按鈕是「進去 SUNNY SIDE」  {"x": 44.726, "z": -3.601, "lv": 0, "interact": "進去 SUNNY SIDE"}
+PASS [01 exit:wz_brunch] 按下去到了 wz_brunch（站得住、沒有被放到目的地）  {"zone": "wz_brunch", "x": 0.4, "z": 4, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "離開 SUNNY SIDE", "stand": true, "fb": 0, "hour": 14.07}
+  [  67.0s] [01 exit:wz_brunch] 【卡住偵測】取樣 15 筆（每 0.5 秒）；連續 ≥5 秒沒位移 0 次 []
+  [  67.6s] [01 exit] 出口「進去 SUNNY SIDE」→ wz_brunch 區域 wz_brunch lv0 (0.4, 4) y=0 站得住=True 坐著=False pose=idle；鏡頭 [0.4, 3.13, 7.71] 到頭 3.97 m、被 [] 擋；互動鍵「離開 SUNNY SIDE」
+  [  74.0s] [02 burst]  區域 wz_brunch lv0 (0.4, 4) y=0 站得住=True 坐著=False pose=idle；鏡頭 [0.4, 3.13, 7.71] 到頭 3.97 m、被 [] 擋；互動鍵「離開 SUNNY SIDE」
+  [  75.3s] [03 look] yaw=3.14 區域 wz_brunch lv0 (0.4, 4) y=0 站得住=True 坐著=False pose=idle；鏡頭 [0.41, 3.13, 0.31] 到頭 4.02 m、被 [] 擋；互動鍵「離開 SUNNY SIDE」
+PASS [04 exit:wenzhou] 找得到往 wenzhou 的出口  [["離開 SUNNY SIDE", "wenzhou"]]
+PASS [04 exit:wenzhou] 有「離開 SUNNY SIDE」  [{"label": "離開 SUNNY SIDE", "x": 0.4, "z": 4.45, "r": 1.3, "lv": 0, "to": "wenzhou"}]
+  [  75.4s] [04 exit:wenzhou] 「離開 SUNNY SIDE」在 (0.4, 4.45) 半徑 1.3；走到範圍裡站得住的 {"x": 0.4, "z": 4.05, "d": 0.04999999999999982}
+PASS [04 exit:wenzhou] 「離開 SUNNY SIDE」範圍裡有站得住的地方  {"label": "離開 SUNNY SIDE", "x": 0.4, "z": 4.45, "r": 1.3, "lv": 0, "to": "wenzhou"}
+PASS [04 exit:wenzhou] 走到那裡，互動按鈕是「離開 SUNNY SIDE」  {"x": 0.4, "z": 4, "lv": 0, "interact": "離開 SUNNY SIDE"}
+PASS [04 exit:wenzhou] 按下去到了 wenzhou（站得住、沒有被放到目的地）  {"zone": "wenzhou", "x": 45, "z": -4.1, "y": 0, "lv": 0, "seat": false, "busy": false, "dlg": false, "choices": [], "interact": "進去 SUNNY SIDE", "stand": true, "fb": 0, "hour": 14.14}
+  [  83.7s] [04 exit:wenzhou] 【卡住偵測】取樣 8 筆（每 0.5 秒）；連續 ≥5 秒沒位移 0 次 []
+  [  84.5s] [04 exit] 出口「離開 SUNNY SIDE」→ wenzhou 區域 wenzhou lv0 (45, -4.1) y=0 站得住=True 坐著=False pose=idle；鏡頭 [45, 1.63, -4.78] 到頭 0.64 m、被 [] 擋；互動鍵「進去 SUNNY SIDE」
+  [  90.0s] [05 burst]  區域 wenzhou lv0 (45, -4.1) y=0 站得住=True 坐著=False pose=idle；鏡頭 [45, 1.63, -4.78] 到頭 0.64 m、被 [] 擋；互動鍵「進去 SUNNY SIDE」
+  [  91.4s] [06 look] yaw=0 區域 wenzhou lv0 (45, -4.1) y=0 站得住=True 坐著=False pose=idle；鏡頭 [45, 2.78, 0.95] 到頭 5.22 m、被 [] 擋；互動鍵「進去 SUNNY SIDE」
+PASS 沒有 JS 例外  []
+ALL PASS
