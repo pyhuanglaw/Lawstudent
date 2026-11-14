@@ -16,7 +16,7 @@ PARTS：
 CC-B 11-14：④ 認 PRIVTALK.PLACE_EXCEPT；在走的人跟著走再聽；找日子從 day −400 起（遊戲的 day 0＝2025-09-16，大一上第 1、2 週是負的；HL2 Y1S1 找不到第 1 週）；字幕掛鉤在讀檔前裝；④ 走近 1 m 再看互動鍵。
 CC_02 清單 2026-11-14：1✓（日子照遊戲自己的 HCIRCLE.on 掃、動態照 FEED.tick） 2✓（列、句子、同伴、動態全從遊戲資料讀，不寫死句子） 3✓（每一列一個日子：第一個成立的，記下來） 4✓（找她說話照互動鍵、選單照字選「就這樣」） 5✓（go_to 走到她 3 m 外，走不到記下來） 6✓（字幕等 18 秒收齊；讀檔等 6 秒） 7✓（lint） 8✓（字幕用包 GAME.caption 記，不靠輪詢） 9✓（每一列兩張、每一天手機一張） 10✓（讀檔關條件事件、認識同伴） 11✓（SHA 40 碼） 12✓（FAIL_SETUP：區域、HCIRCLE.on、她在） 13✓（走路分段：go_to，途中有對話就停）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [PARTS=HL1,HL2] [ROWS=c503_4_2,...] [FIX=tests/fixtures/user_save_day51_1110.json] python3 cc_heroine_life1028_probe.py <url> <out>"""
-import os, sys, json, asyncio, math
+import os, sys, json, asyncio, math, time
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or 'tests'); sys.path.insert(0, HERE)
 import playlib as L
@@ -130,12 +130,22 @@ async def part_hl1(pg, cdp, sv0, res):
             if tgt: break
         if not R.check('FAIL_SETUP 檢查：%s 她旁邊 5 m 內找得到站得住的點' % tag, bool(tgt), J(h)): continue
         await L.go_to(pg, cdp, R, tgt[0], tgt[1], 0.4, '%s 走到她旁邊（%.1f m）' % (tag, math.hypot(tgt[0] - h['x'], tgt[1] - h['z'])), max_s=150, lv=h['lv'])
-        if h.get('pose') == 'walk':   # CC-B 11-14（HL1 r2 c503_4_2：兩個人邊走邊講，走到原本的位置時人已經走遠，一句都沒聽到）：在走的就跟著走（每輪重看她在哪、跟到 2.5 m），最多 6 輪，聽到第一句就停
-            for k_ in range(6):
-                if await pg.evaluate("(window.__ccCap||[]).length"): break
+        if h.get('pose') == 'walk':   # CC-B 11-14（HL1 r2 c503_4_2 兩人邊走邊講；BB-B 13:22）：【捷徑】玩家放到她背後 15 m，用正常走路（點地面，不跑、不傳送）跟上去，看聽不聽得完——聽不完＝遊戲的事（BB 報 AA／LAWWW）
+            pl_ = await pg.evaluate("""((a)=>{ const E=GAME.E, n=HCIRCLE.npcOf(GAME,a.who)||(GAME.npc&&GAME.npc[a.who]); if(!n||!n.obj) return null; const o=n.obj.position, ry=n.obj.rotation.y, fx=Math.sin(ry), fz=Math.cos(ry);
+              for(const D of [15,14,16,13,17,12]){ const x=o.x-fx*D, z=o.z-fz*D; if(E.canStand(x,z,0.3,n.lv|0)){ const P=E.player.obj; P.position.set(x,P.position.y,z); P.rotation.y=Math.atan2(o.x-x,o.z-z); E.player.path=null; return {x:+x.toFixed(2),z:+z.toFixed(2),d:D,run:!!(E.player.run||GAME.G.run)}; } } return null; })""", {'who': info['who']})
+            await pg.evaluate("window.__ccCap=[]")
+            R.setup('%s 【捷徑】玩家放到她背後 %s m（%s），字幕重新收' % (tag, pl_ and pl_['d'], J(pl_)))
+            fol_ = []; t0_ = time.time()
+            for k_ in range(10):
+                if len(await pg.evaluate("(window.__ccCap||[])")) >= len(info['lines']) or time.time() - t0_ > 120: break
                 h2 = (await pg.evaluate(NPCPOS, {'ids': [info['who']], 'who': info['who'], 'row': rid}))['pos'].get(info['who'])
-                if not h2 or not h2.get('vis'): break
-                await L.go_to(pg, cdp, R, h2['x'], h2['z'], 2.5, '%s 跟著她走（第 %d 輪）' % (tag, k_ + 1), max_s=40, lv=h2['lv'], stop=lambda st_: False)
+                if not h2 or not h2.get('vis'): fol_.append('不見了'); break
+                sp_ = await pg.evaluate("(()=>{ const P=GAME.E.player; return {x:+P.obj.position.x.toFixed(2), z:+P.obj.position.z.toFixed(2), run:!!(P.run||(GAME.G&&GAME.G.run))}; })()")
+                fol_.append({'k': k_ + 1, 'her': [h2['x'], h2['z']], 'me': [sp_['x'], sp_['z']], 'd': round(math.hypot(h2['x'] - sp_['x'], h2['z'] - sp_['z']), 1), 'run': sp_['run']})
+                await L.go_to(pg, cdp, R, h2['x'], h2['z'], 2.5, '%s 走路跟著她（第 %d 輪）' % (tag, k_ + 1), max_s=20, lv=h2['lv'], stop=lambda st_: False)
+            out['follow'] = fol_; R.note('%s 跟著走：%s' % (tag, J(fol_)))
+            got_ = await pg.evaluate("(window.__ccCap||[])")
+            R.check('%s ③b 正常走路從 15 m 外跟上去，聽得完 %d 句（聽不完＝遊戲：她們走太快／聽的距離不夠，交 BB）' % (tag, len(info['lines'])), len(got_) >= len(info['lines']), J({'got': [c['t'] for c in got_], 'follow': fol_}))
         caps = []; shot_cap = False
         for _ in range(36):
             caps = await pg.evaluate("window.__ccCap||[]")
@@ -156,6 +166,26 @@ async def part_hl1(pg, cdp, sv0, res):
         tm = await talk_menu(pg, cdp, tag, (h.get('name') or '').strip() or None)
         out['talk'] = tm; out['company_at_talk'] = np1.get('company')
         await D.shot(pg, 'hl1_%s_after_talk' % rid, judge_black=False)
+        if tm is None and info.get('act') == 'barista':   # CC-B 11-14（BB-B 13:22 HL1 r2 5_2）：吧檯班的她走不進吧檯，「找她說話」＝到吧檯點餐那一條（story3d.js n.staff==='cafe'）；把那條一路的選單印出來，沒有「約她去…」＝PASS
+            bar_ = await pg.evaluate("(()=>{ const E=GAME.E, lab=i=>String(typeof i.label==='function'?i.label():i.label||''); const it=(E.interactables||[]).filter(i=>!i.hidden&&/點餐/.test(lab(i)))[0]; return it?{x:it.x,z:it.z,lv:it.lv|0,label:lab(it)}:null; })()")
+            if R.check('FAIL_SETUP 檢查：%s 吧檯班：找得到「點餐」互動點' % tag, bool(bar_), J(bar_)):
+                await L.go_to(pg, cdp, R, bar_['x'], bar_['z'], 0.9, '%s 走到吧檯點餐點' % tag, max_s=60, lv=bar_['lv'], stop=lambda st_: '點餐' in (st_.get('interact') or ''))
+                q_ = await D.st(pg); menus_ = []; lines_ = []
+                if '點餐' in (q_.get('interact') or ''):
+                    await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(900)
+                    for _ in range(40):
+                        s_ = await D.st(pg)
+                        if s_.get('choices'):
+                            menus_.append(s_['choices'])
+                            k_ = next((i_ for i_, t_ in enumerate(s_['choices']) if any(w_ in t_ for w_ in ('就這樣', '算了', '不點', '不用', '離開', '先不要'))), None)
+                            if k_ is None: R.note('%s 吧檯選單沒有「就這樣／算了／不點」可以離開，停在這一層（只記）：%s' % (tag, J(s_['choices']))); break
+                            await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (k_ + 1)); await pg.wait_for_timeout(900); continue
+                        if s_.get('dlg'): lines_.append(s_.get('dtext') or ''); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
+                        break
+                R.note('%s 吧檯點餐那一條：互動鍵「%s」；選單 %s；對話 %s' % (tag, q_.get('interact'), J(menus_), J(lines_[:10])))
+                inv_ = [t_ for m_ in menus_ for t_ in m_ if t_.startswith('約')]
+                R.check('%s ④ 吧檯班（點餐那一條）：選單沒有「約她去…」（她在上班）' % tag, bool(menus_) and not inv_, J({'menus': menus_, 'inv': inv_}))
+            continue
         if tm is None:
             R.check('%s ④ 找得到她說話（互動鍵是她）' % tag, False, J(np1)); continue
         inv = [t for m in tm['menus'] for t in m if t.startswith('約')]
@@ -166,7 +196,7 @@ async def part_hl1(pg, cdp, sv0, res):
             near1 = {c: (round(math.hypot(p['x'] - np1['pos'][info['who']]['x'], p['z'] - np1['pos'][info['who']]['z']), 2) if p and np1['pos'].get(info['who']) else None) for c, p in np1['pos'].items() if c != info['who']}
             exc_ = await pg.evaluate("((a)=>{ try{ const L=(typeof PRIVTALK!=='undefined'&&PRIVTALK.PLACE_EXCEPT)||[]; const z=GAME.G.zone; const r=L.find(q=>q.who===a.who&&q.zone===z); return r?r.except:[]; }catch(e){ return []; } })", {'who': info['who']})
             if exc_ and all(c in exc_ for c in near1):   # CC-B 11-14（HL1 r2 c503_6_2）：PRIVTALK.PLACE_EXCEPT（AA_627 P-18／AA_679）——語彤在茶屋、旁邊只有蘇姨＝不算有人，「約她去…」照設計會出
-                R.note('%s ④ 旁邊只有 %s，照 PRIVTALK.PLACE_EXCEPT 不算有人＝「約她去…」照設計可以出（%s）' % (tag, J(exc_), J(inv)))
+                R.check('%s ④ 旁邊只有 %s（PRIVTALK.PLACE_EXCEPT 不算有人）：選單有「約她去…」＝對（BB-B 13:22）' % (tag, J(exc_)), bool(inv), J({'menus': tm['menus'], 'inv': inv}))
             elif all(v is not None and v < 3.2 for v in near1.values()):
                 R.check('%s ④ 同伴在她 3.2 m 內的時候，選單沒有「約她去…」' % tag, not inv, J({'menus': tm['menus'], 'company': np1.get('company'), 'dist': near1}))
             else:
