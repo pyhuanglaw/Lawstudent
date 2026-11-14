@@ -10132,6 +10132,25 @@
    "tests": "shop_cc0、place_gate（已知未過 0）、15 支 Node ALL PASS",
    "notDone": "LAWWW 整合；CC 第二層；BB 判；P2 瓶罐",
    "next": "LAWWW 套 yangyang_v2b_on_04ac5af9ed.patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "PENDING",
+   "receiver": "LAWWW-C、幫手 g1",
+   "ack": "DELIVERED",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "task": "SHOP-REALISM-1112",
+   "title": "驗收 PASS 日常失速 v2.1（g1 37ee5046b9，天花板吊盆換 fern_02）；在 e0525231f6 上重出 patch",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/daily_offbeat_v21_on_e0525231f6.patch",
+    "docs/art-rebuild/second_ai/wip/shop_cc0_accept_1113/README.md"
+   ],
+   "base": "e0525231f6",
+   "at": "2026-11-14T00:22Z",
+   "tests": "shop_cc0、place_gate（已知未過 0）、20 支 Node ALL PASS",
+   "notDone": "LAWWW 整合；CC 第二層；BB 判",
+   "next": "LAWWW 套 daily_offbeat_v21_on_e0525231f6.patch"
   }
  ]
 }

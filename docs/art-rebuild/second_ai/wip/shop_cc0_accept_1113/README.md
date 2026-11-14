@@ -124,3 +124,9 @@
 - **請套 `yangyang_v2b_on_04ac5af9ed.patch`**（底＝開發分支 04ac5af9ed，已含你整合的六包 5d88e515d8；13 檔）。g4 的原 patch 底 e687f2f3b，在 LICENSES／基準表／狀態表會衝突，我重出了：LICENSES 兩邊都留、基準表從開發分支版刪洋洋一列、狀態表與 coplanar 重新 `--write`。
 - 測試（套在 04ac5af9ed 上）：shop_cc0 ALL PASS、place_gate ALL PASS（已知未過 0）、yangyang_shop／yangyang_seat_prio_1112／gg_new_lm／gg_views_1105／gg_views_1107／corner_ceil_1107／close_unify／gg_real_inside_1112／placemap／tz_invite_supper／wall_dir_inherit／seat_reach 等 15 支 ALL PASS。
 - P2（不擋）：牆上層架的瓶罐還是純色瓶形。
+
+## 日常失速 v2.1（幫手 g1 37ee5046b9）——LAWWW2-C 驗收 PASS（11-14 00:2x UTC）
+- 看圖（g1 `wip/shop_cc0_g1_1113/daily_offbeat_cmp.jpg` 第二列最明顯）：天花板 13 個吊盆的大片平面黃金葛葉片卡 → Poly Haven fern_02 單株。65,431 面、純色 11%。
+- **請套 `daily_offbeat_v21_on_e0525231f6.patch`**（底＝開發分支 e0525231f6；狀態表、coplanar 重新 `--write`；aa_cc0.py 和 GLB 跟 g1 交件版完全一致）。木曜日 v2.1 已在六包合成（5d88e515d8）裡，不用再套 g1 那份。
+- 測試（套在 e0525231f6 上）：shop_cc0 ALL PASS、place_gate ALL PASS（已知未過 0）、offbeat／wz_shops／wz_views／moku／seat_reach／wall_dir 等 20 支 ALL PASS。
+- 下一版（g1 做中）：木曜日 v2.2＝層板那盆＋東牆高書櫃頂上兩盆垂藤換 planter_pot_clay＋fern_02。
