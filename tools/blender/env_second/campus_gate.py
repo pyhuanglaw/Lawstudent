@@ -31,13 +31,13 @@ WALL_END = 10.0                      # 矮牆接到區域圍牆的地方（套�
 
 import random
 from mathutils import Vector   # noqa: E402
-HOUSE = dict(x0=-3.0, x1=3.0, z0=-2.6, z1=2.0, h=3.3, c=0.9)      # 門房（正中間，切角 c；校外那面 z=+2.0）
+HOUSE = dict(x0=-2.7, x1=2.7, z0=-2.6, z1=2.0, h=3.3, c=0.9)      # 門房（正中間，切角 c；校外那面 z=+2.0）
 PILLARS = [-8.1, 8.1]                                              # 兩座大石柱（中心 x；z=0）
 GATES = [(-7.5, -1), (7.5, 1)]                                      # 鐵門：鉸鏈 x；往校內打開
 PIERS = [-8.95, 8.95]                                              # 石柱外側的小石墩（中心 x；0.6 m 見方、高 2.2 m；接矮牆）
 WALLS = [(-WALL_END, -9.25), (9.25, WALL_END)]
-HEDGE_BLOCKS = [(-3.9, -3.08), (3.08, 3.9)]                         # 門房兩側的方形綠籬塊（x 範圍；z −0.75～0.2、高 0.9）
-PLANTER = dict(r=3.6, zc=1.7, zb=0.3, h=0.3)                       # 半圓花圃：圓心 (0, zc)、半徑 r，兩側直的往校內到 zb
+HEDGE_BLOCKS = [(-3.4, -2.76), (2.76, 3.4)]                         # 花圃兩端、門房兩側的方形綠籬塊（x 範圍；z 0.4～1.6、比花圃頂高 1.0）
+PLANTER = dict(r=3.5, zc=1.7, zb=0.3, h=0.3)   # 半圓花圃：圓心 (0, zc)、半徑 r，兩側直的往校內到 zb
 PS, PH = 1.0, 3.3                                                  # 石柱柱身寬、柱身頂
 RED = '#9c4a36'
 GLOW = []
@@ -152,9 +152,9 @@ def build():
         p, q = P8[i], P8[(i + 1) % 8]; span = math.hypot(q[0] - p[0], q[1] - p[1]); R = ((q[0] - p[0]) / span, 0.0, (q[1] - p[1]) / span); N = (-R[2], 0.0, R[0])
         fr = K.Fr(((p[0] + q[0]) / 2, 0.0, (p[1] + q[1]) / 2), R, N); hs = span / 2; holes = []
         if i == 0:                                                                                                # 正面：兩扇石框木窗
-            for u in (-1.15, 1.15):
+            for u in (-1.02, 1.02):
                 holes.append(kit.window(fr, u, 0.95, 0.9, 1.3, 0.14, K.lit_hash(41, u), dep=0.2, proud=0.06, mull=[0.0], transom=0.95))
-                for (ua, ub) in ((u - 0.43, u - 0.13), (u + 0.13, u + 0.43)): kit.rect('ceil', fr, ua, ub, 0.97, 2.23, -0.19)   # 白窗簾：往兩邊拉開
+                for (ua, ub) in ((u - 0.43, u - 0.25), (u + 0.25, u + 0.43)): kit.rect('ceil', fr, ua, ub, 0.97, 2.23, -0.19)   # 白窗簾：往兩邊拉開
         elif i in (2, 6):                                                                                         # 兩側（朝通道）：各一扇
             holes.append(kit.window(fr, 0.0, 0.95, 0.9, 1.3, 0.14, K.lit_hash(42, i), dep=0.2, proud=0.06, mull=[0.0], transom=0.95))
         elif i == 4:                                                                                              # 校內那面：門＋小窗
@@ -183,10 +183,10 @@ def build():
     kit.cface('misc', [(px, BELT1 + 0.2, pz) for (px, pz) in reversed(P8)], (0, 1, 0), '#77726a')                           # 屋頂面
     # 正面的階梯形匾額（簷帶上面凸起一塊，再疊一塊小的）＋校名
     PF = K.Fr((0.0, 0.0, z1), (1, 0, 0), (0, 0, 1))
-    kit.fbox('trim', PF, -1.95, 1.95, BELT0 + 0.02, hh + 0.42, -0.3, 0.11, skip=('bottom',))
-    kit.fbox('trim', PF, -1.15, 1.15, hh + 0.42, hh + 0.6, -0.26, 0.09, skip=('bottom',))
-    kit.fbox('trim', PF, -1.8, 1.8, BELT0 + 0.1, BELT0 + 0.16, 0.11, 0.14, skip=('in',)); kit.fbox('trim', PF, -1.8, 1.8, hh + 0.26, hh + 0.32, 0.11, 0.14, skip=('in',))   # 匾額上下的線腳
-    plate('PLATE_FACE_GATE_OUT', PF, -1.7, 1.7, BELT0 + 0.2, hh + 0.22, 0.112, {'text': '首都帝國大學', 'bg': '#e6dfcf', 'color': '#3a2f28', 'serif': 1, 'fs': 0.7})
+    kit.fbox('trim', PF, -1.72, 1.72, BELT0 + 0.02, hh + 0.42, -0.3, 0.11, skip=('bottom',))
+    kit.fbox('trim', PF, -1.0, 1.0, hh + 0.42, hh + 0.6, -0.26, 0.09, skip=('bottom',))
+    kit.fbox('trim', PF, -1.6, 1.6, BELT0 + 0.1, BELT0 + 0.16, 0.11, 0.14, skip=('in',)); kit.fbox('trim', PF, -1.6, 1.6, hh + 0.26, hh + 0.32, 0.11, 0.14, skip=('in',))   # 匾額上下的線腳
+    plate('PLATE_FACE_GATE_OUT', PF, -1.5, 1.5, BELT0 + 0.2, hh + 0.22, 0.112, {'text': '首都帝國大學', 'bg': '#e6dfcf', 'color': '#3a2f28', 'serif': 1, 'fs': 0.7})
     for sx in (-1, 1):                                                                                            # 簷帶四個正角上凸起的石塊（參考圖：轉角比較高）
         for (ux, uz) in ((sx * (x1 - c * 0.5), z1 - c * 0.5), (sx * (x1 - c * 0.5), z0 + c * 0.5)):
             kit.box('trim', ux - 0.34, ux + 0.34, BELT1 + 0.16, hh + 0.22, uz - 0.34, uz + 0.34, skip=('bottom',))
@@ -228,14 +228,14 @@ def build():
         kit.face('base', [(sx * r, 0.0, zb), (sx * (r - 0.24), 0.0, zb), (sx * (r - 0.24), ph, zb), (sx * r, ph, zb)], (0, 0, -1))
     kit.cface('misc', [(px, ph - 0.08, pz) for (px, pz) in in_p], (0, 1, 0), '#4a3b2c')                                     # 土
     hedge = Mesh('gt_hedge', img_mat('gt_hedge_leaf', 'azalea_leaves.png')); flow = Mesh('gt_flower', img_mat('gt_hedge_flower', 'ixora_flower.png'))
-    HP = [(-0.5, 0.0), (-0.56, 0.24), (-0.52, 0.46), (-0.36, 0.6), (0.0, 0.65), (0.36, 0.6), (0.52, 0.46), (0.56, 0.24), (0.5, 0.0)]
+    HP = [(-0.55, 0.0), (-0.6, 0.3), (-0.58, 0.66), (-0.44, 0.8), (0.0, 0.84), (0.44, 0.8), (0.58, 0.66), (0.6, 0.3), (0.55, 0.0)]      # 參考圖：綠籬修得平整、遮到窗台下面
     FP = [(-0.3, 0.0), (-0.34, 0.16), (-0.24, 0.34), (0.0, 0.4), (0.24, 0.34), (0.34, 0.16), (0.3, 0.0)]
-    hpath = ring_path(r - 1.35); fpath = ring_path(r - 0.6)
+    hpath = ring_path(r - 1.45); fpath = ring_path(r - 0.58)
     sweep(hedge, hpath, HP, ph - 0.08, 1114); sweep(flow, fpath, FP, ph - 0.08, 1115, wob=0.1)
-    BP = [(-0.41, 0.0), (-0.41, 0.82), (-0.33, 0.9), (0.33, 0.9), (0.41, 0.82), (0.41, 0.0)]                     # 門房兩側的方形綠籬塊（修成方的、稜角略圓）
+    BP = [(-0.32, 0.0), (-0.32, 0.98), (-0.25, 1.08), (0.25, 1.08), (0.32, 0.98), (0.32, 0.0)]                     # 門房兩側的方形綠籬塊（修成方的、稜角略圓）
     for k, (xa, xb) in enumerate(HEDGE_BLOCKS):
         xm = (xa + xb) / 2
-        sweep(hedge, [(xm, -0.75), (xm, -0.5), (xm, -0.05), (xm, 0.2)], BP, 0.0, 1120 + k, wob=0.03)
+        sweep(hedge, [(xm, 0.4), (xm, 0.7), (xm, 1.3), (xm, 1.6)], BP, ph - 0.08, 1120 + k, wob=0.03)
 
     # ================= 完成 =================
     K.finish(accs, root, VC)
