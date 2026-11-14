@@ -62,7 +62,8 @@ DEBUGTXT_JS = r"""(()=>{ const re=/career\s*A\s*\d|\bA\d+\s+B\d+\s+C\d+\b|\bfps\
 R = L.Run('gate_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 DAY = os.environ.get('DAY') or '2025-10-22'   # BB-C 09:45（BB_379 木曜日 r3 TEST_SETUP）：10/22 是期中考週，木曜日進「考試週坐滿」模式——可以改日期
-SEAT_BARSIDE = (os.environ.get('SEAT_BARSIDE') or '0') == '1'   # BB-C 09:45 ②：考試週只驗「坐吧檯旁邊」那一個位子（MOKS.barSide），要真的坐下（ok）才算
+SEAT_BARSIDE = (os.environ.get('SEAT_BARSIDE') or '0') == '1'
+SIDE_OFF = float(os.environ.get('SIDE_OFF') or 0)   # BB-C 11-14 LIMAO_PARALLAX_r2：⑤ 店外左右固定平移這麼多公尺（例 0.8），站不站得住都照拍；0＝照舊 1.5／1.0／0.6   # BB-C 09:45 ②：考試週只驗「坐吧檯旁邊」那一個位子（MOKS.barSide），要真的坐下（ok）才算
 SETTLED = "(async()=>{ for(let i=0;i<120;i++){ const A=ASSETS; const n=Object.keys(A.status).filter(k=>!A.cache[k]&&!A.errors.some(e=>e.startsWith(k+':'))).length; if(!n) return i; await new Promise(r=>setTimeout(r,250)); } return -1; })()"
 ROOM_JS = r"""(()=>{ const E=GAME.E, N=E.nav, f=v=>+(+v).toFixed(2); let x0=1e9,x1=-1e9,z0=1e9,z1=-1e9,n=0;
   if(N&&N.cols){ for(let j=0;j<N.rows;j++) for(let i=0;i<N.cols;i++){ const w=N.toWorld(i,j); if(E.canStand(w[0],w[1],0.3,0)){ n++; x0=Math.min(x0,w[0]); x1=Math.max(x1,w[0]); z0=Math.min(z0,w[1]); z1=Math.max(z1,w[1]); } } }
@@ -92,6 +93,7 @@ SNAPX = r"""(a=>{ const E=GAME.E, r=E.renderer, c=r.domElement; const cam=new TH
   const z=E.zone, P=E.player&&E.player.obj; if(z&&z.fadeWalls){ try{ z.fadeWalls(cam,P?P.position:cam.position); if(E.hideFaded) E.hideFaded(); }catch(e){} }
   const rects=[]; if(a.win){ const isWin=o=>{ const m=o.material, mn=(m&&(Array.isArray(m)?m.map(x=>x&&x.name).join(' '):m.name))||''; return /glass|window|窗|vitrine/i.test((o.name||'')+' '+mn)||(m&&!Array.isArray(m)&&m.transparent&&m.opacity<0.9&&m.opacity>0.05); };
     const root=(z&&z.group)||E.scene; root.traverse(o=>{ if(!o.isMesh||!o.visible||!isWin(o)) return; const b=new THREE.Box3().setFromObject(o); if(b.isEmpty()) return; const pts=[];
+      if(a.box){ const cx=(b.min.x+b.max.x)/2, cz=(b.min.z+b.max.z)/2, B=a.box; if(Math.min(cx-B[0],B[1]-cx,cz-B[2],B[3]-cz)>0.6) return; }   /* 11-14 BB-C（BB_379 禮貌生財 2_window TEST_BUG）：② 只認靠牆（離房間邊 0.6 m 內）的玻璃＝窗；店裡的玻璃展示櫃（S_glass）不算 */
       if(a.near){ const cx=(b.min.x+b.max.x)/2, cz=(b.min.z+b.max.z)/2; if(Math.hypot(cx-a.near[0],cz-a.near[1])>a.near[2]||(b.max.x-b.min.x)>9||(b.max.z-b.min.z)>9) return; }   /* ⑦b：店外只要這間店門口附近的窗（X352_CON r1：整條街的玻璃投影成整個畫面）*/
       for(const x of [b.min.x,b.max.x]) for(const y of [b.min.y,b.max.y]) for(const zz of [b.min.z,b.max.z]){ const v=new THREE.Vector3(x,y,zz).project(cam); if(v.z<1&&v.z>-1) pts.push([(v.x+1)/2,(1-v.y)/2]); }
       if(pts.length<2) return; let x0=Math.max(0,Math.min(...pts.map(p=>p[0]))), x1=Math.min(1,Math.max(...pts.map(p=>p[0]))), y0=Math.max(0,Math.min(...pts.map(p=>p[1]))), y1=Math.min(1,Math.max(...pts.map(p=>p[1])));
@@ -198,8 +200,8 @@ def v3(lo, hi, x, low_bad):
     return 'PASS' if x <= lo else ('FAIL' if x >= hi else 'UNKNOWN')
 
 
-async def snap(pg, frm, at, fov=60, win=False, near=None):
-    return await pg.evaluate(SNAPX, {'from': list(frm), 'at': list(at), 'fov': fov, 'win': win, 'near': near})
+async def snap(pg, frm, at, fov=60, win=False, near=None, box=None):
+    return await pg.evaluate(SNAPX, {'from': list(frm), 'at': list(at), 'fov': fov, 'win': win, 'near': near, 'box': box})
 
 
 async def do_func(pg, cdp, tag, rm, zid):
@@ -385,6 +387,9 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
     # ① 人
     ppl = await pg.evaluate(PEOPLE_JS, rm['counter']); row['m']['people'] = ppl
     row['v']['1_clerk'] = 'PASS' if ppl['clerk'] > 0 else ('FAIL' if rm['counter'] else 'UNKNOWN')
+    nc = await pg.evaluate("(z=>{ try{ return (typeof SHOPLIFE!=='undefined'&&SHOPLIFE.NO_CLERK&&SHOPLIFE.NO_CLERK[z])||null; }catch(e){ return null; } })", zid)
+    if nc and ppl['clerk'] == 0:   # BB-C 11-14（BB_379）：SHOPLIFE.NO_CLERK 裡的店（洗樂、禮貌生財）照設計沒有店員＝例外 PASS，寫原因
+        row['v']['1_clerk'] = 'PASS'; row['m']['no_clerk_reason'] = nc; R.note('%s ① 這間在 SHOPLIFE.NO_CLERK（照設計沒有店員）：%s→1_clerk 算 PASS（例外）' % (tag, nc))
     if CUST_HOURS and any(abs(h - ch) < 0.01 for ch in CUST_HOURS):   # BB-C 11-14 L118_KD：刀削麵新版 19:00 一個客人都沒有、舊版有——記在場客人、zone／座位，0 人＝FAIL
         cl = [p_ for p_ in ppl.get('people') or [] if not p_.get('clerkFlag')]
         R.note('%s 在場客人 %d（店員 %d）：%s' % (tag, ppl['customers'], ppl['clerk'], J([[p_.get('id'), p_.get('x'), p_.get('z'), p_.get('seat'), zid] for p_ in cl])))
@@ -407,7 +412,7 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
     s1h = await snap(pg, (ex + ux * 1.0, by + 1.6, ez + uz * 1.0), (cx + ux * m * 0.8, by + 1.2, cz + uz * m * 0.8), 66)
     await pg.evaluate(HIDE_PEOPLE + '(false)')
     await pg.evaluate(HIDE_PEOPLE + '(true)')   # PC GATE_CAL_1cd2：人站在窗前，泰米夜窗深藍只算到 42.9%＝誤判 PASS
-    s2 = await snap(pg, (cx, by + 1.6, cz), (ex - ux * 2.0, by + 1.8, ez - uz * 2.0), 60, win=True)
+    s2 = await snap(pg, (cx, by + 1.6, cz), (ex - ux * 2.0, by + 1.8, ez - uz * 2.0), 60, win=True, box=rm.get('box'))
     await pg.evaluate(HIDE_PEOPLE + '(false)')
     vx, vz = ex - ck['x'], ez - ck['z']; vm = math.hypot(vx, vz) or 1   # 11-12 BB-C 15:21：改從門口方向看櫃檯（原本往房間中心退 2.5 m，櫃檯離中心 <1 m 時退進後面的牆，19:00 全黑）
     back = min(2.5, max(1.0, vm * 0.8))
@@ -492,11 +497,14 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
         # 左右 1.5 m 那兩張：位置站不住（柱子、牆）就往中間收到 1.0／0.6 m（11-14 BB-C：L118 店外右 1.5 m 卡進柱子）
         side = {}
         for sg in (-1, 1):
+            if SIDE_OFF: side[sg] = ((base[0] + sg * px * SIDE_OFF, base[2] + sg * pz * SIDE_OFF), SIDE_OFF); continue
             for off in (1.5, 1.0, 0.6):
                 q = (base[0] + sg * px * off, base[2] + sg * pz * off)
                 if await pg.evaluate("(a=>{ try{ return !!GAME.E.canStand(a[0],a[1],0.25,0); }catch(e){ return true; } })", list(q)): side[sg] = (q, off); break
             else: side[sg] = ((base[0] + sg * px * 0.6, base[2] + sg * pz * 0.6), 0.6)
         row['m']['outside_side_offsets'] = {'L': side[-1][1], 'R': side[1][1]}
+        row['m']['outside_cams'] = {'base': [round(v, 2) for v in base], 'L': [round(v, 2) for v in side[-1][0]], 'R': [round(v, 2) for v in side[1][0]], 'tgt': [round(v, 2) for v in tgt], 'px_pz': [round(px, 3), round(pz, 3)]}
+        R.note('%s ⑤ 店外鏡頭位置 %s' % (tag, J(row['m']['outside_cams'])))   # BB-C 11-14：禮貌生財店外中／左兩張構圖一樣——記下三個鏡頭的位置
         await pg.evaluate(D.HUD + '(false)')
         await pg.evaluate(HIDE_PEOPLE + '(true)')  # 視差只看店面：玩家、路人在畫面中間會把差值灌高
         s4 = await snap(pg, base, tgt, win=True, near=[tgt[0], tgt[2], 4.5]); s4l = await snap(pg, (side[-1][0][0], 1.6, side[-1][0][1]), tgt); s4r = await snap(pg, (side[1][0][0], 1.6, side[1][0][1]), tgt)
