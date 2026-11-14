@@ -1,11 +1,29 @@
 {
- "objects": 7,
- "unique_meshes": 7,
- "tris": 2890,
- "tris_drawn": 2890,
- "materials": 10,
+ "objects": 9,
+ "unique_meshes": 9,
+ "tris": 3825,
+ "tris_drawn": 3825,
+ "materials": 12,
  "out": "assets/models/env/second_ai/campus_gate.glb",
- "bytes": 295512,
+ "bytes": 736692,
  "texres": 512,
- "note": "layout=real；依文字資料的遊戲化設計（沒有照片；1931、門房在中間、四座唭哩岸石燈柱、磚＋石材）"
+ "note": "v2（GATE-REF-1114）：照使用者 11-14 的參考圖——切角紅磚門房、石材匾額「首都帝國大學」、旗桿、半圓花圃、兩座大石柱＋方燈、紅磚矮牆＋鐵欄杆",
+ "house": {
+  "x0": -3.0,
+  "x1": 3.0,
+  "z0": -2.6,
+  "z1": 2.0,
+  "h": 3.3,
+  "c": 0.9
+ },
+ "planter": {
+  "r": 3.6,
+  "zc": 1.7,
+  "zb": 0.3,
+  "h": 0.3
+ },
+ "pillars": [
+  -8.1,
+  8.1
+ ]
 }
