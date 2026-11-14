@@ -4,7 +4,7 @@
 
 值班登記：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜claude/focused-cray-c9uwvw｜接班基準 4ec1acd5c0｜2026-11-14 02:0x UTC
 上一班：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜最後 commit 4ec1acd5c0｜正常交班（快照 2026-11-14T0202Z_C_LAWWW2）
-本班交班：使用者 11:4x「現在交班」（UA-LAWWW2-1114-02）。最後 commit 見本節最下面 G。
+本班交班：使用者 11:4x「現在交班」（UA-LAWWW2-1114-02）；快照 2026-11-14T1155Z_C_LAWWW2；duty handoff 已寫。
 
 ### 暫停中
 - BADMINTON-CLIP v4（WIP 1aba3ec42）、FAIR-TENT-CAM（WIP 未交）：
