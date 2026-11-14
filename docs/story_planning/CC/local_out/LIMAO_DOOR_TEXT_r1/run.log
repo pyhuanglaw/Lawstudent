@@ -1,0 +1,29 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_limao_close_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\LIMAO_DOOR_TEXT_r1\out
+CC LIMAO_CLOSE：SHA 645709cddcffa0c77b4d7e643e2fce2e4127ffaa；2025-10-22；CLOSE_H 23.75；STAY_H 23.35；Windows＋GPU ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [門口 2025-10-22 15.00] 【前置／捷徑】讀檔到 tingzhou 2025-10-22 15.00 時、站在禮貌生財門外 (27.3, 1.2)
+PASS FAIL_SETUP 檢查：[門口 2025-10-22 15.00] 在 tingzhou、找得到禮貌生財的門  {"zone": "tingzhou", "h": 15.07, "x": 27.3, "z": 1.2, "stand": true, "interact": "", "open": false, "canTalk": false, "master": {"hidden": true, "visible": false, "inZone": true, "x": 28.9, "z": 5.1}, "table": [{"label": "看算命桌", "x": 27.6, "z": 3.6}], "door": [{"label": "看禮貌生財", "x": 27.3, "z": 4.75, "to": null}], "msgs": []}
+  [  49.6s] [門口 2025-10-22 15.00] 營業中=False；颱風假 {"typhoon": false, "off": false, "weather": "clear"}；上師 {"hidden": true, "visible": false, "inZone": true, "x": 28.9, "z": 5.1}；canTalk False；桌前 [{"label": "看算命桌", "x": 27.6, "z": 3.6}]；門 [{"label": "看禮貌生財", "x": 27.3, "z": 4.75, "to": null}]
+  [  55.4s] 「[門口 2025-10-22 15.00] 走到門口」途中停下（離目標 0.23 m）：條件成立
+  [  59.4s] [門口 2025-10-22 15.00] 門口的鍵「看禮貌生財」；點下去以後畫面上的字（全文）：["（騎樓下那張鋪紅布的桌子收起來了。門上貼著一張紙：「今日不看」。）"]；之後在 tingzhou
+  [前置／捷徑] [門口 2025-10-22 23.67] 【前置／捷徑】讀檔到 tingzhou 2025-10-22 23.67 時、站在禮貌生財門外 (27.3, 1.2)
+PASS FAIL_SETUP 檢查：[門口 2025-10-22 23.67] 在 tingzhou、找得到禮貌生財的門  {"zone": "tingzhou", "h": 23.74, "x": 27.3, "z": 1.2, "stand": true, "interact": "", "open": false, "canTalk": false, "master": {"hidden": true, "visible": false, "inZone": true, "x": 28.9, "z": 5.1}, "table": [{"label": "看算命桌", "x": 27.6, "z": 3.6}], "door": [{"label": "看禮貌生財", "x": 27.3, "z": 4.75, "to": null}], "msgs": []}
+  [  72.5s] [門口 2025-10-22 23.67] 營業中=False；颱風假 {"typhoon": false, "off": false, "weather": "clear"}；上師 {"hidden": true, "visible": false, "inZone": true, "x": 28.9, "z": 5.1}；canTalk False；桌前 [{"label": "看算命桌", "x": 27.6, "z": 3.6}]；門 [{"label": "看禮貌生財", "x": 27.3, "z": 4.75, "to": null}]
+  [  78.1s] 「[門口 2025-10-22 23.67] 走到門口」途中停下（離目標 0.20 m）：條件成立
+  [  82.1s] [門口 2025-10-22 23.67] 門口的鍵「看禮貌生財」；點下去以後畫面上的字（全文）：["（騎樓下那張鋪紅布的桌子收起來了。門上貼著一張紙：「今日不看」。）"]；之後在 tingzhou
+  [前置／捷徑] [門口 2025-10-22 20.00] 【前置／捷徑】讀檔到 tingzhou 2025-10-22 20.00 時、站在禮貌生財門外 (27.3, 1.2)
+PASS FAIL_SETUP 檢查：[門口 2025-10-22 20.00] 在 tingzhou、找得到禮貌生財的門  {"zone": "tingzhou", "h": 20.07, "x": 27.3, "z": 1.2, "stand": true, "interact": "", "open": true, "canTalk": true, "master": {"hidden": false, "visible": true, "inZone": true, "x": 28.9, "z": 5.1}, "table": [{"label": "算命桌", "x": 27.6, "z": 3.6}], "door": [{"label": "進禮貌生財", "x": 27.3, "z": 4.75, "to": "tz_limao"}], "msgs": []}
+  [  96.3s] [門口 2025-10-22 20.00] 營業中=True；颱風假 {"typhoon": false, "off": false, "weather": "clear"}；上師 {"hidden": false, "visible": true, "inZone": true, "x": 28.9, "z": 5.1}；canTalk True；桌前 [{"label": "算命桌", "x": 27.6, "z": 3.6}]；門 [{"label": "進禮貌生財", "x": 27.3, "z": 4.75, "to": "tz_limao"}]
+  [ 102.0s] 「[門口 2025-10-22 20.00] 走到門口」途中停下（離目標 0.23 m）：條件成立
+  [ 108.2s] [門口 2025-10-22 20.00] 門口的鍵「進禮貌生財」；點下去以後畫面上的字（全文）：[]；之後在 tz_limao
+  [ 108.2s] [門口 2025-10-22 20.00] 進得去（營業中對照）；店裡 {"x": 0.9, "z": 3.3, "stand": true, "door": [{"label": "離開禮貌生財", "x": 0.9, "z": 4.6, "to": "tingzhou"}]}
+  [ 111.0s] 「[門口 2025-10-22 20.00] 走到店門出去」途中停下（離目標 0.23 m）：條件成立
+PASS [門口 2025-10-22 20.00] 營業中：進得去、上師在桌邊（進店前看得到）、出得來  {"master": {"hidden": false, "visible": true, "inZone": true, "x": 28.9, "z": 5.1}, "outZone": "tingzhou"}
+  [前置／捷徑] [門口 2025-10-13 20.00] 【前置／捷徑】讀檔到 tingzhou 2025-10-13 20.00 時、站在禮貌生財門外 (27.3, 1.2)
+PASS FAIL_SETUP 檢查：[門口 2025-10-13 20.00] 在 tingzhou、找得到禮貌生財的門  {"zone": "tingzhou", "h": 20.07, "x": 27.3, "z": 1.2, "stand": true, "interact": "", "open": false, "canTalk": false, "master": {"hidden": true, "visible": false, "inZone": true, "x": 28.9, "z": 5.1}, "table": [{"label": "看算命桌", "x": 27.6, "z": 3.6}], "door": [{"label": "看禮貌生財", "x": 27.3, "z": 4.75, "to": null}], "msgs": []}
+  [ 129.8s] [門口 2025-10-13 20.00] 營業中=False；颱風假 {"typhoon": true, "off": true, "weather": "clear"}；上師 {"hidden": true, "visible": false, "inZone": true, "x": 28.9, "z": 5.1}；canTalk False；桌前 [{"label": "看算命桌", "x": 27.6, "z": 3.6}]；門 [{"label": "看禮貌生財", "x": 27.3, "z": 4.75, "to": null}]
+  [ 135.5s] 「[門口 2025-10-13 20.00] 走到門口」途中停下（離目標 0.23 m）：條件成立
+  [ 139.4s] [門口 2025-10-13 20.00] 門口的鍵「看禮貌生財」；點下去以後畫面上的字（全文）：["（騎樓下那張鋪紅布的桌子收起來了。門上貼著一張紙：「今日不看」。）", "手機｜家人｜爸爸：📷（颱風路徑圖）"]；之後在 tingzhou
+PASS 沒有 JS 例外  []
+ALL PASS
