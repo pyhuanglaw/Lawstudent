@@ -123,7 +123,7 @@ walls = {'front': {}, 'back': {}, 'left': {}, 'right': {}}
 DIRS = LAY['wallsFade']
 def wm(side, key):
     g = walls[side]
-    if key not in g: g[key] = (L.CMesh if key in ('vc', 'vcm') else Mesh)(f'{side}_{key}', M[key])
+    if key not in g: g[key] = (L.CMesh if key in ('vc', 'vcm', 'sbv') else Mesh)(f'{side}_{key}', M[key])
     return g[key]
 
 
@@ -282,9 +282,8 @@ rs = random.Random(77)
 WHITE, CREAM = '#efe9de', '#ecdcc2'
 BOXC = [('#efede7', '#e1ded6'), ('#b9bdc2', '#a9adb3'), ('#5e636b', '#53575e'), ('#c4a27a', '#b5946e'), ('#34405e', '#2b3550'), ('#c4583a', '#b04c32')]   # v2：多兩個品牌色（深藍、磚橘）
 # v2（LAWWW2 11-14 P2：鞋盒牆不要一樣大的白方塊）：每個顏色一組 ambientCG Cardboard001（盒身、盒蓋各一個顏色）；盒蓋另外一塊、比盒身大 3 mm；大小、顏色錯開，有的蓋子推開一點
-for ci_, (c0_, c1_) in enumerate(BOXC):
-    M[f'sb{ci_}'] = K.acg(f'{P}shoebox{ci_}', 'Cardboard001', maps=('diff',), vary=0.05, target=c0_, tile=0.3, rough_value=0.8, res=256)
-    M[f'sl{ci_}'] = K.acg(f'{P}shoelid{ci_}', 'Cardboard001', maps=('diff',), vary=0.05, target=c1_, tile=0.3, rough_value=0.8, res=256)
+#   一個材質（Cardboard001 × 頂點色）：每一面牆組只多盒身、盒蓋兩個網格（每個顏色各一個網格的話，淡出的牆節點 23 → 47、多 24 個 draw call）
+M['sbv'] = K.vc_tex(f'{P}shoebox', 'Cardboard001', maps=('diff',), vary=0.05, tile=0.3, rough_value=0.8, res=256)
 
 # ---------------- 地板、天花板、外牆 ----------------
 Mesh(P + 'floor', M['floor']).box(X0, X1, -0.02, 0.0, Z0, Z1).finish(root)
@@ -473,9 +472,9 @@ def box_wall(face, a0, a1, depth, top, sh_n=6):
                     u0 = u0c + wc_ / 2 + rb.uniform(-0.004, 0.004); u1 = u0 + (u1c - u0c) - wc_
                     dd = depth - 0.03 - rb.uniform(0, 0.03)
                     if yb0 + h_ + 0.001 > y + gap - 0.02: break
-                    wm(grp, f'sb{ci}').box(*T_(u0, u1, yb0, yb0 + h_ - 0.028, 0.016, dd))                                  # 盒身
+                    wm(grp, 'sbv').cbox(*T_(u0, u1, yb0, yb0 + h_ - 0.028, 0.016, dd), BOXC[ci][0])                        # 盒身
                     ofs = rb.uniform(0.02, 0.05) if rb.random() < 0.15 else 0.0                                            # 有的蓋子推開一點（店員剛拿過）
-                    wm(grp, f'sl{ci}').box(*T_(u0 - 0.003, u1 + 0.003, yb0 + h_ - 0.03, yb0 + h_, 0.013 + ofs, dd + 0.003 + ofs))   # 盒蓋
+                    wm(grp, 'sbv').cbox(*T_(u0 - 0.003, u1 + 0.003, yb0 + h_ - 0.03, yb0 + h_, 0.013 + ofs, dd + 0.003 + ofs), BOXC[ci][1])   # 盒蓋
                     uc = (u0 + u1) / 2; cx_, cy_, cz_ = fpt(uc, yb0 + (h_ - 0.03) / 2, dd + 0.0015); hb_ = h_ - 0.034
                     pq(grp, f'boxend{ci % 4 + 4 * rb.randrange(4)}', face_quad(cx_, cy_, cz_, u1 - u0 - 0.004, hb_, nrm), 2)
                     yb0 += h_ + 0.004
@@ -739,7 +738,7 @@ for z in (-2.7, -0.6): CL.glow(root, 'shelf_led', 3.15, 1.5, z, color='rgba(255,
 for k, m in _acc.items(): m.finish(root, uv=(k not in ('leaf',)), smooth=k in ('wood', 'fabric'))
 for side, g in walls.items():
     for key, m in g.items():
-        m.name = f'WALL_{side}_{m.name}'; m.finish(root, uv=not isinstance(m, L.CMesh), props={'dir': DIRS[side]}, smooth=key == 'wood')
+        m.name = f'WALL_{side}_{m.name}'; m.finish(root, uv=(not isinstance(m, L.CMesh)) or key == 'sbv', props={'dir': DIRS[side]}, smooth=key == 'wood')
 finish_uvq()
 VC.finish(root, uv=False, smooth=True); VCM.finish(root, uv=False, smooth=True)
 for ob in list(root.children):
