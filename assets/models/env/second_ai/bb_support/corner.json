@@ -1,8 +1,8 @@
 {
- "objects": 165,
- "unique_meshes": 70,
- "tris": 46086,
- "tris_drawn": 55004,
+ "objects": 166,
+ "unique_meshes": 71,
+ "tris": 48446,
+ "tris_drawn": 57364,
  "materials": [
   "cr_alpha",
   "cr_concrete",
@@ -10,18 +10,20 @@
   "cr_floor_terrazzo",
   "cr_glass",
   "cr_goods",
+  "cr_ph_potted_plant_02_0",
+  "cr_ph_potted_plant_02_1",
   "cr_plaster",
   "cr_sign",
   "cr_vc",
   "cr_vc_metal",
   "cr_wood"
  ],
- "out": "../corner2/corner.glb",
- "bytes": 3868588,
+ "out": "assets/models/env/second_ai/bb_support/corner.glb",
+ "bytes": 4522628,
  "texres": 1024,
  "shop": "corner",
  "layout": 1,
- "drawn_tris": 55004,
+ "drawn_tris": 57364,
  "protos": {
   "lpstack34_0": 2,
   "lpstack34_1": 2,
@@ -52,53 +54,61 @@
  },
  "records_in_bins": 637,
  "single_side": {
+  "cr_vc": [
+   7680,
+   6622
+  ],
   "cr_emit": [
    80,
    42
-  ],
-  "cr_plaster": [
-   108,
-   0
-  ],
-  "cr_alpha": [
-   3464,
-   0
-  ],
-  "cr_goods": [
-   3744,
-   0
   ],
   "cr_vc_metal": [
    5456,
    96
   ],
-  "cr_concrete": [
-   38,
+  "cr_goods": [
+   3744,
    0
   ],
-  "cr_vc": [
-   7852,
-   7358
-  ],
-  "cr_wood": [
-   10304,
+  "cr_plaster": [
+   108,
    0
   ],
   "（翻面）cr_emit": [
    80,
    0
   ],
+  "cr_alpha": [
+   3280,
+   0
+  ],
   "cr_floor_terrazzo": [
    12,
+   0
+  ],
+  "cr_wood": [
+   10304,
+   0
+  ],
+  "cr_sign": [
+   4,
    0
   ],
   "（翻面）cr_vc": [
    482,
    0
   ],
-  "cr_sign": [
-   4,
+  "cr_concrete": [
+   38,
    0
+  ],
+  "cr_ph_potted_plant_02_0": [
+   0,
+   1442
+  ],
+  "cr_ph_potted_plant_02_1": [
+   0,
+   652
   ]
  }
 }
