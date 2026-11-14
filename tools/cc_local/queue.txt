@@ -2511,6 +2511,9 @@ WINVIEW_EDGE_STRIPE_rel | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | doc
 # BB-C 10:16（BB_379 95782b24d9）第 3 批重跑，對 main：溫特寶邸探針改認正式室內模型 shopreal_（使用者點名的店，排前面）；洋洋用新店員判法；BLACKBG 捷徑前先把正在演的劇情演完
 TZ_WENTE_v2_r2_1500 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_layout_window_probe.py | index.html | 10 | ZONE=tingzhou;SHOP=wente;HOUR=15;DIST=9;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 TZ_WENTE_v2_r2_2300 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_layout_window_probe.py | index.html | 10 | ZONE=tingzhou;SHOP=wente;HOUR=23;DIST=9;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+# CC-C 11:4x：TZ_WENTE_v2_r2_1500 FAIL_SETUP＝TEST_BUG（main 的 shopInsideReal 網格保留原名；整組 shop_real_<id>、材質 shopreal_＊）→ 探針三種都認＋先等素材，r3
+TZ_WENTE_v2_r3_1500 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_layout_window_probe.py | index.html | 10 | ZONE=tingzhou;SHOP=wente;HOUR=15;DIST=9;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+TZ_WENTE_v2_r3_2300 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_layout_window_probe.py | index.html | 10 | ZONE=tingzhou;SHOP=wente;HOUR=23;DIST=9;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 YY_GATE_r3 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 50 | TAG=yy_gate_r3;ZONES=yangyang;HOURS=18,20.5;NODEBUG=1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 BLACKBG_460_r2 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_bg5_probe.py | index.html | 60 | BATCH=9;ORIENT=land;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 # LAWWW2-C 10:25（bbc9531154）：電腦也沒有 PIL → 只拍：RAW=1 存原始 PNG＋depth.json 到 OUT/raw（cc-local），去背在雲端 VIEWS_REMATTE 做（不重算圖、顏色是電腦的）
