@@ -56930,10 +56930,10 @@
    "id": "COPLANAR-CREEP-1114",
    "title": "yizhan、yangyang 疊面比 4556c4be0c 多（0.04／0.12 m²）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "source": "LAWWW2-C 2026-11-14 00:41 自查",
-   "note": "yizhan.glb always 2.03→2.07；yangyang_interior.glb always 2.13→2.25（Poly Haven 紙箱貼右牆）。最大一對和原本一樣、量小，不退回；下一版 g1、g4 修。工具已改成基準只准變少（8f1b338c22）。｜01:1x 洋洋那一半 LAWWW2 b9b69422cd 已整合：冷飲櫃踢腳板凸 3 mm、底座頂蓋從背板前開始；always 2.25→1.46、wall 0.64→0.53（低於原基準 2.13）。剩驛站 +0.04（g1 下一版）。｜驛站那一半：一盞 v1.1（LAWWW2 15124fd457，2.07→2.03）已驗收、還沒整合；整合後本任務可結案。",
+   "note": "yizhan.glb always 2.03→2.07；yangyang_interior.glb always 2.13→2.25（Poly Haven 紙箱貼右牆）。最大一對和原本一樣、量小，不退回；下一版 g1、g4 修。工具已改成基準只准變少（8f1b338c22）。｜01:1x 洋洋那一半 LAWWW2 b9b69422cd 已整合：冷飲櫃踢腳板凸 3 mm、底座頂蓋從背板前開始；always 2.25→1.46、wall 0.64→0.53（低於原基準 2.13）。剩驛站 +0.04（g1 下一版）。｜驛站那一半：一盞 v1.1（LAWWW2 15124fd457，2.07→2.03）已驗收、還沒整合；整合後本任務可結案。｜11-14 09:5x 一盞 v1.1 已整合：always 2.07→2.03。兩半都修完。",
    "first": {
     "term": "Y1S1",
     "confirmed": false
@@ -57113,10 +57113,10 @@
    "id": "WINVIEW-EDGE-STRIPE-1114",
    "title": "公館窗外看到的條紋：視差窗 W3.windowMat 照片外面 clamp 到邊上一排像素（GG-STREET-TREES 以後邊上有樹，就拉成條紋）",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "BB_379（BB-C 11-14 WINVIEW_GG3_r2）；LAWWW2-C 查到原因",
-   "note": "patch：claude/focused-cray-c9uwvw @ 042661aff6 docs/art-rebuild/second_ai/wip/winview_edge_1114/winview_edge_mirror_on_2da495e693.patch（shader 1 行改鏡像取樣 wvMirror＋新測試，改前 FAILED 2、改後 ALL PASS）。整合後 CC 重拍安泰、鮮果、榮恩典、Daybreak、afar、aoki、夜間 14:00 窗外，交下一班 BB 判（BB-C 交班後補的要求）。發布版有沒有：WINVIEW_GG3_REL 在 CC 佇列前面，下一班 BB 判。",
+   "note": "patch：claude/focused-cray-c9uwvw @ 042661aff6 docs/art-rebuild/second_ai/wip/winview_edge_1114/winview_edge_mirror_on_2da495e693.patch（shader 1 行改鏡像取樣 wvMirror＋新測試，改前 FAILED 2、改後 ALL PASS）。整合後 CC 重拍安泰、鮮果、榮恩典、Daybreak、afar、aoki、夜間 14:00 窗外，交下一班 BB 判（BB-C 交班後補的要求）。發布版有沒有：WINVIEW_GG3_REL 在 CC 佇列前面，下一班 BB 判。｜11-14 09:5x 已整合（world3d.js 一行＋winview_edge_mirror_1114_unit.js）。BB：發布版也有條紋＝舊問題、不擋 X364、發布後 P1。待 CC 重拍 7 間窗外、BB 判。",
    "first": {
     "term": "Y1S1",
     "confirmed": false

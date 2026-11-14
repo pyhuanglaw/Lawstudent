@@ -54,9 +54,9 @@
   "top": "yej_wood×WALL_right_yej_wood 0.279 m² @[6,0.58,-3.33]"
  },
  "assets/models/env/second_ai/aa_support/yizhan.glb": {
-  "sha1": "42980757456b6aac2c3fc720248b8f9a68a4f953",
+  "sha1": "31910fc0bc1a15cd5b9adf5584fbb85ea3a8b345",
   "wall": 1.22,
-  "always": 2.07,
+  "always": 2.03,
   "top": "WALL_back_yzn_post×WALL_left_yzn_wall 0.144 m² @[-4.26,2.02,-5]"
  },
  "assets/models/env/second_ai/bb_support/ade.glb": {

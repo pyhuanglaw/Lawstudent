@@ -48,8 +48,8 @@ def lantern(x, z, y, s=0.32, h=0.34):
     sh.a('washi').box(x - s / 2 + 0.01, x + s / 2 - 0.01, y + 0.01, y + h - 0.01, z - s / 2 + 0.01, z + s / 2 - 0.01)
     for (dx, dz) in ((-1, -1), (1, -1), (1, 1), (-1, 1)): sh.a('pend').box(x + dx * s / 2 - 0.012, x + dx * s / 2 + 0.012, y, y + h, z + dz * s / 2 - 0.012, z + dz * s / 2 + 0.012)
     for yy in (y, y + h - 0.02):
-        for dz in (-1, 1): sh.a('pend').box(x - s / 2, x + s / 2, yy, yy + 0.02, z + dz * s / 2 - 0.012, z + dz * s / 2 + 0.012)
-        for dx in (-1, 1): sh.a('pend').box(x + dx * s / 2 - 0.012, x + dx * s / 2 + 0.012, yy, yy + 0.02, z - s / 2, z + s / 2)
+        for dz in (-1, 1): sh.a('pend').box(x - s / 2, x + s / 2, yy, yy + 0.02, z + dz * s / 2 - 0.009, z + dz * s / 2 + 0.009)   # v1.1（COPLANAR-CREEP-1114）：橫木比柱子窄 3 mm，面不疊在一起
+        for dx in (-1, 1): sh.a('pend').box(x + dx * s / 2 - 0.009, x + dx * s / 2 + 0.009, yy, yy + 0.02, z - s / 2, z + s / 2)
     CL.glow(sh.root, 'washi', x, y + h / 2, z, color='rgba(255,210,150,1)', size=0.8, day=0.0, night=0.85)
 
 
@@ -211,7 +211,7 @@ xf0.rbox(sh.a('post'), mx0 - 0.04, mx1, top - 0.05, top, mz0 - 0.02, mz1 + 0.02,
 xf0.rbox(sh.a('vc'), mx0 - 0.045, mx0 + 0.02, top - 0.052, top + 0.001, mz0 - 0.02, mz1 + 0.02, r=0.0, seg=1, col='#2e1e12')   # v1d：檯面外緣磨深的那一條                            # 厚檯面（往西只多 4 cm）
 xf0.rbox(sh.a('vcm'), mx0 + 0.15, mx1 - 0.12, top - 0.004, top + 0.002, mz0 + 0.3, mz0 + 0.8, r=0.0, seg=1, col='#a8a8a4')  # 流理台
 Xf(mx1 - 0.15, mz0 + 0.55).cyl(sh.a('vcm'), (0, top, 0), (0, top + 0.28, 0), 0.012, col='#a8a8a4', seg=6)
-C.ph_put(sh, 'vintage_electric_kettle', mz['x'], top, mz0 + 1.2, yaw=math.pi / 2, height=0.24, decimate=0.12)   # 電熱水壺（SHOP-CC0：Poly Haven 掃描；v1d 是旋轉體）
+C.ph_put(sh, 'vintage_electric_kettle', mz['x'], top + 0.003, mz0 + 1.2, yaw=math.pi / 2, height=0.24, decimate=0.12)   # 電熱水壺（SHOP-CC0：Poly Haven 掃描；v1d 是旋轉體；v1.1 抬高 3 mm：底面和檯面疊在一起會閃，COPLANAR-CREEP-1114）
 for (dz, dx, k, hh, rr_) in ((1.55, 0.18, 0, 0.2, 0.055), (1.66, 0.05, 2, 0.13, 0.04), (1.83, 0.2, 5, 0.16, 0.048), (2.05, 0.12, 6, 0.24, 0.06)):   # v1d：檯面茶罐四個大小不一、不排成一列
     tin(mz['x'] + dx, mz0 + dz, top, k, h=hh, r=rr_, face=-math.pi / 2 + (k - 3) * 0.12)
 Xf(mz['x'] + 0.15, mz0 + 2.0 - 0.15, -0.3, top).rbox(sh.a('vc'), -0.09, 0.09, 0.0, 0.08, -0.06, 0.06, r=0.008, seg=1, col='#6a4a30')   # 小木盒（茶則、茶匙）
