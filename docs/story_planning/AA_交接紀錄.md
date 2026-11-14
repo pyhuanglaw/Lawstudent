@@ -1,6 +1,42 @@
 ### AA-C 目前狀態與全部待辦（2026-11-12 03:1x UTC 接班；roles 讀這一節）
 
 - 值班登記：帳號 C｜AA（AA-C）｜session_019evvieJUJD23EGf4nyLPgo｜claude/magical-albattani-bk7b4n｜接班基準 0c9daff873｜2026-11-13（使用者「繼續」，交班後同一帳號同一工作階段回班；duty register 重新登記）
+- **交班（帳號 C｜AA-C｜2026-11-14 11:4x UTC｜使用者：「現在交班」）**
+  - **A 本班成果**（接續值班 09:4x 以後；分支 claude/magical-albattani-bk7b4n，全部已推）：
+    - AA_1021：寒暑假、美國、日本台詞規則掃描（美國 0 違規；改 5 句）。
+    - AA_1022：全遊戲 62,721 句掃描，改 12＋2 句，其餘判斷照留。
+    - AA_1023：芝加哥深盤披薩一景，LAWWW 已接 aa1438fb99。
+    - AA_1024：店門口格式，BB 定稿。
+    - 覆寫表 AA_959 定版 785 列（ecd30cea1a），pendingBB=[]。
+    - user_asks UA-AA-1112-12～16 改「在遊戲裡」（v9.10.26 發布，asks 0 異常）。
+    - 回 BB 兩件 P3：ev_an_report_followup 條件、阿凱「宵夜」。
+    - 沒有發布（發布歸 LAWWW）。
+  - **B 全部未完成**：
+    - DLG-FULL-REVIEW-1110（P1，進行中）：這一輪做完；剩下的等 AA-D99-BLOCKERS-1114（LAWWW 跑寒暑假、美國完整流程以後列缺口給 AA）。
+    - RC2-PORT-DEV-1114（LAWWW）：用 785 列。61 個檔的分類（20 個有 importer、41 個手寫）在本節下面那一行。
+    - LIMAO-DOOR-HOURS-TEXT-1114（LAWWW）：照 AA_1024 第二版。
+    - DIALOGUE-DEPTH-1031：暫停（使用者「再等等」）。
+    - AA530-PG-CONFESS-1030、LADDER-DATING-TIER-1111：P3，照 §6 不插到 D99 前面。
+    - 【下一版必須】：無新增。
+    - **下一班第一件事**：①AA-D99-BLOCKERS-1114 的缺口清單 ②RC2-PORT-DEV-1114 移植後確認 785 列全部套上 ③LIMAO-DOOR-HOURS-TEXT-1114 接好後對字。
+  - **C 正在做的**：無（使用者這週用量剩約 10%，09:5x 以後只回別人的小件，沒有開新的一輪）。
+  - **D 決策**（AA 自己定，D109）：
+    - 「我查過了」留給以安、「不要笑」留給沛珊（上一班定，本班照用）。
+    - 手機訊息、動態的碎片句照留。
+    - 法律教學的「不是X是Y」照留。
+    - 店門口互動點用 AA_1024 的格式。
+    - 本班沒有新的 D／HV。
+  - **E 跨 AI**：
+    - BB-C：AA_1021～1024 全部 ACK（BB_465）。
+    - LAWWW-C：784／785 列、61 檔分類、披薩定稿、門口格式、四筆待查與 CANON-PURGE-1104 關閉，全部 ACK。
+  - **F 測試與問題**：
+    - 沒有自己跑的瀏覽器測試。
+    - ev_an_report_followup 條件、披薩那一景，等 CC 照正常玩法跑（BB 排）。
+  - **G 東西放在哪**：
+    - scratchpad 的 all/、lint_all.txt、port_map.txt 都是可重跑的副本（AA_1022 開頭有做法）。
+    - 沒有 worktree。
+    - 沒有開幫手。
+    - 本班沒有新工具、圖、規格書。
 - **值班登記（2026-11-14 02:1x UTC）**：帳號 C｜AA（AA-C）｜session_019evvieJUJD23EGf4nyLPgo｜claude/magical-albattani-bk7b4n｜接班基準 da4ce5ceb2｜使用者「現在接班」＋「你上次交班之後沒有人接班 等於你繼續即可」→ 同一個工作階段直接接續（duty register；rules_sync 0 檔不同；RULE_SOURCE claude/adoring-meitner-mqzst8 seq 150，LAWWW-C 也已交班 a311fec378）。接著做下面交班 B 類的「下一班第一件事」。
 - **11-14 11:3x**：LIMAO-DOOR-HOURS-TEXT-1114：AA_1024 店門口互動點通用格式（店名＋今天營業時間；沒開時旁白分鐵門／玻璃門、打烊分通用／吃喝店）第二版 955adc61e3，BB 定稿（BB_465）；LAWWW 下一班先換汀州路，其他街排下一批 P3。
 - **11-14 11:2x**：US-PIZZA-BG-1114（BB_460、X367）：AA_1023 芝加哥第一天插深盤披薩一景，BB 改「帶路的」；LAWWW 先接成第一版 0cecfeaef9，AA 請改 → 定稿已接 aa1438fb99（開發分支確認有「何俊朗帶路的那家店」）。
