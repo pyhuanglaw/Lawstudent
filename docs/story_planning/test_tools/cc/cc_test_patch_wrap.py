@@ -3,8 +3,9 @@ CC_02 清單 2026-11-14：1n/a（日期照原檔） 2✓（換的那幾行先確
 PATCH：
   phonefix     save_compat_v95.py：只修手機——按之前等 #fade 退、按鈕中心打到按鈕本身（最多 10 秒，BB-C 22:21：v95_r4 證實是黑幕攔下點擊）；讀檔以後手機已經自己開著（有待回覆）就不再按 #btnPhone（原檔按了會關掉，課表分頁點不到；BB-C 21:37 判 v95_r2 TEST_BUG）。
   live         save_compat_v95.py：手機同 phonefix；舊版網址照 BB-C 21:02 ③ 用「?start0&turbo」開（原檔是 V95+'?turbo'）；開完新遊戲先查 GAME.G.stage 不是 econ（舊序章年），是＝FAIL_SETUP 停；same() 每次都印哪些鍵不一樣（BB-C 21:35）。
+  ladder_slots flow_ladder_y1s2.py：時段改成在頁面裡用 STORY.schedEnt 找以安、芷若、語彤、學姊、沛珊大一下第 5 週在場、不是上班、有階梯的時段（BB-C 21:39 REL76_ladder TEST_SETUP），語彤補 YT_MET_JOB。
   ladder_diag  flow_ladder_y1s2.py：每個時段讀檔以後（找人之前）印 GAME.npc 每個 id、STORY.ladData 有沒有、STORY.ladNext 的 id（BB-C 21:02 ④，兩版對照）。
-用法：LW_TESTS=<wt>/tests TEST=<檔名> PATCH=<phonefix|live|ladder_diag> python3 cc_test_patch_wrap.py <原檔的參數…>"""
+用法：LW_TESTS=<wt>/tests TEST=<檔名> PATCH=<phonefix|live|ladder_diag|ladder_slots> python3 cc_test_patch_wrap.py <原檔的參數…>"""
 import os, sys
 T = os.environ.get('LW_TESTS') or 'tests'
 TEST = os.environ.get('TEST') or ''
@@ -49,7 +50,26 @@ PHONE_DIAG = (WK_LINE,   # BB-C／CC-C 22:10：v95_r3 加了 phonefix 手機課�
               "            run.note('CC 診斷 phone 欄位 %s：%s' % (idx, json.dumps(_cc_ph, ensure_ascii=False)))\n"
               "            await pg.screenshot(path=__import__('os').path.join(OUT, 'cc_phone_diag_slot%s.png' % idx))\n" + WK_LINE)
 
+SLOTS_JS = r"""(()=>{ const G=GAME.G, d0=G.day, h0=G.hour, w0=G.weekday, out=[], seen={}; const ids=['heroine_01','heroine_02','heroine_03','heroine_05','classmate_peishan'];
+  try{ for(const id of ids){ const c=CHARACTERS[id]; if(!c) continue; for(let wd=1;wd<=6&&!seen[id];wd++) for(const h of [10,12.5,15,17.5,19.5]){ if(seen[id]) break;
+      G.day=STORY.termDay('Y1S2',5,wd); G.hour=h; try{ G.weekday=CALENDAR.dateOf(G.day).wd; }catch(e){}
+      let e=null; try{ e=STORY.schedEnt(c,G); }catch(x){} if(!e||!e.zone) continue;
+      const act=String(e.act||''); if(e.staff||/barista|work|job|shift|clerk/.test(act)) continue; if(STORY.ladWorking&&STORY.ladWorking(G,id)) continue;
+      if(!STORY.ladData(G,id)) continue; seen[id]=1; out.push({id, zone:e.zone, h, wd, act}); } } }
+  finally{ G.day=d0; G.hour=h0; G.weekday=w0; } return out; })()"""
+LAD_SLOTS = ("    tgt = None\n    for zone, hour, wd in TRIES:",
+             "    tgt = None\n"
+             "    _d0 = await pg.evaluate(\"STORY.termDay('Y1S2',5,1)\")\n"
+             "    await L.load_state(pg, {'zone': 'campus', 'hour': 10, 'day': _d0, 'weekday': 1, 'weather': 'sunny', 'money': 5000, 'flags': {'introDone': True, 'campusIntro': True, 'classDone': True, 'met_sis': True, 'YT_MET_JOB': True}}, quiet_events=True)\n"
+             "    await pg.wait_for_timeout(3000)\n"
+             "    _cc_slots = await pg.evaluate(%r)\n"
+             "    run.note(f'{tag}：CC 找時段（schedEnt：在場、不是上班、有大一下階梯；BB-C 21:39）：' + json.dumps(_cc_slots, ensure_ascii=False)[:1500])\n"
+             "    _cc_tries = [(x['zone'], x['h'], x['wd']) for x in _cc_slots] or TRIES\n"
+             "    for zone, hour, wd in _cc_tries:" % SLOTS_JS)
+LAD_FLAGS = ("'met_sis': True}", "'met_sis': True, 'YT_MET_JOB': True}")
+
 PATCHES = {
+    'ladder_slots': ('flow_ladder_y1s2.py', [LAD_SLOTS, LAD_FLAGS]),
     'phonefix': ('save_compat_v95.py', [PHONE_FIX, PHONE_DIAG]),
     'live': ('save_compat_v95.py', [
         PHONE_FIX, PHONE_DIAG,
