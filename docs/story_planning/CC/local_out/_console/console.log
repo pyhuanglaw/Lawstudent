@@ -1,14 +1,3 @@
-[22:25:54] skip WW3B_new_n1930 (already done on faf1b75a4081a575d797a90f8cbe7fca8a087b58)
-[22:25:54] skip WW3T_new_n1930 (already done on faf1b75a4081a575d797a90f8cbe7fca8a087b58)
-[22:25:54] skip TEA2_old (already done on 2d58e8a5209ae061784c20f14dd5de5819b562e6)
-[22:25:54] skip TEA2_new (already done on edaedb2672eac7f5047d518e9c07f63b5e2f7537)
-[22:25:54] skip RAY_faf1 (already done on faf1b75a4081a575d797a90f8cbe7fca8a087b58)
-[22:25:54] skip RAY_1827 (already done on 1827999fb488a30bdaccedaa1561697b3266a498)
-[22:25:54] skip GREET_968b_new2 (already done on 968bd311f878693a984103ae6deb3bd24c30c52f)
-[22:25:54] skip GREET_968b_old2 (already done on 97b2e03c353b3dcd68b27ec76042f8bfc035b2e3)
-[22:25:54] skip NOASK_faf1_r2 (already done on faf1b75a4081a575d797a90f8cbe7fca8a087b58)
-[22:25:54] skip NANYANG_v3 (already done on fe4d893acdb08eb93f93b688380bd0700ff5ad48)
-[22:25:54] skip SEATFIG_new (already done on 93d3e92691b344385636dc1f50741a871a4406a9)
 [22:25:54] skip SEATFIG_old (already done on 5aff1d18ed53ce1ff90aacd7c8c8c926ae21a342)
 [22:25:54] skip SEATFIG_new_near (already done on 93d3e92691b344385636dc1f50741a871a4406a9)
 [22:25:55] skip SEATFIG_old_near (already done on 5aff1d18ed53ce1ff90aacd7c8c8c926ae21a342)
@@ -1998,3 +1987,14 @@
 [08:25:18] worktree add d5a12a9a626a640470107a20413128f7c4829b3b: invalid reference - fetching main and the commit itself
 [08:26:54] 正在跑：FULL_a_76f8（已跑 100 分／上限 200 分）、FULL_b_76f8（已跑 93 分／上限 420 分）、CANON458_INV_LIB_r7（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [08:30:37] [res] cpu=3% mem=50% (15.9/31.4 GB) chrome_testing=10  END CANON458_INV_LIB_r7
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       852cd3bcca..3df3642f47  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[08:30:47] ==== END   CANON458_INV_LIB_r7  exit=0  322s   ====
+[08:30:50] memory 51% before starting T1_rc2 (2 running)
+[08:30:50] ==== START T1_rc2  (node @ d5a12a9a626a640470107a20413128f7c4829b3b) ====
+[08:30:53] [res] cpu=3% mem=51% (16.2/31.4 GB) chrome_testing=10  START T1_rc2
+[08:31:54] 正在跑：FULL_a_76f8（已跑 105 分／上限 200 分）、FULL_b_76f8（已跑 98 分／上限 420 分）、T1_rc2（已跑 1 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[08:36:54] 正在跑：FULL_a_76f8（已跑 110 分／上限 200 分）、FULL_b_76f8（已跑 103 分／上限 420 分）、T1_rc2（已跑 6 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[08:39:33] [res] cpu=14% mem=47% (15.0/31.4 GB) chrome_testing=5  END FULL_a_76f8
+[08:39:34] D158：推送前把 6 處舊序章／外校的字換成代號
