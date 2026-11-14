@@ -43,7 +43,7 @@
    "account": "C",
    "session": "session_015BuNi47yLUt5PviELapMNj",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "f65756d9",
+   "sha": "42ca6bb0",
    "since": "2026-11-14T09:44Z",
    "state": "on",
    "progressFile": "docs/art-rebuild/second_ai/HANDOFF.md",
@@ -55,37 +55,37 @@
    "account": "C",
    "session": "session_019evvieJUJD23EGf4nyLPgo",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "e68c6674",
-   "since": "2026-11-14T09:42Z",
-   "state": "on",
+   "sha": "b62f56a1",
+   "since": null,
+   "state": "handed-off",
    "progressFile": "docs/story_planning/AA_交接紀錄.md（企劃線）",
-   "sinceSha": "da4ce5ce",
-   "handedOffAt": "2026-11-14T02:00Z",
-   "handoffSnapshot": "2026-11-14T0200Z_C_AA.json"
+   "sinceSha": null,
+   "handedOffAt": "2026-11-14T11:52Z",
+   "handoffSnapshot": "14T1152Z_C_AA.json"
   },
   "BB": {
    "account": "C",
    "session": "session_01QYQ1cdaSaRWCGfWi9kZFRU",
    "branch": "claude/wonderful-mayer-7fm9g6",
-   "sha": "2b15ae78",
-   "since": "2026-11-14T09:41Z",
-   "state": "on",
+   "sha": "cfd94c27",
+   "since": null,
+   "state": "handed-off",
    "progressFile": "docs/story_planning/BB_00_交接紀錄.md（企劃線）",
-   "sinceSha": "f9f05028",
-   "handedOffAt": "2026-11-14T01:58Z",
-   "handoffSnapshot": "docs/handoff/snapshots/2026-11-14T0158Z_C_BB.json"
+   "sinceSha": null,
+   "handedOffAt": "2026-11-14T11:52Z",
+   "handoffSnapshot": "2026-11-14T1152Z_C_BB.json"
   },
   "CC": {
    "account": "C",
    "session": "session_01S1Gk9V6WCgJmkoo3wxHxhv",
    "branch": "claude/cc-testing",
-   "sha": "a1e10faf",
-   "since": "2026-11-14T09:39Z",
-   "state": "on",
+   "sha": "34986f29",
+   "since": null,
+   "state": "handed-off",
    "progressFile": "docs/story_planning/CC/CC_00_交接紀錄.md（claude/cc-testing）",
-   "sinceSha": "9fbaa509",
-   "handedOffAt": "2026-11-14T01:59Z",
-   "handoffSnapshot": "2026-11-14T0159Z_C_CC.json",
+   "sinceSha": null,
+   "handedOffAt": "2026-11-14T11:53Z",
+   "handoffSnapshot": "2026-11-14T1153Z_C_CC.json",
    "note": "CC-C 11:1x 只在 CC_00 寫了交班紀錄（41f993657），沒跑 duty handoff、沒存快照；LAWWW-C 11:4x 照交班紀錄手動標 handed-off（異常，HV-20 第①點：下一任 CC 交班一定要跑 duty handoff）"
   }
  },
@@ -1220,7 +1220,7 @@
    "resolved": false
   }
  ],
- "seq": 153,
+ "seq": 154,
  "chain": [
   {
    "seq": 1,
@@ -2292,6 +2292,13 @@
    "account": "C",
    "role": "LAWWW",
    "event": "handoff"
+  },
+  {
+   "seq": 154,
+   "at": "2026-11-14T11:54Z",
+   "account": "-",
+   "role": "LAWWW2,AA,BB,CC",
+   "event": "sync"
   }
  ],
  "pending": null

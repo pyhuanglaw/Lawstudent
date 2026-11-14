@@ -56760,9 +56760,9 @@
      "branch": "claude/shop-cc0-g1",
      "handoff": "docs/art-rebuild/second_ai/shop_cc0_g1/HANDOFF.md",
      "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）｜11-14 00:2x 日常失速 v2.1（37ee5046b9，吊盆換 Poly Haven fern_02）LAWWW2 PASS、LAWWW 已整合（7db3174dd4 patch）",
-     "lastSha": "bbd34c9afc",
+     "lastSha": "31f05ae3a2",
      "handoff_1114": "02:0x 交班完成（使用者「現在交班」），最後 SHA bbd34c9afc，之後不再寫入；下一班 LAWWW 照它的 HANDOFF.md 決定要不要另開幫手（D163 第 4 點）",
-     "closed": "2026-11-14 02:0x LAWWW-C：第①群五間全部 LAWWW2 PASS；已整合到木曜日 v2.2、日常失速 v2.1；一盞 v1.1（LAWWW2 15124fd457）還沒整合＝下一班；只剩 P3 霧面雲狀斑。最後 SHA bbd34c9afc"
+     "closed": "2026-11-14 LAWWW-C 交班收幫手（D163）：11-14 11:53 交班完成：五間全部 LAWWW2 PASS 已整合（含一盞 v1.2）；只剩 P3 其他四間的霧面雲狀斑；最後遠端 SHA 31f05ae3a2，之後不再寫入。｜之前：2026-11-14 02:0x LAWWW-C：第①群五間全部 LAWWW2 PASS；已整合到木曜日 v2.2、日常失速 v2.1；一盞 v1.1（LAWWW2 15124fd457）還沒整合＝下一班；只剩 P3 霧面雲狀斑。最後 SHA bbd34c9afc"
     },
     {
      "name": "幫手 g2",
@@ -56773,8 +56773,9 @@
      "branch": "claude/shop-cc0-g2",
      "handoff": "docs/art-rebuild/second_ai/shop_cc0_g2/HANDOFF.md",
      "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）｜11-14 00:2x 慢輪單車 CC0（c180ee1f75）LAWWW2 PASS、LAWWW 已整合（4fd3c0d98d patch）；層架商品 v2 g2 續做",
-     "lastSha": "f58cf983e2",
-     "handoff_1114": "02:0x 交班完成（使用者「現在交班」），最後 SHA f58cf983e2，之後不再寫入；下一班 LAWWW 照它的 HANDOFF.md 決定要不要另開幫手（D163 第 4 點）"
+     "lastSha": "e42259acb2",
+     "handoff_1114": "02:0x 交班完成（使用者「現在交班」），最後 SHA f58cf983e2，之後不再寫入；下一班 LAWWW 照它的 HANDOFF.md 決定要不要另開幫手（D163 第 4 點）",
+     "closed": "2026-11-14 LAWWW-C 交班收幫手（D163）：11-14 11:52 交班完成：唱片 v2、山嵐 v3、Daybreak v2.1b、頁間 v4、青木 PASS 已整合；只剩慢輪單車 v2.1 d8ee8b27c2（bike_cc0.patch，底 4cc26d4b8）等 LAWWW2 驗收；最後遠端 SHA e42259acb2，之後不再寫入。｜之前："
     },
     {
      "name": "幫手 g3",
@@ -56798,8 +56799,8 @@
      "branch": "claude/shop-cc0-g4",
      "handoff": "docs/art-rebuild/second_ai/shop_cc0_g4/HANDOFF.md",
      "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）",
-     "closed": "2026-11-14 10:34 LAWWW-C：11-14 續做的南洋 v7（BB P2 三點）LAWWW2 PASS（0beca1f5ba）、已整合；g4 收工，最後 SHA f205d5ef9（g4 更正後，遠端已核對）。使用者選只做南洋，洋洋層架瓶罐不做。｜之前：2026-11-14 00:1x LAWWW-C：第④群六間（燒臘、林家、花序、阿德 v2.1、南洋 v6、洋洋 v2b）全部 LAWWW2 PASS、已整合（最後一包 d58846ba9a）；g4 最後 SHA 7758962c2（交班補一個 HANDOFF commit；原 dddc6a19d）、HANDOFF.md 列下一版 P2 四點（南洋瓶子／紅杯／入口黑方箱、洋洋層架瓶罐）——要做 P2 再另開",
-     "lastSha": "f205d5ef9",
+     "closed": "2026-11-14 LAWWW-C 交班收幫手（D163）：11-14 11:53 交班：只在 HANDOFF.md 記交班時間；最後遠端 SHA 57c0df8ad，之後不再寫入。｜之前：2026-11-14 10:34 LAWWW-C：11-14 續做的南洋 v7（BB P2 三點）LAWWW2 PASS（0beca1f5ba）、已整合；g4 收工，最後 SHA f205d5ef9（g4 更正後，遠端已核對）。使用者選只做南洋，洋洋層架瓶罐不做。｜之前：2026-11-14 00:1x LAWWW-C：第④群六間（燒臘、林家、花序、阿德 v2.1、南洋 v6、洋洋 v2b）全部 LAWWW2 PASS、已整合（最後一包 d58846ba9a）；g4 最後 SHA 7758962c2（交班補一個 HANDOFF commit；原 dddc6a19d）、HANDOFF.md 列下一版 P2 四點（南洋瓶子／紅杯／入口黑方箱、洋洋層架瓶罐）——要做 P2 再另開",
+     "lastSha": "57c0df8ad",
      "handoff_1114": "02:0x 交班完成（使用者「現在交班」），最後 SHA 7758962c2，之後不再寫入；下一班 LAWWW 照它的 HANDOFF.md 決定要不要另開幫手（D163 第 4 點）"
     }
    ],
