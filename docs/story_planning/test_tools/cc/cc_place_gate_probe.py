@@ -77,6 +77,15 @@ US_CLERK_JS = r"""(()=>{ const E=GAME.E, f=v=>+(+v).toFixed(2); const inE=new Se
   let ch=null; try{ ch=typeof CHAR==='undefined'?null:{failures:(CHAR.failures||[]).slice(-8), pending:Object.keys(ASSETS.status||{}).filter(k=>/char|vrm|npc/i.test(k)&&!ASSETS.cache[k]&&!(ASSETS.errors||[]).some(e=>e.startsWith(k+':'))).slice(0,12), errors:(ASSETS.errors||[]).filter(e=>/char|vrm|npc/i.test(e)).slice(-8)}; }catch(e){ ch={err:e.message}; }
   const cam=E.camera, d=new THREE.Vector3(); try{ cam.getWorldDirection(d); }catch(e){} const P=E.player&&E.player.obj;
   return {gmZone:(GAME.G&&GAME.G.zone)||null, eZone:E.zone&&E.zone.def?E.zone.def.id:null, nNpcs:(E.npcs||[]).length, cam:cam?{pos:[f(cam.position.x),f(cam.position.y),f(cam.position.z)], dir:[f(d.x),f(d.y),f(d.z)]}:null, player:P?[f(P.position.x),f(P.position.z)]:null, char:ch, clerks:C}; })()"""
+IT_DIAG_JS = r"""(a=>{ const E=GAME.E, P=E.player, f=v=>+(+v).toFixed(2), lab=i=>String(typeof i.label==='function'?i.label():i.label||''); const po=P&&P.obj?P.obj.position:null;   /* BB-C 11:04 ①：櫃台前互動鍵為什麼不出來——遊戲 updateInteract 的條件（busy、D.active、選單）＋E.nearestInteractable＋附近互動點的 hidden、lv、y、radius */
+  const near=(E.interactables||[]).filter(i=>po&&Math.hypot(i.x-po.x,i.z-po.z)<3).map(i=>({label:lab(i), x:f(i.x), z:f(i.z), d:f(Math.hypot(i.x-po.x,i.z-po.z)), r:i.radius==null?null:i.radius, hidden:!!i.hidden, lv:i.lv==null?null:i.lv, y:i.y==null?null:f(i.y), seat:!!i.seat, prio:i.prio||0, usMarket:i.usMarket||null}));
+  let ni=null; try{ const it=E.nearestInteractable(); ni=it?{label:lab(it), x:f(it.x), z:f(it.z)}:null; }catch(e){ ni='ERR '+e.message; }
+  const btn=document.getElementById('interact'), tst=document.getElementById('toast');
+  const vis=e=>!!e&&!e.classList.contains('hide')&&getComputedStyle(e).display!=='none'&&getComputedStyle(e).visibility!=='hidden';
+  return {player:po?{x:f(po.x), y:f(po.y), z:f(po.z), yaw:f(P.obj.rotation.y), lv:P.lv|0}:null, busy:!!(P&&P.busy), dlgActive:!!(GAME.D&&GAME.D.active), choices:[...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent).length,
+    panels:[...document.querySelectorAll('.panel,.overlay,[id$="Panel"],[id$="Menu"]')].filter(e=>e.offsetParent&&!e.classList.contains('hide')).map(e=>e.id||e.className).slice(0,6),
+    nearest:ni, btn:btn?{shown:vis(btn), cls:btn.className, label:((document.getElementById('interactLabel')||{}).textContent||'').trim()}:null, toast:tst?{shown:vis(tst), t:(tst.textContent||'').trim().slice(0,40)}:null, near}; })"""
+FACE_JS = "(p=>{ const P=GAME.E.player; if(!P||!P.obj) return null; const o=P.obj.position; P.obj.rotation.y=Math.atan2(p[0]-o.x, p[1]-o.z); return +P.obj.rotation.y.toFixed(2); })"
 SIDE_OFF = float(os.environ.get('SIDE_OFF') or 0)   # BB-C 11-14 LIMAO_PARALLAX_r2：⑤ 店外左右固定平移這麼多公尺（例 0.8），站不站得住都照拍；0＝照舊 1.5／1.0／0.6   # BB-C 09:45 ②：考試週只驗「坐吧檯旁邊」那一個位子（MOKS.barSide），要真的坐下（ok）才算
 SETTLED = "(async()=>{ for(let i=0;i<120;i++){ const A=ASSETS; const n=Object.keys(A.status).filter(k=>!A.cache[k]&&!A.errors.some(e=>e.startsWith(k+':'))).length; if(!n) return i; await new Promise(r=>setTimeout(r,250)); } return -1; })()"
 ROOM_JS = r"""(()=>{ const E=GAME.E, N=E.nav, f=v=>+(+v).toFixed(2); let x0=1e9,x1=-1e9,z0=1e9,z1=-1e9,n=0;
@@ -410,7 +419,31 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
         for k3_, c3_ in enumerate(it2_[:2]):
             tg3_ = await D.standable_near(pg, c3_['x'], c3_['z'], 1.2, 0)
             if tg3_: await L.go_to(pg, cdp, R, tg3_['x'], tg3_['z'], 0.3, '%s US_DIAG 走到「%s」' % (tag, c3_['label']), max_s=60, lv=0)
-            await pg.wait_for_timeout(1500); q3_ = await D.settle(pg); lb3_ = q3_.get('interact')
+            await pg.wait_for_timeout(1500)
+            for t_ in range(16):   # BB-C 11:04 ②：先等教學 toast 消失（最多 8 秒）
+                tq_ = await pg.evaluate("(()=>{ const t=document.getElementById('toast'); return !!t&&!t.classList.contains('hide')&&!!(t.textContent||'').trim()&&getComputedStyle(t).display!=='none'; })()")
+                if not tq_: break
+                await pg.wait_for_timeout(500)
+            R.note('%s US_DIAG「%s」前：教學 toast %s' % (tag, c3_['label'], '等了 %.1f 秒消失' % (t_ * 0.5) if not tq_ else '8 秒還在'))
+            ck0_ = ck_ or {}
+            for face_, pt_ in (('面向櫃台', [c3_['x'], c3_['z']]), ('面向店員', [ck0_.get('x', c3_['x']), ck0_.get('z', c3_['z'] - 2)])):   # BB-C 11:04 ③：面向櫃台、面向店員各試一次
+                yw_ = await pg.evaluate(FACE_JS, pt_); await pg.wait_for_timeout(800)
+                di_ = await pg.evaluate(IT_DIAG_JS, None); ts_.append({'at': 'counter%d_%s' % (k3_, face_), 'yaw': yw_, 'diag': di_})
+                R.note('%s US_DIAG「%s」%s（yaw %s）互動鍵判斷：%s' % (tag, c3_['label'], face_, yw_, J(di_)))
+                await pg.screenshot(path=os.path.join(OUT, 'us_diag_%s_%s_counter%d_%s.png' % (zid, int(h * 100), k3_, 'ctr' if face_ == '面向櫃台' else 'clerk')))
+                if di_.get('btn') and di_['btn'].get('shown'):
+                    await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
+                    st4_ = await pg.evaluate("(()=>({choices:[...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent).map(b=>b.textContent.trim().slice(0,40)), dlg:((document.getElementById('dlgText')||{}).textContent||'').trim().slice(0,60), who:((document.getElementById('dlgName')||{}).textContent||'').trim()}))()")
+                    await pg.screenshot(path=os.path.join(OUT, 'us_diag_%s_%s_counter%d_%s_tap.png' % (zid, int(h * 100), k3_, 'ctr' if face_ == '面向櫃台' else 'clerk')))
+                    ts_.append({'at': 'counter%d_%s_tap' % (k3_, face_), 'after': st4_}); R.note('%s US_DIAG「%s」%s 按互動鍵「%s」→ %s' % (tag, c3_['label'], face_, di_['btn'].get('label'), J(st4_)))
+                    for _ in range(12):
+                        c2_ = await pg.evaluate("(()=>[...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent).map(b=>b.textContent.trim()))()")
+                        if not c2_:
+                            if await pg.evaluate("!!(GAME.D&&GAME.D.active)"): await pg.evaluate("GAME.dlgAdvance()"); await pg.wait_for_timeout(500); continue
+                            break
+                        k2_ = next((i_ for i_, t_ in enumerate(c2_) if any(w_ in t_ for w_ in ('算了', '不用', '離開', '不買', '先不要'))), len(c2_) - 1)
+                        await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (k2_ + 1)); await pg.wait_for_timeout(700)
+            q3_ = await D.settle(pg); lb3_ = q3_.get('interact')
             await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
             st3_ = await pg.evaluate("(()=>({choices:[...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent).map(b=>b.textContent.trim().slice(0,40)), dlg:((document.getElementById('dlgText')||{}).textContent||'').trim().slice(0,60), who:((document.getElementById('dlgName')||{}).textContent||'').trim(), toast:((document.getElementById('toast')||{}).textContent||'').trim().slice(0,60)}))()")
             await pg.screenshot(path=os.path.join(OUT, 'us_diag_%s_%s_counter%d.png' % (zid, int(h * 100), k3_)))
