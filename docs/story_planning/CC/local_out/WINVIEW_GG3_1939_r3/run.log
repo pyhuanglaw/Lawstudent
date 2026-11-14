@@ -1,0 +1,28 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\_script_from\WINVIEW_GG3_1939_r3\docs\story_planning\test_tools\cc\cc_winview_patch_wrap.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WINVIEW_GG3_1939_r3\out
+CC WINVIEW-AUDIT-1105：工作樹 C:\Users\USER\Documents\wt_cc_WINVIEW_GG3_1939_r3；網址 http://127.0.0.1:8801/index.html；patch C:\Users\USER\Documents\_script_from\WINVIEW_GG3_1939_r3\docs\story_planning\test_tools\cc\fixtures\gg3_views_358eb72339.patch
+PASS FAIL_SETUP 檢查：patch 檔在  C:\Users\USER\Documents\_script_from\WINVIEW_GG3_1939_r3\docs\story_planning\test_tools\cc\fixtures\gg3_views_358eb72339.patch
+PASS FAIL_SETUP 檢查：工具在工作樹裡  tools\shots\shop_views_layers.py
+PASS FAIL_SETUP 檢查：工具的替代版本在（shop_views_layers_bbc9531154.py）  C:\Users\USER\Documents\_script_from\WINVIEW_GG3_1939_r3\docs\story_planning\test_tools\cc\fixtures\shop_views_layers_bbc9531154.py
+用 fixtures/shop_views_layers_bbc9531154.py 取代 tools\shots\shop_views_layers.py（16510 → 21745 bytes）
+PASS FAIL_SETUP 檢查：patch 的錨點（aoki 那一行）在工具裡剛好一次  "    'aoki': ('gongguan', [-51.87, 14], [-51.87, 1.65, 21.7], [-51.87, 1.65, -40], 9.0, 3.4),"
+照 patch 插了 6 行（換行 '\n'）
+PASS FAIL_SETUP 檢查：三個名字都在 VIEWS  
+跑：C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe tools\shots\shop_views_layers.py http://127.0.0.1:8801/index.html gg_antai gg_xianguo gg_rongendian
+RAW 模式：VIEWS_RAW=C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WINVIEW_GG3_1939_r3\out\raw
+gg_antai_day raw {"D": 9, "near": 3.58, "far": 15.36, "nNear": 50, "nFar": 115, "sky": 0.422, "cam": [-18.6, 1.46, 21.7], "fov": 53.13}
+gg_antai_night raw {"D": 9, "near": 3.58, "far": 15.25, "nNear": 50, "nFar": 115, "sky": 0.422, "cam": [-18.6, 1.46, 21.7], "fov": 53.13}
+gg_xianguo_day raw {"D": 9, "near": 3.43, "far": 15.79, "nNear": 64, "nFar": 133, "sky": 0.395, "cam": [19.6, 1.5, 21.7], "fov": 53.13}
+gg_xianguo_night raw {"D": 9, "near": 3.43, "far": 15.68, "nNear": 64, "nFar": 133, "sky": 0.395, "cam": [19.6, 1.5, 21.7], "fov": 53.13}
+gg_rongendian_day raw {"D": 9, "near": 3.13, "far": 47.36, "nNear": 75, "nFar": 112, "sky": 0.424, "cam": [64.1, 1.48, 21.7], "fov": 53.13}
+gg_rongendian_night raw {"D": 9, "near": 3.13, "far": 47.36, "nNear": 75, "nFar": 112, "sky": 0.424, "cam": [64.1, 1.48, 21.7], "fov": 53.13}
+沒有 PIL：原始三張和景深存在 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WINVIEW_GG3_1939_r3\out\raw ——在有 PIL 的機器跑 VIEWS_REMATTE=C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WINVIEW_GG3_1939_r3\out\raw python3 tools/shots/shop_views_layers.py [名稱...]
+done 6 of 6
+
+
+PASS shop_views_layers.py 結束碼 0  0
+收進 OUT/views：[]
+OUT/raw：[["depth.json", 1115], ["gg_antai_day_far.png", 561818], ["gg_antai_day_nb.png", 88224], ["gg_antai_day_nw.png", 89960], ["gg_antai_night_far.png", 433349], ["gg_antai_night_nb.png", 68865], ["gg_antai_night_nw.png", 71581], ["gg_rongendian_day_far.png", 547397], ["gg_rongendian_day_nb.png", 120752], ["gg_rongendian_day_nw.png", 123202], ["gg_rongendian_night_far.png", 421342], ["gg_rongendian_night_nb.png", 90340], ["gg_rongendian_night_nw.png", 94369], ["gg_xianguo_day_far.png", 636357], ["gg_xianguo_day_nb.png", 110750], ["gg_xianguo_day_nw.png", 112949], ["gg_xianguo_night_far.png", 496206], ["gg_xianguo_night_nb.png", 87769], ["gg_xianguo_night_nw.png", 91178]]
+PASS RAW：三間的原始 PNG（<名稱>_far.png）和 depth.json 都有  ["depth.json", "gg_antai_day_far.png", "gg_antai_day_nb.png", "gg_antai_day_nw.png", "gg_antai_night_far.png", "gg_antai_night_nb.png", "gg_antai_night_nw.png", "gg_rongendian_day_far.png", "gg_rongendian_day_nb.png", "gg_rongendian_day_nw.png", "gg_rongendian_night_far.png", "gg_rongendian_night_nb.png", "gg_rongendian_night_nw.png", "gg_xianguo_day_far.png", "gg_xianguo_day_nb.png", "gg_xianguo_day_nw.png", "gg_xianguo_night_far.png", "gg_xianguo_night_nb.png", "gg_xianguo_night_nw.png"]
+近景（_near_）：[]
+RAW 模式：不檢查 shop_views_layers.json（景深在 OUT/raw/depth.json）
+ALL PASS

@@ -1,0 +1,26 @@
+{
+  "rerun": "",
+  "id": "WINVIEW_GG3_1939_r3",
+  "sha": "19399e5d39f54b4da8e0a8caa78a72c48d98374f",
+  "kind": "game",
+  "script": "docs/story_planning/test_tools/cc/cc_winview_patch_wrap.py",
+  "env": "SCRIPT_FROM=cc;SCRIPT_FILES=docs/story_planning/test_tools/cc/fixtures/gg3_views_358eb72339.patch,docs/story_planning/test_tools/cc/fixtures/shop_views_layers_bbc9531154.py;TOOL_FIXTURE=shop_views_layers_bbc9531154.py;RAW=1;XARGS={url} {out};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-14T19:45:55",
+  "end": "2026-11-14T19:59:08",
+  "seconds": 793,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "21",
+  "url": "http://127.0.0.1:8801/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 99,
+    "mem": 60,
+    "used_gb": 19.1,
+    "chrome_testing": 13
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false
+}
