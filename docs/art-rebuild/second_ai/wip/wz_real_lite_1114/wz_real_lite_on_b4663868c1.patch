@@ -1,0 +1,64 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 27bec3ddde..815ca2a3c8 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1661,9 +1661,15 @@ const Z3 = (function(){
+       if(s.pend.length){ warmQ.push({s,stage:'prep'}); return; }
+       r.position.set(s.x,s.y||0,s.z); r.rotation.y=s.ry||0; if(s.kx&&s.kx!==1) r.scale.x=s.kx;   /* kx：室內的寬度方向縮一點（公館：室內和那一棟一樣寬、牆又往外厚 14～20 cm，會伸進隔壁店裡，從隔壁的窗看到一片牆的背面）*/ r.visible=false; g.add(r); s.grp=r; s.tmp=null; s.cache=null; s.pend=null; s.building=false; s.built=true; s.meshes=s.list.length; warm(s); };
+     const detach=s=>{ if(s.building){ s.building=false; s.tmp=null; s.pend=null; s.cache=null; s.src=null; for(const b of s.mats) b.dispose(); s.mats=[]; s.list=[]; for(let i=warmQ.length-1;i>=0;i--) if(warmQ[i].s===s) warmQ.splice(i,1); return; } if(!s.built) return; if(s.grp&&s.grp.parent) s.grp.parent.remove(s.grp); for(const b of s.mats) b.dispose(); s.mats=[]; s.list=[]; s.grp=null; s.on=false; s.built=false; s.ready=false; s.want=false; s.meshes=0; for(let i=warmQ.length-1;i>=0;i--) if(warmQ[i].s===s) warmQ.splice(i,1); fallback(s,true); };
++    const _camF=new THREE.Vector3();
+     const dist=(s,p)=>Math.hypot(Math.max(0,Math.abs(p.x-(s.cx===undefined?s.x:s.cx))-(s.ex||0)),Math.max(0,Math.abs(p.z-(s.cz===undefined?s.z:s.cz))-(s.ez||0)));
+     const tick=()=>{ const p=E.player&&E.player.obj?E.player.obj.position:null; if(!p) return; for(const s of shops) s.dd=dist(s,p); const by=shops.slice().sort((a,b)=>a.dd-b.dd);
+-      if(lite){ const n0=by[0]; for(const s of shops){ if(s===n0&&s.dd<s.near){ if(!s.built) build(s,true); else{ s.want=true; if(s.ready&&!s.on) show(s,true); } } else if((s.built||s.building)&&(s!==n0||s.dd>s.far)) detach(s); } }
++      if(lite){ let n0=by[0];
++        /* WZ-REAL-LITE-EMPTY-1114（LAWWW2-B；BB 11-14 WZ_REAL_r4：站在溫州街路中間看 SUNNY SIDE，最近的是背後對街的林家——lite 只建最近一間，眼前的櫥窗後面是空的）：
++           最近的那一間在鏡頭背後、而鏡頭前面有另一間在 near 以內 → 建鏡頭前面最近的那一間（還是只建一間，手機的負擔不變）。沒有鏡頭（測試）或都在同一側＝照舊挑最近的。 */
++        { const cam=E.camera; if(cam&&cam.position&&cam.getWorldDirection){ const f=cam.getWorldDirection(_camF), cx=cam.position.x, cz=cam.position.z, fl=Math.hypot(f.x,f.z);
++            if(fl>0.05){ const front=s=>(((s.cx===undefined?s.x:s.cx)-cx)*f.x+((s.cz===undefined?s.z:s.cz)-cz)*f.z)/fl>0.5; if(!front(n0)){ const alt=by.find(s=>s.dd<s.near&&front(s)); if(alt) n0=alt; } } } }
++        for(const s of shops){ if(s===n0&&s.dd<s.near){ if(!s.built) build(s,true); else{ s.want=true; if(s.ready&&!s.on) show(s,true); } } else if((s.built||s.building)&&(s!==n0||s.dd>s.far)) detach(s); } }
+       else{ for(const s of shops){ if(s.built){ if(s.dd<s.near){ s.want=true; if(s.ready&&!s.on) show(s,true); } else if(s.dd>s.far){ s.want=false; if(s.on) show(s,false); } } }
+         /* 走到店前的那一間優先（BB 11-12 FAIL：第一次從街上走到 SUNNY SIDE 前 3 m，B7 built:false，看到空的玻璃盒——溫州街四間排隊預載，B7 離進場點最遠、排最後，一間要五十幾幀）：
+            人已經在某一間的 near 裡、它還沒開始建，而正在建的是另一間遠的 → 先放掉那一間（之後再排），馬上建眼前這一間 */
+diff --git a/tests/shop_real_lite_front_1114_unit.js b/tests/shop_real_lite_front_1114_unit.js
+new file mode 100644
+index 0000000000..fcb1b7fd60
+--- /dev/null
++++ b/tests/shop_real_lite_front_1114_unit.js
+@@ -0,0 +1,37 @@
++/* WZ-REAL-LITE-EMPTY-1114（LAWWW2-B）：省資源模式（手機、畫質 low）一次只建一間店的店內——原本挑「離玩家最近的」，
++   站在溫州街路中間看 SUNNY SIDE（北側），最近的卻是背後對街的林家（南側）：眼前的櫥窗後面是空的（BB 11-14 WZ_REAL_r4，BB_379）。
++   改法：最近的那一間在鏡頭背後、鏡頭前面有另一間在 near 以內 → 建鏡頭前面最近的那一間（還是只建一間）。
++   檢查（假的 THREE／ASSETS，直接跑 zones3d.js 的 shopInsideReal；不需要瀏覽器 D131）：
++     ① 兩間店隔著街：北側 N（店面 z −5.9）、南側 S（店面 z +5.9）。玩家站 z +1（離 S 近），鏡頭在玩家南邊看北 → 建 N，不建 S（修改前建 S）
++     ② 鏡頭轉過來看南 → 換成 S，N 拿掉（同一時間只有一間）
++     ③ 鏡頭看北、但 N 超過 near → 照舊建最近的 S（背後的也比空的好）
++     ④ 沒有鏡頭（E.camera 沒設）→ 照舊挑最近的
++     ⑤ 兩間都在鏡頭前面（同一側）→ 照舊挑最近的
++   node tests/shop_real_lite_front_1114_unit.js */
++const fs=require('fs'),path=require('path'),vm=require('vm'); const R=path.join(__dirname,'..'); let fail=0;
++const ok=(c,m)=>{ console.log((c?'PASS ':'FAIL ')+m); if(!c) fail++; };
++const src=fs.readFileSync(path.join(R,'src/zones3d.js'),'utf8'); const a=src.indexOf('  function shopInsideReal('); let d=0,b=-1; for(let i=src.indexOf('{',src.indexOf(')',a));i<src.length;i++){ if(src[i]==='{') d++; else if(src[i]==='}'){ d--; if(d===0){ b=i+1; break; } } }
++ok(a>0&&b>a,'⓪ zones3d.js 有 shopInsideReal'); ok(/shopInsideReal,/.test(src.slice(src.lastIndexOf('return {B1C'))),'⓪ Z3 匯出 shopInsideReal');
++/* 假的 THREE、ASSETS：只夠這個函式用 */
++class Color{ constructor(r=1,g=1,b=1){ this.r=r; this.g=g; this.b=b; } copy(c){ this.r=c.r; this.g=c.g; this.b=c.b; return this; } multiplyScalar(k){ this.r*=k; this.g*=k; this.b*=k; return this; } }
++class V3{ constructor(x=0,y=0,z=0){ this.x=x; this.y=y; this.z=z; } set(x,y,z){ this.x=x; this.y=y; this.z=z; } }
++class Box3{ copy(o){ this.c=o.c; return this; } applyMatrix4(){ return this; } getCenter(v){ v.x=this.c[0]; v.y=this.c[1]; v.z=this.c[2]; return v; } }
++let disposed=0; class Basic{ constructor(o){ Object.assign(this,o); this.color=new Color(); this.userData={}; } dispose(){ disposed++; } }
++const mesh=(name,c,mat)=>({name,isMesh:true,visible:true,geometry:{boundingBox:{c}},material:mat,matrixWorld:{},children:[],parent:null});
++const mkScene=()=>{ const wood={name:'wood',map:{id:1,image:{}},color:new Color(1,1,1)}, vc={name:'vc',vertexColors:true,color:new Color(1,1,1)}, led={name:'led',emissive:new Color(1,0.8,0.6),color:new Color(0,0,0)};
++  const kids=[mesh('floor',[0,0,0],wood),mesh('WALL_left_wood',[-3.6,1.5,0],wood),mesh('WALL_front_front_glass',[0,1.5,6],vc),mesh('dabu_sun',[1,0.01,4],wood),mesh('nightboard',[20,2,0],wood),mesh('shelf',[2,1,-3],vc),mesh('lamp',[0,3.2,0],led),Object.assign(mesh('WALL_S',[0,1.7,6.1],wood),{userData:{dir:[0,0,-1]}}),Object.assign(mesh('WALL_E',[3.6,1.7,0],wood),{userData:{dir:[-1,0,0]}})];
++  const r={name:'Scene',children:kids,parent:null,userData:{},position:new V3(),rotation:{y:0,set(){ this.y=0; }},updateMatrixWorld(){},traverse(f){ f(this); kids.forEach(f); },clone(){ return mkScene(); }}; kids.forEach(k=>k.parent=r); return r; };
++const mkCtx=()=>{ const c={THREE:{Box3,Vector3:V3,Color,MeshBasicMaterial:Basic},ASSETS:{manifest:{kN:{},kS:{}},loadOne(){ return {then(f){ f({scene:mkScene()}); return {catch(){}}; }}; }},GAME:{G:{hour:14,day:3}},PLACES:{isOpen:()=>true,typhoonClosed:()=>false},console}; vm.createContext(c); vm.runInContext(src.slice(a,b)+'; this.fn=shopInsideReal;',c); return c; };
++const mkG=()=>({children:[],add(o){ this.children.push(o); o.parent=this; },remove(o){ this.children=this.children.filter(q=>q!==o); o.parent=null; }});
++const cam=(x,z,fx,fz)=>({position:new V3(x,3,z),getWorldDirection(v){ v.x=fx; v.y=-0.3; v.z=fz; return v; }});
++const LIST=(nearN)=>[{id:'N',place:'pN',key:'kN',w:6.4,d:10,h:3.2,x:44,z:-10.9,ry:0,cx:44,cz:-5.9,ex:3.2,ez:0,near:nearN||26},{id:'S',place:'pS',key:'kS',w:6.4,d:8,h:3,x:44,z:9.9,ry:Math.PI,cx:44,cz:5.9,ex:3.2,ez:0}];
++const run=(camera,list,px,pz)=>{ const c=mkCtx(), g=mkG(), zone={update:null}, E={zone,player:{obj:{position:new V3(px,0,pz)}}}; if(camera) E.camera=camera; const R2=c.fn(E,g,zone,list,{lite:true,shutter:false}); const step=n=>{ for(let i=0;i<n;i++) zone.update(0.016,E); }; step(60); return {R:R2,E,g,step,N:R2.shops[0],S:R2.shops[1]}; };
++const st=s=>s.on||s.built||s.building;
++{ const t=run(cam(44,5.5,0,-1),LIST(),44,1); ok(R&&t.R.lite===true,'⓪ 省資源模式');
++  ok(st(t.N)&&!st(t.S),'① 站路中間偏南（離南側的店 4.9 m、北側 6.9 m）、鏡頭看北：建眼前北側那一間，不建背後南側那一間　N '+st(t.N)+'／S '+st(t.S));
++  t.E.camera=cam(44,-3.5,0,1); t.step(60);
++  ok(st(t.S)&&!st(t.N)&&t.g.children.length<=1,'② 鏡頭轉過來看南：換成南側那一間、北側拿掉（同一時間只有一間）　N '+st(t.N)+'／S '+st(t.S)+'／場景裡 '+t.g.children.length+' 間'); }
++{ const t=run(cam(44,5.5,0,-1),LIST(5),44,1); ok(st(t.S)&&!st(t.N),'③ 鏡頭看北、但北側那一間超過 near（5 m）：照舊建最近的南側那一間　N '+st(t.N)+'／S '+st(t.S)); }
++{ const t=run(null,LIST(),44,1); ok(st(t.S)&&!st(t.N),'④ 沒有鏡頭：照舊挑最近的（南側）　N '+st(t.N)+'／S '+st(t.S)); }
++{ const t=run(cam(44,30,0,-1),LIST(),44,12); ok(st(t.S)&&!st(t.N),'⑤ 兩間都在鏡頭前面（玩家在南側店後面 z 12、鏡頭在更南邊看北）：照舊挑最近的（南側）　N '+st(t.N)+'／S '+st(t.S)); }
++console.log(fail?('FAILED '+fail):'ALL PASS'); process.exit(fail?1:0);
