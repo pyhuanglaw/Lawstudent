@@ -5474,6 +5474,7 @@
 - 來源：ART-BG16 ntu_linze FAIL、ART-BG15 ntu_soc D136 FAIL（BB_464）、語彤情人節三張（BB_432 第 1 點、BLACK-BG-AUDIT-1018）。
 - 附圖：`00_畫風參考.webp`（art_reference/from06/style_07_cafe_dusk.webp）；1、2、6 號另附遊戲截圖當位置參考（只參考位置，外觀照文字）。
 - 6 號（23:3x 加）：`ntu_gate`，迎新宿營開頭與回到校門（camp_y1.js 兩處 bg:dark，BB_460 23:3x；LAWWW 先用 ntu_avenue 代）；位置截圖＝遊戲 3D 校門（CK.gate），給提示詞時由 CC 拍一張附上。BG-3DSHOT-1021。
+- 6 號位置截圖（11-14 10:1x BB-C 選）：`docs/story_planning/BB_132_refs/128_6_ntu_gate_3d.webp`（CC BG3D_GATE_gongguan，從公館那一側看校門：紅磚門房＋名牌、石柱燈籠、鐵欄杆、腳踏車）。同時改了 6 號的文字：①照 3D 加上紅磚門房、柱頂燈籠、鐵欄杆，讓 2D 和 3D 對得上（使用者在意店外和店內不一致，校門同理）；②原本寫「車旁有十幾個新生」，但最後一句又寫「畫面裡沒有人」，兩句互相矛盾；這組是純場景，所以拿掉新生，改成放行李箱表示集合。另外 BG3D_GATE_campus 的廣角圖（bg3d_ntu_gate_wide）路的上方有一大片黑色半圓，看起來是沒貼到圖的東西，P3 交 LAWWW2 看。
 ```
 請照編號 1 到 6 依序生成 6 張圖片，一個編號一張，一張一張分開生成，一次給我六張。
 
@@ -5504,7 +5505,7 @@ English style keywords: high-quality Japanese anime film key visual, semi-realis
 畫風完全照附圖「00_畫風參考」：高品質的日系動畫電影／視覺小說關鍵畫面（key visual）的半寫實數位繪畫。人物：日系動畫風但比例寫實的成年大學生（7～8 頭身），眼睛自然大小、五官精緻，柔和的賽璐璐上色加上細膩的漸層陰影；頭髮一束一束、有光澤。背景：細節豐富的繪畫風背景（像新海誠、京都動畫那種精緻的背景美術），物件有真實的材質和生活感，但看得出是畫的。光影：電影感的自然光，主光方向清楚，柔和的反光和光暈，中等景深；白天乾淨明亮，黃昏金黃溫暖，夜晚是暖色燈光配冷色環境。色彩：飽和度適中、略暖、乾淨通透。不要：照片、寫實攝影、3D 渲染、塑膠感、粗糙的 AI 感、扁平向量圖、兒童繪本風、Q 版、過大的眼睛、粗黑線稿、過度 HDR 和霓虹濾鏡、畫面髒或糊。
 English style keywords: high-quality Japanese anime film key visual, semi-realistic anime illustration, detailed painterly background art (Makoto Shinkai / Kyoto Animation quality), soft cel shading with smooth gradients, cinematic natural lighting, warm golden tones, shallow-to-medium depth of field, clean and polished, 4K detail. NOT photo, NOT 3D render, NOT flat vector, NOT chibi.
 
-6. 台北一所大學的正門口，夏天的早上八點多，晴天。校門是兩根方形的米白色石柱和一道低矮的鐵柵門，門開著；門後是一條筆直、兩旁種滿高大椰子樹的大道，一路往校園深處延伸。校門前的人行道上停著一輛大型白色遊覽車（車身沒有任何字或標誌），車門打開；車旁有十幾個拖著行李箱和背包的大學新生在集合，有人低頭看手機、有人站在樹蔭下，畫面遠一點、人物小、看不清楚臉。早上的陽光從左側斜照，地上有椰子樹細長的影子，空氣乾淨、天空很藍。只參考附圖的位置和角度，校門和建築外觀照文字畫，不要照抄任何真實大學的校門。
+6. 台北一所大學的正門口，夏天的早上八點多，晴天。校門是兩根頂上有黑色方形燈籠的米白色方石柱，兩旁接著黑色鐵欄杆，中間的鐵門開著；柱子旁邊有一間紅磚牆、米白色石材轉角和窗框的小門房，正面掛著一塊空白的白色名牌（不要寫字）。門後是一條筆直、兩旁種滿高大椰子樹的大道，一路往校園深處延伸。校門前的人行道上停著一輛大型白色遊覽車（車身沒有任何字或標誌），車門打開，旁邊放著幾個行李箱，人行道邊還停著幾輛腳踏車。早上的陽光從左側斜照，地上有椰子樹細長的影子，空氣乾淨、天空很藍。只參考附圖的位置和角度，校門和建築外觀照文字畫，不要照抄任何真實大學的校門。
 16:9 橫幅，高畫質。畫面主體放在上方三分之二，下方三分之一留給對話框（不要放重要東西）。畫面裡不要有任何文字、招牌字、數字、圓圈編號或標籤（編號只放在檔名或回覆文字）；不要像任何真實的作品、品牌或真實建築。畫面裡沒有人。
 畫風完全照附圖「00_畫風參考」：高品質的日系動畫電影／視覺小說關鍵畫面（key visual）的半寫實數位繪畫。人物：日系動畫風但比例寫實的成年大學生（7～8 頭身），眼睛自然大小、五官精緻，柔和的賽璐璐上色加上細膩的漸層陰影；頭髮一束一束、有光澤。背景：細節豐富的繪畫風背景（像新海誠、京都動畫那種精緻的背景美術），物件有真實的材質和生活感，但看得出是畫的。光影：電影感的自然光，主光方向清楚，柔和的反光和光暈，中等景深；白天乾淨明亮，黃昏金黃溫暖，夜晚是暖色燈光配冷色環境。色彩：飽和度適中、略暖、乾淨通透。不要：照片、寫實攝影、3D 渲染、塑膠感、粗糙的 AI 感、扁平向量圖、兒童繪本風、Q 版、過大的眼睛、粗黑線稿、過度 HDR 和霓虹濾鏡、畫面髒或糊。
 English style keywords: high-quality Japanese anime film key visual, semi-realistic anime illustration, detailed painterly background art (Makoto Shinkai / Kyoto Animation quality), soft cel shading with smooth gradients, cinematic natural lighting, warm golden tones, shallow-to-medium depth of field, clean and polished, 4K detail. NOT photo, NOT 3D render, NOT flat vector, NOT chibi.
