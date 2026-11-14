@@ -56917,6 +56917,19 @@
     "term": "Y1S1",
     "confirmed": false
    }
+  },
+  {
+   "id": "PLACEGATE-WALL-NAME-1114",
+   "title": "place_gate 的「牆」分類同時看材質名，和 shop_cc0 要求油漆牆材質叫 _wall 互相牽動",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "幫手 g3 2026-11-14 00:41（大口漢堡一樓）",
+   "note": "WALL_RE=/wall|shell|外殼|牆/i 比對 node 名或材質名（place_gate_unit.js 第 200 行）。材質改叫 dk_wall 以後，原本就有的隔牆／踢腳疊面被算進「牆」，wall 5.13→6.81，但 always 10.55→10.20 是變少。這次照 g3 建議真的修疊面（b）。之後再評估：wall 只看 node 名，或 wall 指標允許「always 變少時 wall 重新分類」。不急：always 已經涵蓋所有會閃的面。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
   }
  ]
 }
