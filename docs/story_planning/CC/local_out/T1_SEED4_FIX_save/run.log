@@ -1,0 +1,18 @@
+@@HB {"seed":4,"day":"2025-11-10","step":0,"frame":1}
+@@HB {"seed":4,"day":"2025-11-10","step":60,"frame":498}
+@@HB {"seed":4,"day":"2025-11-11","step":121,"frame":2060}
+@@HB {"seed":4,"day":"2025-11-12","step":207,"frame":3478}
+--save-out：C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\T1_SEED4_FIX_save\out\seed4_after.json　89859 字元（2025-11-12）
+
+================ 種子 4：PASS ================
+區域 build 17 次、4.5 秒；turbo 格 1473
+到 2025-11-12　步數 207　格數 3478　虛擬時間 0.2 小時　開頁面 2 次　真實 11.2 秒　（game3d.js：對話有 sayStack）
+結束時：{"attended":55,"day":57,"date":"2025-11-12","evDone":40,"money":96390,"stage":"law","contacts":6,"invites":26,"invDone":11,"goingSeen":0,"msgs":200}
+個性：{"classP":0.7381081443279982,"lateP":0.4967426680959761,"phoneP":0.3359323764801957,"talkP":0.24072168618440629,"reloadP":0.0004,"snapP":0.0025,"midReloadP":0.001}
+假引擎 E 被讀但沒有的屬性：preObjs×2
+
+注意（不算 FAIL）：
+  2 次　星期和日期對不上（syncWeekday 改回來）　例：星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）
+  1 次　立繪缺檔 → 用 neutral（素材，不算）　例：portrait missing → fallback assets/portraits/kexin/campus/neutral.webp（2025-11-10 09:00 classroom）
+@@RESULT {"seed":4,"ok":true,"reached":"2025-11-12","steps":207,"frames":3478,"vms":644300,"pages":2,"fails":[],"notes":[{"k":"星期和日期對不上（syncWeekday 改回來）","n":2,"ex":"星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"},{"k":"立繪缺檔 → 用 neutral（素材，不算）","n":1,"ex":"portrait missing → fallback assets/portraits/kexin/campus/neutral.webp（2025-11-10 09:00 classroom）"}],"missingE":["preObjs×2"],"persona":{"classP":0.7381081443279982,"lateP":0.4967426680959761,"phoneP":0.3359323764801957,"talkP":0.24072168618440629,"reloadP":0.0004,"snapP":0.0025,"midReloadP":0.001},"sayStack":true,"chooseStack":true,"g":{"attended":55,"day":57,"date":"2025-11-12","evDone":40,"money":96390,"stage":"law","contacts":6,"invites":26,"invDone":11,"goingSeen":0,"msgs":200}}
+（11.2 秒）

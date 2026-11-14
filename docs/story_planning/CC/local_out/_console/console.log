@@ -1792,3 +1792,13 @@
 [18:24:29] ==== START LIMAO_PARALLAX_r2  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
 [18:24:32] [res] cpu=1% mem=48% (15.3/31.4 GB) chrome_testing=10  START LIMAO_PARALLAX_r2
 [18:25:52] [res] cpu=7% mem=47% (14.9/31.4 GB) chrome_testing=10  END VACGAP_C_r2
+[18:25:55] 正在跑：VACGAP_C_r2（已跑 6 分／上限 60 分）、SHOP_US_v2_r2（已跑 5 分／上限 70 分）、LIMAO_PARALLAX_r2（已跑 1 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       76456f5e53..0cc7589fdf  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[18:26:08] ==== END   VACGAP_C_r2  exit=1  373s   ====
+[18:26:23] memory 49% before starting T1_SEED4_FIX_save (2 running)
+[18:26:23] ==== START T1_SEED4_FIX_save  (node @ 928690d709ebda924debffc05a2f4fe6e1687d51) ====
+[18:26:26] [res] cpu=0% mem=50% (15.7/31.4 GB) chrome_testing=10  START T1_SEED4_FIX_save
+[18:26:26] worktree add 928690d709ebda924debffc05a2f4fe6e1687d51: invalid reference - fetching main and the commit itself
+[18:27:17] [res] cpu=1% mem=48% (15.2/31.4 GB) chrome_testing=10  END T1_SEED4_FIX_save
