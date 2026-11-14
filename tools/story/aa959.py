@@ -22,7 +22,7 @@ import json, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 TABLE = 'docs/handoff/AA_959_overlay.json'
-SRC_SHA = '300233fbcc'   # 企劃線 claude/cool-heisenberg-o8kuqx，783 列（RC2-PORT-DEV-1114）；前一版：企劃線 claude/magical-albattani-bk7b4n（AA_951～967：七位女主角＋配角，405 列；取代 833e97635d、dc29919cc8、4440ffa368、d5d9de0df7、185068f716）
+SRC_SHA = '10ba78c99f'   # 企劃線 claude/cool-heisenberg-o8kuqx，783 列（RC2-PORT-DEV-1114）；前一版：企劃線 claude/magical-albattani-bk7b4n（AA_951～967：七位女主角＋配角，405 列；取代 833e97635d、dc29919cc8、4440ffa368、d5d9de0df7、185068f716）
 
 # 說話的人對不上表上的 speaker（或不是某一個人的句子）：不換，報 AA。鍵＝(檔名, old)；表在 docs/handoff/AA_959_skip.json（tests/aa959_map.js 也讀）
 SKIPFILE = 'docs/handoff/AA_959_skip.json'
