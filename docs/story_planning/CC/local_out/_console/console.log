@@ -1,13 +1,3 @@
-       367152458f..8c52ceea33  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[23:13:51] ==== END   W1R_A2_sleep  exit=0  123s   ====
-[23:13:54] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
-[23:13:54] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
-[23:13:54] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
-[23:13:54] memory 44% before starting W1R_B3B4_linze (2 running)
-[23:13:54] ==== START W1R_B3B4_linze  (probe @ 1f304f00544cae61d8abf58bea60e3b9d7cb4ea2) ====
-[23:13:57] [res] cpu=26% mem=44% (13.8/31.4 GB) chrome_testing=4  START W1R_B3B4_linze
-[23:15:45] [res] cpu=68% mem=47% (14.7/31.4 GB) chrome_testing=5  END W1R_A3_dorm
     To https://github.com/pyhuanglaw/Lawstudent.git
        8c52ceea33..d4c9bbecff  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
@@ -1998,3 +1988,13 @@
 [12:09:16] ==== START DN_FPS_c94f  (probe @ c94f2bf7d361defdc7549386cadb7acd4e56e355) ====
 [12:09:19] [res] cpu=1% mem=31% (9.9/31.4 GB) chrome_testing=0  START DN_FPS_c94f
 [12:10:58] [res] cpu=3% mem=31% (9.8/31.4 GB) chrome_testing=0  END DN_FPS_c94f
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       53aea648f0..e79c2261e2  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[12:11:04] ==== END   DN_FPS_c94f  exit=0  102s   ====
+[12:11:07] memory 31% before starting DN_DOOR_c94f (0 running)
+[12:11:07] solo item FIRST_gg_desk_r8 waits: no new items start until the 1 running item(s) finish
+[12:11:07] ==== START DN_DOOR_c94f  (probe @ c94f2bf7d361defdc7549386cadb7acd4e56e355) ====
+[12:11:10] [res] cpu=0% mem=31% (9.9/31.4 GB) chrome_testing=0  START DN_DOOR_c94f
+[12:11:55] 正在跑：DN_DOOR_c94f（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[12:12:52] [res] cpu=1% mem=31% (9.8/31.4 GB) chrome_testing=0  END DN_DOOR_c94f

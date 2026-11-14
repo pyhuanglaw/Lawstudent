@@ -1,0 +1,18 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_storefront_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\DN_DOOR_c94f\out
+CC 店門口：worktree ?；tingzhou 14.0；TAG dn_door_c94f；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-10-18 14.0（條件事件、手機關）
+PASS tz_dongnan 街上找得到進店的門
+  [前置／捷徑] tz_dongnan 【捷徑】祐廷放到門前 3 m 等 3 秒；室內 {"on": true, "built": true, "shutter": false}
+PASS [黑畫面] door_tz_dongnan_dn_door_c94f 不是黑畫面（平均亮度 100.3、變化 54.1）  [100.3, 54.1]
+  [  64.4s] [截圖] door_tz_dongnan_dn_door_c94f：鏡頭 {"eye": [-2.8, 1.6, 16.75], "look": [-7.3, 1.6, 16.75], "lens": 18, "vfov": 58.72}、亮度 [100.3, 54.1]
+  [  64.4s] tz_dongnan 正對門：門 (-7.3, 16.75)「進東南大聯商行」朝外 [1, 0]（shopReal.ry）、鏡頭 [-2.8, 1.6, 16.75]（站得住=True）
+PASS [黑畫面] signclose_tz_dongnan_2.5m_dn_door_c94f 不是黑畫面（平均亮度 83.9、變化 54.9）  [83.9, 54.9]
+  [  66.6s] [截圖] signclose_tz_dongnan_2.5m_dn_door_c94f：鏡頭 {"eye": [-4.8, 1.6, 16.75], "look": [-7.3, 3.3, 16.75], "lens": 24, "vfov": 45.75}、亮度 [83.9, 54.9]
+  [  66.6s] tz_dongnan 招牌近拍 退 2.5 m：鏡頭 [-4.8, 1.6, 16.75] 看門上 3.3 m（站得住=True）
+PASS [黑畫面] signclose_tz_dongnan_1.5m_dn_door_c94f 不是黑畫面（平均亮度 71、變化 46.2）  [71, 46.2]
+  [  68.8s] [截圖] signclose_tz_dongnan_1.5m_dn_door_c94f：鏡頭 {"eye": [-5.8, 1.6, 16.75], "look": [-7.3, 3.3, 16.75], "lens": 24, "vfov": 45.75}、亮度 [71, 46.2]
+  [  68.8s] tz_dongnan 招牌近拍 退 1.5 m：鏡頭 [-5.8, 1.6, 16.75] 看門上 3.3 m（站得住=True）
+PASS 沒有 JS 例外  []
+ALL PASS
