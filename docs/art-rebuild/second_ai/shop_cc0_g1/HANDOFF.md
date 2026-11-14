@@ -10,13 +10,14 @@
 | 小路 komichi | 已整合（v3 在開發分支 e687f2f3b6） | 58a50cc2cb | `docs/art-rebuild/second_ai/wip/shop_cc0_g1_1113/komichi_v3_cc0.patch` | 無 |
 | SUNNY SIDE sunnyside | 已整合（v3 在開發分支） | 58a50cc2cb | `…/sunnyside_v3_cc0.patch` | 無 |
 | 一盞 yizhan | 已整合（開發分支） | 58a50cc2cb | `…/yizhan_cc0.patch` | 無 |
-| 木曜日 mokuyobi | v2、v2.1 已整合（5d88e515d8）；**v2.2 烘焙中**（LAWWW2-C 11-14 範圍定案：全部小盆栽、垂吊黃金葛的葉片卡 → planter_pot_clay＋fern_02；aa_cc0.fern_plants；畫出 77,732） | c4edb4ccd0 | v2.2 烘完以開發分支最新為底出增量 patch（附狀態表、近看書櫃格子＋木樑吊盆兩張） | 烘焙、截圖、出 patch、交 LAWWW2 |
-| 日常失速 daily_offbeat | v2 已整合；**v2.1 已交 LAWWW2 驗收** | 見 git log（11-14 交件 commit） | `…/daily_offbeat_v21_cc0.patch`（底 e687f2f3b6，11 個檔） | 無（P2 做完：天花板 13 吊盆 → fern_02） |
+| 木曜日 mokuyobi | v2、v2.1 已整合；**v2.2 已交 LAWWW2 驗收**（全部小盆栽、垂吊黃金葛的葉片卡 → planter_pot_clay＋fern_02；aa_cc0.fern_plants；畫出 77,732） | 見 git log（11-14 v2.2 交件 commit） | `…/mokuyobi_v22_cc0.patch`（底 0a8fae3f52，12 個檔，含 LICENSES 3 列、狀態表） | 等驗收 |
+| 日常失速 daily_offbeat | v2、v2.1 已整合；**LICENSES 補登已交**（v2.1 的 fern_02 那一列當時漏了） | 同上 | `…/daily_offbeat_v21_licenses.patch`（底 0a8fae3f52，LICENSES 1 列＋狀態表＋coplanar） | 等驗收 |
 
-（11-13 23:2x 更正過一次：之前用 `git log --find-object` 判斷整合狀態是錯的，要直接比 blob。11-14 00:xx 再比一次：只差木曜日、日常失速的 v2.1。）
+（11-13 23:2x 更正過一次：之前用 `git log --find-object` 判斷整合狀態是錯的，要直接比 blob。）
 
 ## 目前做到哪
-- 五間都交完。木曜日 v2.1、日常失速 v2.1 等 LAWWW2-C 驗收；兩份 patch 都帶 aa_cc0.py（內容一樣）、SHOP_STANDARD_STATUS.md、place_gate_coplanar.json，第二份套的時候這三個檔會衝突，重產狀態表和 coplanar 就好。
+- 五間都交完；只剩木曜日 v2.2、日常失速 LICENSES 補登等 LAWWW2-C 驗收。兩份 patch 都帶 SHOP_STANDARD_STATUS.md、place_gate_coplanar.json，第二份套的時候這兩個檔會衝突，重產就好。
+- 11-14 工作階段的 worker 重開過一次（出 patch 中途）：檢查過工作目錄、烘焙成品、worktree 都在，patch 重出。
 - 被退回的話：照 LAWWW2 說的改建模腳本 → 重建 → 重烘（或只換貼圖用 glb_swap_images.py）→ 同一組鏡頭重拍 → 出 patch。
 
 ## 本機沒推的東西
