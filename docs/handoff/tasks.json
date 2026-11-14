@@ -165,7 +165,12 @@
    "FAIR-TENT-CAM": "LAWWW2 交接檔裡 FAIR-TENT-CAM-1102 的簡寫（總表有）",
    "INCR-LAWWW2-1104": "LAWWW2 自己的 incr 記帳工作（不是遊戲任務；LAWWW-C 11-12 核對）",
    "WZ-FRUIT-CLOSED": "LAWWW2 交接檔表外那一行的暫名；總表 ID 是 WZ-FRUIT-CLOSED-1112（LAWWW-C 11-12 22:2x 開）",
-   "NO-GO": "BB 交接檔裡的判定用語，不是任務（BB-B 11-14 確認）"
+   "NO-GO": "BB 交接檔裡的判定用語，不是任務（BB-B 11-14 確認）",
+   "L118-SEAT": "是 L118-SEAT-FIX 系列的簡稱（已整合 r5），不是另一個任務",
+   "LAUNDRY-SEAT-PRIO": "LAWWW-C 11-14 已整合（快照 A），交接檔沿用簡稱",
+   "WINVIEW-TREE-BLOB": "LAWWW-C 11-14 已整合；後續問題＝WINVIEW-MIRROR-TREE-1114",
+   "K-D3": "AA 交接檔裡的事件代號（阿凱宿舍 K-D3），不是任務",
+   "X5-L2": "AA 交接檔裡的稿內編號，不是任務"
   },
   "offList": [
    {
@@ -417,6 +422,11 @@
     "role": "LAWWW2",
     "match": "GG-STREET-TREES",
     "task": "GG-STREET-TREES"
+   },
+   {
+    "role": "LAWWW2",
+    "match": "請 LAWWW 開 ID，或併進 SHOP-FIRST-",
+    "task": "HAOPAI-FIRST-APPROACH-1114"
    }
   ],
   "timeNote1023": "LAWWW-B 10-23 17:2x～18:0x 的紀錄（tasks notes、USER_WANTS、BB 清單、commit 訊息、給其他 AI 的訊息）裡寫的「19:0x～21:1x」是時間標錯：實際都在 17:2x～18:0x UTC 之間（18:05 核對 date -u）。內容照舊有效。"
@@ -57548,7 +57558,137 @@
     "confirmed": true
    },
    "sha": null,
-   "next": "【11-14 12:36 LAWWW-B 用分支核對】四職位都是 12:08～12:21 合併＋duty register 就開工，沒有一個跑完十四步。規則包換成 D164 版：LAWWW2 12:34（89614fc109）、AA 12:35、BB 12:36 已換；CC 還沒換、沒回訊息。LAWWW2 回覆：必讀讀到一半（FACTS、SHOP_STANDARD_STATUS、ROLE_LAWWW2 後半未讀）、check／roles 跑過、userwork 35 項待逐項；AA、BB、CC 還沒回逐條回報。等四份合格的接班確認＋逐條回報再結。｜【11-14 12:5x LAWWW-B】上一班各職位交接檔寫的「下一班第一件事」（原文在各 C 分支）——逐條要有：接了／做到哪／commit 或結果；LAWWW 用對方分支的 commit、判定紀錄核實，不只看回報。\nLAWWW（我）：①RC2-PORT-DEV-1114（進行中：試算合併 5 衝突）②CI-RED-AA553-CANON4-1114（未動）③CANON-REPO-CLEAN-1114【下一版必須】（未動）④NEXT-RELEASE-RECHECK-1114（等發版）⑤LIMAO-DOOR-HOURS-TEXT-1114（未動）⑥SHOP-CC0-HELP-1113 整合（等 LAWWW2 驗收）；接班步驟還欠：incr、check_orphans、place_gate、FACTS.md、ROLE_LAWWW.md、roles 6 項補登。\nLAWWW2-B：①單車 v2.1 驗收（做一半：剩 bike 測試＋並排圖）②大步 v2 驗收（WALL_left 疊面 4.372 m²）③～⑥見 focused-cray HANDOFF.md 第 17 行起（1～6）。現況：12:2x 先做了使用者新交代的校門（GATE-REF-1114），接班步驟被使用者糾正後補做中；12:31 開始套單車 patch。\nAA-B：①AA-D99-BLOCKERS-1114 缺口清單（AA-B 說自己掃寒暑假、美國）②RC2-PORT 移植後確認 785 列（等 LAWWW；已先核對：382 列舊字、更正 4 列，企劃線 21079b0b46）③LIMAO-DOOR-HOURS-TEXT 接好後對字（等 LAWWW）。\nBB-B：①判 SHOP_US_BUY（已判 PASS）、WZ_REAL_r4、AA355-358 ×4 ②HEROINE-LIFE-1028 HL1～3 ③LIMAO_REAL_r1、DAYBREAK_V21B、DAKOU_V2、TZ_WENTE_v2_r4、DATE_LAYER_D05_r3、WINVIEW_EDGE_STRIPE_dev、SHOP_US_asian_window_dev、WINVIEW_GG3_1939_r3；另：WEEKEND_HOME 已判 PASS。\nCC-B：①WEEKEND_HOME 探針寫完、拿掉 HOLD（雲端已跑過 r1）②讀電腦結果給 BB 初判（SHOP_US_BUY、WINVIEW_EDGE_STRIPE_dev、TZ_WENTE_v2_r4 ×2、YY_GATE_r3、WINVIEW_GG3_1939_r3→VIEWS_REMATTE 交 LAWWW2）③④見 cc-testing CC_00 第 49 行起。CC-B 還沒傳接班訊息給 LAWWW。"
+   "next": "【11-14 12:4x 逐條回報已到：AA-B、CC-B、LAWWW2-B；BB-B 未回（但 commit 顯示照 BB-C 清單在判）】AA：①D99 缺口自己掃（vsweep 背景跑、還沒結果，出 AA_1025）②③等 LAWWW。CC：①WEEKEND_HOME r2 ALL PASS、HOLD 拿掉 ②初判全交 ③等 LAWWW 給 LIMAO_DOOR／WINVIEW_GG3_dev 的整合 SHA ④電腦在跑、41 項。LAWWW2：①單車套好、測試比對中 ②大步未開始 ③～⑥未動。AA 指出 USER_WANTS C25、X221 和任務狀態不一致（LAWWW 改）。｜【11-14 12:36 LAWWW-B 用分支核對】四職位都是 12:08～12:21 合併＋duty register 就開工，沒有一個跑完十四步。規則包換成 D164 版：LAWWW2 12:34（89614fc109）、AA 12:35、BB 12:36 已換；CC 還沒換、沒回訊息。LAWWW2 回覆：必讀讀到一半（FACTS、SHOP_STANDARD_STATUS、ROLE_LAWWW2 後半未讀）、check／roles 跑過、userwork 35 項待逐項；AA、BB、CC 還沒回逐條回報。等四份合格的接班確認＋逐條回報再結。｜【11-14 12:5x LAWWW-B】上一班各職位交接檔寫的「下一班第一件事」（原文在各 C 分支）——逐條要有：接了／做到哪／commit 或結果；LAWWW 用對方分支的 commit、判定紀錄核實，不只看回報。\nLAWWW（我）：①RC2-PORT-DEV-1114（進行中：試算合併 5 衝突）②CI-RED-AA553-CANON4-1114（未動）③CANON-REPO-CLEAN-1114【下一版必須】（未動）④NEXT-RELEASE-RECHECK-1114（等發版）⑤LIMAO-DOOR-HOURS-TEXT-1114（未動）⑥SHOP-CC0-HELP-1113 整合（等 LAWWW2 驗收）；接班步驟還欠：incr、check_orphans、place_gate、FACTS.md、ROLE_LAWWW.md、roles 6 項補登。\nLAWWW2-B：①單車 v2.1 驗收（做一半：剩 bike 測試＋並排圖）②大步 v2 驗收（WALL_left 疊面 4.372 m²）③～⑥見 focused-cray HANDOFF.md 第 17 行起（1～6）。現況：12:2x 先做了使用者新交代的校門（GATE-REF-1114），接班步驟被使用者糾正後補做中；12:31 開始套單車 patch。\nAA-B：①AA-D99-BLOCKERS-1114 缺口清單（AA-B 說自己掃寒暑假、美國）②RC2-PORT 移植後確認 785 列（等 LAWWW；已先核對：382 列舊字、更正 4 列，企劃線 21079b0b46）③LIMAO-DOOR-HOURS-TEXT 接好後對字（等 LAWWW）。\nBB-B：①判 SHOP_US_BUY（已判 PASS）、WZ_REAL_r4、AA355-358 ×4 ②HEROINE-LIFE-1028 HL1～3 ③LIMAO_REAL_r1、DAYBREAK_V21B、DAKOU_V2、TZ_WENTE_v2_r4、DATE_LAYER_D05_r3、WINVIEW_EDGE_STRIPE_dev、SHOP_US_asian_window_dev、WINVIEW_GG3_1939_r3；另：WEEKEND_HOME 已判 PASS。\nCC-B：①WEEKEND_HOME 探針寫完、拿掉 HOLD（雲端已跑過 r1）②讀電腦結果給 BB 初判（SHOP_US_BUY、WINVIEW_EDGE_STRIPE_dev、TZ_WENTE_v2_r4 ×2、YY_GATE_r3、WINVIEW_GG3_1939_r3→VIEWS_REMATTE 交 LAWWW2）③④見 cc-testing CC_00 第 49 行起。CC-B 還沒傳接班訊息給 LAWWW。"
+  },
+  {
+   "id": "WZ-REAL-LITE-EMPTY-1114",
+   "title": "溫州街 shopReal lite 沒建的店玻璃後一片深綠（D155 店外看得到店內）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "證據 CC WZ_REAL_r4（main 6106fae2d2）；改法：沒建的店放店內照片卡。",
+   "sha": null,
+   "xai": {
+    "spec": "BB-B 11-14 判定（BB_379）",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "BB 重判 PASS",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "WINVIEW-MIRROR-TREE-1114",
+   "title": "窗景鏡像取樣：汀州鮮果、安泰天空飄對稱的樹（榮恩典 P3、鮮果近景浮空樹葉）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "照片外改天空色／地面延伸，或換各自的窗景照片。",
+   "sha": null,
+   "xai": {
+    "spec": "BB-B 11-14 判定（BB_379）",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "BB 重判 PASS",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "MOKU-BAR-PLANT-CAM-1114",
+   "title": "木曜日吧檯吊盆栽擋住坐下的鏡頭",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "BB-B 11-14。",
+   "sha": null,
+   "xai": {
+    "spec": "BB-B 11-14 判定（BB_379）",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "BB 重判 PASS",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "US-BAMBOO-COUNTER-TAP-1114",
+   "title": "竹葉超市結帳櫃台點地很難走到（19 下 59 秒）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "目標 (−4.07,4.65)；來源 CC SHOP_US_BUY。",
+   "sha": null,
+   "xai": {
+    "spec": "BB-B 11-14 判定（BB_379）",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "BB 重判 PASS",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "HAOPAI-FIRST-APPROACH-1114",
+   "title": "好拍第一次走近卡一下（併 SHOP-FIRST-APPROACH-1112 一起做）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "LAWWW2-C 交接檔表外第 39 行。",
+   "sha": null,
+   "xai": {
+    "spec": "BB-B 11-14 判定（BB_379）",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "BB 重判 PASS",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }
