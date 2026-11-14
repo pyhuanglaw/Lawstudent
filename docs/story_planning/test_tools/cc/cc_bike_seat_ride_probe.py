@@ -116,8 +116,9 @@ async def main():
                 mv = [h for h in ride if not h.get('none')]
                 R.note('[A] 騎行中每 0.5 秒（%d 筆）她：%s' % (len(mv), J([{k: h.get(k) for k in ('beh', 'pose', 'd', 'dy', 'riding', 'pSpeed')} for h in mv[::2]])))
                 res['ride'] = mv
-                moving = [h for h in mv if (h.get('pSpeed') or 0) > 0.5]
-                R.check('[A] 騎行中她一直在後座（騎著、速度 >0.5 的每一筆 beh passenger、離祐廷 <1.2 m）', bool(moving) and all(h.get('beh') == 'passenger' and (h.get('d') or 9) < 1.2 for h in moving), J([h for h in moving if not (h.get('beh') == 'passenger' and (h.get('d') or 9) < 1.2)][:3]))
+                moving = [h for i_, h in enumerate(mv) if i_ and math.hypot(h['px'] - mv[i_ - 1]['px'], h['pz'] - mv[i_ - 1]['pz']) > 0.3]   # 雲端 r1：騎車時 P.speed 一直是 0 → 改看兩筆之間祐廷移動 >0.3 m
+                R.note('[A] 騎行中有在動的取樣 %d 筆（共 %d 筆）' % (len(moving), len(mv)))
+                R.check('[A] 騎行中她一直在後座（祐廷在動的每一筆 beh passenger、離祐廷 <1.2 m）', bool(moving) and all(h.get('beh') == 'passenger' and (h.get('d') or 9) < 1.2 for h in moving), J([h for h in moving if not (h.get('beh') == 'passenger' and (h.get('d') or 9) < 1.2)][:3]))
                 R.check('[A] 騎到目的地（離目標 1.2 m 內）', bool(ok), J(mv[-1:]))
             await L.tap(pg, cdp, '#btnBike')
             off = await caps(pg, WHO, 8, 500, '[A] 按「下車」以後 4 秒（每 0.5 秒）她：', 'bike_A_off')
