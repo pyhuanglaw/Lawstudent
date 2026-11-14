@@ -51,11 +51,14 @@ def first_items(text, limit=28):
 DOING = re.compile(r'C｜正在做|C 正在做|正在做的|做到一半')
 
 
-def doing_items(text, limit=10):
+DONE = re.compile(r'A｜本班成果|A 本班成果|本班成果')
+
+
+def doing_items(text, limit=10, pat=None):
     """交接檔最新一次交班的「C｜正在做的」（做到一半的東西）：第一個符合的那一行＋後面的條列"""
     L = text.split('\n')
     for i, l in enumerate(L):
-        if not DOING.search(l) or FIRST.search(l):
+        if not (pat or DOING).search(l) or FIRST.search(l):
             continue
         out = [l.strip()[:400]]
         for m in L[i + 1:]:
@@ -65,6 +68,16 @@ def doing_items(text, limit=10):
             out.append(m.rstrip()[:400])
         return out
     return []
+
+
+def big_changes(text, since):
+    """docs/handoff/BIG_CHANGES.md 裡日期 > since（YYYY-MM-DD）的每一行（D166）"""
+    out = []
+    for l in text.split('\n'):
+        m = re.match(r'- (\d{4}-\d{2}-\d{2})｜', l)
+        if m and m.group(1) > since:
+            out.append(l[:420])
+    return out
 
 
 def new_rules(old_texts, new_texts):
@@ -82,7 +95,7 @@ def new_rules(old_texts, new_texts):
     return sorted((int(n), v[1]) for n, v in best.items())
 
 
-def page(account, role, src=None, show=git, userwork=None):
+def page(account, role, src=None, show=git, userwork=None, since=None):
     """回傳 (lines, info)。src＝RULE_SOURCE 的 duty.json（dict）；show(ref:path)→文字；測試可以換掉"""
     out = []
     rs = (src.get('ruleSource') or {}).get('branch') or ''
@@ -98,6 +111,16 @@ def page(account, role, src=None, show=git, userwork=None):
     dg = doing_items(text)
     out.append('   上一任做到一半的（交接檔「C｜正在做的」原文；先確認這些有沒有保存、要不要接著做）：')
     out += ['   ' + l for l in dg] or ['   ⚠ 交接檔沒有「正在做的」一段：看上一任最後幾個 commit（git log -5 origin/' + str(prev_br) + '），並告訴值班 LAWWW']
+    dn = doing_items(text, 14, DONE)
+    n = (git('rev-list', '--count', f'HEAD..origin/{prev_br}') or '?').strip() if prev_br and show is git else '?'
+    out.append(f'   上一任這一班改了什麼（交接檔「A｜本班成果」原文；你的分支落後它 {n} 個 commit）——刪掉、改掉、取代的大改動要在這裡寫得出來；'
+               '對使用者說「沒有、還沒做、還在」以前先看這一段和 docs/RELEASES.md：')
+    out += ['   ' + l for l in dn] or [f'   ⚠ 交接檔沒有「本班成果」一段：看 git log --stat HEAD..origin/{prev_br} 和 docs/RELEASES.md，並告訴值班 LAWWW']
+    since = since or (git('log', '-1', '--format=%cs', 'HEAD').strip() if show is git else '') or '0000-00-00'
+    bc = big_changes(show('show', f'origin/{rs}:docs/handoff/BIG_CHANGES.md'), since)
+    out.append(f'   遊戲的大改動（docs/handoff/BIG_CHANGES.md；你上次工作 {since} 以後新增 {len(bc)} 件——隔了好幾班也都在這裡；每一件都讀，'
+               '「不要再做什麼」照做；整份看 git show origin/' + rs + ':docs/handoff/BIG_CHANGES.md）：')
+    out += ['   ' + l for l in bc] or ['   （沒有新增的）']
     uw = userwork(role) if userwork else []
     out.append(f'3. 使用者交代、歸 {role}、還沒做完的（userwork；{len(uw)} 項，排在接別人的交付之前）：')
     out += ['   ' + l[:200] for l in uw[:20]] or ['   （沒有）']
@@ -121,6 +144,7 @@ def run_userwork(role):
 def main(argv=None):
     ap = argparse.ArgumentParser(description='接班一個指令、印一頁（D165）')
     ap.add_argument('--account', required=True, choices=list('ABCD')); ap.add_argument('--role', required=True, choices=list(FILES))
+    ap.add_argument('--since', help='大改動從哪一天以後開始列（YYYY-MM-DD；預設＝自己分支最後一個 commit 的日期）')
     ap.add_argument('--apply', action='store_true', help='印完以後把規則包換成 RULE_SOURCE 的版本')
     a = ap.parse_args(argv)
     f = subprocess.run([sys.executable, os.path.join(HERE, 'check_handoff.py'), 'duty', 'find'], capture_output=True, text=True, cwd=ROOT)
@@ -128,7 +152,7 @@ def main(argv=None):
     if f.returncode or not m:
         print(f.stdout[-600:] + '\n找不到唯一的 RULE_SOURCE：停下來回報使用者，不自己挑。'); return 1
     src = json.loads(git('show', f'origin/{m.group(1)}:docs/handoff/duty.json') or '{}')
-    lines, _ = page(a.account, a.role, src, userwork=run_userwork)   # 先印（第 4 節要比換規則以前的版本）
+    lines, _ = page(a.account, a.role, src, userwork=run_userwork, since=a.since)   # 先印（第 4 節要比換規則以前的版本）
     print('\n'.join(lines))
     if a.apply:
         r = subprocess.run([sys.executable, os.path.join(HERE, 'rules_sync.py'), '--apply'], capture_output=True, text=True, cwd=ROOT)
