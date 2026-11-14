@@ -18,6 +18,7 @@
     - 1280×720 JPEG；HUD 藏起來（坐下、爬梯子那幾張照遊戲本來的樣子，不動 HUD）。Windows＋GPU ≠ iPhone。
   參考圖：使用者 2026-10-17 01:0x 給 LAWWW2-B 的實際宿舍照片**有人入鏡、沒有放進 repo**（claude/second-ai-env-art 的 docs/art-rebuild/second_ai/test_shots/dorm_loft/README.md）；
     repo 裡最接近照片角度的是 Blender 算圖 v1_photo_like.webp（同一個資料夾，「從走道看阿凱那一組」）。
+CC_02 清單 2026-11-14：（只加「等素材載完」）1✓（第 7 天照舊） 2✓（座標照 DORM_ROOM） 3n/a（不挑座位） 4n/a（不點） 5n/a（不走路） 6✓（mesh 數穩定 4 秒＋ASSETS 沒有下載中的） 7✓（lint） 8n/a（不存讀檔） 9✓（每張截圖） 10✓（捷徑都標【捷徑】） 11✓ 12✓（FAIL_SETUP：讀檔進到宿舍、有 DORM_ROOM） 13n/a（不走路）
 用法：LW_TESTS=<wt>/tests [HOURS=14,21.5] [ONLY=door_in,ladder,...] [CC_SEED=...] python3 cc_dorm_loft_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -60,6 +61,18 @@ GATE = r"""(()=>{ if(window.__ccGate) return true; const G={hold:false, held:nul
   GAME.sleep=function(ms){ return G.s0.call(this,ms).then(()=>new Promise(r=>{ G.check(); if(!G.hold) r(); else G.waiters.push(r); })); };
   G.release=()=>{ G.hold=false; G.held=null; const w=G.waiters.splice(0); for(const r of w) r(); };
   window.__ccGate=G; return true; })()"""
+
+
+ASSET_PENDING_JS = r"""(()=>{ if(typeof ASSETS==='undefined'||!ASSETS.status) return {n:-1, keys:[]}; const err=new Set((ASSETS.errors||[]).map(e=>e&&(e.key||e.k||e.id)||String(e)));
+  const keys=Object.keys(ASSETS.status).filter(k=>!(ASSETS.cache&&ASSETS.cache[k])&&!err.has(k)); return {n:keys.length, keys:keys.slice(0,12)}; })()"""
+
+
+async def wait_assets(pg, cap=20.0, extra_ms=1000):   # 同 cc_d141_lib.wait_assets
+    t0 = time.time(); r = await pg.evaluate(ASSET_PENDING_JS)
+    while r['n'] > 0 and time.time() - t0 < cap:
+        await pg.wait_for_timeout(250); r = await pg.evaluate(ASSET_PENDING_JS)
+    await pg.wait_for_timeout(extra_ms)
+    return {'waited_s': round(time.time() - t0, 2), 'pending': r['n'], 'keys': r['keys']}
 
 
 async def stable(pg, cap=90):
@@ -126,9 +139,10 @@ async def main():
             print('  [前置／捷徑] 讀檔：宿舍房間（法律系、第 7 天）%05.2f、晴、條件事件關閉' % hour, flush=True)
             await L.load_state(pg, {'zone': 'dorm', 'stage': 'law', 'hour': hour, 'day': 7, 'weekday': 2, 'weather': 'clear', 'pos': {'x': 0, 'z': 2.4, 'yaw': 3.1416, 'lv': 0}}, quiet_events=True)
             n, sec = await stable(pg)
+            wa = await wait_assets(pg); print('  [%s] 等素材載完：%s' % (tag, J(wa)), flush=True)   # CC-C 11-14（CC_02 乙 BG3D）：mesh 數穩定以外，再等 ASSETS 沒有還在下載的
             await L.close_panels(pg, cdp)
             R = await pg.evaluate(ROOM)
-            if not check('[%s] 讀檔進到宿舍房間、有 DORM_ROOM（場景 mesh %s、%.0f 秒穩定）' % (tag, n, sec), bool(R) and R['zone'] == 'dorm', J(R and {k: R[k] for k in ('version', 'glb', 'set', 'stage', 'day', 'hour', 'bathDoor')})): continue
+            if not check('[%s] FAIL_SETUP 檢查：讀檔進到宿舍房間、有 DORM_ROOM（場景 mesh %s、%.0f 秒穩定）' % (tag, n, sec), bool(R) and R['zone'] == 'dorm', J(R and {k: R[k] for k in ('version', 'glb', 'set', 'stage', 'day', 'hour', 'bathDoor')})): continue
             check('[%s] 正式模型 dorm_room4.glb 載好了、家具是 203（法律系大一）' % tag, R['glb'] and R['set'] == '203', 'glb=%s set=%s' % (R['glb'], R['set']))
             RM, U = R['room'], R['units']
             await pg.evaluate(HUD + '(false)')

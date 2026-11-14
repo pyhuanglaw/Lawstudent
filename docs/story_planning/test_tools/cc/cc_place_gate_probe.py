@@ -61,19 +61,22 @@ DEBUGTXT_JS = r"""(()=>{ const re=/career\s*A\s*\d|\bA\d+\s+B\d+\s+C\d+\b|\bfps\
   return {url:location.search||'(沒有參數)', hits:hits.slice(0,8)}; })()"""
 R = L.Run('gate_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
-DAY = os.environ.get('DAY') or '2025-10-22'   # BB-C 09:45（BB_379 木曜日 r3 TEST_SETUP）：10/22 是期中考週，木曜日進「考試週坐滿」模式——可以改日期
+DAY = os.environ.get('DAY') or '2025-10-22'
+DAYS = [d for d in (os.environ.get('DAYS') or DAY).split(',') if d]   # BB-C 10:55（SHOP_US r4）：美國期間兩天（2028-09-16 六、2028-10-03 二）——多天時每天的圖放 OUT/<日期>/
+US_FLAGS = (os.environ.get('US_FLAGS') or '0') == '1'   # BB-C 10:55：照美國路線（EXCHANGE_ROUTE=US、US_DEPARTED、US_ARRIVED）讀檔   # BB-C 09:45（BB_379 木曜日 r3 TEST_SETUP）：10/22 是期中考週，木曜日進「考試週坐滿」模式——可以改日期
 SEAT_BARSIDE = (os.environ.get('SEAT_BARSIDE') or '0') == '1'
 US_DIAG = (os.environ.get('US_DIAG') or '0') == '1'   # BB-C 10:14（BB_379 美國兩間沒店員 P1）：讀檔後記 SH831.staffed、G 的日期時間、店裡全部 NPC（店員 id 61／62／63）
 US_DIAG_JS = r"""(z=>{ const G=GAME.G, f=v=>+(+v).toFixed(2); let st=null; try{ st=typeof SH831==='undefined'?'沒有 SH831':(SH831.staffed?SH831.staffed(z,G):'沒有 staffed'); }catch(e){ st='ERR '+e.message; }
-  const d=CALENDAR.dateOf(G.day); let us=null; try{ us=typeof US!=='undefined'&&US.inUS?!!US.inUS(G):null; }catch(e){ us='ERR'; }
+  const d=CALENDAR.dateOf(G.day); let us=null; try{ us=typeof EXCH!=='undefined'&&EXCH.inUS?!!EXCH.inUS(G):null; }catch(e){ us='ERR'; }
   const N=Object.entries(GAME.npc||{}).map(([k,n])=>({key:k, id:n&&(n.id||n.charId)||null, num:n&&(n.num!=null?n.num:(n.cid!=null?n.cid:null)), clerk:!!(n&&(n.clerk||n.clerkFlag)), x:n&&n.obj?f(n.obj.position.x):null, z:n&&n.obj?f(n.obj.position.z):null, hidden:!!(n&&n.hidden)}));
   const E=(GAME.E.npcs||[]).map(n=>({id:n.id||n.charId||null, num:n.num!=null?n.num:null, clerk:!!(n.clerk||n.clerkFlag), x:n.obj?f(n.obj.position.x):null, z:n.obj?f(n.obj.position.z):null, hidden:!!n.hidden, vis:n.obj?n.obj.visible!==false:null}));
-  return {zone:G.zone, staffed:st, key:d.key, wd:d.wd, hour:f(G.hour), inUS:us, gameNpc:N, eNpcs:E}; })"""
+  const F=G.flags||{}; return {route:F.EXCHANGE_ROUTE||null, dep:!!F.US_DEPARTED, arr:!!F.US_ARRIVED, zone:G.zone, staffed:st, key:d.key, wd:d.wd, hour:f(G.hour), inUS:us, gameNpc:N, eNpcs:E}; })"""
 US_CLERK_JS = r"""(()=>{ const E=GAME.E, f=v=>+(+v).toFixed(2); const inE=new Set(E.npcs||[]);
   const all=Object.entries(GAME.npc||{}).map(([k,n])=>({k,n})).concat((E.npcs||[]).filter(n=>!Object.values(GAME.npc||{}).includes(n)).map(n=>({k:null,n})));
-  const C=all.filter(({n})=>n&&(n.clerk||n.clerkFlag||[61,62,63].includes(n.num)||[61,62,63].includes(n.cid))).map(({k,n})=>({key:k, id:n.id||n.charId||null, num:n.num!=null?n.num:(n.cid!=null?n.cid:null), inNpcs:inE.has(n), hidden:!!n.hidden, hasObj:!!n.obj, parent:n.obj?(n.obj.parent?(n.obj.parent.name||n.obj.parent.type):null):null, inScene:n.obj?(()=>{ let q=n.obj; while(q.parent) q=q.parent; return q===E.scene; })():false, visible:n.obj?n.obj.visible!==false:null, x:n.obj?f(n.obj.position.x):null, z:n.obj?f(n.obj.position.z):null}));
+  const C=all.filter(({n})=>n&&(n.clerk||n.clerkFlag||[61,62,63].includes(n.num)||[61,62,63].includes(n.cid))).map(({k,n})=>({key:k, id:n.id||n.charId||null, num:n.num!=null?n.num:(n.cid!=null?n.cid:null), inNpcs:inE.has(n), hidden:!!n.hidden, hasObj:!!n.obj, parent:n.obj?(n.obj.parent?(n.obj.parent.name||n.obj.parent.type):null):null, inScene:n.obj?(()=>{ let q=n.obj; while(q.parent) q=q.parent; return q===E.scene; })():false, visible:n.obj?n.obj.visible!==false:null, x:n.obj?f(n.obj.position.x):null, z:n.obj?f(n.obj.position.z):null, model:(n.spec&&n.spec.model)||n.model||null, driver:n.obj?(n.obj.userData.driver||null):null, placeholder:n.obj?!!n.obj.userData.placeholder:null, mesh:n.obj?(()=>{ let m=0,sk=0,vis=0; n.obj.traverse(o=>{ if(o.isMesh){ m++; if(o.isSkinnedMesh) sk++; if(o.visible!==false) vis++; } }); return {n:m, skinned:sk, visibleFlag:vis}; })():null}));   /* BB-C 10:55：店員 VRM 有沒有載好、obj 底下有沒有 mesh */
+  let ch=null; try{ ch=typeof CHAR==='undefined'?null:{failures:(CHAR.failures||[]).slice(-8), pending:Object.keys(ASSETS.status||{}).filter(k=>/char|vrm|npc/i.test(k)&&!ASSETS.cache[k]&&!(ASSETS.errors||[]).some(e=>e.startsWith(k+':'))).slice(0,12), errors:(ASSETS.errors||[]).filter(e=>/char|vrm|npc/i.test(e)).slice(-8)}; }catch(e){ ch={err:e.message}; }
   const cam=E.camera, d=new THREE.Vector3(); try{ cam.getWorldDirection(d); }catch(e){} const P=E.player&&E.player.obj;
-  return {gmZone:(GAME.G&&GAME.G.zone)||null, eZone:E.zone&&E.zone.def?E.zone.def.id:null, nNpcs:(E.npcs||[]).length, cam:cam?{pos:[f(cam.position.x),f(cam.position.y),f(cam.position.z)], dir:[f(d.x),f(d.y),f(d.z)]}:null, player:P?[f(P.position.x),f(P.position.z)]:null, clerks:C}; })()"""
+  return {gmZone:(GAME.G&&GAME.G.zone)||null, eZone:E.zone&&E.zone.def?E.zone.def.id:null, nNpcs:(E.npcs||[]).length, cam:cam?{pos:[f(cam.position.x),f(cam.position.y),f(cam.position.z)], dir:[f(d.x),f(d.y),f(d.z)]}:null, player:P?[f(P.position.x),f(P.position.z)]:null, char:ch, clerks:C}; })()"""
 SIDE_OFF = float(os.environ.get('SIDE_OFF') or 0)   # BB-C 11-14 LIMAO_PARALLAX_r2：⑤ 店外左右固定平移這麼多公尺（例 0.8），站不站得住都照拍；0＝照舊 1.5／1.0／0.6   # BB-C 09:45 ②：考試週只驗「坐吧檯旁邊」那一個位子（MOKS.barSide），要真的坐下（ok）才算
 SETTLED = "(async()=>{ for(let i=0;i<120;i++){ const A=ASSETS; const n=Object.keys(A.status).filter(k=>!A.cache[k]&&!A.errors.some(e=>e.startsWith(k+':'))).length; if(!n) return i; await new Promise(r=>setTimeout(r,250)); } return -1; })()"
 ROOM_JS = r"""(()=>{ const E=GAME.E, N=E.nav, f=v=>+(+v).toFixed(2); let x0=1e9,x1=-1e9,z0=1e9,z1=-1e9,n=0;
@@ -88,7 +91,7 @@ ROOM_JS = r"""(()=>{ const E=GAME.E, N=E.nav, f=v=>+(+v).toFixed(2); let x0=1e9,
 PEOPLE_JS = r"""(a=>{ const E=GAME.E, f=v=>+(+v).toFixed(2); const ex=new Set(); for(const n of (E.npcs||[])) if(n.obj) n.obj.traverse(o=>ex.add(o)); if(E.player&&E.player.obj) E.player.obj.traverse(o=>ex.add(o));
   const rc=new THREE.Raycaster(); const face=n=>{ const ry=n.obj.rotation.y, o=n.obj.position; rc.set(new THREE.Vector3(o.x,o.y+1.5,o.z), new THREE.Vector3(Math.sin(ry),0,Math.cos(ry))); rc.far=3;
     const h=rc.intersectObjects(E.scene.children,true).find(x=>!ex.has(x.object)&&x.object.visible!==false); return h?f(h.distance):null; };
-  const P=(E.npcs||[]).filter(n=>n&&n.obj&&!n.hidden&&(n.hidden!==undefined||n.obj.visible!==false)).map(   /* 11-13 BB-C ⑧：在不在場看 n.hidden（遊戲自己的），obj.visible 會被遠近切換關掉 */n=>({id:n.charId||n.id||'', x:f(n.obj.position.x), z:f(n.obj.position.z), clerkFlag:!!n.clerk, pose:n.pose||null, seat:!!n.seat,
+  const P=(E.npcs||[]).filter(n=>n&&n.obj&&!n.hidden&&n.obj.parent).map(   /* BB-C 10:57（LAWWW：engine3d 456 每格用視錐、距離改 obj.visible）：在場＝!hidden 而且在場景樹上，不看 obj.visible */   /* 11-13 BB-C ⑧：在不在場看 n.hidden（遊戲自己的），obj.visible 會被遠近切換關掉 */n=>({id:n.charId||n.id||'', x:f(n.obj.position.x), z:f(n.obj.position.z), clerkFlag:!!n.clerk, pose:n.pose||null, seat:!!n.seat,
     stand:E.canStand?!!E.canStand(n.obj.position.x,n.obj.position.z,0.2,n.lv|0):null, face_m:face(n)}));
   const clerk=a?P.filter(p=>Math.hypot(p.x-a.x,p.z-a.z)<2||p.clerkFlag):P.filter(p=>p.clerkFlag); const cust=P.filter(p=>!clerk.includes(p));
   /* BB-C 05:26 ③：店員有沒有站進櫃檯／貨架裡（站的那一點站不住＝在家具裡；坐著的不算）；新加的客人是不是臉對空牆（頭的高度往正前方 0.45 m 內就撞到東西）*/
@@ -373,6 +376,9 @@ async def enter_cam(pg, cdp, tag, rm, zid, h):
 async def gate_zone(pg, cdp, zid, h, rows, cons):
     hh = '%02d%02d' % (int(h), int(round((h % 1) * 60))); tag = '[%s %s]' % (zid, hh)
     s = await (D.load_zone(pg, cdp, zid, DAY, h, x=SPAWN[0], z=SPAWN[1], lv=int(SPAWN[2]) if len(SPAWN) > 2 else 0, wait=(500 if US_DIAG else 8000)) if len(SPAWN) >= 2 else D.load_zone(pg, cdp, zid, DAY, h, wait=(500 if US_DIAG else 8000)))
+    if US_FLAGS:
+        fl_ = await pg.evaluate("(async()=>{ const F=GAME.G.flags||(GAME.G.flags={}); F.EXCHANGE_ROUTE='US'; F.US_DEPARTED=true; F.US_ARRIVED=true; const s=JSON.parse(JSON.stringify(GAME.snapshot())); await GAME.applySave(s); const d=CALENDAR.dateOf(GAME.G.day); return {route:GAME.G.flags.EXCHANGE_ROUTE, zone:GAME.G.zone, key:d.key, wd:d.wd, hour:+(+GAME.G.hour).toFixed(2), inUS:typeof EXCH!=='undefined'&&EXCH.inUS?EXCH.inUS(GAME.G):null}; })()")
+        await pg.wait_for_timeout(500); R.setup('%s 【捷徑】美國路線旗標（EXCHANGE_ROUTE=US、US_DEPARTED、US_ARRIVED）、GAME.snapshot 再讀一次：%s' % (tag, J(fl_)))
     if US_DIAG:   # BB-C 10:16（LAWWW 要的）：讀檔後 0.5／5／15 秒各記一次 clerk 的 NPC（一開始就沒有，還是後來才不見：obj.parent、visible、在不在 E.npcs）＋GM.G.zone
         ts_ = []
         for at_ in (0.5, 5, 15):
@@ -396,6 +402,25 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
             for _ in range(10):
                 c2_ = await pg.evaluate("(()=>[...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent).map(b=>b.textContent.trim()))()")
                 if not c2_: break
+                k2_ = next((i_ for i_, t_ in enumerate(c2_) if any(w_ in t_ for w_ in ('算了', '不用', '離開', '不買', '先不要'))), len(c2_) - 1)
+                await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (k2_ + 1)); await pg.wait_for_timeout(700)
+        # BB-C 10:57 ②：店員前沒有點餐的（竹葉），走到櫃台類互動點（結帳櫃台 −4.5, 4.9）按一下，看有沒有反應
+        it2_ = await pg.evaluate("(()=>{ const f=v=>+(+v).toFixed(2), lab=i=>String(typeof i.label==='function'?i.label():i.label||''); return (GAME.E.interactables||[]).filter(i=>!i.hidden&&!i.exit&&/結帳|收銀|點餐|櫃台|櫃檯|店員/.test(lab(i))).map(i=>({x:f(i.x),z:f(i.z),label:lab(i)})); })()")
+        R.note('%s US_DIAG 櫃台類互動點：%s' % (tag, J(it2_)))
+        for k3_, c3_ in enumerate(it2_[:2]):
+            tg3_ = await D.standable_near(pg, c3_['x'], c3_['z'], 1.2, 0)
+            if tg3_: await L.go_to(pg, cdp, R, tg3_['x'], tg3_['z'], 0.3, '%s US_DIAG 走到「%s」' % (tag, c3_['label']), max_s=60, lv=0)
+            await pg.wait_for_timeout(1500); q3_ = await D.settle(pg); lb3_ = q3_.get('interact')
+            await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
+            st3_ = await pg.evaluate("(()=>({choices:[...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent).map(b=>b.textContent.trim().slice(0,40)), dlg:((document.getElementById('dlgText')||{}).textContent||'').trim().slice(0,60), who:((document.getElementById('dlgName')||{}).textContent||'').trim(), toast:((document.getElementById('toast')||{}).textContent||'').trim().slice(0,60)}))()")
+            await pg.screenshot(path=os.path.join(OUT, 'us_diag_%s_%s_counter%d.png' % (zid, int(h * 100), k3_)))
+            snap3_ = await pg.evaluate(US_CLERK_JS); ts_.append({'at': 'counter%d' % k3_, 'target': c3_, 'label': lb3_, 'after': st3_, 'clerks': snap3_.get('clerks'), 'cam': snap3_.get('cam')})
+            R.note('%s US_DIAG「%s」前的互動鍵「%s」→ 按下去：%s；店員：%s' % (tag, c3_['label'], lb3_, J(st3_), J([[c_.get('visible'), c_.get('mesh')] for c_ in snap3_.get('clerks') or []])))
+            for _ in range(10):
+                c2_ = await pg.evaluate("(()=>[...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent).map(b=>b.textContent.trim()))()")
+                if not c2_:
+                    if await pg.evaluate("!!(GAME.D&&GAME.D.active)"): await pg.evaluate("GAME.dlgAdvance()"); await pg.wait_for_timeout(500); continue
+                    break
                 k2_ = next((i_ for i_, t_ in enumerate(c2_) if any(w_ in t_ for w_ in ('算了', '不用', '離開', '不買', '先不要'))), len(c2_) - 1)
                 await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (k2_ + 1)); await pg.wait_for_timeout(700)
         open(os.path.join(OUT, 'us_diag_clerk_%s_%s.json' % (zid, int(h * 100))), 'w', encoding='utf-8').write(J(ts_))
@@ -654,15 +679,22 @@ async def main():
         pg.on('pageerror', lambda e: cons.append('pageerror: ' + str(e)[:200]))
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg), ''): await b.close(); sys.exit(1)
-        for zid in ZONES:
+        global OUT, DAY
+        OUT0 = OUT
+        for day_ in DAYS:
+          DAY = day_
+          if len(DAYS) > 1: OUT = os.path.join(OUT0, day_); os.makedirs(OUT, exist_ok=True); R.note('—— 日期 %s（圖放 %s/）——' % (day_, day_))
+          for zid in ZONES:
             for h in HOURS:
+                n0_ = len(rows)
                 try: await gate_zone(pg, cdp, zid, h, rows, cons)
-                except Exception as e: R.check('[%s %s] 沒有中斷' % (zid, h), False, repr(e)[:300])
-                open(os.path.join(OUT, 'gate_%s.json' % TAG), 'w', encoding='utf-8').write(J({'sha': SHA, 'tag': TAG, 'rows': rows}))
+                except Exception as e: R.check('[%s %s %s] 沒有中斷' % (zid, h, DAY), False, repr(e)[:300])
+                for r_ in rows[n0_:]: r_['day'] = DAY
+                open(os.path.join(OUT0, 'gate_%s.json' % TAG), 'w', encoding='utf-8').write(J({'sha': SHA, 'tag': TAG, 'rows': rows}))
         await b.close()
     summ = {}
     for r in rows:
-        for k, v in (r.get('v') or {}).items(): summ.setdefault(k, {}).setdefault(v, []).append('%s@%s' % (r['zone'], r['hour']))
+        for k, v in (r.get('v') or {}).items(): summ.setdefault(k, {}).setdefault(v, []).append('%s@%s%s' % (r['zone'], r['hour'], ('@' + r['day']) if len(DAYS) > 1 else ''))
     print('【總表】' + J(summ), flush=True)
     print('ALL PASS' if not R.fails else 'FAILED %d: %s' % (len(R.fails), '；'.join(R.fails)), flush=True)
     sys.exit(1 if R.fails else 0)
