@@ -683,24 +683,25 @@
    "note": "BB-C 交班：停一般工作、寫交班六類＋G、snapshot、duty handoff、停用每小時喚醒。"
   },
   {
-   "id": "UA-BB-1114-01",
+   "id": "UA-BB-1114-04",
    "at": "2026-11-14T12:2x",
    "quote": "只需要提示詞，不需要任務的 你按照編號給我提示詞 你沒有其他事做了嗎？",
    "kind": "原話",
    "status": "進行中",
    "task": "BLACK-BG-AUDIT-1018",
    "src": "使用者直接對 BB-B",
-   "note": "給提示詞時只給編號和提示詞本身，不寫任務說明。12:2x 已給 BB_132 第 128 組 6 張（純場景），等圖。"
+   "note": "給提示詞時只給編號和提示詞本身，不寫任務說明。12:2x 已給 BB_132 第 128 組 6 張（純場景），等圖。",
+   "wants": "X45"
   },
   {
-   "id": "UA-BB-1114-02",
+   "id": "UA-BB-1114-05",
    "at": "2026-11-14T12:4x",
    "quote": "首都帝國大學參考圖要用這張（附圖：校門，中間圓形紅磚門房、石額「首都帝國大學」、兩側石柱燈籠與鐵門、後面椰子樹大道）",
    "kind": "原話",
    "status": "進行中",
-   "task": "BG-3DSHOT-1021",
+   "task": "GATE-REF-1114",
    "src": "使用者直接對 BB-B",
-   "note": "圖存 docs/story_planning/BB_132_refs/ntu_gate_user_ref_1114.webp；第 128 組 6 號（ntu_gate）改用這張當參考、提示詞已改寫給使用者；已轉 LAWWW-B、LAWWW2-B（3D 校門要不要照這張改由他們開列）"
+   "note": "圖存 docs/story_planning/BB_132_refs/ntu_gate_user_ref_1114.webp；第 128 組 6 號（ntu_gate）改用這張當參考、提示詞已改寫給使用者；已轉 LAWWW-B、LAWWW2-B（3D 校門要不要照這張改由他們開列）；LAWWW-B 12:35 開 GATE-REF-1114（3D 校門照參考圖改，owner LAWWW2；使用者 12:1x 已直接對 LAWWW2-B 交代 3D 也要改）"
   }
  ]
 }
