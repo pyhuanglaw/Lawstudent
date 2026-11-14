@@ -1,11 +1,3 @@
-[22:25:57] skip NM2_closedbg_old (already done on b810b809b16f6134141d75a811ebca0e3b49a04f)
-[22:25:57] skip NM2_edge_old (already done on b810b809b16f6134141d75a811ebca0e3b49a04f)
-[22:25:57] skip LM_new (already done on 11161c101f4f4dc27af58177ae18a0ffd2f7cd63)
-[22:25:57] skip LM_old (already done on bd3f67410415267cde659e007e7d09b6f8fd05f3)
-[22:25:57] skip FN_func_a_new (already done on dbbe05fa5a03f113ef4a0bae36777a153f98fef8)
-[22:25:57] skip FN_func_b_new (already done on dbbe05fa5a03f113ef4a0bae36777a153f98fef8)
-[22:25:57] skip FN_func_c_new (already done on dbbe05fa5a03f113ef4a0bae36777a153f98fef8)
-[22:25:57] skip FN_func_a_old (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
 [22:25:57] skip FN_func_b_old (already done on fd4dd9aef6cb0d31b06d137636a25ab52eceedc4)
 [22:25:57] skip FN_shots_a_new (already done on dbbe05fa5a03f113ef4a0bae36777a153f98fef8)
 [22:25:57] skip FN_shots_b_new (already done on dbbe05fa5a03f113ef4a0bae36777a153f98fef8)
@@ -1998,3 +1990,11 @@
 [09:42:42] ==== START L118_CAM36_b_r4  (probe @ d8d3a61b5e69123c69f06705a136f8442bed877a) ====
 [09:42:45] [res] cpu=16% mem=45% (14.0/31.4 GB) chrome_testing=9  START L118_CAM36_b_r4
 [09:44:15] [res] cpu=29% mem=45% (14.1/31.4 GB) chrome_testing=10  END YIZHAN_DINE_0c49_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       a6e3b8b1b5..968ff792ee  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:44:23] ==== END   YIZHAN_DINE_0c49_r2  exit=1  148s   ====
+[09:44:36] memory 45% before starting WINVIEW_GG3_10aa_r2 (2 running)
+[09:44:36] ==== START WINVIEW_GG3_10aa_r2  (probe @ 10aa10ed3244724ed27a3de729c5b5f97fe8a039) ====
+[09:44:39] [res] cpu=8% mem=45% (14.3/31.4 GB) chrome_testing=10  START WINVIEW_GG3_10aa_r2
+[09:46:49] [res] cpu=9% mem=42% (13.3/31.4 GB) chrome_testing=10  END WINVIEW_GG3_10aa_r2
