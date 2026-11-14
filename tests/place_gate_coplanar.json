@@ -138,10 +138,10 @@
   "top": "WALL_left_L1_xs_goods×WALL_left_L1_xs_goods 1.2 m² @[-8.2,4.67,0.23]"
  },
  "assets/models/env/second_ai/bb_support/yangyang_interior.glb": {
-  "sha1": "432874f1117eb2ca48f581273bb7d634da0350f6",
+  "sha1": "4dbbde0531977df2cbb1e9af409e0f7fc2840779",
   "wall": 0.64,
-  "always": 2.13,
-  "top": "yy_steel×WALL_right_vc 0.19 m² @[4.6,0.32,-0.1]"
+  "always": 2.25,
+  "top": "yy_steel×WALL_right_cardboard 0.19 m² @[4.6,0.32,-0.1]"
  },
  "assets/models/env/second_ai/cafe230.glb": {
   "sha1": "61690cf56cf624dc1bda5630e3a2cde8c9637119",
