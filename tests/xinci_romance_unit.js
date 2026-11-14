@@ -70,7 +70,7 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     check('0. confess_lines（AA_537 第 4 節）：say、三句、yes、notYet、unwilling 照稿、others 拿掉（AA_548 第 7 節）；notYetFlag XC_NOT_YET',!!C&&C.notYetFlag==='XC_NOT_YET'&&[].concat(C.say,C.yes,C.notYet,C.unwilling).every(x=>{ const t=typeof x==='string'?x:x.text; return DOC537.includes(t)||DOC548.includes(t); })&&C.others===undefined&&C.yes.length===4&&C.choice.length===3,'');
     const Hx=TERMEND_LINES.HEART[XC];
     const strs=[Hx.invite,Hx.decline,Hx.table,Hx.think,Hx.invite2].concat(Hx.walk,Hx.she,Hx.she2,Hx.yes2);   /* askFirst／noOther／othersTail 拿掉（AA_548 第 7 節：她不問）*/
-    check('0. termend_lines HEART.classmate_xinci（AA_537b 第 7 節；othersTail 照 AA_548 第 4 節）：每一句都在稿裡；五湖四海 18:00、羅斯福路・往公館站',!!Hx&&strs.every(t=>DOC537b.includes(t)||DOC537.includes(t)||DOC548.includes(t))&&Hx.placeName==='五湖四海'&&Hx.h===18&&Hx.walkPlace==='羅斯福路・往公館站',J(strs.filter(t=>!DOC537b.includes(t)&&!DOC537.includes(t)&&!DOC548.includes(t))));
+    check('0. termend_lines HEART.classmate_xinci（AA_537b 第 7 節；othersTail 照 AA_548 第 4 節）：每一句都在稿裡；五湖四海 18:00、羅斯福路・往公館站',!!Hx&&strs.every(t=>[t,require('./aa959_map.js').unmap(t,'termend_lines.js','classmate_xinci')/* RC2-PORT-DEV-1114：AA_959 第 754 列換過的字，換回舊字再對稿 */].some(t=>DOC537b.includes(t)||DOC537.includes(t)||DOC548.includes(t)))&&Hx.placeName==='五湖四海'&&Hx.h===18&&Hx.walkPlace==='羅斯福路・往公館站',J(strs.filter(t=>!DOC537b.includes(t)&&!DOC537.includes(t)&&!DOC548.includes(t))));
     check('0. NOPE 只留 low（AA_548 第 7 節：knows 拿掉）；舊的「今天的我排好了」作廢＝遊戲裡沒有',!TERMEND_LINES.NOPE.knows[XC]&&TERMEND_LINES.NOPE.low[XC]==='期末考完，我想先一個人待幾天。下學期再約。'&&!TERMEND_LINES.NOPE.partner[XC]&&!fs.readFileSync(path.join(H.ROOT,'src/data/termend_lines.js'),'utf8').includes('今天的我排好了')); });
 
   /* ===== 第 1 節：門檻 ===== */
@@ -117,7 +117,7 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
 
   /* ===== 第 3b 節：交往中的期末飯（AA_537b 8-1）、學期末飯桌換句（8-0）===== */
   await sec('3b',()=>{ const DOC8=doc('86659bbc1','AA_537b_吳芯慈_第二份_約會台詞_校外地點_期末飯_節日.md'), g=TERMEND_LINES.GF[XC], Hx=TERMEND_LINES.HEART[XC];
-    check('3b. 8-0：心意那一頓的飯桌換「我今天點了一道沒吃過的。……你不要笑。」（舊的「我今天沒帶書出門」不在）',Hx.table==='我今天點了一道沒吃過的。……你不要笑。'&&DOC8.includes('> 芯慈：我今天點了一道沒吃過的。……你不要笑。')&&!fs.readFileSync(path.join(H.ROOT,'src/data/termend_lines.js'),'utf8').includes('我今天沒帶書出門'));
+    check('3b. 8-0：心意那一頓的飯桌換「我今天點了一道沒吃過的。……你不要笑。」（舊的「我今天沒帶書出門」不在）',Hx.table==='我今天點了一道沒吃過的。……平常我都點同一道。'/* RC2-PORT-DEV-1114：AA_959 第 754 列（「不要笑」留給沛珊）；稿上還是舊字 */&&DOC8.includes('> 芯慈：我今天點了一道沒吃過的。……你不要笑。')&&!fs.readFileSync(path.join(H.ROOT,'src/data/termend_lines.js'),'utf8').includes('我今天沒帶書出門'));
     check('3b. 8-1 GF：五湖四海 18:00、table 兩句連著說、提前一天 21:00；邀約一般版「明天晚上吃飯。……我提前一天約了。」（AA-B 16:31 換）／美國路線大四上版照稿',!!g&&g.placeName==='五湖四海'&&g.h===18&&g.inviteDayBefore===21&&J(g.table)===J(['下學期的週三下午，我先空著。','你不用回答。我只是先說。'])&&g.table.every(t=>DOC8.includes('> 芯慈：'+t))&&g.invite({day:D('2028-06-10'),flags:{}})==='明天晚上吃飯。……我提前一天約了。'&&DOC8.includes('> 芯慈：你回來了。明天晚上吃飯。……我提前一天約了。'));
     full(G=>{ G.flags['dating_'+XC]=true; }, '2028-06-08'); H.G.hour=0; const w=TERMEND.windowOf('Y3S2'); TERMEND.plan(H.G,w);
     let sentAt=null; for(let d=w.from;d<=w.to&&sentAt==null;d++) for(const h of [12,20.9,21.05,23]){ H.G.day=d; H.G.hour=h; TERMEND.phone(GM); PHONE.tick(H.G); const m=(H.G.msgs||[]).find(x=>x.tag==='te_gf_Y3S2_'+XC); if(m){ sentAt=[d,h,m.text]; break; } }
@@ -128,7 +128,7 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
   /* AA_694（DATE-ELLIPSIS-1105）：date_lines.js 拿掉句首、。！？後、）後的「……」——稿上的句子（引號裡、表格每一格）照同一條規則換了再比 */
   const S694=require('./ellipsis694.js').strip, DOC537bS=DOC537b.replace(/「([^「」]*)」/g,(x,c)=>'「'+S694(c)+'」').split('\n').map(l=>/^\|/.test(l)?l.split('|').map(c=>{ const t=c.trim(); return t?c.replace(t,S694(t)):c; }).join('|'):l).join('\n');
   await sec(4,()=>{ const L=DATE_LINES.lines[XC], K=['accept','acceptDating','cancel','flaked','move','move3','transport','depart','enough','leaveEarly','noPair'];
-    check('4. 約會一般台詞十一個 key，每一句都在稿裡',!!L&&K.every(k=>Array.isArray(L[k])&&L[k].length&&L[k].every(t=>DOC537bS.includes('「'+t+'」'))),J(L&&K.filter(k=>!L[k])));
+    check('4. 約會一般台詞十一個 key，每一句都在稿裡',!!L&&K.every(k=>Array.isArray(L[k])&&L[k].length&&L[k].every(t=>DOC537bS.includes('「'+t+'」')||DOC537bS.includes('「'+require('./aa959_map.js').unmap(t,'date_lines.js',XC)+'」')/* RC2-PORT-DEV-1114：AA_959 第 514 列（cancel 第二句），換回舊字再對稿 */)),J(L&&K.filter(k=>!L[k])));
     let nl=0, nd=0; const badD=[]; for(const loc in DATE_LINES.loc){ const lk=(DATE_LINES.loc[loc].likes||{})[XC]||{}; nl+=Object.keys(lk).length; const dl=(DATE_LINES.loc[loc].dislikeLine||{})[XC]||{};
       for(const p in lk) if(lk[p]==='dislike'){ nd++; if(!dl[p]||!DOC537bS.includes('| '+p+' | '+dl[p]+' |')) badD.push(p); } }
     check('4. 128 點喜好、15 個不喜歡的點各有一句（照稿）',nl===128&&nd===15&&!badD.length,J([nl,nd,badD]));

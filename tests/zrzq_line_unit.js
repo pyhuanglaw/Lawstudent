@@ -74,7 +74,7 @@ const ZR='heroine_02', ZQ='heroine_04';
   await chk('1. 程式裡的每一句都在 AA_232 裡（人物：句子／「句子」／旁白原文；入場旁白、結局那一行、方奕廷三則、內心選項、4-7 第一句的改法也是）',()=>{
     if(!SPEC) return [false,'讀不到稿']; const bad=[];
     for(const x of flat()){ const k=x.w.slice(0,2), lab=WHO[k];
-      const ok=lab?(SPEC.includes(lab+'：'+x.t)||SPEC.includes('「'+x.t+'」')||(!!reQ(x.t)&&SPEC.includes(lab+'：'+reQ(x.t)))):SPEC.includes(x.t); if(!ok) bad.push(x.tag+' '+x.w+' '+x.t); }
+      const ok1=t=>lab?(SPEC.includes(lab+'：'+t)||SPEC.includes('「'+t+'」')||(!!reQ(t)&&SPEC.includes(lab+'：'+reQ(t)))):SPEC.includes(t), ok=ok1(x.t)||ok1(require('./aa959_map.js').unmap(x.t,'zrzq_events.js'));   /* RC2-PORT-DEV-1114：AA_959 第 566 列換過的字，換回舊字再對稿 */ if(!ok) bad.push(x.tag+' '+x.w+' '+x.t); }
     const IN=L.IN; for(const g of ['home','next','serious']) for(const k in IN[g]) if(!SPEC.includes(IN[g][k])) bad.push('入場 '+g+'.'+k);
     if(!SPEC.includes(IN.mindPark)) bad.push('mindPark'); if(!SPEC.includes('「'+IN.mindPass+'」')) bad.push('mindPass');
     for(const k of ['B','C_UK','C']) if(!SPEC.includes(L.END[k])) bad.push('END.'+k);

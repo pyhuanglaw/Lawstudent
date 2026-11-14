@@ -149,7 +149,7 @@ GM.money=function(n){ G.money+=n; };
     check('12. talkCharacter 在閒聊前呼叫 VAC.backGreet',/VAC\.backGreet\(GM,who,id\)/.test(require('fs').readFileSync(require('path').join(ROOT,'src/story3d.js'),'utf8'))); }
   // 13. 朋友揪團（AA_244 3-2、BB_200 第 8 節）：大二方奕廷日本的山、大三子晴曼谷
   { fresh(D('2027-07-10'),20.9,'dorm',{}); G.stage='law'; meet('npc_fangyt'); R('npc_fangyt',30,10,5); PHONE.join(G,'noodle_team','桌遊團'); run(20.9,21.2);
-    const F=txt('p:npc_fangyt'); check('13. 7/10 21:00 方奕廷「八月一號到四號，去日本爬山。」…「機票我查過了，下禮拜會漲。」、三個回覆',F.includes('npc_fangyt:八月一號到四號，去日本爬山。')&&F.includes('npc_fangyt:機票我查過了，下禮拜會漲。')&&(G.msgs||[]).find(m=>m.ask&&m.ask.id==='vac_ask_T02@Y2').ask.opts.length===3,JSON.stringify(F));
+    const F=txt('p:npc_fangyt'); check('13. 7/10 21:00 方奕廷「八月一號到四號，去日本爬山。」…「機票我查過了，下禮拜會漲。」、三個回覆',F.includes('npc_fangyt:八月一號到四號，去日本爬山。')&&F.includes('npc_fangyt:機票下禮拜會漲，要的話這禮拜說。'/* RC2-PORT-DEV-1114：AA_959 第 701 列（AA_1019：「我查過了」留給以安）*/)&&(G.msgs||[]).find(m=>m.ask&&m.ask.id==='vac_ask_T02@Y2').ask.opts.length===3,JSON.stringify(F));
     PHONE.answer(G,'vac_ask_T02@Y2',0); STORY.phoneRules(GM); check('13. 去。→「好。鞋子要能走八個小時的。」、媽媽「機票多少？我轉給你。」、8/1 05:00 出發',txt('p:npc_fangyt').includes('npc_fangyt:好。鞋子要能走八個小時的。')&&!!OUT.get(G,'vac_T02@Y2')&&OUT.get(G,'vac_T02@Y2').day===D('2027-08-01'));
     G.day=D('2027-08-01'); G.hour=5; said=[]; await VAC.outing(GM,OUT.get(G,'vac_T02@Y2')); const L=lines();
     check('13. 日本的山：機場水壺、「這棵，台灣沒有。」、山屋「明天四點起來，看日出。」、溫泉街「這座山還有一條路沒走。」；8/4',L.some(t=>t.includes('已經裝滿了'))&&L.some(t=>t.endsWith('這棵，台灣沒有。'))&&L.some(t=>t.endsWith('明天四點起來，看日出。'))&&L.some(t=>t.endsWith('這座山還有一條路沒走。'))&&G.day===D('2027-08-04'),JSON.stringify(L)); }

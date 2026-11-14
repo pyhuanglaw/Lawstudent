@@ -20,7 +20,7 @@ vm.runInThisContext(src,{filename:'vacgap_lines.js'});
 const META=/^(\d{4}-\d\d-\d\d|Y[1-4][WS]|go|back|flip)$/;
 const strs=[]; const walk=(x,k)=>{ if(typeof x==='string'){ if(!META.test(x)) strs.push([k,x]); return; } if(Array.isArray(x)) x.forEach((y,i)=>walk(y,k+'['+i+']')); else if(x&&typeof x==='object') for(const q in x){ if(q==='day'||q==='h'||q==='speaker'||q==='goto'||q==='label') continue; walk(x[q],k+'.'+q); } };
 walk(VACGAP_LINES,'L');
-const miss=strs.filter(([k,t])=>!all.includes(t));
+const miss=strs.filter(([k,t])=>!all.includes(t)&&!all.includes(require('./aa959_map.js').unmap(t,'vacgap_lines.js')));   /* RC2-PORT-DEV-1114：AA_959 783 列換過的字（第 767、782 列），換回舊字再對稿 */
 check('1. 每一句都在稿裡（'+strs.length+' 句）',strs.length>150&&!miss.length,miss.slice(0,8).map(([k,t])=>k+'＝'+t).join('　'));
 /* 手機一則一句：稿上用「／」分開的不能黏成一則 */
 const glued=strs.filter(([k,t])=>t.includes('／'));
