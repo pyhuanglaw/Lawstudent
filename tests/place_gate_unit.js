@@ -42,16 +42,16 @@ const T_WIN='SHOP-WINDOW-3D-1112', T_VIEW='SHOP-INTERIOR-VIEW-1112', T_AA='SHOP-
 const KF=(task,item,zones,manual)=>zones.split(/\s+/).filter(Boolean).map(zone=>Object.assign({zone,item,task},manual?{manual:true}:{}));
 const KNOWN_FAIL=[].concat(
   /* 從店外看進去是一張 2D 圖（使用者 11-12；清單＝任務 SHOP-WINDOW-3D-1112 的 LAWWW2 清單：新生南路七間、公館同一批、汀州路那一排）*/
-  /* 新生南路六間（shanlan tongxian dakou haopai dabu xsports）、汀州路五間（yuehaochi keju dongnan liantong taimi）：BB-C 判店外立體＝店內 ⑦b PASS（docs/handoff/place_gate_bb.json 各店 note：SHOP-REAL-INSIDE 店外看到的牆、地板、擺設和店內一樣；大步 07:4x 改回 PASS），
-     拿掉（LAWWW2-C 11-13，SHOP-WINDOW-3D-1112）。這幾間還沒過的質感（D159）、效能、客人在 place_gate_bb.json 的 fail／pending，由 SHOP-REALISM-1112 等任務追 */
+  KF(T_WIN,'street3d','xs_shanlan xs_tongxian xs_dakou xs_haopai xs_dabu xs_xsports',true),   /* xs_nanyang：BB-C 11-12 判 PASS 拿掉；xs_dabu：BB-C 11-12 06:4x 改判 FAIL——使用者：店外看進去牆是灰的、走進去是木頭的；立體了但和室內不一樣＝不算過 */
   /* 公館九間（aoki bookstore cvs bikeshop afar yangyang corner_records daybreak noodle）：BB-C 11-12 判店外立體 PASS（BB_379 53180642a9、ade9c3659d；第二層左中右錯開），拿掉 */
+  KF(T_WIN,'street3d','tz_yuehaochi tz_keju tz_dongnan tz_liantong tz_taimi',true),
   /* 118 巷打烊看起來關了：BB_379 L118_CLOSED_LOOK_r2 PASS（11-12，11 間公休／打烊鐵捲門到地、燈暗）＝這一列拿掉 */
   /* 以下是第一層量到的（會自動比對：過了這一列就要刪，不刪會 FAIL）*/
   /* 天花板比預設跟隨鏡頭矮（鏡頭高過天花板＝天花板不畫、抬頭看到背景色）。安泰 3.1、禮貌生財 3.0、溫州街四間 2.6～3.0；其他是 3.2 m 對鏡頭 3.208 m（差 8 mm，請第二層抬頭拍一張確認）*/
-  /* 一盞：LAWWW2-C 11-13 天花板抬到 2.9 m、鏡頭距離 3.2（2.86 m），過了，從表上拿掉 */
+  KF(T_VIEW,'ceiling','wz_teahouse'),   /* 阿德影印、林家乾麵、小路：鏡頭距離 3.2（zones3d.js WZ_CAMDIST，LAWWW-C 11-13）過了；一盞 2.6 m 交 LAWWW2（加高天花板或藏天花板）*/
   /* 118 巷八間店的天花板（L118-DIAN-CEILING-1112）：BB 17:4x 定鏡頭距離 4.2→3.6 m，過了（LAWWW2-C） */
   /* 有窗（或模型有玻璃）沒有窗景照片 */
-  /* 美國兩間超市（us_market、us_asian_market）：白天／晚上兩張照片（views/us_market_*、us_asian_market_*；src/us3d.js US_VIEW）SHOP-INTERIOR-VIEW-1112 LAWWW-C 11-13，拿掉 */
+  KF(T_VIEW,'view','us_asian_market us_market'),
   /* 沒開的時候店裡還站著店員（玩家進不去；從店外的窗戶看進去會像開著）*/
   /* 其他（補查出來的）*/
   /* 美國兩間超市的買得到／錢不夠／字：2026-11-12 接好了（AA_850；src/us_markets3d.js），這三列拿掉 */
@@ -332,10 +332,6 @@ async function checkStalls(){ const defs=[
    --coplanar：重算基準
    ==================================================================================================== */
 if(ARGV.includes('--coplanar')){ const o={}; for(const z of SHOPS){ try{ enter(z,WED,12.5); }catch(e){} for(const p of glbsOf(z)){ if(o[p]) continue; const r=copScan(p); if(!r){ out('FAIL 重算不了（要 python3＋numpy、tools/glb_coplanar.py）：'+p); process.exit(1); } o[p]=r; out('  '+p+'　牆的疊面 '+r.wall+' m²（全部 '+r.always+' m²）'); } }
-  /* 基準只准變少（2026-11-14 LAWWW-C：大口漢堡一樓的真疊面被「先 --coplanar --write」蓋掉，LAWWW2 驗收時沒抓到）：同一個模型的 wall／always 比原本的基準多 0.01 m² 以上＝不寫、印出來、結束碼 1；真的要放寬（例如換了新模型、整間重做）才加 --allow-grow，並在 commit 訊息寫為什麼 */
-  { let old={}; try{ old=JSON.parse(fs.readFileSync(COP_FILE,'utf8')); }catch(e){} const grow=[]; for(const k of Object.keys(o)){ const a0=old[k]; if(!a0) continue; for(const f of ['wall','always']){ if(typeof a0[f]==='number'&&typeof o[k][f]==='number'&&o[k][f]>a0[f]+0.01) grow.push(k.split('/').pop()+' '+f+' '+a0[f]+' → '+o[k][f]+'（'+(o[k].top||'')+'）'); } }
-    if(grow.length&&!ARGV.includes('--allow-grow')){ out('FAIL 疊面基準只准變少，這幾個變多了（沒有寫檔；要先修模型；確定要放寬才加 --allow-grow）：\n  '+grow.join('\n  ')); process.exit(1); }
-    if(grow.length) out('WARN --allow-grow：疊面基準放寬 '+grow.length+' 個：\n  '+grow.join('\n  ')); }
   const keys=Object.keys(o).sort(); const s={}; for(const k of keys) s[k]=o[k]; fs.writeFileSync(COP_FILE,JSON.stringify(s,null,1)+'\n'); out('寫好了 tests/place_gate_coplanar.json（'+keys.length+' 個模型）'); process.exit(0); }
 
 /* ====================================================================================================

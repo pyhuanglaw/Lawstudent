@@ -226,7 +226,7 @@ const BBPACK_EVENTS=(function(){
       {choice:[{text:'（坐下讀一點）',goto:'r'},{text:'「聊兩句就走。」',goto:'t'},{text:'「大一民總那一題……」',unless:{flags:['B10_NOSTALGIA']},set:{B10_NOSTALGIA:true},goto:'n'}]},
       {label:'r'},IF(KN('yu'),nar('Alison 在便利貼上寫：「加油。不用回。」')),{goto:'end'},
       {label:'t'},IF(KN('zhe'),say('zhe','你走了，這桌又剩我們三個。……很安靜，很好。')),{goto:'end'},
-      {label:'n'},IF(KN('zhe'),say('zhe','網拍標錯價那題，我現在會答了。')),IF(KN(BH),say(BH,'說說看。')),IF(KN('zhe'),say('zhe','先讓我翻一下。')),IF(KN('yu'),say('yu','（便利貼）四年了。')),
+      {label:'n'},IF(KN('zhe'),say('zhe','網拍標錯價那題，我現在會答了。')),IF(KN(BH),say(BH,'說說看。')),IF(KN('zhe'),say('zhe','……先讓我翻一下。')),IF(KN('yu'),say('yu','（便利貼）四年了。')),
       {label:'end'} ],
     after:G=>{ G.flags.B10_N=(G.flags.B10_N|0)+1; delete G.flags.B10_OPEN; } });
   /* B10b 文學的講座「小說裡的審判」：大二下第 11 週週二 18:30～20:00；前一週起博雅的公告欄（活動清單的海報 7 天）。講座一句旁白、時鐘往前到 19:50，散場：明軒、Alison（AA 寫）；

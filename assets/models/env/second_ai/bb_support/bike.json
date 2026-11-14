@@ -1,8 +1,8 @@
 {
- "objects": 210,
- "unique_meshes": 77,
- "tris": 40170,
- "tris_drawn": 59842,
+ "objects": 209,
+ "unique_meshes": 76,
+ "tris": 40202,
+ "tris_drawn": 59874,
  "materials": [
   "bk_alpha",
   "bk_concrete",
@@ -10,8 +10,6 @@
   "bk_floor_tile",
   "bk_glass",
   "bk_goods",
-  "bk_ph_CashRegister_01_0",
-  "bk_ph_CashRegister_01_1",
   "bk_plaster",
   "bk_sign",
   "bk_vc",
@@ -19,7 +17,7 @@
   "bk_wood"
  ],
  "out": "assets/models/env/second_ai/bb_support/bike.glb",
- "bytes": 3902064,
+ "bytes": 3335056,
  "texres": 1024,
  "v1b": {
   "repair_bike": {
@@ -52,7 +50,7 @@
  },
  "shop": "bike",
  "layout": 2,
- "drawn_tris": 59842,
+ "drawn_tris": 59874,
  "protos": {
   "wheel0": 4,
   "wheel1": 2,
@@ -76,19 +74,5 @@
   "pendant": 11,
   "fixture": 7,
   "innertube": 16
- },
- "cc0": [
-  [
-   "ambientCG",
-   "Plastic006"
-  ],
-  [
-   "ambientCG",
-   "Metal009"
-  ],
-  [
-   "Poly Haven",
-   "CashRegister_01"
-  ]
- ]
+ }
 }

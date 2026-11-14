@@ -16,7 +16,7 @@ const show=(ref,p)=>{ try{ return cp.execFileSync('git',['show',ref+':'+p],{cwd:
    AA_814（企劃線 91c6aaf9f，tests/aa814_prio_gap_1111_unit.js）改了 events.js（1/8 j8a、2/14 E27b）、vac_activities.js（沛珊重考期回國訊息兩段、noOff）；
    AA_742 第 ③ 節（tests/gg_shops3_story_1111_unit.js）改了 story3d.js 明軒「公館一百元以內」那一列（日日定食→泰米村食）。讀不到那一版（淺層複本）＝照現在的檔 */
 const LATER_PIN='9d45ef8b3', LATER_FILES=['src/story3d.js'];
-const read=f=>{ if(LATER_FILES.includes(f)){ const t=show(LATER_PIN,f); if(t!=null) return t; } const t=fs.readFileSync(path.join(H.ROOT,f),'utf8'); return /ladder/.test(f)?t:require('./aa959_map.js').unmapCode(t,path.basename(f))/* AA_959：之後照覆寫表換的整句先換回來再和 BASE 比 */; };
+const read=f=>{ if(LATER_FILES.includes(f)){ const t=show(LATER_PIN,f); if(t!=null) return t; } return fs.readFileSync(path.join(H.ROOT,f),'utf8'); };
 const noCom=s=>s.replace(/\/\*[\s\S]*?\*\//g,'');
 const lit=s=>{ const out=[]; noCom(s).replace(/'((?:[^'\\]|\\.)*)'/g,(m,t)=>{ out.push(t); return m; }); return out; };
 const cond=q=>{ const o={}; for(const k in q) if(k!=='t'&&k!=='note') o[k]=q[k]; return o; };

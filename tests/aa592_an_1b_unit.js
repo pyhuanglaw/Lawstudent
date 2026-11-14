@@ -30,7 +30,7 @@ check('1. 讀得到稿（AA_592 @'+SHA+'：第 9、10 節）',DOC.length>30000&&
 check('2. 表上第 1～55 列都讀到',rows.length===55&&new Set(rows.map(r=>r.n)).size===55,rows.length);
 const MULTI=[11,12,15,16,26,29,32,48], GEN=[53];
 { const bad=[]; for(const r of rows){ if(MULTI.includes(r.n)||GEN.includes(r.n)) continue; const f=fileOf(r.where);
-    if(!f||!(inLit(CODE[f],r.nw)||inLit(CODE[f],require('./aa959_map.js').map(r.nw,f,'heroine_01'))/* AA_959：之後又照覆寫表砍「今天」開頭 */)) bad.push('#'+r.n+' 改成不在 '+f+'：'+r.nw);
+    if(!f||!inLit(CODE[f],r.nw)) bad.push('#'+r.n+' 改成不在 '+f+'：'+r.nw);
     if(r.old!==r.nw&&litWhere(r.old).length) bad.push('#'+r.n+' 原句還在 '+litWhere(r.old).join('、')+'：'+r.old); }
   check('2. 一般列（'+(55-MULTI.length-GEN.length)+' 列）：改成是位置欄那個檔的字串常數、原句的字串常數不在 src',!bad.length,J(bad)); }
 check('2. 第 1 列照 BB_238 退回原句「三頁是因為字很大。」（後半句沒有加）',rows.find(r=>r.n===1).old===rows.find(r=>r.n===1).nw&&inLit(CODE['src/story3d.js'],'三頁是因為字很大。')&&!/其實都在講吹風機/.test(CODE['src/story3d.js']));

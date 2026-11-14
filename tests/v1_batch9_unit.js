@@ -129,7 +129,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('A16 只一次',!EVENTS.check(e,{chain:true}));
     L=await cls(w10,6,true,['講你怎麼寫']); check('A16 民總準備多少都同一版（不分比他高、比他低）',JSON.stringify(tail())==='["你講了你的寫法。","……你先從事實看的。好。","他寫進手機的備忘錄。","考古題我晚上傳給你。"]'&&G.flags.BOHAN_SCORE==='told',JSON.stringify(tail()));
     L=await cls(w10,12,true,['不確定']); check('A16「我也不確定。」：「好。不確定也算一種寫法。」「他也寫進去。」；沒有 TOLD_SCORE、BOHAN_SCORE unsure',JSON.stringify(tail())==='["好。不確定也算一種寫法。","他也寫進去。","考古題我晚上傳給你。"]'&&!SOCIAL.has('classmate_bohan','TOLD_SCORE')&&G.flags.BOHAN_SCORE==='unsure',JSON.stringify(tail()));
-    L=await cls(w10,0,true,['你錯哪裡']); check('A16「你錯哪裡？」：他停了一下。「第三題。整題。」（第一次有人反問他。）；ASKED_BACK；沒有名次',JSON.stringify(tail())==='["他停了一下。","第三題。整題。","第一次有人反問他。","考古題我晚上傳給你。"]'&&SOCIAL.has('classmate_bohan','ASKED_BACK')&&!tail().some(t=>/第六|八十一/.test(t)),JSON.stringify(tail()));
+    L=await cls(w10,0,true,['你錯哪裡']); check('A16「你錯哪裡？」：他停了一下。「……第三題。整題。」（第一次有人反問他。）；ASKED_BACK；沒有名次',JSON.stringify(tail())==='["他停了一下。","……第三題。整題。","第一次有人反問他。","考古題我晚上傳給你。"]'&&SOCIAL.has('classmate_bohan','ASKED_BACK')&&!tail().some(t=>/第六|八十一/.test(t)),JSON.stringify(tail()));
     L=await cls(w10,0,false,['不確定']); check('A16 沒見過柏翰：先「許柏翰。第一排那個。」',L.includes('許柏翰。第一排那個。')&&L.indexOf('許柏翰。第一排那個。')<L.indexOf('民總那份案例作業，第三題你怎麼寫？'),JSON.stringify(L));
     L=await cls(w11,0,true,['不確定']); check('A16 第 10 週沒去：第 11 週那堂也會',L.includes('民總那份案例作業，第三題你怎麼寫？'));
     L=await cls(w9,0,true,['不確定']); check('A16 第 10 週以前的民總下課沒有',!L.includes('民總那份案例作業，第三題你怎麼寫？')); }

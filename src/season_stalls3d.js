@@ -31,7 +31,7 @@ const SS3=(function(){
   S.lookLines=function(q){ const d=D(); let t=d&&d.looks[q.id]; if(t&&typeof t==='object') t=t[S.LOOK_SEASON[q.code]]||t.spring;   /* 照現在擺的那一季只出一句（AA_793@58c5c2c1bb；沒有對到的用 spring）*/ if(!t) return []; if(q.id==='sea_fruit'){ const fr=(S.FRUIT[q.code]||[]).map(f=>d.looksFruit[f]).filter(Boolean); if(fr.length) return [fr[Math.floor(S.rnd()*fr.length)]]; }   /* AA_793 lawww_1112 ③：只演當季水果那一句（冬天兩種隨機一句）；沒有當季句才演通用句 */ return [t]; };
   S.look=async function(GM,zone,q){ if(!zone||!Array.isArray(zone.seasonLooks)||zone.seasonLooks.indexOf(q)<0) return null; const L=S.lookLines(q); for(const t of L) await GM.say(null,t); return L.length?'look':null; };
   /* 區域建好（SD3.attach 之後）：今天擺的攤、今天有的布置加互動點 */
-  S.attach=function(E,zone,zid){ if(!E||!Array.isArray(E.interactables)||!zone||zone._ss3||!D()||!NM()) return 0; zone._ss3=true; let n=0;
+  S.attach=function(E,zone){ if(!E||!Array.isArray(E.interactables)||!zone||zone._ss3||!D()||!NM()) return 0; zone._ss3=true; let n=0;
     for(const q of zone.seasonStalls||[]){ const label=S.label(q.key); if(!label||!q.at) continue;
       E.interactables.push({x:q.at.x,z:q.at.z,radius:q.at.r||1.0,label,seasonStall:q.key,onInteract:()=>{ const GM=GMof(); return GM?S.interact(GM,zone,q):null; }}); n++; }
     for(const q of zone.seasonLooks||[]){ if(!S.lookLines(q).length) continue; const on=()=>{ const GM=GMof(); return GM?S.look(GM,zone,q):null; };
@@ -39,14 +39,14 @@ const SS3=(function(){
       if(it){ if(!it.onInteract) it.onInteract=on; } else E.interactables.push({x:q.x,z:q.z,radius:q.r||1.0,label:q.label,seasonLook:q.id,onInteract:on});
       n++; }
     /* 花序門口的花：四段季節布置以外的日子也有「看門口的花」，念稿的 plain 那一句（AA_793@3cb2939d0；位置、按鈕字照 season_deco.js 那一筆）*/
-    { const P=S.plainLook(zone,zid); if(P){ E.interactables.push({x:P.x,z:P.z,radius:P.r||1.0,label:P.label,seasonLook:P.id,plain:true,onInteract:async()=>{ const GM=GMof(); if(!GM) return null; await GM.say(null,P.text); return 'look'; }}); n++; } }
+    { const P=S.plainLook(zone); if(P){ E.interactables.push({x:P.x,z:P.z,radius:P.r||1.0,label:P.label,seasonLook:P.id,plain:true,onInteract:async()=>{ const GM=GMof(); if(!GM) return null; await GM.say(null,P.text); return 'look'; }}); n++; } }
     return n; };
-  S.PLAIN_ID='flower_notes_season';   /* plainLook 要知道現在是哪一區（attach 的第三個參數＝S.hook 包 build 時的區域 id）：區域 build 回傳的 z 沒有 id，原本「沒有 id 就放行」讓溫州街也在 (44,20.8) 房子裡放一顆按不到的「看門口的花」（REL76_reach，BB 2026-11-14）；不知道是哪一區就不放 */
-  S.plainLook=function(zone,zid0){ const here=zid0||(zone&&zone.id); const d=D(), t=d&&d.looks[S.PLAIN_ID], text=t&&typeof t==='object'?t.plain:null; if(!text||!zone) return null; if((zone.seasonLooks||[]).some(q=>q.id===S.PLAIN_ID)) return null;
-    const dc=DECO(); if(!dc||!dc.zones) return null; for(const zid in dc.zones){ const L=dc.zones[zid].looks||{}; for(const c in L){ const q=(L[c]||[]).find(x=>x.id===S.PLAIN_ID); if(q){ if(!here||here!==zid) return null; return {id:q.id,x:q.x,z:q.z,r:q.r,label:q.label,text}; } } } return null; };
+  S.PLAIN_ID='flower_notes_season';
+  S.plainLook=function(zone){ const d=D(), t=d&&d.looks[S.PLAIN_ID], text=t&&typeof t==='object'?t.plain:null; if(!text||!zone) return null; if((zone.seasonLooks||[]).some(q=>q.id===S.PLAIN_ID)) return null;
+    const dc=DECO(); if(!dc||!dc.zones) return null; for(const zid in dc.zones){ const L=dc.zones[zid].looks||{}; for(const c in L){ const q=(L[c]||[]).find(x=>x.id===S.PLAIN_ID); if(q){ if(zone.id&&zone.id!==zid) return null; return {id:q.id,x:q.x,z:q.z,r:q.r,label:q.label,text}; } } } return null; };
   S.hook=function(){ const d=DECO(); if(!d||!D()||typeof Z3==='undefined'||!Z3.ZONES) return 0; let n=0;
     for(const zid of Object.keys(d.zones)){ const zd=Z3.ZONES[zid]; if(!zd||zd._ss3) continue; const b0=zd.build;
-      zd.build=function(E){ const z=b0.call(this,E); try{ S.attach(E,z,zid); }catch(e){ console.warn('SS3.attach',zid,e); } return z; }; zd._ss3=true; n++; }
+      zd.build=function(E){ const z=b0.call(this,E); try{ S.attach(E,z); }catch(e){ console.warn('SS3.attach',zid,e); } return z; }; zd._ss3=true; n++; }
     return n; };
   S.hook();
   return S;

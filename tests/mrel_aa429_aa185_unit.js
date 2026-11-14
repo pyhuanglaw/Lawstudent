@@ -64,7 +64,7 @@ await sec(1,async()=>{
   fresh('2028-05-10',22.2,'campus',JPF); date2(YT,KX,H.G.day-40); clr(); H.picks=[0]; await play(due());
   check('1. 語彤視訊版：「等妳下班，可以視訊嗎？」（視訊。她在茶屋後面，聽得到蘇姨在洗杯子。）…「明天還要上班。……我先掛了。」',J(T())===J(['等妳下班，可以視訊嗎？','（視訊。她在茶屋後面，聽得到蘇姨在洗杯子。）','我跟可昕也在一起。一個多月了。','……嗯。','你自己講的。','好。我知道了。','明天還要上班。……我先掛了。','（視訊斷了。）']),J(T()));
   fresh('2028-05-10',22.2,'campus',Object.assign({dating_kexin:true},JPF)); H.CLOSE(A1); ROM.start(H.G,A1); clr(); H.picks=[0]; await play(due());
-  check('1. 可昕視訊版：（她把鏡頭轉開。畫面裡只剩天花板，很久。）…「我現在不想看到你。我掛了。」',seq(['……你再講一次。','我跟以安也在一起。','……你在開玩笑吧。','（她把鏡頭轉開。畫面裡只剩天花板，很久。）','你還知道要自己講。','我現在不想看到你。我掛了。'])&&!H.has('（她轉過去，背對你站了很久。）'),J(T()));
+  check('1. 可昕視訊版：（她把鏡頭轉開。畫面裡只剩天花板，很久。）…「……我現在不想看到你。我掛了。」',seq(['……你再講一次。','我跟以安也在一起。','……你在開玩笑吧。','（她把鏡頭轉開。畫面裡只剩天花板，很久。）','你還知道要自己講。','……我現在不想看到你。我掛了。'])&&!H.has('（她轉過去，背對你站了很久。）'),J(T()));
   fresh('2028-10-10',8.4,'campus',{EXCHANGE_ROUTE:'US',EXCH_RULE:1}); date2(ZQ,KX,H.G.day-40); check('1. 印第安納（台灣 −12）早上 08:24＝台灣 20:24，還不到',!X().confAskDue(H.G));
   setD(H.G.day,9.1); check('1. 09:00 起（台灣 21:00）',(due()||{}).k==='conf_ask');
   fresh('2027-04-07',15); date2(ZQ,KX); X().confLater(H.G,ZQ,KX); const ab=X().heAbroad; X().heAbroad=()=>true; const tz=STORY.tzOffset; STORY.tzOffset=()=>1; setD(H.G.day+1,22.3); a=due(); X().heAbroad=ab; STORY.tzOffset=tz;
@@ -108,8 +108,8 @@ await sec(1,async()=>{
   OUT.plan(H.G,{id:'kx_od_x',ev:'ev_kexin_visits_ntu',   /* 原本「我們的日子」那一場（CANON-NO-ECON-1112 第三批拿掉），改用她來找你那一場 */day:H.G.day+2,h:14,place:'木柵大學',title:'我們的日子'});
   setD(H.G.day+2,13.6); a=due(); check('1. 可昕：下一次她來（我們的日子，出遊前 30 分鐘起）',a&&a.k==='conf'&&a.x===KX);
   clr(); await play(a);
-  check('1. 可昕原文：「……你再講一次。」「我跟以安也在一起。」「操。」（她轉過去，背對你站了很久。）「你還知道要自己講。」「我現在不想看到你。你不要跟過來。」；那一趟取消',
-    seq(['我有件事要跟妳講。','……你再講一次。','我跟以安也在一起。','……你在開玩笑吧。','（她轉過去，背對你站了很久。）','你還知道要自己講。','我現在不想看到你。你不要跟過來。'])&&OUT.get(H.G,'kx_od_x').state==='skipped',J(T()));
+  check('1. 可昕原文：「……你再講一次。」「我跟以安也在一起。」「操。」（她轉過去，背對你站了很久。）「你還知道要自己講。」「……我現在不想看到你。你不要跟過來。」；那一趟取消',
+    seq(['我有件事要跟妳講。','……你再講一次。','我跟以安也在一起。','……你在開玩笑吧。','（她轉過去，背對你站了很久。）','你還知道要自己講。','……我現在不想看到你。你不要跟過來。'])&&OUT.get(H.G,'kx_od_x').state==='skipped',J(T()));
   fresh('2027-04-07',12,'campus',{dating_kexin:true}); H.CLOSE(A1); ROM.start(H.G,A1); X().confLater(H.G,KX,A1); H.G.flags.YT_LIED={kexin:{[A1]:true}};
   const m=X().meetAction(H.G,KX,'date'); clr(); await m.run(GM);
   check('1. 可昕：正式約會那天講也可以（disc＝這一趟不去）；曾說謊「我上次問你，你說沒有。」',m.disc===true&&seq(['我上次問你，你說沒有。','我跟以安也在一起。'])&&!H.has('……你再講一次。'));
@@ -130,7 +130,7 @@ await sec(1,async()=>{
   fresh('2027-04-07',15); date2(YT,KX); H.G.flags.YT_CONFESSED={[YT]:{kexin:1}}; clr(); H.picks=[0]; await X().run(GM,YT,Lm().REPAIR.heroine_03.talk1,ctxC(YT,KX));
   check('1. 語彤挽回第一段多一句「蘇姨後來問我，你那天怎麼那麼晚才走。」',seq(['（你坐下。）','蘇姨後來問我，你那天怎麼那麼晚才走。','你不用一直來。']));
   fresh('2027-04-07',15,'campus',{dating_kexin:true}); H.CLOSE(A1); ROM.start(H.G,A1); H.G.flags.YT_CONFESSED={kexin:{[A1]:1}}; clr(); await X().run(GM,KX,Lm().REPAIR.kexin.back,ctxC(KX,A1));
-  check('1. 可昕《本來想傳給你》後半第一句前多兩句「我氣到現在。」「可是是你自己講的。這個我有算進去。」',seq(['我氣到現在。','可是是你自己講的。這個我有算進去。','我真的很討厭你。']));
+  check('1. 可昕《本來想傳給你》後半第一句前多兩句「我氣到現在。」「……可是是你自己講的。這個我有算進去。」',seq(['我氣到現在。','……可是是你自己講的。這個我有算進去。','我真的很討厭你。']));
   fresh('2027-04-07',15,'campus',{dating_kexin:true}); H.CLOSE(A1); ROM.start(H.G,A1); clr(); await X().run(GM,KX,Lm().REPAIR.kexin.back,ctxC(KX,A1));
   check('1. 沒坦白過＝沒有那兩句',!H.has('我氣到現在。')&&H.has('我真的很討厭你。'));
 });
@@ -204,14 +204,14 @@ await sec(6,async()=>{
   Object.assign(SOCIAL.rel(A1),{npcRom:35,fam:50,trust:30});
   let a=due(); check('6. 一學期以後的讀書會散會（21:30 人在萬才館）＝祐廷先開口的選項',a&&a.k==='an_rb_open');
   clr(); H.picks=[0]; await play(a);
-  check('6. 「我想再跟妳試一次。」（AA_594 使2，原本「我想再寫一次理由欄。」）／（先不說）→「給我一週。」',J(H.opts[0])===J(['「我想再跟妳試一次。」','（先不說）'])&&J(T())===J(['給我一週。']));
+  check('6. 「我想再跟妳試一次。」（AA_594 使2，原本「我想再寫一次理由欄。」）／（先不說）→「……給我一週。」',J(H.opts[0])===J(['「我想再跟妳試一次。」','（先不說）'])&&J(T())===J(['……給我一週。']));
   d=plgFrom(H.G.day+7); setD(d,21.7); a=due(); clr(); await play(a);
   check('6. 一週後的讀書會：（她從筆記本撕下一張空白的紙，遞過來。）「你先寫。」→ 回到第 6 階、心意邀約照一般條件',a.k==='an_rb_form'&&J(T())===J(['（她從筆記本撕下一張空白的紙，遞過來。）','你先寫。'])&&DATE.stageNum(A1)===6&&!X().rebuildBlock(H.G,A1));
   /* 以安不回答：多一步 */
   fresh('2026-09-20',12); H.CLOSE(A1); ROM.start(H.G,A1); ROM.end(H.G,A1,'apart_drift'); Object.assign(SOCIAL.rel(A1),{npcRom:35,fam:50,trust:30});
   d=plgFrom(H.G.day+113); setD(d,21.7); H.G.zone='wancai'; clr(); H.picks=[0,1,0]; await play(due());
-  check('6. 不回答以後：「上次你沒有回答。這次，要先回答那一題。」→「對不起。」→「道歉收到。然後呢？」（AA_436）再選→「那時候我不知道怎麼說。」→「……現在知道了？」「知道一點。」「一點就可以。」→「給我一週。」',
-    J(T())===J(['上次你沒有回答。這次，要先回答那一題。','道歉收到。然後呢？','……現在知道了？','知道一點。','一點就可以。','給我一週。']),J(T()));
+  check('6. 不回答以後：「上次你沒有回答。這次，要先回答那一題。」→「對不起。」→「……道歉收到。然後呢？」（AA_436）再選→「那時候我不知道怎麼說。」→「……現在知道了？」「知道一點。」「一點就可以。」→「……給我一週。」',
+    J(T())===J(['上次你沒有回答。這次，要先回答那一題。','……道歉收到。然後呢？','……現在知道了？','知道一點。','一點就可以。','……給我一週。']),J(T()));
   fresh('2026-09-20',12); H.CLOSE(A1); ROM.start(H.G,A1); ROM.end(H.G,A1,'mrel');
   check('6. 被發現以後分開的（mrel）不走這裡、不擋心意邀約',!X().rb(H.G,A1)&&!X().rebuildBlock(H.G,A1));
   fresh('2026-09-20',12); H.CLOSE(A1); ROM.start(H.G,A1); ROM.end(H.G,A1,'apart_talk'); H.G.flags.CLEANUP_DONE=true; ROM.start(H.G,A1);

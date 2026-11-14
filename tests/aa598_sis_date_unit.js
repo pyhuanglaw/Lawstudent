@@ -10,7 +10,7 @@
 const fs=require('fs'), path=require('path'), cp=require('child_process');
 const E694=require('./ellipsis694.js');   /* AA_694（DATE-ELLIPSIS-1105）：約會台詞拿掉句首、。！？後、）後的「……」——表上的句子照同一條規則換了再和 date_lines.js 比 */
 const ROOT=path.resolve(__dirname,'..');
-const src=fs.readFileSync(path.join(ROOT,'src/data/date_lines.js'),'utf8'), t=src.split('\n')[2], DL=require('./aa959_map.js').unmapDeep(JSON.parse(t.slice(t.indexOf('=')+1,t.lastIndexOf(';'))),'date_lines.js');   /* AA_959（DLG-FULL-REVIEW-1110）：匯入最後一步照覆寫表換的字先換回來再比 */
+const src=fs.readFileSync(path.join(ROOT,'src/data/date_lines.js'),'utf8'), t=src.split('\n')[2], DL=JSON.parse(t.slice(t.indexOf('=')+1,t.lastIndexOf(';')));
 let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(info&&!ok?'　'+info:'')); if(!ok) fails++; };
 const J=JSON.stringify;
 const SHA='c389462be', DOCF='docs/story_planning/AA_598_學姊改稿_1c_約會地點台詞.md';

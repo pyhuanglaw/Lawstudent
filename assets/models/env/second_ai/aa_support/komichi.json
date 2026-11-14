@@ -1,11 +1,11 @@
 {
- "objects": 38,
- "unique_meshes": 33,
- "tris": 43087,
- "tris_drawn": 47383,
- "materials": 30,
- "out": "assets/models/env/second_ai/aa_support/komichi.glb",
- "bytes": 3464716,
+ "objects": 25,
+ "unique_meshes": 25,
+ "tris": 35034,
+ "tris_drawn": 35034,
+ "materials": 18,
+ "out": "../../../tmp/claude-0/-home-user-Lawstudent/fa766b7f-0f91-5caf-86c3-26385a2a2ff9/scratchpad/kmc/komichi.glb",
+ "bytes": 2441056,
  "texres": 512,
  "layout": 4,
  "zone": "wz_teishoku"

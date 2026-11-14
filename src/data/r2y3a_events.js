@@ -38,9 +38,9 @@ const R2Y3A_EVENTS=(function(){
       ...pickLines(KHL&&KHL.pick,{custom:G=>!khAgain(G)}), ...pickLines(KHL&&(KHL.pickAgain||KHL.pick),{custom:khAgain}),
       /* AA_525 3-9（K-11）：晚上那通電話她說了「那你下次要當面恭喜我。」的（演過 ev_kexin_summer_plan_call：6/2 沒到 Y2R2_K14_NOSHOW、沒答應的兩種人都聽過，AA_526 第 2 節）＝接人以後當面補；選項只有一個 */
       {unless:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_kexin_summer_plan_call)},goto:'aa525_k11_end'},
-      {speaker:'kexin',expression:'neutral',text:'當面。'},{choice:[{text:'「恭喜。」',goto:'aa525_k11'}]},{label:'aa525_k11'},{speaker:'kexin',expression:'smile',text:'好。收到了。'},{label:'aa525_k11_end'},
+      {speaker:'kexin',expression:'neutral',text:'……當面。'},{choice:[{text:'「恭喜。」',goto:'aa525_k11'}]},{label:'aa525_k11'},{speaker:'kexin',expression:'smile',text:'好。收到了。'},{label:'aa525_k11_end'},
       {speaker:'kexin',expression:'tired',text:'上個月我影印了一千兩百頁。今天不要有紙。'},   /* CANON-NO-ECON-1112 第四批：照 AA_878 #26 換字（行程表那兩列合成一句）*/
-      {speaker:'kexin',expression:'teasing',text:'只做三件事。渡輪、燈塔、吃東西。'},
+      {speaker:'kexin',expression:'teasing',text:'今天只做三件事。渡輪、燈塔、吃東西。'},
       {scene:'高雄・旗津',bg:'kh_cijin'},   /* 地點字幕；旗津的背景還沒有，kh_cijin＝港邊的圖（outings3d.js）*/
       {speaker:null,text:'（渡輪只開十分鐘。她站在船邊，頭髮一直被風吹到臉上，她也不管。）'},
       {speaker:null,text:'（太陽很大。她把防曬乳擠了兩次，一次給你。）'},
@@ -146,7 +146,7 @@ const R2Y3A_EVENTS=(function(){
       {if:kn('classmate_bohan'),speaker:'classmate_bohan',text:'後面三排。我問過學長了。'},
       {if:kn('heroine_01'),speaker:'heroine_01',text:'（看了一下錶）讀書會八點。……我們先走。'},   /* AA_376 #7：讀書會當晚 20:00 就開；19:40 以安、Alison、柏翰一起先走（下面 fm_end 以後，同 10/21 那一場）*/
       ...TA_LINES,
-      {if:kn('heroine_03'),speaker:'heroine_03',text:'（倒茶過來）凍頂剩四壺。'},
+      {if:kn('heroine_03'),speaker:'heroine_03',text:'（倒茶過來）今天凍頂剩四壺。'},
       {choice:[{text:'「先吃。」',goto:'fm_a'},{text:'「真的點後面三排？」',if:kn('classmate_bohan'),goto:'fm_b'}]},
       {label:'fm_a'},{if:kn('zhe'),speaker:'zhe',text:'對。先吃。'},{goto:'fm_end'},
       {label:'fm_b'},{speaker:'classmate_bohan',text:'真的。所以我坐第一排。'},
@@ -271,7 +271,7 @@ const R2Y3A_EVENTS=(function(){
   const ADMIN={ id:'ev_an_admin_court', title:'她選了行政法院', participants:['heroine_01'], location:'noodle', trigger:'auto', once:true, background:'blur', npcNear:'heroine_01', nearDist:3,
     prereq:{custom:G=>on(G,'2027-10-21',17.5,19+40/60)&&stAt(G,'heroine_01','FAMILIAR')&&!(G.flags&&G.flags.AN14)},
     dialogue:[ {speaker:null,text:'（燒臘店的長桌。以安比平常晚到，手帳裡夾著一張開庭表。）'},
-      {speaker:'heroine_01',text:'下午我先去了一趟行政法院。'},   /* AA_462 第 8 節③：「我自己去了」換字（同 an14Phone 那一則，AA_462 第 1 節）*/
+      {speaker:'heroine_01',text:'今天下午，我先去了一趟行政法院。'},   /* AA_462 第 8 節③：「我自己去了」換字（同 an14Phone 那一則，AA_462 第 1 節）*/
       {speaker:'heroine_01',text:'一個人告區公所。他坐左邊，區公所的人坐右邊。'},
       {speaker:'heroine_01',text:'他帶了一個資料夾，裡面全部是收據。區公所來了兩個人，一人一台筆電。'},
       {if:kn('zhe'),speaker:'zhe',text:'刑訴的作業不是要去地院嗎？'},
@@ -342,7 +342,7 @@ const R2Y3A_EVENTS=(function(){
       {label:'g2'},{speaker:'阿嬤',text:'有啊。我都先撿起來放著。……你們說要問，我還沒去問。'},{goto:'sis'},
       {label:'g3'},{speaker:null,text:'（她坐下來，喝了半杯你倒的水，又起來去逛下一攤。）'},
       {label:'sis'},
-      {if:SIS_PASS,speaker:'heroine_05',text:'（抱著一疊訪談稿，從攤位前面經過）人好多。'},
+      {if:SIS_PASS,speaker:'heroine_05',text:'（抱著一疊訪談稿，從攤位前面經過）今天人好多。'},
       {if:SIS_PASS,speaker:'heroine_05',text:'學弟妹不會的，會跑去問你吧。……我回研究室了。'},
       STICKERS,
       {set:{FAIR_Y3:'booth'}} ] };
@@ -350,7 +350,7 @@ const R2Y3A_EVENTS=(function(){
     prereq:{custom:G=>!member(G)&&!done(G,'ev_fair_booth_y3')},
     dialogue:[ {speaker:null,text:'（法服的攤位前，柏翰在跟一個人講話，筆記寫了半頁。）'},
       {if:GM_Y2,speaker:null,text:'（攤位旁邊的阿嬤看到你，揮了一下手。）'},
-      {if:SIS_PASS,speaker:'heroine_05',text:'（抱著一疊訪談稿，從攤位前面經過，看到你）人好多。我回研究室了。'},
+      {if:SIS_PASS,speaker:'heroine_05',text:'（抱著一疊訪談稿，從攤位前面經過，看到你）今天人好多。我回研究室了。'},
       STICKERS,
       {set:{FAIR_Y3:'pass'}} ] };
 

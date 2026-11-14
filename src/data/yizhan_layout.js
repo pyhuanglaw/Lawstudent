@@ -10,7 +10,7 @@
 const YIZHAN_LAYOUT = {
   version: 2,
   id: 'wz_teahouse', name: '一盞', glb: 'assets/models/env/second_ai/aa_support/yizhan.glb', yardGlb: 'wz_teahouse_yard.glb（LAWWW2）',
-  w: 8.4, d: 14.6, h: 2.9, wallColor: '#e6dcc4', floor: 'wood_light（D112：參考圖是深色木地板，改淺色）',
+  w: 8.4, d: 14.6, h: 2.6, wallColor: '#e6dcc4', floor: 'wood_light（D112：參考圖是深色木地板，改淺色）',
   zCenterNote: '區域 z −5～9.6：房子 z −5～5、緣側 5～6.2、前院 6.2～9.6（前院 LAWWW2 另一顆 GLB）',
   note: '主屋約 8×10 m＋緣側。西南角是土間玄關（石板地、一階木踏台、左牆鞋櫃）；中間木地板的茶席（一張長矮桌、六個坐墊）；東邊水屋（朝店裡的木作檯：流理台、電熱水壺、茶罐、沙漏、茶巾；後面牆上茶具層架；往後面的布暖簾）；後面兩間榻榻米和室（床之間、違い棚），中間襖；前面整排格子玻璃拉門對著緣側和院子（拉開收在兩端）。深色木柱、木梁、木板天花板，方形和紙吊燈。',
   front: {door: {x: -3.0, w: 1.0, note: '玄關的格子門（從前院的踏石進來）'}, openFront: true, shoji: {z: 5.0, x0: -2.2, x1: 4.2, note: '緣側和室內之間的格子玻璃拉門：拉開收在兩端（x −2.2～−1.4、3.4～4.2）'}},

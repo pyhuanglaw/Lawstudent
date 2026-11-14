@@ -6,7 +6,6 @@
 //   4. 遊戲那 5 格＝稿的新字（沒有句中「……」）；舊字都不在遊戲檔了
 //   5. 遊戲整份和重匯以前的開發分支（BASE）逐格比：只有這 5 格不同；un812 還原以後兩版一樣
 'use strict';
-const M959=require('./aa959_map.js');   /* AA_959（DLG-FULL-REVIEW-1110）：遊戲的 date_lines 先照覆寫表換回舊字再比（AA_959 本身逐列驗在 tests/aa959_overlay_unit.js）*/
 const fs=require('fs'), path=require('path'), cp=require('child_process');
 const ROOT=path.join(__dirname,'..'), J=JSON.stringify;
 const C=require('./date_src_sha.js'), SP='docs/story_planning/', BASE='dd63a41a10', R=C.KX932_1112;   /* BASE＝重匯以前的開發分支 */
@@ -18,7 +17,7 @@ const DL=t=>JSON.parse(t.slice(t.indexOf('const DATE_LINES=')+17,t.lastIndexOf('
 const leaves=(o,p,out)=>{ if(o&&typeof o==='object'){ for(const k of Object.keys(o)) leaves(o[k],p+'/'+k,out); } else out[p]=o; return out; };
 const get=(o,p)=>{ for(const k of p.split('/').filter(Boolean)) o=o==null?o:o[k]; return o; };
 const LOCS=Array.from({length:33},(_,i)=>'D'+String(i+1).padStart(2,'0'));
-const NOW=M959.unmapDeep(DL(read('src/data/date_lines.js')),'date_lines.js');
+const NOW=DL(read('src/data/date_lines.js'));
 const gp=r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path;
 
 // 1
@@ -55,6 +54,7 @@ const gp=r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path;
     const want=R.map(gp).sort();
     { const K7=C.KX938_1113.map(r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path).filter(p=>diff.includes(p)&&!want.includes(p)), a7=diff.slice(); diff.length=0; for(const p of a7) if(!K7.includes(p)) diff.push(p); check('5. 之後收尾批（4539b2ebaf，AA_938 可昕記帳口氣）5 格也換了字（date_src_sha.js KX938_1113；逐格在 tests/kx938_dates_1113_unit.js）——這裡先拿掉再比（'+K7.length+' 格）',K7.length<=5,J(K7)); }
     { const K8=C.KX944_1113.filter(r=>!r.align).map(r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path).filter(p=>diff.includes(p)&&!want.includes(p)), a8=diff.slice(); diff.length=0; for(const p of a8) if(!K8.includes(p)) diff.push(p); check('5. 之後收尾批（b4dcd9bf9a，AA_944 沛珊「今天」開頭 31 格＋AA_945 可昕再訪 23 格）也換了字（date_src_sha.js KX944_1113；AA_946 對齊的 12 格遊戲沒變；逐格在 tests/kx944_dates_1113_unit.js）——這裡先拿掉再比（'+K8.length+' 格）',K8.length<=54,J(K8)); }
+    C.rc2Layer(diff,a,b,check,want);   /* 2026-11-13 76f8 rc2（D158-KX-SAMESCHOOL，BB_467／AA_987）：可昕外校前提 5 格（date_src_sha.js RC2_1113；新舊字在 tests/d158_rc2_rows.json）也換了字——這裡先拿掉再比（同時驗 5 格都是新字、舊字整份 0 格）；舊期望是拿掉上面那幾層以後就只差這一輪的格子 */
     check('5. 遊戲整份（'+Object.keys(b).length+' 格）和重匯以前（'+BASE+'）逐格比：只有這 5 格不同',Object.keys(b).length>30000&&J(diff.sort())===J(want),J(diff.filter(p=>!want.includes(p)).slice(0,4)));
     check('5. 那 5 格重匯以前＝稿的 old',R.every(r=>a[gp(r)]===r.old));
     check('5. un812 把現在的遊戲檔還原以後＝重匯以前的遊戲檔 un812',J(C.un812(NOW).loc)===J(C.un812(DL(wt)).loc));

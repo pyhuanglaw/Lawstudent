@@ -2909,7 +2909,7 @@ const AA720={
    "anLaterNoGroup": "我要申請日本交換。……先跟你說一聲。",
    "zqDemoNarr": "一隻貓站在一座橋上",
    "zqDemoFall": "你在橋的一半掉下去",
-   "zqDemoHard": "第三關太難了。我回去改。",
+   "zqDemoHard": "……第三關太難了。我回去改。",
    "zrCafeAdmit": "我錄取了。英國那邊的信來了。",
    "zrScholarCafe": "……獎學金拿到一半。",
    "zrBdayOrigNarr": "（明信片背面寫著：台灣晚上十點。）",

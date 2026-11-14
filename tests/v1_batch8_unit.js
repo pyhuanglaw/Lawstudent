@@ -57,12 +57,12 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('G1：民總期末考在第 16 週（第 '+midDay+' 天）',!!midDay);
     const exam=async(flags,setup,pk)=>{ fresh(midDay,13.2,'classroom',Object.assign({readCase:'full'},flags||{})); PHONE.join(G,'noodle_team','桌遊團'); /* 有桌遊團群組：G1 最後不當面問宵夜（第 9 批 A15，v1_batch9_unit 檢查沒有群組的）*/ if(setup) setup(); picks=[0,0,0,0,0].concat(pk||[]);   /* D118：期末考五題選擇先答完 */ const it=CLS.dayItems(G,midDay).find(x=>x.c.id==='civ_general'); await CLS.attend(GM,it); return lines(); };
     let L=await exam({},null,['引誘']);
-    check('G1：考完接著演：走廊的旁白；柏翰沒見過＝「有人在問：第二題，……」旁白；阿哲「有第二題？」；Alison、芯慈、明軒、以安沒見過都不在',L.includes('走廊上一群人。有人在翻課本，有人已經在滑手機。')&&L.includes('有人在問：第二題，是寫要約之引誘還是要約？')&&L.includes('有第二題？')&&!L.some(t=>/我寫要約。我覺得|反對意見|不要對了啦|對答案沒有用/.test(t)),JSON.stringify(L.slice(-8)));
+    check('G1：考完接著演：走廊的旁白；柏翰沒見過＝「有人在問：第二題，……」旁白；阿哲「……有第二題？」；Alison、芯慈、明軒、以安沒見過都不在',L.includes('走廊上一群人。有人在翻課本，有人已經在滑手機。')&&L.includes('有人在問：第二題，是寫要約之引誘還是要約？')&&L.includes('……有第二題？')&&!L.some(t=>/我寫要約。我覺得|反對意見|不要對了啦|對答案沒有用/.test(t)),JSON.stringify(L.slice(-8)));
     check('G1：讀過案例：三個選項都在',JSON.stringify(opts[opts.length-1])===JSON.stringify(['「我寫引誘，第二天那個案子就是這個。」','「我寫要約。」','「去吃飯。」']),JSON.stringify(opts[opts.length-1]));
     L=await exam({readCase:'none'},null,['要約']);
     check('G1：第一天沒讀案例：沒有「第二天那個案子就是這個」',JSON.stringify(opts[opts.length-1])===JSON.stringify(['「我寫要約。」','「去吃飯。」']),JSON.stringify(opts[opts.length-1]));
     L=await exam({met_yu:true},()=>{ for(const id of ['classmate_bohan','classmate_xinci','classmate_mingxuan','heroine_01']) meet(id); },['要約']);
-    const want=['第二題，你們是寫要約之引誘還是要約？','有第二題？','我寫要約。我覺得是要約。（停）完了，我寫要約。','（小聲）我寫引誘，然後補了一段反對意見。','反對意見誰的？','我自己的。','……可以這樣寫嗎？','不要對了啦，去吃飯。','（從教室出來，把筆收進筆袋）對答案又不會加分。','同一國的！'];   /* 以安「……我寫引誘。」刪掉（AA_587 保51＋第 14 節第 6 點，使用者 11-02：「拿書卷的人會這樣？」） */
+    const want=['第二題，你們是寫要約之引誘還是要約？','……有第二題？','我寫要約。我覺得是要約。（停）完了，我寫要約。','（小聲）我寫引誘，然後補了一段反對意見。','反對意見誰的？','我自己的。','……可以這樣寫嗎？','不要對了啦，去吃飯。','（從教室出來，把筆收進筆袋）對答案又不會加分。','同一國的！'];   /* 以安「……我寫引誘。」刪掉（AA_587 保51＋第 14 節第 6 點，使用者 11-02：「拿書卷的人會這樣？」） */
     check('G1：大家都認識：AA_13 G1 原文照順序（以安「……我寫引誘。」照 AA_587 刪掉）；選「我寫要約。」→ Alison「同一國的！」',want.every((t,i)=>L.indexOf(t)>=0&&(i===0||L.indexOf(t)>L.indexOf(want[i-1])))&&!L.includes('……我寫引誘。'),JSON.stringify(L.slice(-12)));
     check('G1：SHARED_CLASS 記在認識的同學（阿哲、柏翰、Alison、芯慈、明軒、以安）',['zhe','classmate_bohan','yu','classmate_xinci','classmate_mingxuan','heroine_01'].every(id=>SOCIAL.has(id,'SHARED_CLASS')));
     L=await exam({},()=>meet('classmate_xinci'),['吃飯']);
@@ -71,12 +71,12 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('G1：「我寫引誘……」→ 柏翰「你也讀了判決？」',L[L.length-1]==='你也讀了判決？');
     L=await exam({},()=>meet('classmate_mingxuan'),['吃飯']); check('G1：「去吃飯。」、認識明軒：「阿哲、明軒：走！」',L[L.length-1]==='走！'&&said[said.length-1].who==='阿哲、明軒',JSON.stringify(said.slice(-1)));
     /* 只在民總期末考之後 */
-    fresh(midDay,13.2,'classroom',{readCase:'full'}); G.events.done.ev_midterm_walkout=1; picks=[]; await CLS.attend(GM,CLS.dayItems(G,midDay).find(x=>x.c.id==='civ_general')); check('G1：只一次（演過就不再演）',!lines().includes('有第二題？'));
+    fresh(midDay,13.2,'classroom',{readCase:'full'}); G.events.done.ev_midterm_walkout=1; picks=[]; await CLS.attend(GM,CLS.dayItems(G,midDay).find(x=>x.c.id==='civ_general')); check('G1：只一次（演過就不再演）',!lines().includes('……有第二題？'));
     let other=null; for(let d=termDay(16,1);d<=termDay(16,7)&&!other;d++){ const it=CLS.dayItems(G,d).find(x=>x.c.id!=='civ_general'&&x.exam==='final'&&x.c.kind!=='service'); if(it) other=it; }
-    fresh(other.day,other.t0,'classroom',{readCase:'full'}); picks=[]; await CLS.attend(GM,other); check('G1：別科（'+other.c.name+'）的期末考考完不會演',!lines().includes('有第二題？'));
+    fresh(other.day,other.t0,'classroom',{readCase:'full'}); picks=[]; await CLS.attend(GM,other); check('G1：別科（'+other.c.name+'）的期末考考完不會演',!lines().includes('……有第二題？'));
     { let w8=null; for(let d=termDay(8,1);d<=termDay(9,7)&&!w8;d++){ const it=CLS.dayItems(G,d).find(x=>x.c.id==='civ_general'); if(it) w8=it; }
-      fresh(w8.day,w8.t0,'classroom',{readCase:'full'}); picks=[]; await CLS.attend(GM,w8); check('G1：第 8～9 週的民總照常上課（不是考試）、不會演（D118）',!w8.exam&&!lines().includes('有第二題？')); }
-    const W4THU=termDay(4,4); fresh(W4THU,13.2,'classroom',{readCase:'full'}); picks=[]; await CLS.attend(GM,CLS.dayItems(G,W4THU).find(x=>x.c.id==='civ_general')); check('G1：一般的民總下課不會演',!lines().includes('有第二題？')); }
+      fresh(w8.day,w8.t0,'classroom',{readCase:'full'}); picks=[]; await CLS.attend(GM,w8); check('G1：第 8～9 週的民總照常上課（不是考試）、不會演（D118）',!w8.exam&&!lines().includes('……有第二題？')); }
+    const W4THU=termDay(4,4); fresh(W4THU,13.2,'classroom',{readCase:'full'}); picks=[]; await CLS.attend(GM,CLS.dayItems(G,W4THU).find(x=>x.c.id==='civ_general')); check('G1：一般的民總下課不會演',!lines().includes('……有第二題？')); }
   /* ---------- A19 以安的邀約（期末前的總圖）---------- */
   { const W16=termDay(15,1);   /* 16 週制：第 15 週（AA_243 #68；變數名照舊）*/ const knowAn=()=>{ meet('heroine_01'); SOCIAL.talkedTo('heroine_01'); };   /* 認識以上（AA_70 2-1）：說過話 */
     fresh(3,20,'campus',{afternoonDone:true}); STORY.phoneRules(GM); check('A19 前提：第二天下午和以安一起過的玩家有她的聯絡方式（舊存檔也補；不跳通知）',INV.hasContact(G,'heroine_01')&&!(G.msgs||[]).some(m=>/沈以安的聯絡方式/.test(m.text||'')));
@@ -147,7 +147,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     L=await morning({KX_GRADES_PACT_SET:true},['等五號']);
     check('期末成績（等）：早上先問「先看。／等五號一起看。」，選等＝早上不發、KX_GRADES_PACT=kept、排 21:00「接起來：可昕的視訊」',JSON.stringify(opts[0])==='["先看。","等五號一起看。"]'&&!CLS.rec(G).grades.Y1S1&&G.flags.KX_GRADES_PACT==='kept'&&OUT.get(G,'kx_grades')&&OUT.get(G,'kx_grades').verb==='接起來',JSON.stringify({L,o:opts}));
     said=[]; opts=[]; G.hour=20.8; picks=['接起來']; await OUT.tick(GM); L=lines();
-    check('期末成績（等）：21:00 視訊「三、二、一——」「都過了。好，這次才是真的放假。」，接著發成績單',opts[0][0]==='接起來：可昕的視訊：一起打開成績'&&L[0]==='（寒假。她在高雄，視訊那頭聽得到她家的電視。）'&&L[1]==='三、二、一——'&&L[2]==='都過了。好，這次才是真的放假。'&&L[3]==='大一上的成績出來了。'&&!!CLS.rec(G).grades.Y1S1,JSON.stringify({o:opts[0],L}));   /* （CANON-NO-ECON-1112 第四批：照 AA_875 換字）開頭多一句旁白 */
+    check('期末成績（等）：21:00 視訊「三、二、一——」「……都過了。好，這次才是真的放假。」，接著發成績單',opts[0][0]==='接起來：可昕的視訊：一起打開成績'&&L[0]==='（寒假。她在高雄，視訊那頭聽得到她家的電視。）'&&L[1]==='三、二、一——'&&L[2]==='……都過了。好，這次才是真的放假。'&&L[3]==='大一上的成績出來了。'&&!!CLS.rec(G).grades.Y1S1,JSON.stringify({o:opts[0],L}));   /* （CANON-NO-ECON-1112 第四批：照 AA_875 換字）開頭多一句旁白 */
     L=await morning({KX_GRADES_PACT_SET:true},['先看']);
     check('期末成績（先看）：早上照常發成績單、KX_GRADES_PACT=peeked、晚上照樣一起打開（不吵）',L.includes('大一上的成績出來了。')&&!!CLS.rec(G).grades.Y1S1&&G.flags.KX_GRADES_PACT==='peeked'&&!!OUT.get(G,'kx_grades'));
     run(7.6,21.1); const pk=G.msgs.filter(x=>x.tag==='kx_grades_peek').map(x=>x.text);

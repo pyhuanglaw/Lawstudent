@@ -505,11 +505,11 @@ const Y2R2=(function(){
     /* --- 2-Y2-06 K10b 電影夜：CANON-NO-ECON-1112 第三批拿掉 --- */
     /* --- 2-Y2-07 聖誕 --- */
     { const a=d('x0'), r=d('xr'), g=d('xg'), m=d('x'); if(kx(G)&&a!=null){
-        if(win(G,a,21,3)&&!sent(G,'y2r2_x_ask')) at(G,a,21,[K('聖誕晚上，我排了行程。第一頁是吃的，第二頁才是地點。'),KASK('六點半，公館。我下山。',{id:'y2r2_x_ask',until:abs(m,18),opts:[{t:'好。',set:{KX_XMAS_Y2:'yes'},say:[{from:'kexin',text:'嗯。禮物先準備好，不要當天才買。'}]},{t:'那天不行。',set:{KX_XMAS_Y2:'no'},say:[{from:'kexin',text:'……好。行程表我先留著。'}]}]})],'y2r2_x_ask');
+        if(win(G,a,21,3)&&!sent(G,'y2r2_x_ask')) at(G,a,21,[K('聖誕晚上空下來給我。吃的我已經想好了。'),KASK('六點半，公館見。',{id:'y2r2_x_ask',until:abs(m,18),opts:[{t:'好。',set:{KX_XMAS_Y2:'yes'},say:[{from:'kexin',text:'嗯。禮物先準備好，不要當天才買。'}]},{t:'那天不行。',set:{KX_XMAS_Y2:'no'},say:[{from:'kexin',text:'……好。那幾樣吃的，我先自己吃一樣。'}]}]})],'y2r2_x_ask');
         if(!F.KX_XMAS_Y2&&win(G,r,21,1)&&sent(G,'y2r2_x_ask')&&!sent(G,'y2r2_x_remind')) at(G,r,21,[K('二十五號。六點半。')],'y2r2_x_remind');
-        if(F.KX_XMAS_Y2==='yes'&&!outGet(G,'y2r2_xmas')&&now(G)<abs(m,18.75)) plan(G,{id:'y2r2_xmas',ev:'ev_kexin_xmas_y2',day:m,h:18.5,late:0.25,place:'公館',title:'聖誕晚上（可昕排的行程）',travel:'走過去約 10 分鐘',travelH:1/6});
+        if(F.KX_XMAS_Y2==='yes'&&!outGet(G,'y2r2_xmas')&&now(G)<abs(m,18.75)) plan(G,{id:'y2r2_xmas',ev:'ev_kexin_xmas_y2',day:m,h:18.5,late:0.25,place:'公館',title:'聖誕晚上（和可昕）',travel:'走過去約 10 分鐘',travelH:1/6});
         if(F.KX_XMAS_Y2==='yes'&&g!=null&&G.day>=g&&G.day<=m&&!F.KX_XMAS_GIFT_Y2&&!sent(G,'y2r2_x_gift')) at(G,g,Math.max(9,G.day===g?G.hour:9),[{th:'sys',text:'準備可昕的聖誕禮物',ask:{id:'y2r2_x_gift',until:abs(m,18.5),opts:[{t:'一條圍巾',post:false,set:{KX_XMAS_GIFT_Y2:'scarf'}},{t:'她說想看的那本書',post:false,set:{KX_XMAS_GIFT_Y2:'book'}},{t:'一副手套',post:false,set:{KX_XMAS_GIFT_Y2:'gloves'}}]}}],'y2r2_x_gift');
-        if(!done(G,'ev_kexin_xmas_y2')&&win(G,m,21,2)&&sent(G,'y2r2_x_ask')&&!sent(G,'y2r2_x_photo')){ merge(G,'KX_XMAS',{2:'missed'}); at(G,m,21,[K('📷（行程表的第一頁）'),K('第二頁，明年。')],'y2r2_x_photo'); } } }
+        if(!done(G,'ev_kexin_xmas_y2')&&win(G,m,21,2)&&sent(G,'y2r2_x_ask')&&!sent(G,'y2r2_x_photo')){ merge(G,'KX_XMAS',{2:'missed'}); at(G,m,21,[K('📷（公館騎樓的紅豆餅攤，排隊的人排到轉角）'),K('這個隊，明年再一起排。')],'y2r2_x_photo'); } } }
     /* --- 2-Y2-09 期末成績的打賭 --- */
     S.betRules(G,GM);
     /* --- 2-Y2-10 寒假去高雄 --- */
@@ -524,7 +524,7 @@ const Y2R2=(function(){
     { const m=d('kn'); if(kx(G)&&m!=null){
         if(win(G,m,22,1)&&!sent(G,'y2r2_kn')) at(G,m,22,[K('新年快樂。'),K('我們家在玩撲克牌。我表弟輸到哭。'),KASK('你們家在幹嘛？',{id:'y2r2_kn',until:abs(m+1,9.75),opts:[{t:'在看電視。沒人在看。',set:{KX_KN_Y2:'tv'},say:[{from:'kexin',text:'我們家的電視也開著。……過年的電視都是這樣。'}]},{t:'我爸從上海帶了一箱點心。',set:{KX_KN_Y2:'dad'},say:[{from:'kexin',text:'你爸回來了？那你今天不要一直滑手機。'}]},{t:'打給妳。',post:false,set:{KX_KN_Y2:'call'}}]})],'y2r2_kn');
         if(F.KX_KN_Y2==='call'&&!outGet(G,'y2r2_kn_call')) plan(G,{id:'y2r2_kn_call',ev:'ev_kexin_lunar_eve_y2_call',day:G.day,h:G.hour,late:1,place:'電話',title:'打給可昕（除夕）',verb:'打給她',must:true,call:true,travel:'',travelH:0,back:'電話結束。'});
-        if(!F.KX_KN_Y2&&win(G,m+1,10,2)&&sent(G,'y2r2_kn')&&!sent(G,'y2r2_kn_none')){ F.KX_KN_Y2='none'; at(G,m+1,10,[K('初一了。'),K('你昨天一定被抓去打牌了。')],'y2r2_kn_none'); } } }
+        if(!F.KX_KN_Y2&&win(G,m+1,10,2)&&sent(G,'y2r2_kn')&&!sent(G,'y2r2_kn_none')){ F.KX_KN_Y2='none'; at(G,m+1,10,[K('初一了。'),K('……你昨天一定被抓去打牌了。')],'y2r2_kn_none'); } } }
     /* --- 2-Y2-12 情人節 --- */
     { const m=d('vd'); if(kx(G)&&m!=null&&G.day>=m-7&&G.day<=m&&!outGet(G,'y2r2_vday')) plan(G,{id:'y2r2_vday',ev:'ev_kexin_valentine_y2',day:m,h:20,late:0.5,place:'視訊',title:'可昕的視訊：情人節',verb:'接起來',no:'今天先不要',travel:'',travelH:0,back:'視訊結束。'}); }
     /* --- 2-Y2-13 阿哲押金的結果：那天之後第 7 天 22:00 --- */
@@ -599,11 +599,11 @@ const Y2R2=(function(){
   S.afterOuting=async function(GM,q,ev){ const G=GM.G, F=G.flags; if(!q||q.id==='y2r2_kh'||q.call||q.verb==='接起來'||q.place==='視訊'||(ev&&ev.kxAway)) return; const withKx=(ev&&(ev.participants||[]).includes('kexin'))||(q.hv&&q.hv.id==='kexin')||(!!q.dateTrip&&typeof DATE!=='undefined'&&!!DATE.trip&&(DATE.trip(G,q.dateTrip)||{}).who==='kexin');   /* 出遊的事件、去高雄找她（hometown3d）、校外約會（date3d）*/ if(!withKx||!kx(G)) return;
     const t=S.betPending(G); if(!t) return; const gd=d(t==='Y2S1'?'g1':'g2'); if(gd==null||G.day<gd) return; F['KX_BET_'+t+'_PAID']=true; await GM.say(null,F['KX_GRADES_'+t]==='asked'?'（這次是你請。）':'（這次是她請。）'); };
   /* ---------- 2-Y2-15 生日：阿哲 4/17 21:00；4/24 ---------- */
-  /* MSG-2 生日按鈕（msg2_pool.js 可昕 bday 的回問「你晚上要上山來，還是我下山」）：大二 4/24、沒回阿哲（KX_BD2_PICK 沒有）、還沒見到她——
+  /* MSG-2 生日按鈕（msg2_pool.js 可昕 bday 的回問（舊稿的「你晚上要過來，還是我過去」那句，已換掉；D158））：大二 4/24、沒回阿哲（KX_BD2_PICK 沒有）、還沒見到她——
      「妳來公館」她回「好 九點」（這一年七點她室友她們先幫她過）、記 KX_BD2_GG（AA_338 第 2 節）。MSG.askOpts 包一層呼叫（檔尾）*/
   S.bdAskFix=function(G,id,e,opts){ if(id!=='kexin'||!e||e.topic!=='bday'||!G||!G.flags||!kx(G)) return; const m=d('b'); if(m==null||G.day!==m||G.flags.KX_BD2_PICK||done(G,'ev_kexin_birthday_y2')) return;
     const o=(opts||[]).find(x=>x&&x.t==='妳來公館'); if(!o) return; o.say=[{from:'kexin',text:'好 九點'}]; o.set=Object.assign({},o.set||{},{KX_BD2_GG:true}); };
-  /* 回過阿哲的玩家（KX_BD2_PICK 三選一）4/24 又傳生日快樂（AA_343 A2）：那天已經有安排，不問「你晚上要上山來，還是我下山」，整個回覆換成一句——
+  /* 回過阿哲的玩家（KX_BD2_PICK 三選一）4/24 又傳生日快樂（AA_343 A2）：那天已經有安排，不問（舊稿的「你晚上要過來，還是我過去」那句，已換掉；D158），整個回覆換成一句——
      交誼廳、後門、兩個人版 19:00 以前回「謝謝。……晚上見。」；電話版 22:00 以前回「謝謝。……晚上等你電話。」；那一場已經演過（或已經錯過）之後才回「謝謝。」。
      2-Y2-15 那一天蓋過 MSG-2 的回覆（msg2_pool 不動）；MSG.pick2 包一層呼叫（檔尾）*/
   S.bdReply=function(G,id,topic,e){ if(id!=='kexin'||topic!=='bday'||!e||!G||!G.flags||!kx(G)) return null; const F=G.flags, m=d('b'), pk=F.KX_BD2_PICK; if(m==null||G.day!==m||!pk) return null;

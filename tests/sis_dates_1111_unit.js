@@ -8,7 +8,6 @@
 //   6. AA_764：date_wish.js 學姊的事件＝稿的 wish_event、rows 32 列；別人不動；import_wish.py 重匯一樣
 //   7. AA_765：lines.heroine_05 四列照稿、每一種句數不變、別人不動
 // 稿、BASE 讀 git show；讀不到（淺層複本）＝不比稿，只驗結構。用法：node tests/sis_dates_1111_unit.js
-const M959=require('./aa959_map.js');   /* AA_959（DLG-FULL-REVIEW-1110）：遊戲的 date_lines 先照覆寫表換回舊字再比（AA_959 本身逐列驗在 tests/aa959_overlay_unit.js）*/
 const H=require('./pg_harness.js');
 const {check}=H; const J=JSON.stringify;
 const cp=require('child_process'), fs=require('fs'), path=require('path'), os=require('os');
@@ -31,7 +30,7 @@ const sortJ=o=>J(o,(k,v)=>v&&typeof v==='object'&&!Array.isArray(v)?Object.keys(
 /* 2026-11-11（AA_812@f1fab0ec6）：懸著的「下次我請」七格（date_src_sha.js 的 CELLS_812：學姊、子晴 D06.cafe remember，沛珊 D15.store、D21.street，可昕 D15 收尾，子晴 D06 第一次選項的回覆，語彤 D10.boat remember）
    是匯入工具最後一步疊上去的（改稿紀錄 date_rewrite/ 和稿的 path_rows；源稿 Dxx.json 沒有重新 apply）——這支的逐字對稿、和重匯以前比，NOW 先用 un812 把那七格還原成舊字再比
    （只有那一格現在剛好是新字才還原，不是＝照舊會紅）；那七格現在＝新字下面另外驗（逐格、她請客在 tests/date_she_pays_812_1111_unit.js）。舊期望：直接拿 NOW 比 */
-const NOW812=M959.unmapDeep(DL(read('src/data/date_lines.js')),'date_lines.js'), NOW=require('./date_src_sha.js').un812(NOW812);
+const NOW812=DL(read('src/data/date_lines.js')), NOW=require('./date_src_sha.js').un812(NOW812);
 check('0. AA_812 那七格（CELLS_812）現在是新字（還原成舊字以後才拿 NOW 和源稿、重匯以前比）',require('./date_src_sha.js').CELLS_812.length===7&&require('./date_src_sha.js').CELLS_812.every(r=>require('./date_src_sha.js').cell812(NOW812,r)===(r.now||r.new)&&require('./date_src_sha.js').cell812(NOW,r)===r.old),JSON.stringify(require('./date_src_sha.js').CELLS_812.map(r=>require('./date_src_sha.js').cell812(NOW812,r))));   /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）：第六格（子晴 D06.cafe 第一次選項的回覆）AA 在 AA_846 late_fix 改回「下次我請你吃滷味。」，AA_812 path_rows 那一列被取代（import_date_lines.py SUPER812）——那一格現在認 CELLS_812 的 now。舊期望：七格都＝r.new */
 const SRC={}, OLDSRC={}; for(const k of LOCS){ const t=show(SHA,SP+'date_system/lines/'+k+'.json'), u=show(PREV,SP+'date_system/lines/'+k+'.json'); if(t) SRC[k]=require('./date_src_sha.js').src248(k,JSON.parse(t));   /* 2026-11-12（X324 學姊續改 AA_837＋AA_838@a573a50dca）：源稿學姊又改 78 格、D01 交往到達多一套——這一支驗的是 82c946ad7 那一輪，源稿用 src248、遊戲用 un812 都還原成改以前的字再比（那 78 格在 tests/sis_dates_1112_unit.js 逐格驗）。舊寫法：noFx(JSON.parse(t)) */   /* 52c3ee258 起源稿有 fx：只比字（date_src_sha.js noFx） */ if(u) OLDSRC[k]=JSON.parse(u); }
 const haveSrc=Object.keys(SRC).length===33&&Object.keys(OLDSRC).length===33;

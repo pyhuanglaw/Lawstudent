@@ -2,7 +2,7 @@
 // 在 Node 載入遊戲的 three.js、zones3d.js、配置和正式模型 komichi.glb、daily_offbeat.glb，建出真正的區域：
 //   ① 照片都在（小路、日常失速前窗各 1 組），長寬比＝窗景卡（小路 14 × 5.5、日常失速 14 × 6.5）
 //   ② 白天（14:00）：窗景卡換成自己那一張白天的、不調暗
-//   ⑤ 日常失速右窗（朝北，地圖外）是同一片樹（11-13 起換成抽出來的 offbeat_view_right_*，晚上有夜版：WINVIEW-AUDIT-1105 LAWWW2-C），和前窗分開（各自一份材質）
+//   ⑤ 日常失速右窗（朝北，地圖外）照舊是模型原本那張，和前窗分開（前窗那一塊複製了一份材質）
 //   ③ 晚上（21:00）：換成晚上那一張、不調暗；回到白天換回來
 //   ④ 不再是木曜日的樹（mok_view）
 // 修改前（開發分支 12cb1426c）：全部 FAIL（窗景卡是 mok_view；日常失速前後兩塊共用一個材質）。用法：node tests/wz_views_1105_unit.js
@@ -37,6 +37,6 @@ const CARDS=[{zone:'wz_teishoku',mesh:/VIEW/,img:'komichi_view',ar:14/5.5},{zone
     z.applyTime(14,'clear'); check('③ '+c.img+' 回到白天換回來', src(m).endsWith(c.img+'_day.webp'), src(m));
     check('④ '+c.img+' 不再是木曜日的樹', !!src(m)&&!/mok_view/.test(src(m))); }
   { const z=built.wz_offbeat; let r=null; z.group.traverse(o=>{ if(!r&&o.isMesh&&/WALL_right_VIEW/.test(o.name)) r=[].concat(o.material)[0]; });
-    check('⑤ 日常失速右窗是自己的樹（offbeat_view_right，不是前窗那張）、和前窗不是同一份材質', !!r&&r!==mats.offbeat_view_front&&!/offbeat_view_front/.test(src(r)), r?(src(r)||((r.map&&r.map.name)||'模型的圖')):'沒有右窗'); }
+    check('⑤ 日常失速右窗照舊（模型原本那張、和前窗不是同一份材質）', !!r&&r!==mats.offbeat_view_front&&!/offbeat_view/.test(src(r)), r?(src(r)||((r.map&&r.map.name)||'模型的圖')):'沒有右窗'); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })();

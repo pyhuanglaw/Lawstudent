@@ -69,7 +69,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
     const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_745_movie_plots_\d\.json$/.test(e.path)&&e.status==='approved');
     const raw={}; let bad=[];
     for(const e of allow){ try{ Object.assign(raw,JSON.parse(cp.execFileSync('git',['-C',H.ROOT,'show',e.sha+':'+e.path],{encoding:'utf8',maxBuffer:1<<26})).films); }catch(x){ bad.push(e.path+'@'+e.sha+'：git show 失敗（淺層 clone 先 git fetch origin claude/story-planning）'); } }
-    const ids=Object.keys(PL().films); for(const id of ids){ if(J(require('./aa959_map.js').mapDeep(raw[id],'movie_plots.js'))/* AA_959：稿照覆寫表換成遊戲的新字（分人）*/!==J(PL().films[id])) bad.push(id); }
+    const ids=Object.keys(PL().films); for(const id of ids){ if(J(raw[id])!==J(PL().films[id])) bad.push(id); }
     const all=[...new Set((fs.readFileSync(path.join(H.ROOT,'src/data/nanyang_movies.js'),'utf8').match(/m\d{4}[ab]/g)||[]))];
     check('0. 三批白名單、72 部（片單每一部都有）、plot／scene／talk／with 和稿一字不差',allow.length===3&&ids.length===72&&all.every(id=>ids.includes(id))&&Object.keys(raw).length===72&&!bad.length,J({allow:allow.length,n:ids.length,bad:bad.slice(0,5)}));
     const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), i=f=>html.indexOf('src="'+f);

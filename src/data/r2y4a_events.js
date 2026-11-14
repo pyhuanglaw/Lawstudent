@@ -339,11 +339,11 @@ const R2Y4A_EVENTS=(function(){
     dialogue:[ {scene:'河濱',bg:'riverside'},
       nar('（河濱。兩個烤肉架，一支夾子。）'),
       IF(G=>knows('yu',G)&&done(G,'ev_y2_midautumn'),{speaker:'yu',text:'又來了。'}),
-      IF(G=>knows('yu',G)&&!done(G,'ev_y2_midautumn'),{speaker:'yu',text:'兩個架子，一支夾子？'}),
+      IF(G=>knows('yu',G)&&!done(G,'ev_y2_midautumn'),{speaker:'yu',text:'……兩個架子，一支夾子？'}),
       IF(here('heroine_03'),{speaker:'heroine_03',text:'秀琴姨今年醃了兩倍。她說你們最後一年了。'}),
       IF(here(BH),{speaker:BH,text:'夾子排班。一人十分鐘。'}),
       IF(here('heroine_01'),{speaker:'heroine_01',text:'……我贊成。'}),   /* 大四只說「……我贊成。」（裁定第 4 點）*/
-      IF(KX_TEAM,{speaker:'zhe',text:'可昕，冷笑話，最後一回合。'}),IF(KX_TEAM,{speaker:'kexin',expression:'laugh',text:'今年我認輸。我只想吃。'}),IF(KX_TEAM,{speaker:'zhe',text:'可昕認輸了！大家記下來！'}),
+      IF(KX_TEAM,{speaker:'zhe',text:'可昕，冷笑話，最後一回合。'}),IF(KX_TEAM,{speaker:'kexin',expression:'laugh',text:'……今年我認輸。我只想吃。'}),IF(KX_TEAM,{speaker:'zhe',text:'可昕認輸了！大家記下來！'}),
       {advance:G=>Math.max(0,21-(((G.hour%24)+24)%24))},
       {speaker:'zhe',text:'明年還是要回來烤。'},
       {choice:[{text:'「好。」',goto:'a'},{text:'「明年大家都在讀書吧。」',goto:'b'}]},
@@ -440,7 +440,7 @@ const R2Y4A_EVENTS=(function(){
       {choice:[{text:'「意思是你答得很好。」',goto:'p1'},{text:'「你可以去問他。」',goto:'p2'},{text:'（夾一顆滷蛋給他）',goto:'p3'}]},
       {label:'p1'},bh('……嗯。我也這樣想。只是想聽別人說。'),{goto:'e'},
       {label:'p2'},bh('開學再問。他會是我的老師。'),{goto:'e'},
-      {label:'p3'},bh('我說我請。'),nar('（他還是吃了。）'),{goto:'e'},
+      {label:'p3'},bh('……我說我請。'),nar('（他還是吃了。）'),{goto:'e'},
       {label:'f'},bh('二月的筆試，考古題我整理好了。十年份。'),
       bh('我整理的時候，本來就印了兩份。'),
       {choice:[{text:'「謝謝。」',goto:'f1'},{text:'「十年份太多了。」',goto:'f2'}]},
@@ -465,7 +465,7 @@ const R2Y4A_EVENTS=(function(){
       {label:'f'},kx('你的，先說你的。'),
       nar('（你說沒上。）'),
       UN(EXAM,kx('好。二月還有一次。')),   /* 推甄沒上那一通：她不提自己的，隔天 21:00 才傳（那一則記 KX_INTERN）*/
-      IF(EXAM,kx('好。今天宵夜我請，不准說不要。')),   /* 3/22 筆試也沒上（「二月還有一次」已經不成立）*/
+      IF(EXAM,kx('……好。今天宵夜我請，不准說不要。')),   /* 3/22 筆試也沒上（「二月還有一次」已經不成立）*/
       {end:true},
       {label:'e'},{set:{KX_INTERN:true}} ] });
 
@@ -673,7 +673,7 @@ const R2Y4A_EVENTS=(function(){
       {key:'2028-11-17',m:11,text:['又到四點就天黑的時候了。去年很不習慣，今年還好。','我開始在下午看電影。出來的時候，像看了兩場。']},
       {key:'2028-12-15',m:12,text:['我在寫一篇關於『一個人看電影』的報告。','教授說題目很小。我說，小的我才寫得完。'],us:'你也在國外。我們今天都不在家。',back:['（背面最後一行）','燒臘店生日快樂。']},
       {key:'2029-01-05',m:1,text:['寒假我沒有回去。宿舍剩我和一個管理員。','她請我喝茶。英國的茶要加牛奶，我加了。……還好。']},
-      {key:'2029-02-19',m:2,text:['下雪了。很小，落地就不見了。','我拍了照，可是照片裡什麼都沒有。']},
+      {key:'2029-02-19',m:2,text:['今天下雪。很小，落地就不見了。','我拍了照，可是照片裡什麼都沒有。']},
       {key:'2029-03-16',m:3,text:['我開始存錢了。','回去以後，我想開一間很小的戲院。四十個座位就好。']},
       {key:'2029-04-20',m:4,text:['論文開始寫了。題目還是很小。','每天寫五百字，寫完去公園坐一下。'],fy:'（四月那張的最後一行，是另一種筆跡：「這棵樹叫英國櫟。……他說的。」）'},   /* 方奕廷那條路（ZR_FY）：同一張上另一種筆跡（BB_99 沒寫哪一個月，AA 放四月；旁白一句照 AA_345 F3 定稿）*/
       {key:'2029-05-18',m:5,text:['這裡五月很亮，晚上九點天還沒黑。','我把窗簾拉起來看電影。']},

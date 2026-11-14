@@ -136,14 +136,14 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
     check('走近攤位（學姊在）才有；沒加入法服的玩家也會被叫住（要見過學姊：AA_207 §5 加 met_sis）',can(sat,10.5,true,true,true)&&!can(sat,10.5,true,true,false));
     check('別的週六、12 點以後、學姊不在都不會',!can(sat+7,10.5,true,true)&&!can(sat,12.2,true,true)&&!can(sat,10.5,true,false));
     const HEAD=['學弟。有空嗎？','幫我顧十分鐘就好。不會的叫我。','少年仔，隔壁的樹長到我家這邊，我可以自己剪嗎？'];
-    for(const [pick,tail,d,helped] of [['幫妳問學姊',['阿嬤，先跟鄰居講，請他剪。講了一直沒剪，兩週後的週六早上，九點到十二點，來B館。值班的學長姊會幫妳看。'],{fam:2},false],['翻民總',['翻了半天找不到。學姊探頭。','那是物權。你們大二才上。','物權是什麼？','阿嬤，下一次值班，週六早上來。']   /* AA_207 附錄 §2：感悟旁白刪掉 */,{fam:2},false],['一起查',['你和阿嬤用手機一起查。學姊在旁邊看完。','還可以。'],{fam:3,resp:2},true]]){
+    for(const [pick,tail,d,helped] of [['幫妳問學姊',['阿嬤，先跟鄰居講，請他剪。講了一直沒剪，兩週後的週六早上，九點到十二點，來B館。值班的學長姊會幫妳看。'],{fam:2},false],['翻民總',['翻了半天找不到。學姊探頭。','那是物權。你們大二才上。','物權是什麼？','……阿嬤，下一次值班，週六早上來。']   /* AA_207 附錄 §2：感悟旁白刪掉 */,{fam:2},false],['一起查',['你和阿嬤用手機一起查。學姊在旁邊看完。','還可以。'],{fam:3,resp:2},true]]){
       fresh(sat,10.5,'campus'); sisN(); SOCIAL.meet('heroine_05','wancai'); const r0=Object.assign({},SOCIAL.rel('heroine_05'));   /* 已經認識學姊（第一次見面的熟悉度另外算）*/ picks=[pick]; await EVENTS.run(e); const L=lines(), r1=SOCIAL.rel('heroine_05'); const got={}; for(const k in r1){ const dd=(r1[k]||0)-(r0[k]||0); if(dd&&typeof dd==='number') got[k]=dd; }
       check('校慶 選「'+pick+'」：BB_95 原文、學姊 '+JSON.stringify(d)+(helped?'、HELPED':''),JSON.stringify(L)===JSON.stringify(HEAD.concat(tail))&&Object.keys(d).every(k=>got[k]===d[k])&&SOCIAL.has('heroine_05','HELPED')===helped,JSON.stringify({L,got})); }
     check('校慶 阿嬤用名字顯示（路人，不是人物資料）',said.some(x=>x.who==='阿嬤'));
     /* 芷若的手機插曲：有她的聯絡方式、FAMILIAR 以上 */
     fresh(sat,10.5,'campus'); sisN(); SOCIAL.meet('heroine_02','cafe'); SOCIAL.adjust('heroine_02',{fam:40,trust:20,comf:20}); INV.addContact(G,'heroine_02'); picks=['幫妳問學姊']; await EVENTS.run(e); const L2=said.map(x=>(x.who||'')+'：'+x.t);
     const ZN=SOCIAL.displayName('heroine_02'), SN=SOCIAL.displayName('heroine_05');
-    check('校慶 芷若（有聯絡方式、熟）：手機問一題，學姊從旁邊看到螢幕（BB_95 原文）、訊息也進手機',JSON.stringify(L2.slice(-4))===JSON.stringify([ZN+'（手機）：聽說你在顧法律問答攤。問一題：電影裡偷看別人的信，算犯罪嗎。',SN+'：（從旁邊看到螢幕）哪部電影？',ZN+'（手機）：很多部。',SN+'：那要一部一部看。'])&&PHONE.thread(G,'p:heroine_02').filter(m=>m.from==='heroine_02').length===2,JSON.stringify(L2.slice(-4))+' 手機 '+JSON.stringify(PHONE.thread(G,'p:heroine_02').map(m=>m.text)));
+    check('校慶 芷若（有聯絡方式、熟）：手機問一題，學姊從旁邊看到螢幕（BB_95 原文）、訊息也進手機',JSON.stringify(L2.slice(-4))===JSON.stringify([ZN+'（手機）：聽說你在顧法律問答攤。問一題：電影裡偷看別人的信，算犯罪嗎。',SN+'：（從旁邊看到螢幕）哪部電影？',ZN+'（手機）：……很多部。',SN+'：那要一部一部看。'])&&PHONE.thread(G,'p:heroine_02').filter(m=>m.from==='heroine_02').length===2,JSON.stringify(L2.slice(-4))+' 手機 '+JSON.stringify(PHONE.thread(G,'p:heroine_02').map(m=>m.text)));
     fresh(sat,10.5,'campus'); sisN(); SOCIAL.meet('heroine_02','cafe'); picks=['幫妳問學姊']; await EVENTS.run(e); check('校慶 沒有芷若的聯絡方式：沒有手機插曲',!lines().some(t=>/偷看別人的信/.test(t)));
     /* 子晴：吉他社群組的攤位照片 */
     fresh(sat,11,'campus'); sisN(); PHONE.join(G,'guitar','吉他社'); SOCIAL.remember('heroine_04','INVITED_CLUB'); picks=['幫妳問學姊']; await EVENTS.run(e); STORY.phoneRules(GM); G.hour=12.2; PHONE.tick(G);

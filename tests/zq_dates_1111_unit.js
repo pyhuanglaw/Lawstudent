@@ -13,7 +13,6 @@
 //   8. D13「記 TASTE」那幾格照留、旁白格、每一格是誰說的
 // 稿、BASE 讀 git show；讀不到（淺層複本）＝不比稿，只驗結構。用法：node tests/zq_dates_1111_unit.js
 require('./alison.js');
-const M959=require('./aa959_map.js');   /* AA_959（DLG-FULL-REVIEW-1110）：遊戲的 date_lines 先照覆寫表換回舊字再比（AA_959 本身逐列驗在 tests/aa959_overlay_unit.js）*/
 const H=require('./pg_harness.js');
 const {check,GM}=H; const J=JSON.stringify;
 const cp=require('child_process'), fs=require('fs'), path=require('path'), os=require('os'), vm=require('vm');
@@ -32,7 +31,7 @@ const of=(D,k,who)=>{ const o={}; for(const part of ['lines','likes','dislikeLin
 /* 2026-11-11（AA_812@f1fab0ec6）：懸著的「下次我請」七格（date_src_sha.js 的 CELLS_812：學姊、子晴 D06.cafe remember，沛珊 D15.store、D21.street，可昕 D15 收尾，子晴 D06 第一次選項的回覆，語彤 D10.boat remember）
    是匯入工具最後一步疊上去的（改稿紀錄 date_rewrite/ 和稿的 path_rows；源稿 Dxx.json 沒有重新 apply）——這支的逐字對稿、和重匯以前比，NOW 先用 un812 把那七格還原成舊字再比
    （只有那一格現在剛好是新字才還原，不是＝照舊會紅）；那七格現在＝新字下面另外驗（逐格、她請客在 tests/date_she_pays_812_1111_unit.js）。舊期望：直接拿 NOW 比 */
-const NOW812=M959.unmapDeep(DL(read('src/data/date_lines.js')),'date_lines.js'), NOW=C.un812(NOW812);
+const NOW812=DL(read('src/data/date_lines.js')), NOW=C.un812(NOW812);
 check('0. AA_812 那七格（CELLS_812）現在是新字（還原成舊字以後才拿 NOW 和源稿、重匯以前比）',C.CELLS_812.length===7&&C.CELLS_812.every(r=>C.cell812(NOW812,r)===(r.now||r.new)&&C.cell812(NOW,r)===r.old),JSON.stringify(C.CELLS_812.map(r=>C.cell812(NOW812,r))));   /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）：第六格（子晴 D06.cafe 第一次選項的回覆）AA 在 AA_846 late_fix 改回「下次我請你吃滷味。」，AA_812 path_rows 那一列被取代（import_date_lines.py SUPER812）——那一格現在認 CELLS_812 的 now。舊期望：七格都＝r.new */
 const SRC={}, OLDSRC={}, REC={}; for(const k of LOCS){ const t=show(SHA,SP+'date_system/lines/'+k+'.json'), u=show(PREV,SP+'date_system/lines/'+k+'.json'), r=show(C.FX_PREV,SP+'date_rewrite/zq_'+k+'.json');   /* 改稿紀錄讀加 fx 以前那一版（248c8e390）：之後 AA_812 改 zq_D06 一格（f1fab0ec6），遊戲這邊用 un812 還原比，紀錄也要同一層 */ if(t) SRC[k]=C.src248(k,JSON.parse(t));   /* 52c3ee258 起源稿有 fx：只比字（date_src_sha.js noFx） */ if(u) OLDSRC[k]=JSON.parse(u); if(r) REC[k]=JSON.parse(r); }   /* 2026-11-12（X324 可昕續改，AA_819＋AA_822@07d50af2f7）：源稿可昕 72 格換了新字——src248 把那 72 格還原再比（date_src_sha.js KX_1112；逐格在 tests/kx_dates_1112_unit.js）。舊寫法：C.noFx(JSON.parse(t)) */
 const haveSrc=Object.keys(SRC).length===33&&Object.keys(OLDSRC).length===33&&Object.keys(REC).length===33;
@@ -195,7 +194,7 @@ const getp=(o,pth)=>pth.match(/\[\d+\]|[^.\[\]]+/g).reduce((x,t)=>x==null?x:x[t[
     const nm=Object.entries(all).filter(([p,v])=>v.includes('{name}')).map(([p])=>p);
     check('6. {name} 只在八格交往格：D01、D09、D12、D15、D23、D26、D28、D33（都在 dating 底下）；其他佔位符只有 D13 的 {lastDrink}',J(nm.map(p=>p.slice(0,3)))===J(['D01','D09','D12','D15','D23','D26','D28','D33'])&&nm.every(p=>/\/dating\//.test(p))&&J(Object.entries(all).filter(([p,v])=>/\{(?!name\})/.test(v)).map(([p,v])=>p.slice(0,3)+(v.match(/\{[^}]*\}/)||[''])[0]))===J(['D13{lastDrink}']),J(nm)); });
 
-  await sec(7,async()=>{ const W=M959.unmapDeep(DW(read('src/data/date_wish.js')),'date_wish.js'), ev=W.events[ZQ], I=ev.herInvite;
+  await sec(7,async()=>{ const W=DW(read('src/data/date_wish.js')), ev=W.events[ZQ], I=ev.herInvite;
     check('7. date_wish.js 的來源寫著「AA_776@'+C.ZQ_WISH_SHA+'（子晴 D03 心願 30 列，換了 30 列）」；子晴的事件 id、地點 D03、她約的時間（15 點——對得上「三點以後到」；她傳的「週六下午三點。參創。」「……你要來嗎？」沒動）照舊',W.source.includes('AA_776@'+C.ZQ_WISH_SHA+'（子晴 D03 心願 30 列，換了 30 列）')&&ev.id==='wish_heroine_04'&&ev.loc==='D03'&&I.dateTime===15&&J(I.lines.map(x=>x.text))===J(['週六下午三點。參創。','……你要來嗎？'])&&J(I.accept.map(x=>x.text))===J(['好。三點門口。遲到我先進去。']),J([I.dateTime,I.lines,I.accept]));
     const raw=show(C.ZQ_WISH_SHA,SP+'AA_776_zq_wish.json'), A=raw?JSON.parse(raw):null;
     const get=(o,pth)=>{ let x=o; const tk=[...pth.matchAll(/\["([^"]+)"\]|\.?([^.\[\]"]+)|\[(\d+)\]/g)].map(m=>m[1]!=null?m[1]:(m[2]!=null?m[2]:+m[3])); for(let i=0;i<tk.length;i++){ if(x==null) return x; let t=tk[i]; if(typeof x==='object'&&!Array.isArray(x)&&!(t in x)&&typeof tk[i+1]==='string'&&(t+'.'+tk[i+1]) in x){ t=t+'.'+tk[i+1]; i++; } x=x[t]; } return x&&typeof x==='object'?x.text:x; };   /* hotspots 的 key 是「D03.demo」這種帶點的字串 */

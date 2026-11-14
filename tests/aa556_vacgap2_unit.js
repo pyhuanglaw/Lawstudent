@@ -16,7 +16,7 @@ const git=(ref,p)=>{ try{ return cp.execSync('git -c core.quotepath=false show '
 const A556='docs/story_planning/AA_556_寒暑假第二批_出國旅遊_加州東京_大二暑假寒假_阿凱624.md';
 const doc=git('3d7ad0024',A556)||git('origin/claude/story-planning',A556);
 check('0. AA_556（企劃線 3d7ad0024）讀得到；模組都載得到',doc.length>3000&&doc.indexOf('# AA_556')>=0&&!loadErr,loadErr||'git fetch origin claude/story-planning');
-const inDoc=t=>!!doc&&(doc.includes(String(t))||doc.includes(require('./aa959_map.js').unmapText(String(t),'vac_activities.js')));   /* AA_959：遊戲的字照覆寫表改過（「……」開頭減量）＝換回稿上的字再找 */
+const inDoc=t=>!!doc&&doc.includes(String(t));
 const notIn=L=>L.filter(t=>!inDoc(t));
 const D=H.D, T=(d,h)=>d*24+h, wd=d=>CALENDAR.dateOf(d).wd%7;
 const TV=VAC_DATA.TRAVEL, A=VAC_DATA.A, nm=id=>SOCIAL.displayName(id);
@@ -62,7 +62,7 @@ const t13Over=(k,days)=>{ const V=VAC.rec(H.G), n=(V.t13||(V.t13=[])).length+1, 
       check('1-1. 三天的（中間那天＝最後一晚那天）：14:00 目的地第二句＋當地的一段、20:00 第三句',J(L)===J([De.keys[0],De.keys[1]].concat(LOCAL.jp,[De.keys[2]])),J(L)); }
     const FR={kai:['所以我們今天走了兩萬步。我的腳在抗議。','可是那家拉麵要排一個小時。……我還是要排。'],zhe:['我們中午吃了三餐。早餐、早午餐、午餐。','……晚餐吃什麼？'],
       yu:['你幫我拍一張。不對，蹲下來拍，這樣我比較高。',{narr:'（你蹲下來。她看了照片：「……好，你以後都這樣拍。」）'}],classmate_bohan:['今天的行程延誤了四十分鐘。','……可是你走錯路才找到那家店。很好吃。我寫進明天的行程了。'],
-      classmate_xinci:['每天花多少我都記在手機裡。今天超支一百二十塊。','是那杯咖啡。值得。']};
+      classmate_xinci:['每天花多少我都記在手機裡。今天超支一百二十塊。','……是那杯咖啡。值得。']};
     const SPN={kai:'阿凱',zhe:'阿哲',yu:'Alison',classmate_bohan:'柏翰',classmate_xinci:'芯慈'};
     const fr=[]; for(const id of Object.keys(FR)){ const De=TV.dest.kr, L=await trip('kr','2027-07-01',4,id,false); const mid=FR[id].map(x=>typeof x==='string'?nm(id)+'：'+x:x.narr); const want=[De.keys[0],De.keys[1]].concat(mid,[De.keys[2],nm(id)+'：'+TV.friend[id]]); fr.push([id,J(L)===J(want),L]); }
     check('1-2. 和朋友去，五位各一次：中間那天目的地第二句後面接朋友的一段（Alison 第二句是旁白）；最後一晚朋友那一句照舊；沒有當地的一段',fr.length===5&&fr.every(r=>r[1]),J(fr.filter(r=>!r[1])));

@@ -141,8 +141,8 @@ await sec(5,()=>{
   const bd=termDay('Y1S2',9,5); fresh(bd,9,{dating_kexin:true}); run(9,9.2); const dm=byTag('kx_bday_draft')[0]; const r=dm&&PHONE.answer(H.G,dm.ask.id,0);
   check('5. 可昕生日回「生日快樂。」：她「'+kx[2]+'」（原本「'+kx[1]+'」）',!!r&&r.out.filter(x=>x.from==='kexin').map(x=>x.text).join('|')===kx[2],J(r&&r.out.map(x=>x.text)));
   const ps=(DATE_WISH.events.classmate_peishan||{}).herInvite||{}, all=J(DATE_WISH.events.classmate_peishan);
-  /* 2026-11-11（X327 沛珊重寫，AA_757_peishan_wish_hometown.json@052644c58）：這一句（AA_459 改成的「你可以說不。我只是問問看。」）整句重寫成「不行也沒關係，問問看。」，一樣兩處（一般版、一週只出來一小時的版本）；AA_459 的舊句、改成的那一句都不在了 */
-  const WISH757='不行也沒關係，問問看。';
+  /* 2026-11-11（X327 沛珊重寫，AA_757_peishan_wish_hometown.json@052644c58）：這一句（AA_459 改成的「你可以說不。我只是問問看。」）整句重寫成「不行也沒關係，我只是問問看。」，一樣兩處（一般版、一週只出來一小時的版本）；AA_459 的舊句、改成的那一句都不在了 */
+  const WISH757='不行也沒關係，我只是問問看。';
   check('5. 沛珊美術館的心願邀約「'+WISH757+'」（X327 重寫；AA_459 原本改成「'+wish[2]+'」、更早「'+wish[1]+'」都不在了；date_wish.js 兩處）',(ps.lines||[]).some(x=>x.text===WISH757)&&!all.includes(wish[1])&&!all.includes(wish[2])&&all.split(WISH757).length-1===2,J((ps.lines||[]).map(x=>x.text)));
   const gd=D('2026-06-06'); fresh(gd,8.5,{SIS_W1:true}); H.FAMILIAR('heroine_05'); run(8.5,8.6); const gm=byTag('sisg_grad_msg');
   check('5. 學姊畢業那天早上（6/6 08:00）「'+grad[2]+'」（補句號）',gm.length===1&&gm[0].text===grad[2]&&gm[0].text!==grad[1],J(gm.map(m=>m.text)));

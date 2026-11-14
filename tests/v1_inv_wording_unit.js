@@ -86,7 +86,7 @@ await sec(3,()=>{ const MON=termDay('Y1S1',6,1); fresh(key(MON),'zhe',30,10);
   check('3. 方奕廷 F6～F8（10-2 第 1 點）；F5、F9 照留',J(P.npc_fangyt.acc)===J(FI('npc_fangyt',{brunch:['好。早上我本來就起得早。'],teahouse:['好。聽說那邊院子有一棵很老的樟樹，我想去看看。'],cafe:['好。順便看一下 Café 窗台那盆植物。'],library:['好。我在總圖門口等你。'],wenzhou:['溫州街有一棵很老的榕樹。我帶你去。']}))); });
 
 await sec(4,()=>{ const d1=termDay('Y1S1',6,3); fresh(key(d1),'heroine_01',45,30); const a=ask('heroine_01','wenzhou',15.5);
-  check('4. 以安大一第一次約散步：「好。」「今天不行，明天。」、改到隔天（AA_576 第 11、12 列）',a.res==='resched'&&a.lines[0]==='好。'&&a.lines[1]==='今天不行，明天。'&&a.alt&&a.alt.day===H.G.day+1,a.res+' '+txt(a.lines)+' '+J(a.alt));
+  check('4. 以安大一第一次約散步：「好。」「……今天不行，明天。」、改到隔天（AA_576 第 11、12 列）',a.res==='resched'&&a.lines[0]==='好。'&&a.lines[1]==='……今天不行，明天。'&&a.alt&&a.alt.day===H.G.day+1,a.res+' '+txt(a.lines)+' '+J(a.alt));
   doneIv('heroine_01','wenzhou',H.G.day-2); const b=ask('heroine_01','wenzhou',15.5);
   check('4. 散步過以後（大一）：照一般答應「好。」，不再問（AA_194 改規則）',b.res==='accept'&&txt(b.lines)==='好。',b.res+' '+txt(b.lines));
   const d2=termDay('Y2S1',6,3); fresh(key(d2),'heroine_01',45,30); const c=ask('heroine_01','wenzhou',15.5);

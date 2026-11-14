@@ -16,7 +16,7 @@ if(typeof PORTRAITS!=='undefined'&&!PORTRAITS.npc_kevin){ const o={campus:{}}; f
 const CAMP_Y1_EVENTS=[
   /* 8/22 08:30 校門集合、遊覽車（AA_205 2-2 開頭旁白；AA_608 第 10 節第 1 點：不給選項、坐窗邊（CAMP_BUS 固定 'win'）；10-1 明軒的印象一句（不寫名字、不記認識）；AA_195 4-10 舊序章的玩家到營地那句）*/
   { id:'ev_camp_d1_bus', stage:'any', title:'迎新宿營：遊覽車', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
-    dialogue:[ {scene:'首都帝大校門口',bg:'ntu_avenue'},
+    dialogue:[ {scene:'首都帝大校門口',bg:'dark'},
       {speaker:null,text:'放榜以後，系學會建了一個新生群組。宿營的通知是一個禮拜前貼的，新生都要去。'},
       {speaker:null,text:'（早上八點半，校門口停了兩台遊覽車。小隊名單前一天晚上貼出來了，你那一隊有七個人。）'},
       {scene:'遊覽車上',bg:'tour_bus'},
@@ -194,7 +194,7 @@ const CAMP_Y1_EVENTS=[
       {speaker:null,text:'（結業式很短。系學會會長說了一句「開學見」，大家就去搬行李了。）'},
       {scene:'遊覽車上',bg:'tour_bus'},
       {speaker:null,text:'（回程的車上，大部分的人都睡著了。阿哲睡得最早。）'},
-      {advance:2},{scene:'首都帝大校門口',bg:'ntu_avenue'},   /* 10:30 結業式 → 12:30 回到校門（6-14 程式 4）*/
+      {advance:2},{scene:'首都帝大校門口',bg:'dark'},   /* 10:30 結業式 → 12:30 回到校門（6-14 程式 4）*/
       {speaker:null,text:'（十二點半，遊覽車停在校門口。大家拖著行李，往不同的方向走。）'},
       {speaker:'zhe',text:'我先回高雄，29 號再上來搬宿舍。'},
       {choice:[{text:'「好，開學見。」'},{text:'「這麼遠還跑一趟？」',goto:'far'}]},

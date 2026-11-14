@@ -1,11 +1,11 @@
 {
- "objects": 35,
- "unique_meshes": 35,
- "tris": 54306,
- "tris_drawn": 54306,
- "materials": 27,
- "out": "assets/models/env/second_ai/aa_support/afar.glb",
- "bytes": 3694272,
+ "objects": 24,
+ "unique_meshes": 24,
+ "tris": 46458,
+ "tris_drawn": 46458,
+ "materials": 18,
+ "out": "../../../tmp/claude-0/-home-user-Lawstudent/fa766b7f-0f91-5caf-86c3-26385a2a2ff9/scratchpad/afr/afar.glb",
+ "bytes": 3143276,
  "texres": 512,
  "layout": 2,
  "seats": 26

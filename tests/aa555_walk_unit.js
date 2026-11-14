@@ -171,7 +171,6 @@ for(const r of P118){ const mods=MP.filter(m=>m.term===r.term&&m.who===r.who); l
   if(r.who==='zhe'&&b[0]==='哥我今天在總圖'&&ZHE_GE) b[0]=ZHE_GE[1];
   if(r.who==='heroine_03') b=b.map(t=>require('./aa630_expect.js').fix(t,'src/aa555_3d.js')).map(t=>t==='📷（秀琴姨在我家陽台烤肉，旁邊一隻貓）'?'📷（公園的橘子，旁邊一塊烤肉）':(t==='📷（阿姨在新合約上簽名，手有點抖）'?'📷（秀琴姨在新的租約上簽名，手有點抖）':t));   /* 大三上續約那張：AA_643 第 9-2 節 */   /* 中秋那張：AA_642 第 2 節用 A-017 的備選（秀琴姨不去烤肉）*/   /* 語彤的照片句照 AA_627 表 A（A-007、A-009、A-017，位置 src/aa555_3d.js）換：稿寫「（照片：…）」，換字表寫「📷（…）」*/
   if(r.who==='classmate_bohan'&&b[0]==='本週值班表') b=['這學期的預約，有的話前一天晚上在這裡講','📷（一張空白的預約登記表）'].concat(b.slice(2));   /* AA_696（企劃線 f5de71174）：D118 法服沒有值班 */
-  b=b.map(t=>require('./aa959_map.js').map(t,'aa555_3d.js',r.who));   /* AA_959（DLG-FULL-REVIEW-1110）：msg_replies 傳來的那幾則訊息照覆寫表換了字，送訊息的 aa555_3d.js 跟著換（tools/story/aa959.py LINKED）*/
   PEXP.push({term:r.term,who:r.who,cond:r.cond,b,special,skip:skipKey(r),mod:!!mod}); }
 /* AA-B 11-01 回 12 題：阿哲系籃改私訊（第 1 題）、芯慈 2028 暑假換句（第 10 題）、柏翰期中倒數二十一天每天一則（第 11 題；AA_581 改成期末倒數）*/
 { const CN=n=>{ const d='零一二三四五六七八九'; return n<10?d[n]:(n===10?'十':(n<20?'十'+d[n-10]:d[Math.floor(n/10)]+'十'+(n%10?d[n%10]:''))); }, SP={14:'期末前十四天。進度落後半天。',7:'期末前七天。……今天念得很慢，可是記得住。',1:'明天考。我今天十點就睡。'};   /* AA_581 第 1～3 列（D118 沒有期中考）：稿的「期中前」→ 遊戲「期末前」*/
@@ -182,7 +181,7 @@ for(const r of P118){ const mods=MP.filter(m=>m.term===r.term&&m.who===r.who); l
 /* AA_625「接線時補的」第 1 點（企劃線 3248430b3，AA-B 11-07；AA555／AA627 的稿沒改，照 AA_625 這一節）：語彤大四上那則的「12/14 週四晚上，你有空嗎。」（12/14 是燒臘二十三週年）→ 兩句（十週年 2028-12-16（六））*/
 { const d625=(()=>{ try{ return cp.execSync('git -c core.quotepath=false show 3248430b3:"docs/story_planning/AA_625_語彤新版事件台詞.md"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } })();
   const m=/`aa555_3d\.js:104` 那則改成兩句：語彤「([^」]+)」「([^」]+)」/.exec(d625), OLD='12/14 週四晚上，你有空嗎。', p=PEXP.find(q=>q.who==='heroine_03'&&q.b.includes(OLD));
-  if(m&&p) p.b.splice(p.b.indexOf(OLD),1,m[1],require('./aa959_map.js').map(m[2],'aa555_3d.js','heroine_03')/* AA_959（AA_958）：開頭「……」拿掉 */); else PUN.push('AA625-1107'); }
+  if(m&&p) p.b.splice(p.b.indexOf(OLD),1,m[1],m[2]); else PUN.push('AA625-1107'); }
 check('0. 手機小事：AA_118 八學期（刪掉的語彤法服那則不算）＋ZHE_PHOTOS；AA_555 第 2 節每一列都對到原句',P118.length===96&&MP.length===21&&MP.every(m=>PEXP.some(p=>p.mod&&p.term===m.term&&p.who===m.who)),J({n:P118.length,mp:MP.length,沒對到:MP.filter(m=>!PEXP.some(p=>p.mod&&p.term===m.term&&p.who===m.who)).map(m=>m.term+m.who+m.orig)}));
 const A5=(typeof AA555!=='undefined')?AA555:null;
 const termOfAt=d=>{ const t=CALENDAR.termOf(d); if(t) return t.id; const m=CALENDAR.dateOf(d).m; for(let k=1;k<200;k++){ const x=CALENDAR.termOf(m<=2?d+k:d-k); if(x) return x.id; } return null; };   /* 寒假（1～2 月）算下一學期、暑假算上一學期（稿把「寒假回新竹」放大一下、「暑期實習之後」放大三下）*/

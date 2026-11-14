@@ -68,7 +68,7 @@ const SHE_PAYS_DATA={
   },
   "classmate_peishan": {
    "D15.store": [
-    "宵夜算我的。上次就想請了。"
+    "今天宵夜算我的。上次就想請了。"
    ],
    "D21.street": [
     "你要吃什麼？這攤我請。"
@@ -373,7 +373,7 @@ const SHE_PAYS_DATA={
    "n": 43,
    "key": "D15.store.remember",
    "pid": "D15.store",
-   "text": "宵夜算我的。上次就想請了。",
+   "text": "今天宵夜算我的。上次就想請了。",
    "at": "/loc/D15/lines/classmate_peishan/hotspots/D15.store/remember/lines/0/text"
   },
   {

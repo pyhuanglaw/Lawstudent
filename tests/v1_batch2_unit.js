@@ -7,7 +7,7 @@
 //   D 重進宿舍、讀檔：不重播（訊息不會變兩份）。
 //   E 舊存檔：讀檔遷移後交往中、有聯絡方式；第三天以後的早上補一次（旁白＋早上版：「早安。今天讀到哪了？」、最後「去上課吧……」）；只補一次；看過的不補；家族群組不補。
 //   F 芷若的第一則私訊：交往中＝加帳號隔天 15:10、第三句是友情版；單身＝當天 22:07、第三句照第一次點的東西；時間到才出現；收到後有她的聯絡方式。
-//   G 語彤事件 3：三個選項照 AA_11、不出題、最後一句；「我知道誰會知道」→ 學姊 22:30 四句（BB_95 4-3）→ 截圖轉給語彤「法服是什麼？」（有聯絡方式）／麵店當面（沒有）；
+//   G 語彤事件 3：三個選項照 AA_11、不出題、最後一句；「我知道誰會知道」→ 學姊 22:30 四句（BB_95 4-3）→ 截圖轉給語彤「……法服是什麼？」（有聯絡方式）／麵店當面（沒有）；
 //     裝懂 → BLUFFED；結果（阿姨週三去了法服）在那一週的週三之後才出現。
 //   H 房間物件：五個物件的旁白（原文）；宿舍的互動點站得到。
 // 用法：node tests/v1_batch2_unit.js
@@ -113,7 +113,7 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
     check('G 學姊 22:30 的三句（BB_95 4-3；AA_398 第 6 列拿掉「三件事。」與編號；第 80 天是第 14 週＝雙週，這週六法服沒有值班 → 雙週版「下週六」，AA_140 G47；AA_207 §7 第 2 列：第三句後半的標語句拿掉）',JSON.stringify(W)===JSON.stringify(['叫阿姨下週六早上九點來B館，法服有值班。','發票、那天的進貨單、監視器的時間，全部留著。','然後叫阿姨先睡覺。']),JSON.stringify(W));
     /* AA_661 第 16 列（AA_624）：ev_yutong_fwd 退場（語彤事件 3 已經拿掉、她不在麵店）——旗標照記，事件不演；直接 run 的內容照舊（舊存檔的定義）*/
     check('G 沒有語彤的聯絡方式：旗標照記；麵店當面給她看那一場（ev_yutong_fwd）退場不演（AA_661 第 16 列）',G.flags.yutongFwdInPerson===true&&!!ev('ev_yutong_fwd').retired&&EVENTS.check(ev('ev_yutong_fwd'))===false);
-    said=[]; await EVENTS.run(ev('ev_yutong_fwd')); check('G 當面：「你把學姊的回覆給語彤看。」「法服是什麼？」',JSON.stringify(lines())===JSON.stringify(['你把學姊的回覆給語彤看。','法服是什麼？'])); }
+    said=[]; await EVENTS.run(ev('ev_yutong_fwd')); check('G 當面：「你把學姊的回覆給語彤看。」「……法服是什麼？」',JSON.stringify(lines())===JSON.stringify(['你把學姊的回覆給語彤看。','……法服是什麼？'])); }
   { const e=ev('ev_yutong_customer'); fresh(80,20.5,'noodle',{dating_kexin:true}); SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','SHARED_MEAL','x'); INV.rec(G); G.contacts.heroine_03=70; picks=['我不知道']; await EVENTS.run(e);
     STORY.phoneRules(GM); G.hour=22.55; PHONE.tick(G); STORY.phoneRules(GM); G.hour=22.75; PHONE.tick(G); const Y=KX('p:heroine_03').map(m=>m.text);
     check('G 有語彤的聯絡方式：祐廷把截圖傳給她，她回「……法服是什麼？」',Y.length===2&&/截圖/.test(Y[0])&&Y[1]==='……法服是什麼？'&&!G.flags.yutongFwdInPerson,JSON.stringify(Y)); }

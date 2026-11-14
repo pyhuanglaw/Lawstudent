@@ -142,7 +142,7 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
     if(a&&typeof a==='object'){ const ks=new Set(Object.keys(a).concat(Object.keys(b))); for(const k of ks){ if(!(k in a)||!(k in b)){ acc.bad.push(p+'.'+k+'：只有一邊有'); continue; } cmpTree(a[k],b[k],named,p+(Array.isArray(a)?'['+k+']':'.'+k),acc); } return acc; }
     if(a!==b) acc.bad.push(p+'：'+a+' → '+b); return acc; };
   /* 6. invite_replies.js */
-  { const NEW=require('./aa959_map.js').unmapDeep(ctx.INVITE_REPLIES,'invite_replies.js')/* AA_959（DLG-FULL-REVIEW-1110）：build_replies.py 最後一步照覆寫表換的字先換回來再和舊版比 */, OLD=evalIn(gitShow('src/data/invite_replies.js'),['INVITE_REPLIES']).INVITE_REPLIES;
+  { const NEW=ctx.INVITE_REPLIES, OLD=evalIn(gitShow('src/data/invite_replies.js'),['INVITE_REPLIES']).INVITE_REPLIES;
     const rows=o=>Object.keys(o.people).flatMap(id=>o.people[id].map(r=>[id,r]));
     const RN=rows(NEW), RO=rows(OLD).filter(([id,r])=>!['kx36','kx38'].includes(r.id)); const strs=[], wr=[], me=[];   /* 可昕 kx36、kx38（CANON-NO-ECON-1112 第三批：這一項拿掉）：BASE 那兩列不比 */
     for(const [id,r] of RN) for(const x of r.lines){ const t=typeof x==='string'?x:x&&x.me; if(typeof t!=='string') continue; strs.push(t); if(wrapped(t)) wr.push(id+' '+r.id+'：'+t); if(typeof x!=='string') me.push(t); }
@@ -203,7 +203,8 @@ for(const id of Object.keys(D.people||{})) if(D.people[id].afterMeet) NOSPEAKER.
   { const PL=genCheck('8','src/data/invite_place_lines.js','INVITE_PLACE_LINES',p=>/^\.places\.\w+\.\w+\.(acc|firstAt)\[\d+\]$/.test(p),'no：可昕不去的那一句、src',
      /* 2026-11-11（L118-SHOPS-REDO-1111）：118 巷那幾格（places.l118_*）AA_721 整份重寫了（十個位置、新店的句子，企劃線 ef7280917），和 BASE 比不了——不比這幾格；
         它們的字由下面 import_place_acc.py --check 對稿，有名字的句子外面沒有「」另外在 8c 驗。舊期望：118 巷七格也逐句和 BASE 比 */
-     o=>{ for(const k of Object.keys(o.places||{})) if(/^l118_/.test(k)) delete o.places[k]; delete o.src2; });   /* AA_941（11-13）：AA_721 白名單換 4158dae820，src2 跟著換 */
+     o=>{ for(const k of Object.keys(o.places||{})) if(/^l118_/.test(k)) delete o.places[k]; delete o.src2; require('./d158_rc2_lib.js').unmap(o,'invite_place_lines.js'); });   /* AA_941（11-13）：AA_721 白名單換 4158dae820，src2 跟著換。2026-11-13 76f8 rc2（D158-KX-SAMESCHOOL）：可昕社科圖那 3 句 AA_987 換字，新字先換回舊字再和 BASE 比（新字在、舊字不見由下一行驗）；舊期望：不換回、直接比 */
+    require('./d158_rc2_lib.js').check(evalIn(cur('src/data/invite_place_lines.js'),['INVITE_PLACE_LINES']).INVITE_PLACE_LINES,'invite_place_lines.js',check,'8. src/data/invite_place_lines.js');
     { const NOW=evalIn(cur('src/data/invite_place_lines.js'),['INVITE_PLACE_LINES']).INVITE_PLACE_LINES, bad=[]; let n=0; for(const k of Object.keys(NOW.places)) if(/^l118_/.test(k)) for(const id of Object.keys(NOW.places[k])) for(const f of ['acc','firstAt']) for(const t of [].concat(NOW.places[k][id][f]||[])){ if(typeof t!=='string') continue; n++; if(wrapped(t)&&!isNarr(t)) bad.push(k+'.'+id+'：'+t); }
       check('8c. 118 巷十個位置的答應句、第一次那一句（'+n+' 句）：有名字說的外面沒有「」',n>=100&&bad.length===0,sample(bad)); }
     check('8. no：AA_941 起沒有人寫 no（可昕和大家一樣會去大學食堂；舊期望：可昕那一句「平日我要上課。……週末那間又沒開。」照留「」）',(()=>{ const NOW=evalIn(cur('src/data/invite_place_lines.js'),['INVITE_PLACE_LINES']).INVITE_PLACE_LINES; return Object.values(NOW.places).every(pl=>Object.values(pl).every(e=>!e||e.no===undefined))&&J(NOW.places.l118_cafe2.kexin.acc)===J(['好。我今天沒吃早餐。']); })());

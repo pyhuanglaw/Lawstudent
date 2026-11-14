@@ -31,12 +31,11 @@ const cgLeaves = L => { const o = {}; for (const p in L) { const q = cgPath(p); 
 const RI = OE.rows('invites').filter(x => !CSUP.includes(x.at)).map(x => Object.assign({}, x, { at: cgPath(x.at) })).filter(x => x.at !== null), RR = OE.rows('invite_replies');
 
 (async () => {
-  const M959 = require('./aa959_map.js'), U959 = L => { const o = {}; for (const [k, v] of Object.entries(L)) { const m = /^(?:people|walk118|first)\.(\w+)/.exec(k); o[k] = typeof v !== 'string' ? v : v.startsWith('ƒ') ? M959.unmapCode(v, 'invites.js') : M959.unmap(v, 'invites.js', m ? m[1] : null); } return o; };   /* AA_959（DLG-FULL-REVIEW-1110）：覆蓋層之後又照覆寫表換的字先換回來再比 */
-  const L1 = U959(leaves(read('src/data/invites.js'))), b0 = show(BASE, 'src/data/invites.js'), L0 = b0 ? cgLeaves(leaves(b0)) : null;
+  const L1 = leaves(read('src/data/invites.js')), b0 = show(BASE, 'src/data/invites.js'), L0 = b0 ? cgLeaves(leaves(b0)) : null;
   /* AA_940（11-13）：可昕法圖改約慢讀那條 rule 拿掉、補 acc.lawlib：BASE 拿掉 rule、現在拿掉 acc.lawlib 再比 */
   if (L0) for (const p of Object.keys(L0)) if (/^people\.kexin\.rule$/.test(p)) delete L0[p];
   for (const p of Object.keys(L1)) if (/^people\.kexin\.acc\.lawlib/.test(p)) delete L1[p];   /* （CANON-NO-ECON-1112 第四批：照 AA_894 換字）拿掉的那兩格先拿掉 */
-  const ir1 = M959.unmapDeep(IR(read('src/data/invite_replies.js')), 'invite_replies.js'), irb = show(BASE, 'src/data/invite_replies.js'), ir0 = irb ? IR(irb) : null;
+  const ir1 = IR(read('src/data/invite_replies.js')), irb = show(BASE, 'src/data/invite_replies.js'), ir0 = irb ? IR(irb) : null;
   if (!L0 || !ir0) console.log('（讀不到 BASE ' + BASE + '：第 3、4 項的逐格比略過）');
 
   await sec(1, async () => {
@@ -68,7 +67,7 @@ const RI = OE.rows('invites').filter(x => !CSUP.includes(x.at)).map(x => Object.
     if (!L0) return;
     const A891 = require('./canon891_1112.js');   /* （CANON-NO-ECON-1112 第四批：照 AA_891／AA_894 換字）可昕 brunch A 那一格換成 kx25 同一句，不算覆蓋層 */
     const changed = Object.keys(L0).filter(p => L0[p] !== L1[p] && !(/^people\.kexin\.acc\.brunch\.A/.test(p) && L1[p] === A891.BRUNCH)), map = new Map(RI.map(x => [x.old, x.new])), bad = [];
-    for (const p of changed) { const a = L0[p], b = L1[p]; if (a.startsWith('ƒ')) { if (!require('./kx_rewrite_1112.js').pair(a, b) && !require('./canon1112_ok.js').pair(a, b)/* （CANON-NO-ECON-1112 第四批：照 AA_894 換字）函式裡的那一句 */) bad.push(p + ' 函式變了'); }   /* 2026-11-12（X324 可昕續改，AA_827_kx_triple_short_2.json@07d50af2f7：手寫檔七句 old→new，清單在 tests/kx_rewrite_1112.js、逐列對稿在 tests/kx_triple2_1112_unit.js）：people.kexin.acc.gym_badminton、firstAt.library 兩個函式裡各換一句字（條件沒變：把那一句換回去＝BASE 的原始碼）。舊期望：函式原始碼一律不變 */ else if (map.get(a) !== b && !require('./canon898_1112.js').pair(a, b) && !require('./canon1112_ok.js').ok(b)/* （CANON-NO-ECON-1112 第四批：照 AA_894 換字）*//* （CANON-NO-ECON-1112 第四批：照 AA_898 換字）*/) bad.push(p + '：「' + a + '」→「' + b + '」不是稿上的列'); }
+    for (const p of changed) { const a = L0[p], b = L1[p]; if (a.startsWith('ƒ')) { if (!require('./kx_rewrite_1112.js').pair(a, b) && !require('./canon1112_ok.js').pair(a, b)/* （CANON-NO-ECON-1112 第四批：照 AA_894 換字）函式裡的那一句 */) bad.push(p + ' 函式變了'); }   /* 2026-11-12（X324 可昕續改，AA_827_kx_triple_short_2.json@07d50af2f7：手寫檔七句 old→new，清單在 tests/kx_rewrite_1112.js、逐列對稿在 tests/kx_triple2_1112_unit.js）：people.kexin.acc.gym_badminton、firstAt.library 兩個函式裡各換一句字（條件沒變：把那一句換回去＝BASE 的原始碼）。舊期望：函式原始碼一律不變 */ else if (map.get(a) !== b && !require('./canon898_1112.js').pair(a, b) && !require('./canon1112_ok.js').ok(b)/* （CANON-NO-ECON-1112 第四批：照 AA_894 換字）*//* （CANON-NO-ECON-1112 第四批：照 AA_898 換字）*/ && !require('./d158_rc2_lib.js').rows('invites.js').some(r => r.old === a && r.new === b)/* rc2b（D158-KX-SAMESCHOOL，AA_1012 第 2 節）：可昕「等我到台北」兩句，新舊字在 tests/d158_rc2_rows.json */) bad.push(p + '：「' + a + '」→「' + b + '」不是稿上的列'); }
     check('3. 和 BASE ' + BASE + ' 比：路徑一樣（' + Object.keys(L1).length + ' 格）', J(Object.keys(L0).sort()) === J(Object.keys(L1).sort()));
     check('3. 變的 ' + changed.length + ' 格都是稿上的列（舊字→新字；同一個字串掛在好幾個路徑的跟著變）；函式（條件、規則）沒變', bad.length === 0, J(bad.slice(0, 4)));
     const miss = RI.filter(x => L0[x.at] !== x.old);

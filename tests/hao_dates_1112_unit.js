@@ -19,7 +19,6 @@
 //   8. 新字沒有「幾件事／第三件／一，二，三，」這種數件數的說法（tests/sis_no_three_unit.js 的同一條規則；只查學姊的 80 句，那條規則是學姊的）
 // 稿讀 git show；讀不到（淺層複本）＝第 2、3、5 項跳過並印出來。用法：node tests/hao_dates_1112_unit.js
 'use strict';
-const M959=require('./aa959_map.js');   /* AA_959（DLG-FULL-REVIEW-1110）：遊戲的 date_lines 先照覆寫表換回舊字再比（AA_959 本身逐列驗在 tests/aa959_overlay_unit.js）*/
 const fs=require('fs'), path=require('path'), cp=require('child_process'), vm=require('vm');
 const ROOT=path.join(__dirname,'..'), J=JSON.stringify;
 const C=require('./date_src_sha.js'), SP='docs/story_planning/', BASE='c0a12c42e3', PREV=C.HAO_1112_PREV, HSHA=C.HAO2_1112_PREV;   /* 2026-11-12（X324 第三次重匯 AA_846～848@d7d818f8a8，date_src_sha.js HAO2_1112）：白名單再換 d7d818f8a8——這一支的「源稿、稿」固定讀這一批的那一版 HSHA＝41f77eab53（之後 AA 再改的 238 格見 HAO2_1112、第 4、5 項）。舊寫法：都讀 C.ALLOW_SHA */   /* BASE＝匯入以前的開發分支（claude/adoring-meitner-mqzst8） */
@@ -31,7 +30,7 @@ const DL=t=>JSON.parse(t.slice(t.indexOf('const DATE_LINES=')+17,t.lastIndexOf('
 const leaves=(o,p,out)=>{ if(o&&typeof o==='object'){ for(const k of Object.keys(o)) leaves(o[k],p+'/'+k,out); } else out[p]=o; return out; };
 const get=(o,p)=>{ for(const k of p.split('/').filter(Boolean)) o=o==null?o:o[k]; return o; };
 const LOCS=Array.from({length:33},(_,i)=>'D'+String(i+1).padStart(2,'0'));
-const NOWT=read('src/data/date_lines.js'), NOW=M959.unmapDeep(DL(NOWT),'date_lines.js'), R=C.HAO_1112, RE_PATH=/^hotspots\/(D\d\d\.\w+)\/first\/choice\/(\d+)\/reply\/0\/text$/;
+const NOWT=read('src/data/date_lines.js'), NOW=DL(NOWT), R=C.HAO_1112, RE_PATH=/^hotspots\/(D\d\d\.\w+)\/first\/choice\/(\d+)\/reply\/0\/text$/;
 const gp=r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path;
 
 // 1
@@ -92,6 +91,7 @@ const gp=r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path;
     { const K6=C.KX932_1112.map(r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path).filter(p=>diff.includes(p)&&!want.includes(p)), a6=diff.slice(); diff.length=0; for(const p of a6) if(!K6.includes(p)) diff.push(p); check('5. 之後收尾批（e622a59148，AA_932 可昕外校前提句）5 格也換了字（date_src_sha.js KX932_1112；逐格在 tests/kx932_dates_1113_unit.js）——這裡先拿掉再比',C.KX932_1112.length===5&&K6.length===5,J(K6.length)); }   /* 2026-11-13（CANON-NO-ECON-1112 收尾 e622a59148）：舊期望是拿掉上面那幾層以後就只差這一輪的格子 */
     { const K7=C.KX938_1113.map(r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path).filter(p=>diff.includes(p)&&!want.includes(p)), a7=diff.slice(); diff.length=0; for(const p of a7) if(!K7.includes(p)) diff.push(p); check('5. 之後收尾批（4539b2ebaf，AA_938 可昕記帳口氣）5 格也換了字（date_src_sha.js KX938_1113；逐格在 tests/kx938_dates_1113_unit.js）——這裡先拿掉再比（'+K7.length+' 格）',K7.length<=5,J(K7)); }
     { const K8=C.KX944_1113.filter(r=>!r.align).map(r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path).filter(p=>diff.includes(p)&&!want.includes(p)), a8=diff.slice(); diff.length=0; for(const p of a8) if(!K8.includes(p)) diff.push(p); check('5. 之後收尾批（b4dcd9bf9a，AA_944 沛珊「今天」開頭 31 格＋AA_945 可昕再訪 23 格）也換了字（date_src_sha.js KX944_1113；AA_946 對齊的 12 格遊戲沒變；逐格在 tests/kx944_dates_1113_unit.js）——這裡先拿掉再比（'+K8.length+' 格）',K8.length<=54,J(K8)); }
+    C.rc2Layer(diff,a,b,check,want);   /* 2026-11-13 76f8 rc2（D158-KX-SAMESCHOOL，BB_467／AA_987）：可昕外校前提 5 格（date_src_sha.js RC2_1113；新舊字在 tests/d158_rc2_rows.json）也換了字——這裡先拿掉再比（同時驗 5 格都是新字、舊字整份 0 格）；舊期望是拿掉上面那幾層以後就只差這一輪的格子 */
     check('5. 遊戲整份（'+Object.keys(b).length+' 格）和重匯以前（'+BASE+'）逐格比：只有這 259 格不同（別人、fx、短句、交通偏好零差異）',Object.keys(b).length>30000&&J(diff.sort())===J(want),J(diff.filter(p=>!want.includes(p)).slice(0,4)));
     check('5. 那 259 格重匯以前＝稿的 old',R.every(r=>a[gp(r)]===r.old),J(R.filter(r=>a[gp(r)]!==r.old).slice(0,3).map(r=>[gp(r),a[gp(r)],r.old])));
     check('5. un812 把現在的遊戲檔還原以後＝重匯以前的遊戲檔 un812（別支測試「和重匯以前比」用的還原是對的）',J(C.un812(NOW).loc)===J(C.un812(DL(wt)).loc));
@@ -110,7 +110,7 @@ const gp=r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path;
 { const d3=read('src/date3d.js'), sp=read('src/data/she_pays.js');
   const hit=(t,o)=>t.includes("'"+o+"'")||t.includes('"'+o+'"');
   /* date3d.js 註解裡「好。下次我請。」「好啊，那下次換我。」是寫在 PICK_FLAG 旁邊的說明（用「」不是引號）；前一句現在是子晴 D06.cafe 的回話（AA_812 path_rows），不是學姊那一格 */
-  const left=R.filter(r=>hit(d3,r.old)).map(r=>r.loc+' '+r.old), SPD=require('./aa959_map.js').unmapIn(vm.runInNewContext(sp+';SHE_PAYS_DATA'),'date_lines.js')/* AA_959：NOW 換回舊字比，she_pays 也換回 */, keys=J([SPD.pays,SPD.split]), left2=R.filter(r=>keys.includes(J(r.old))).map(r=>r.who+' '+r.loc+' '+r.old);   /* 只看 pays、split（合進 S.SHE_PAYS／S.SPLIT 的）；cells812 的 was 欄留著舊字是紀錄 */
+  const left=R.filter(r=>hit(d3,r.old)).map(r=>r.loc+' '+r.old), SPD=vm.runInNewContext(sp+';SHE_PAYS_DATA'), keys=J([SPD.pays,SPD.split]), left2=R.filter(r=>keys.includes(J(r.old))).map(r=>r.who+' '+r.loc+' '+r.old);   /* 只看 pays、split（合進 S.SHE_PAYS／S.SPLIT 的）；cells812 的 was 欄留著舊字是紀錄 */
   check('7. src/date3d.js 照整句認句子的表裡沒有留著這 259 句的舊字',left.length===0,J(left));
   check('7. src/data/she_pays.js（S.SHE_PAYS、S.SPLIT）裡沒有留著這 259 句的舊字',left2.length===0,J(left2));
   const bad=[];

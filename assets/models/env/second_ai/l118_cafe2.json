@@ -1,13 +1,13 @@
 {
- "objects": 62,
- "unique_meshes": 62,
- "tris": 27831,
- "tris_drawn": 27831,
- "materials": 70,
+ "objects": 61,
+ "unique_meshes": 61,
+ "tris": 28747,
+ "tris_drawn": 28747,
+ "materials": 66,
  "out": "assets/models/env/second_ai/l118_cafe2.glb",
- "bytes": 2251036,
+ "bytes": 2250680,
  "texres": 512,
- "tris_total": 27831,
+ "tris_total": 28747,
  "layout": "l118_cafe2.layout.json",
  "seats": 14
 }

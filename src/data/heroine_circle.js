@@ -57,7 +57,7 @@ const HCIRCLE_DATA={
     {hc:'c503_4_3',who:'heroine_01',e:{days:[4],from:19+40/60,to:20,zone:'campus',act:'linger',at:[88.68,-81.42,Math.PI/2,0],terms:['Y1S1'],weeks:[10,11,12,13,14,15],label:'法律系館B門口（讀書會前）'}},
     {hc:'c503_10_1',who:'classmate_peishan',e:{days:[2,4],from:13+20/60,to:15+10/60,zone:'campus',act:'linger',at:[-23.95,-12.6,-Math.PI/2,0],terms:['Y1S1'],noHoliday:true,label:'文學院前的長椅（哲學概論旁聽）'}},
     {hc:'c503_10_3',who:'classmate_peishan',e:{days:[4],from:20,to:21.5,zone:'wancai',act:'club',terms:['Y1S1'],weeks:[10,11,12,13,14,15],note:'AA_503 10-1：公法讀書會（作息補這一筆；週次同以安那一筆）'}},
-    /* ZQ-C504-LAPTOP-1101（LAWWW2 afar 門口小桌 3d981c26da）：原本 act:'linger' 站著，改坐西邊那張（有冰美式）看筆電，同 ZQ-ARCADE 四筆 */ {hc:'c504_4_3',who:'heroine_04',e:{days:[2,4],from:13,to:18,zone:'gongguan',act:'read',seatAt:[11.87,21.46],prop:'laptop_lap',at:[12,20.6,Math.PI,0],dates:[['2026-07-01','2026-08-31']],label:'公館騎樓的咖啡店'}},
+    {hc:'c504_4_3',who:'heroine_04',e:{days:[2,4],from:13,to:18,zone:'gongguan',act:'linger',at:[12,20.6,Math.PI,0],dates:[['2026-07-01','2026-08-31']],label:'公館騎樓的咖啡店'}},
     {hc:'c504_5_2',who:'heroine_05',e:{days:[1,2,3,4,5],from:12,to:13,zone:'campus',act:'linger',at:[36.6,-97.4,Math.PI/2,0],terms:['Y1S2'],weeks:[13,14],noHoliday:true,label:'法律系館A前'}},
     {hc:'c504_5_3',who:'heroine_05',e:{days:[1,2,3,4,5],from:7,to:8,zone:'gym_b1',act:'linger',at:[8,-2.8,Math.PI,0],dates:[['2026-06-15','2026-07-05']],label:'新體育館 B1 游泳池（池邊）'}},
     {hc:'c505_3_1',who:'heroine_03',e:{days:[4],from:15+10/60,to:15.5,zone:'campus',act:'linger',at:[36.6,-97.4,Math.PI/2,0],terms:['Y2S1'],weeks:[2,3,4,5,6,7,10,11,12,13,14,15],noHoliday:true,label:'法律系館A門口（民總下課）'}},

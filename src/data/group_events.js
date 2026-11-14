@@ -59,7 +59,7 @@ const GROUP_EVENTS=(function(){
       {speaker:'kexin',expression:'teasing',text:'這次你帶路，不要看地圖。'},{speaker:'kexin',expression:'embarrassed',text:'我會忍住不講話。大概。'},   /* CANON-NO-ECON-1112 第四批：照 AA_878 #25 換字 */
       {scene:'迷路到的地方',bg:'country_road'},
       {speaker:null,text:'（開了一個多小時，轉錯三次彎。路的盡頭是一片田，一間沒有招牌的雜貨店，門口一台舊的投幣販賣機。）'},
-      {speaker:'kexin',expression:'surprised',text:'這間店沒有招牌欸。'},{speaker:'kexin',expression:'thinking',text:'我們到底在哪。'},
+      {speaker:'kexin',expression:'surprised',text:'這間店沒有招牌欸。'},{speaker:'kexin',expression:'thinking',text:'……我們到底在哪。'},
       {choice:[{text:'「買兩罐汽水。」',goto:'l1'},{text:'「下次再來？」',goto:'l2'},{text:'（坐在店門口的長椅）',goto:'l3'}]},
       /* AA_921 第 3-3 節（CANON-NO-ECON-1112 第五批）：販賣機、回程兩句她不記行程表 */
       {label:'l1'},{speaker:null,text:'（販賣機吃了你的硬幣。）'},{speaker:'kexin',expression:'laugh',text:'……十塊。它今天吃得比我飽。'},{goto:'lb'},

@@ -64,7 +64,7 @@ const Y2B=(function(){
     { const d=D('2027-09-14'); if(d!=null&&(G.day===d||G.day===d+1)){
         if(G.day===d&&stageAt('heroine_03','FRIEND')&&contact(G,'heroine_03')&&past(G,'2027-09-14',12+10/60)&&hh(G)<17.5&&!PHONE.sent(G,'y3_yt_umb_noon'))
           PHONE.at(G,d,12+10/60,[Y('今天下午第一次上台'),Object.assign(Y('氣象說傍晚會下雨'),{ask:{id:'y3_yt_umb_noon',until:T(d,17.5),opts:[{t:'加油！！！',set:{YT12_CHEER:true}},{t:'講完跟我說。',say:[Y('嗯')]}]}})],'y3_yt_umb_noon');
-        if(past(G,'2027-09-14',18.5)&&!done(G,'ev_yt_umbrella_y3')&&!F.YT_UMBRELLA_Y3&&stageAt('heroine_03','FRIEND')){ F.YT_UMBRELLA_Y3='missed'; if(contact(G,'heroine_03')) PHONE.at(G,d,20,[Y('今天講完了'),Y('傘我自己有帶')],'y3_yt_umb_missed'); } } }
+        if(past(G,'2027-09-14',18.5)&&!done(G,'ev_yt_umbrella_y3')&&!F.YT_UMBRELLA_Y3&&stageAt('heroine_03','FRIEND')){ F.YT_UMBRELLA_Y3='missed'; if(contact(G,'heroine_03')) PHONE.at(G,d,20,[Y('今天講完了'),Y('……傘我自己有帶')],'y3_yt_umb_missed'); } } }
     /* ---- 1B-09 子晴 Q10：11/8（一）21:00 她私訊（FRIEND 以上）＋出發提醒（11/9 19:30 兩點半）；20:00 以前沒到＝21:00「我自己選了。」---- */
     { const d8=D('2027-11-08'), d9=D('2027-11-09'); if(d8!=null&&G.day>=d8&&G.day<=d9+1){
         if(stageAt('heroine_04','FRIEND')&&contact(G,'heroine_04')&&past(G,'2027-11-08',21)&&now(G)<T(d9,19.25)&&!PHONE.sent(G,'y3_zq_q10')){

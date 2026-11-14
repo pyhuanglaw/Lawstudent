@@ -62,8 +62,8 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     await go('我挑'); const s0=G.day; G.day=s0+3; G.hour=15; G.zone='cafe'; G.flags.CAFE_VISITS=6; G.flags.zhiruoFirstOrder='拿鐵'; picks=[0,0,0,0]; await EVENTS.run(bar); let L=lines();
     check('「下次我挑」：兩週內在 Café 點餐，她問「你挑好了嗎？」（一次）',L.includes(nm+'：你挑好了嗎？')&&G.flags.Z5_MINE_ASKED===true,JSON.stringify(L.slice(-3)));
     said.length=0; G.day=s0+4; picks=[0,0,0,0]; await EVENTS.run(bar); check('之後點餐不再問',!lines().includes(nm+'：你挑好了嗎？'));
-    await go('室友'); const r0=G.day; G.zone='cafe'; G.day=r0+5; check('「帶室友來」：兩週內走進 Café，阿凱「聽說這裡有電影。」芷若「這裡是咖啡廳。」',EVENTS.check(kai)&&(G.day=r0+15,!EVENTS.check(kai)));
-    G.day=r0+5; said.length=0; await EVENTS.run(kai); check('阿凱那兩句',JSON.stringify(lines())===JSON.stringify([CHARACTERS.kai?CHARACTERS.kai.name+'：聽說這裡有電影。':'阿凱：聽說這裡有電影。',nm+'：這裡是咖啡廳。'])||lines().length===2,JSON.stringify(lines())); }
+    await go('室友'); const r0=G.day; G.zone='cafe'; G.day=r0+5; check('「帶室友來」：兩週內走進 Café，阿凱「聽說這裡有電影。」芷若「……這裡是咖啡廳。」',EVENTS.check(kai)&&(G.day=r0+15,!EVENTS.check(kai)));
+    G.day=r0+5; said.length=0; await EVENTS.run(kai); check('阿凱那兩句',JSON.stringify(lines())===JSON.stringify([CHARACTERS.kai?CHARACTERS.kai.name+'：聽說這裡有電影。':'阿凱：聽說這裡有電影。',nm+'：……這裡是咖啡廳。'])||lines().length===2,JSON.stringify(lines())); }
   /* Z6 */
   { const at=(w,wd,h,o)=>{ o=o||{}; fresh(termDay('Y1S2',w,wd),h,'campus',o.dating?{dating_kexin:true}:{}); if(o.film!==false) SOCIAL.remember('heroine_02',o.group?'WATCHED_FILM_GROUP':'WATCHED_FILM','早場'); return EVENTS.check(z6); };
     const r={ok:at(15,2,12.5),w16:at(13,1,12.2),w14:at(12,2,12.5),w17:at(16,2,12.5),sat:at(15,6,12.5),late:at(15,2,13.2),dating:at(15,2,12.5,{dating:true}),group:at(15,2,12.5,{group:true}),none:at(15,2,12.5,{film:false})};   /* Z6 改第 13～15 週（AA_243 #50：16 週制）；w16＝第 13 週（窗口第一週）、w14＝第 12 週、w17＝第 16 週 */
@@ -83,13 +83,13 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     PHONE.answer(G,'zr_matinee',0); run(9.65,9.7); const q=OUT.get(G,'zr_matinee');
     check('午場：「起得來。」→「好。戲院門口見。午場也是會開演的。」＋11:40 出遊',TH('p:heroine_02').some(m=>m.text==='好。戲院門口見。午場也是會開演的。')&&!!q&&Math.abs(q.h-(11+40/60))<1e-6&&q.ev==='ev_zhiruo_matinee');
     const a0=SOCIAL.rel('heroine_02').aff|0; G.hour=11.7; said=[]; picks=['下午要做什麼']; await EVENTS.run(mat); const L=lines(), nm=CHARACTERS.heroine_02.name;
-    check('午場：散場「散場的時候，外面還是白天。」→ 三句 →「那下午要做什麼？」→ 溫州街 →「今天這部，叫《父親的午後》。……」',L[0]==='散場的時候，外面還是白天。'&&L.includes(nm+'：可是也有好處。看完，還有一整個下午。')&&L.includes(nm+'：我兩點要去溫州街。……還有半小時。你決定。')&&L.includes('你們沿著新生南路慢慢走到溫州街。她一路在講剛剛那個父親說的話，講到一半停下來。')&&L[L.length-1]===nm+'：這部叫《父親的午後》。你不用記片名。記得是午場就好。',JSON.stringify(L));
+    check('午場：散場「散場的時候，外面還是白天。」→ 三句 →「那下午要做什麼？」→ 溫州街 →「今天這部，叫《父親的午後》。……」',L[0]==='散場的時候，外面還是白天。'&&L.includes(nm+'：可是也有好處。看完，還有一整個下午。')&&L.includes(nm+'：我兩點要去溫州街。……還有半小時。你決定。')&&L.includes('你們沿著新生南路慢慢走到溫州街。她一路在講剛剛那個父親說的話，講到一半停下來。')&&L[L.length-1]===nm+'：今天這部，叫《父親的午後》。你不用記片名。記得是午場就好。',JSON.stringify(L));
     check('午場：單身＝WATCHED_FILM、aff +3；票根是《父親的午後》那張',SOCIAL.has('heroine_02','WATCHED_FILM')&&(SOCIAL.rel('heroine_02').aff|0)>=a0+3&&STORY.roomItemList(G).some(r=>r[0]==='電影票根'&&r[1][0]==='二輪戲院的票根。《父親的午後》，午場 11:40。'));
     G=JSON.parse(s2); SOCIAL.bind(G); EVENTS.bind(GM); said=[]; PHONE.answer(G,'zr_matinee',1); run(9.65,12);
     check('午場：「今天不行。」→「好。……那我自己去。我本來就是自己去的。」、沒有出遊、不扣分',TH('p:heroine_02').some(m=>m.text==='好。……那我自己去。我本來就是自己去的。')&&!OUT.get(G,'zr_matinee'));
     back(); G.flags.dating_kexin=true; G.day=MS; G.weekday=6; run(9.45,9.6); check('午場：交往中多一句「方奕廷也去。」（回覆掛在這一句）',TH('p:heroine_02').some(m=>m.text==='方奕廷也去。'&&m.ask));
     PHONE.answer(G,'zr_matinee',1); picks=['早場起得來']; said=[]; G.hour=11.7; await EVENTS.run(mat); const L2=lines(), fy=CHARACTERS.npc_fangyt.name;
-    check('午場：交往中＝方奕廷「午場出來太陽還在。我每次都覺得被騙。」→「我也是。」（BB-B 改；AA_961 拿掉「……」）；「下次我早場起得來。」＝ZR_EARLY_PROMISE；WATCHED_FILM_GROUP；票根三張',L2.includes(fy+'：午場出來太陽還在。我每次都覺得被騙。')&&L2.includes(nm+'：我也是。')&&G.flags.ZR_EARLY_PROMISE===true&&SOCIAL.has('heroine_02','WATCHED_FILM_GROUP')&&STORY.roomItemList(G).some(r=>r[0]==='三張連號的票根'),JSON.stringify(L2));
+    check('午場：交往中＝方奕廷「午場出來太陽還在。我每次都覺得被騙。」→「……我也是。」（BB-B 改）；「下次我早場起得來。」＝ZR_EARLY_PROMISE；WATCHED_FILM_GROUP；票根三張',L2.includes(fy+'：午場出來太陽還在。我每次都覺得被騙。')&&L2.includes(nm+'：……我也是。')&&G.flags.ZR_EARLY_PROMISE===true&&SOCIAL.has('heroine_02','WATCHED_FILM_GROUP')&&STORY.roomItemList(G).some(r=>r[0]==='三張連號的票根'),JSON.stringify(L2));
     back(); G.day=FRI+29; run(9.4,10); check('午場：第 4 週以後不會補發',!TH('p:heroine_02').some(m=>m.text==='今天有午場。你上次說早場起不來。'));
     fresh(FRI+5,20,'dorm'); SOCIAL.remember('heroine_02','WATCHED_FILM','《進城的那一週》的早場'); check('票根：Z5 兩人版＝《進城的那一週》那張',STORY.roomItemList(G).some(r=>r[0]==='電影票根'&&r[1][0]==='二輪戲院的票根。《進城的那一週》，早場。'));
     fresh(FRI+5,20,'dorm'); check('票根：沒看過電影＝沒有',!STORY.roomItemList(G).some(r=>/票根/.test(r[0])&&r[0]!=='摩天輪的票根（夾在桌墊下）')); }

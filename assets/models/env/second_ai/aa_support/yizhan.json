@@ -1,11 +1,11 @@
 {
- "objects": 31,
- "unique_meshes": 30,
- "tris": 23853,
- "tris_drawn": 24923,
- "materials": 27,
- "out": "assets/models/env/second_ai/aa_support/yizhan.glb",
- "bytes": 1755772,
+ "objects": 25,
+ "unique_meshes": 25,
+ "tris": 18624,
+ "tris_drawn": 18624,
+ "materials": 18,
+ "out": "../../../tmp/claude-0/-home-user-Lawstudent/fa766b7f-0f91-5caf-86c3-26385a2a2ff9/scratchpad/yzn/yizhan.glb",
+ "bytes": 1095532,
  "texres": 512,
  "layout": 2,
  "zone": "wz_teahouse"

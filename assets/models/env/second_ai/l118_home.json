@@ -1,13 +1,13 @@
 {
- "objects": 44,
- "unique_meshes": 44,
- "tris": 42196,
- "tris_drawn": 42196,
- "materials": 69,
- "out": "../l118/i7_home/l118_home.glb",
- "bytes": 2267760,
+ "objects": 33,
+ "unique_meshes": 33,
+ "tris": 41988,
+ "tris_drawn": 41988,
+ "materials": 22,
+ "out": "assets/models/env/second_ai/l118_home.glb",
+ "bytes": 1993052,
  "texres": 512,
- "tris_total": 42196,
+ "tris_total": 41988,
  "layout": "l118_home.layout.json",
  "seats": 20
 }

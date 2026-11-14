@@ -347,7 +347,7 @@ await sec('8',async()=>{ if(typeof HEARD==='undefined'){ check('8. HEARD',false,
   check('8. 稿上「別人說起她」'+heard.length+' 句：'+heard.filter(x=>got.has(x[1])).length+' 句在遊戲裡、'+Object.keys(NOT_DONE).length+' 句列在沒做（葉晨希 pool_11 等 AA_500），沒有漏掉',heard.length===12&&!miss.length&&!extra.length,J({miss,extra}));
   /* 閒聊前一句：from 那天有、前一天沒有、until 那天有、隔天沒有（AA_510 六句＋第五輪補的曾靖雯四句）*/
   const meet=(...ids)=>{ for(const id of ids) H.rel(id,45,30,10); };
-  const NEW=HL.talk.filter(e=>/^AA_510/.test(e.src||'')||(e.who==='pool_7'&&e.src!=='AA_1014')), bad=[];   /* 2026-11-14：AA_1014 靖雯說可昕的兩句另外在 tests/aa503_others_unit.js 第 0、1 項驗（含時間）*/
+  const NEW=HL.talk.filter(e=>/^AA_510/.test(e.src||'')||e.who==='pool_7'), bad=[];
   const setupT=(e,d,h)=>{ fresh(d,h==null?12:h,{}); meet(e.who); if(e.about) meet(e.about); for(const o of HL.talk) if(o.who===e.who&&o.id!==e.id&&HL.talk.indexOf(o)<HL.talk.indexOf(e)) HEARD.rec(H.G).said[o.id]=d-1; };
   for(const e of NEW){ const a=HEARD.when(e.from), b=e.until?HEARD.when(e.until):null; if(!a){ bad.push(e.id+' from'); continue; }
     setupT(e,a.day,a.h!=null?a.h+0.01:12); const i1=HEARD.talkDue(H.G,e.who); setupT(e,a.day-1,23.9); const i0=HEARD.talkDue(H.G,e.who);

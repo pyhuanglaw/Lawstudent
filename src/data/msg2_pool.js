@@ -142,7 +142,7 @@ const MSG2_POOL={
    {"topic": "thanks", "cond": "notes_files", "tier": "A", "msgs": ["不會～"], "tags": [], "src": "AA_257 §4 郭沛珊", "rowLabel": "謝謝（問課附筆記、重點檔）"},
    {"topic": "thanks", "cond": "notes_files", "tier": "R", "msgs": ["不會！那份重點是我熬夜整理的，終於有人用了。"], "tags": [], "src": "AA_257 §4 郭沛珊", "rowLabel": "謝謝（問課附筆記、重點檔）"},
    {"topic": "bday", "cond": "y2026_2028_2029", "tier": "A", "msgs": ["謝謝你～"], "tags": [], "src": "AA_257 §4 郭沛珊", "rowLabel": "生日快樂（2026、2028、2029）"},
-   {"topic": "bday", "cond": "y2026_2028_2029", "tier": "R", "msgs": ["謝謝！", "（照片：書頁，有一行劃了線）", "剛剛看到這句，覺得很適合生日。"], "tags": [], "src": "AA_257 §4 郭沛珊", "rowLabel": "生日快樂（2026、2028、2029）", "photoSplit": true},
+   {"topic": "bday", "cond": "y2026_2028_2029", "tier": "R", "msgs": ["謝謝！", "（照片：書頁，有一行劃了線）", "今天看到這句，覺得很適合生日。"], "tags": [], "src": "AA_257 §4 郭沛珊", "rowLabel": "生日快樂（2026、2028、2029）", "photoSplit": true},
    {"topic": "bday", "cond": "y2026_2028_2029", "tier": "L", "msgs": ["謝謝。今天收到的生日快樂裡，你這則我看了最多次。"], "tags": [], "src": "AA_257 §4 郭沛珊", "rowLabel": "生日快樂（2026、2028、2029）", "ps763": "AA_763_peishan_misc3.json@62460ea75"},
    {"topic": "bday", "cond": "y2027_gone", "tier": "A", "msgs": [], "tags": [], "src": "AA_257 §4 郭沛珊", "rowLabel": "生日快樂（2027 重考消失期）", "noReply": true, "ref": "不回（已送達、不顯示已讀；`BB_178` 10-0 第 7 點）"},
    {"topic": "bday", "cond": "y2027_gone", "tier": "R", "msgs": [], "tags": [], "src": "AA_257 §4 郭沛珊", "rowLabel": "生日快樂（2027 重考消失期）", "noReply": true, "ref": "不回（已送達、不顯示已讀；`BB_178` 10-0 第 7 點）", "copiedFrom": "A", "cellText": "同左"},

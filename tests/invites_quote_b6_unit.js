@@ -46,7 +46,7 @@ const CHANGED=['src/data/invites.js','src/invites3d.js','src/libquiet3d.js','src
 const CHG4=['ev_kexin_good_class','ev_kexin_quiz_y2','ev_kexin_xmas_y2','ev_kexin_birthday_y2','ev_kexin_birthday_y2_call','ev_kexin_summer_plan','ev_kexin_summer_plan_call','ev_kexin_presentation','ev_kexin_own_paths','ev_kexin_bus_home','ev_kexin_bad_exam','ev_kexin_call_helper','ev_kexin_tutor_practice','ev_kexin_k20','ev_kx_s1_deposit','ev_kx_s1_heard','ev_kx_s6_same','ev_kexin_birthday_y1s2','ev_kexin_birthday_y1s2_drink','ev_kexin_birthday_y1s2_late','ev_kexin_birthday_y1s2_next','ev_bar_group_start','ev_bar_group_night','ev_bar_group_out','ev_bar_group_video','ev_bar_group_three','ev_kexin_grades_open','ev_kexin_grades_open_y1s2','ev_nye_river','ev_kexin_trip_spring_y1','ev_kexin_valentine_y1','ev_kexin_vday_makeup_y1','ev_kx_nye_river_y2','ev_kx_nye_river_y3','ev_kx_nye_river_y4','ev_kexin_trip_spring_y2','ev_kexin_trip_summer_y2','ev_kexin_qixi_y2','ev_kexin_xmas_y3','ev_kexin_valentine_y3','ev_kexin_k18','ev_kexin_birthday_y3','ev_kexin_trip_spring_y4','ev_kexin_bday_visit_y4','ev_kexin_anniversary_y1','ev_kexin_anniversary_yn','ev_k7_gift_prep','ev_k7_gift_prep_n','ev_kexin_anniversary_video','ev_kx_souvenir','ev_kexin_moot3'];
 const GONE_EV=['ev_kexin_tour_nccu','ev_kexin_yule_pass','ev_kexin_video_study','ev_kexin_birthday_y1','ev_kexin_our_day','ev_kexin_our_day_wk','ev_kexin_nye_missed_call','ev_kexin_anniv_missed_call','ev_kexin_reschedule','ev_kx_nye_video_y2','ev_kx_nye_video_y3','ev_kx_nye_video_y4','ev_kexin_kh_missed_call','ev_kexin_qixi_video','ev_kexin_30min','ev_kexin_lecture_ntu','ev_kexin_lecture_table','ev_kexin_juniors_video','ev_kexin_kn_call_y3','ev_kexin_last_study_night','ev_kexin_two_circles','ev_kexin_call_helper2','ev_kexin_k18_call','ev_kexin_k20_call','ev_kexin_juniors_dinner','ev_kexin_film_night','ev_kexin_quiz_y2_video','ev_econ_night_y2','ev_kexin_video_report'].concat(Array.from({length:9},(_,i)=>'ev_kx_drift_r'+['1','1b','2','3','4','5','5_call','6','7'][i]));   /* CANON-NO-ECON-1112 第三批拿掉的事件：BASE、現在兩邊都不比（這一項拿掉）*/
 const gitShow=(r,f)=>cp.execFileSync('git',['-C',ROOT,'show',r+':'+f],{encoding:'utf8',maxBuffer:1<<28});
-const cur=f=>require('./aa959_map.js').unmapCode(fs.readFileSync(path.join(ROOT,f),'utf8'),path.basename(f));   /* AA_959（DLG-FULL-REVIEW-1110）：之後照覆寫表換的整句先換回來，再和 BASE 比「」 */
+const cur=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
 /* 同第五批的尺 */
 const wrapped=t=>{ if(typeof t!=='string'||t.length<2||t[0]!=='「'||t[t.length-1]!=='」') return false; let d=0; for(let i=0;i<t.length;i++){ const c=t[i]; if(c==='「') d++; else if(c==='」'){ d--; if(d===0&&i!==t.length-1) return false; } } return d===0; };
 const unq=t=>wrapped(t)?t.slice(1,-1):t;
@@ -83,8 +83,6 @@ if(process.env.QUOTE_B6_PROBE) (async()=>{
   const mode=process.env.QUOTE_B6_PROBE;
   if(mode==='old'){ const OLD={}; for(const f of CHANGED) OLD[path.join(ROOT,f)]=gitShow(BASE,f); const real=fs.readFileSync;
     fs.readFileSync=function(p){ if(typeof p==='string'){ const k=path.resolve(p); if(OLD[k]!=null) return OLD[k]; } return real.apply(fs,arguments); }; }
-  if(mode==='new'){ const M959=require('./aa959_map.js'), CH=new Set(CHANGED.map(f=>path.join(ROOT,f))), real=fs.readFileSync;   /* AA_959（DLG-FULL-REVIEW-1110）：現在的檔照覆寫表換的整句先換回來，再和 BASE 比 */
-    fs.readFileSync=function(p){ const r=real.apply(fs,arguments); if(typeof p==='string'&&typeof r==='string'&&CH.has(path.resolve(p))) return M959.unmapCode(r,path.basename(p)); return r; }; }
   const out={errs:[]};
   console.warn=()=>{}; console.log=()=>{};
   let SEED=1; const seed=v=>{ SEED=(v>>>0)||1; }; Math.random=()=>{ SEED=(Math.imul(SEED,1664525)+1013904223)>>>0; return SEED/4294967296; };
@@ -184,6 +182,11 @@ const lits=(s,re)=>{ const t=noComments(s), o=[]; let m; re=re||LIT; re.lastInde
 const runProbe=m=>{ let o=''; try{ o=cp.execFileSync(process.execPath,[__filename],{env:Object.assign({},process.env,{QUOTE_B6_PROBE:m}),encoding:'utf8',maxBuffer:1<<29,stdio:['pipe','pipe','pipe']}); }catch(e){ o=String(e.stdout||''); }
   const line=o.split('\n').find(l=>l.startsWith('@@B6@@')); return line?JSON.parse(line.slice(6)):{errs:['子程序沒有結果：'+o.slice(-300)]}; };
 const O=runProbe('old'), N=runProbe('new');
+/* rc2b（D158-KX-SAMESCHOOL，AA_1012 第 2 節，BB_467）：可昕「等我到台北」兩句換過；和 BASE 比以前，現在的值裡這兩句新字先換回舊字（新舊字在 tests/d158_rc2_rows.json），另外驗新字在、舊字不見 */
+{ const R=require('./d158_rc2_lib.js').rows('invites.js'), M=new Map(R.map(r=>[r.new,r.old])); let nNew=0, nOld=0;
+  const fix=L=>{ for(const e of (L||[])) if(Array.isArray(e)&&typeof e[1]==='string'){ if(R.some(r=>r.old===e[1]&&/kexin/.test(e[0]))) nOld++; if(M.has(e[1])){ e[1]=M.get(e[1]); nNew++; } } };
+  fix((N.data||{}).inv); fix(N.inputs);
+  check('rc2b. 可昕「等我到台北」兩句：現在的資料裡新字在（'+nNew+' 格）、舊字 0 格',nNew>=2&&nOld===0,J([nNew,nOld])); }
 /* CANON-NO-ECON-1112 第四批（AA_894 第 4 節）：invites.js 拿掉的兩格（子晴問換方向、芯慈 w118_xc_10），舊資料先拿掉同一格再比（tests/canon1112_ok.js drop）；換了字的幾句照 pair 算 */
 { const C4=require('./canon1112_ok.js'); if(O.data&&O.data.inv) O.data.inv=C4.drop(O.data.inv); if(O.inputs) O.inputs=C4.drop(O.inputs); }
 

@@ -82,7 +82,7 @@ GM.money=function(n){ G.money+=n; };
   { fresh(D('2027-01-17'),7,'dorm',{}); G.stage='law'; meet('heroine_01'); VAC.signup(G,'C11@Y2','yes'); said=[]; await VAC.outing(GM,OUT.get(G,'vac_C11@Y2'));
     check('7. 東京：第一堂（好像通識課）＋以安「回頭用嘴型說：好冷。」、參訪五十年前的照片；1/30',lines().some(t=>t.includes('好像通識課'))&&lines().includes('（休息時間，以安坐在你斜前方，回頭用嘴型說：好冷。）')&&lines().some(t=>t.includes('五十年前的照片'))&&G.day===D('2027-01-30'));
     fresh(D('2027-08-09'),7,'dorm',{}); G.stage='law'; meet('heroine_01'); R('heroine_01',25,0,0); VAC.signup(G,'C12@Y2','yes'); said=[]; picks=[1]; await VAC.outing(GM,OUT.get(G,'vac_C12@Y2')); let L3=lines();
-    check('7. 京都（以安 FAMILIAR）：「你也來了？」→「下課一起吃飯？」→「…我查過了。」、茶道轉了三次、結業「我幫你念一次。」',L3.includes('沈以安：你也來了？')&&L3.includes('沈以安：好。')&&L3.some(t=>t.includes('你轉了三次'))&&L3.includes('沈以安：我幫你念一次。'),JSON.stringify(L3));
+    check('7. 京都（以安 FAMILIAR）：「你也來了？」→「下課一起吃飯？」→「…我查過了。」、茶道轉了三次、結業「我幫你念一次。」',L3.includes('沈以安：你也來了？')&&L3.includes('沈以安：好。')&&L3.some(t=>t.includes('你轉了三次'))&&L3.includes('沈以安：……我幫你念一次。'),JSON.stringify(L3));
     fresh(D('2027-08-09'),7,'dorm',{}); G.stage='law'; VAC.signup(G,'C12@Y2','yes'); said=[]; opts=[]; await VAC.outing(GM,OUT.get(G,'vac_C12@Y2')); L3=lines();
     check('7. 京都（不熟以安）：一般的第一堂（十二個人、八個國家），沒有以安、沒有選項',L3.some(t=>t.includes('來自八個國家'))&&!L3.some(t=>t.startsWith('沈以安'))&&!opts.length,JSON.stringify(L3)); }
   // 8. 衝突：首爾 7/13～24 撞日語課（7/14、7/16、7/21、7/23）
@@ -91,8 +91,8 @@ GM.money=function(n){ G.money+=n; };
   { fresh(D('2026-07-27'),7,'dorm',{dating_heroine_01:true,VAC_C09_INT:true}); G.stage='law'; meet('heroine_01'); meet('heroine_03'); R('heroine_03',25,0,0); VAC.signup(G,'C09@Y1','yes');
     said=[]; picks=[0,0]; await VAC.outing(GM,OUT.get(G,'vac_C09@Y1')); PHONE.tick(G);
     const A1=(G.msgs||[]).filter(m=>m.th==='p:heroine_01');
-    check('10. 柬埔寨＋和以安交往：出發那天「到了傳一張照片。一張就好。」、輪播池、中間那則；回來那天（8/5）她在台中＝沒有「明天見。……」（AA_369 第 7 節第 7 題：限臺北；重逢走 AA_350 S5 那兩則）',A1.some(m=>m.text==='到了傳一張照片。一張就好。')&&A1.some(m=>m.text==='讀了四十頁。你那邊天氣好嗎？')&&A1.some(m=>m.text==='你那邊現在幾點？……吃飯了沒？')&&!A1.some(m=>m.text==='明天有空的話，一起吃飯。'),JSON.stringify(A1.map(m=>m.text)));   /* AA_369 第 7 節第 6 題：中間那則整句換 */
-    const pool=A1.filter(m=>m.text==='讀了四十頁。你那邊天氣好嗎？')[0]; check('10. 柬埔寨只有晚上有訊號：她臺灣 21:30 傳的，臺灣 22:00 才收到＝手機上當地 21:00（出國途中遊戲時鐘是當地時間，柬埔寨比臺灣慢 1 小時；AA_478 第 7 節，2026-10-27 改：原本手機照臺灣時間 22:00）；兩個回覆「好。」「我也想妳。」',!!pool&&Math.abs(pool.h-21)<0.01&&JSON.stringify(pool.ask.opts.map(o=>o.t))===JSON.stringify(['好。','我也想妳。']),JSON.stringify(pool));
+    check('10. 柬埔寨＋和以安交往：出發那天「到了傳一張照片。一張就好。」、輪播池、中間那則；回來那天（8/5）她在台中＝沒有「明天見。……」（AA_369 第 7 節第 7 題：限臺北；重逢走 AA_350 S5 那兩則）',A1.some(m=>m.text==='到了傳一張照片。一張就好。')&&A1.some(m=>m.text==='今天讀了四十頁。你那邊天氣好嗎？')&&A1.some(m=>m.text==='你那邊現在幾點？……吃飯了沒？')&&!A1.some(m=>m.text==='明天有空的話，一起吃飯。'),JSON.stringify(A1.map(m=>m.text)));   /* AA_369 第 7 節第 6 題：中間那則整句換 */
+    const pool=A1.filter(m=>m.text==='今天讀了四十頁。你那邊天氣好嗎？')[0]; check('10. 柬埔寨只有晚上有訊號：她臺灣 21:30 傳的，臺灣 22:00 才收到＝手機上當地 21:00（出國途中遊戲時鐘是當地時間，柬埔寨比臺灣慢 1 小時；AA_478 第 7 節，2026-10-27 改：原本手機照臺灣時間 22:00）；兩個回覆「好。」「我也想妳。」',!!pool&&Math.abs(pool.h-21)<0.01&&JSON.stringify(pool.ask.opts.map(o=>o.t))===JSON.stringify(['好。','我也想妳。']),JSON.stringify(pool));
     const dk=A1.find(m=>m.text==='今天沒有回。……你那邊還好嗎？'); check('10. 停電那晚（8/2）她「今天沒有回。……」隔天 8/3 早上臺灣 8:00 才收到＝手機上當地 7:00（AA_478 第 7 節）；回「昨天停電，整晚沒電。」→「好。……下次停電，也先跟我說。」',!!dk&&dk.day===D('2026-08-03')&&Math.abs(dk.h-7)<0.01&&dk.ask.opts[0].t==='昨天停電，整晚沒電。'&&dk.ask.opts[0].say[0].text==='好。……下次停電，也先跟我說。',JSON.stringify(dk));
     check('10. 7/30 VA-11「我媽在後面」人在柬埔寨不傳；停電那晚其他訊息也是隔天早上才到（8/2 沒有收到任何一則）',!A1.some(m=>m.text.includes('我媽在後面'))&&!(G.msgs||[]).some(m=>m.day===D('2026-08-02')&&m.h>=21));
     const Y=(G.msgs||[]).filter(m=>m.th==='p:heroine_03').map(m=>m.text); check('10. 語彤（朋友、FAMILIAR）整趟一則「📷（茶屋今天的長桌）」',JSON.stringify(Y)===JSON.stringify(['📷（茶屋今天的長桌）']),JSON.stringify(Y)); }

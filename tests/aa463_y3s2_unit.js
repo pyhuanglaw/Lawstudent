@@ -42,8 +42,7 @@ const strip=s=>String(s||'').replace(/（原句）$/,'').replace(/（`[^）]*）
 const msgsOf=s=>strip(s).split('／');
 const rep=s=>{ const i=s.indexOf('→'); return i<0?null:[s.slice(0,i),msgsOf(s.slice(i+1))]; };
 /* 第 1 節 */
-/* AA_959（AA_954）：稿上第 1 節的訊息，遊戲照覆寫表砍掉「今天」開頭——稿的字先照表換再比 */
-const T1R=rows(part('## 1.','## 2.')).filter(r=>/^\d+$/.test(r[0])).map(r=>({n:+r[0],when:r[1],L:msgsOf(r[2]).map(t=>require('./aa959_map.js').map(t,'r2y3b_events.js','heroine_02')),o1:r[3],o2:r[4]}));
+const T1R=rows(part('## 1.','## 2.')).filter(r=>/^\d+$/.test(r[0])).map(r=>({n:+r[0],when:r[1],L:msgsOf(r[2]),o1:r[3],o2:r[4]}));
 /* 第 7 節②（以安住公寓）：第 1 則、第 8 則回覆①改字，蓋過第 1 節的表 */
 const S7=part('## 7.'), S7a=(S7.match(/第 1 則：(.+)$/m)||[])[1], S7b=S7.match(/第 8 則回覆①：「([^」]+)」→ (.+)$/m);
 if(S7a&&T1R[0]) T1R[0].L=msgsOf(S7a.trim()); if(S7b&&T1R[7]) T1R[7].o1=S7b[1]+'→'+S7b[2].trim();

@@ -38,7 +38,7 @@ const L=typeof SHAOLA_LAYOUT!=='undefined'?SHAOLA_LAYOUT.shop:null, man=ASSETS.m
   check('① 區域是燒臘店（6 × 13）、正式模型登錄 bldg.shaola_interior', !!L&&!!z.shaola&&d>10.5&&d<12.3&&!!man, `走道（x 0）站得住的長度 ${r2(d)} m（13 m 扣掉牆內 0.4＋半徑；舊麵店 6.4）、z 0 那一排寬 ${r2(w)} m`); }
 const glb=gp&&fs.existsSync(gp)?fs.readFileSync(gp):null;
 /* 11-12（AA_853 菜單）：只把檔裡的印刷圖集 sl_print 換成新菜單（幾何、兩組 UV 位元組不變，光照貼圖照用）→ 3,981,292 B；原本 3,989,208 B */
-check('① GLB 檔案在、是 v8＋光照烘焙＋AA_853 菜單（3,481,740 B；SHOP-CC0-HELP-1113 幫手 g4 11-13：v7 換 CC0 材質組＋Poly Haven 模型、切肉改一片一片，bake_gg_new.sh shaola 重烘；原本 v7 3,981,292 B）', !!glb&&glb.length===3481740, glb?glb.length+' B':'沒有檔案 '+(man&&man.url));
+check('① GLB 檔案在、是 v7＋光照烘焙＋AA_853 菜單（3,981,292 B；LAWWW2-B 11-07 在 v7 上烘，bake_gg_new.sh shaola；11-12 只換菜單貼圖）', !!glb&&glb.length===3981292, glb?glb.length+' B':'沒有檔案 '+(man&&man.url));
 if(!L||!z.shaola){ console.log('FAILED '+fails); process.exit(1); }
 // ② 多擋的那幾塊＝GLB extras
 { const j=JSON.parse(glb.slice(20,20+glb.readUInt32LE(12)).toString()), ex=(j.nodes.find(n=>n.extras&&n.extras.extraBlocks)||{}).extras, eb=ex?(typeof ex.extraBlocks==='string'?JSON.parse(ex.extraBlocks):ex.extraBlocks):[];

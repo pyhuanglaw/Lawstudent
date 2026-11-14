@@ -1,6 +1,6 @@
 // 改時間也要聽她的回答（BUG-INV-CONFLICT-SKIP-REPLY-1107，BB-B 11-07 GAME_BUG 候選）——不需要瀏覽器（D131）。
 // 起因：約的時間撞到你自己已經約好的事 →「你那個時間已經約了別人。改成 ○○？」→ 按「好，就…」就直接約好，她沒有回；
-//       連照設計要婉拒的也約成了（語彤有點熟、約 2:30 AM 念書＝「咖啡廳我坐不住。」「總圖可以。」）。
+//       連照設計要婉拒的也約成了（語彤有點熟、約 2:30 AM 念書＝「……咖啡廳我坐不住。」「總圖可以。」）。
 // 檢查：1 撞到自己的約 → 選系統提的時間 → 重新問她：語彤照設計婉拒、沒有約成；2 會答應的人（以安、總圖）：她的答應那句照播、約成；3 她自己提的新時間（她那時有事）照舊直接約好
 // 修改前 1、2 FAIL。用法：node tests/inv_conflict_reply_1107_unit.js
 const H=require('./pg_harness.js');
@@ -14,7 +14,7 @@ const live=(G,id)=>(G.invites||[]).filter(v=>v.who===id&&v.state==='accepted');
     let err=null; try{ await INV.flow(GM,'heroine_03',null,false); }catch(e){ err=String(e&&e.stack||e); }
     const T=H.said.map(s=>s.t);
     check('1. 撞到自己的約：先說「你那個時間已經約了別人。改成…？」',T.some(t=>/^你那個時間已經約了別人。改成/.test(t)),J(T));
-    check('1. 選了系統提的時間：重新問語彤，她照設計婉拒（「咖啡廳我坐不住。」），沒有約成',!err&&T.includes('咖啡廳我坐不住。')&&live(G,'heroine_03').length===0,err||J({T,iv:live(G,'heroine_03')})); }
+    check('1. 選了系統提的時間：重新問語彤，她照設計婉拒（「……咖啡廳我坐不住。」），沒有約成',!err&&T.includes('……咖啡廳我坐不住。')&&live(G,'heroine_03').length===0,err||J({T,iv:live(G,'heroine_03')})); }
   { const G=fresh('2025-10-15',10); H.FRIEND('heroine_01'); G.contacts.heroine_01=1; H.FRIEND('zhe'); G.contacts.zhe=1;
     INV.accept(G,'zhe','noodle',G.day,15.5,{by:'player'});
     H.said=[]; H.picks=['念書','總圖','今天 15:30','好，就'];

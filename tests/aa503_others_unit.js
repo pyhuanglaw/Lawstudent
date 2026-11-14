@@ -48,8 +48,7 @@ const SPEC={AA_503:['docs/story_planning/AA_503_女主角自己的生活_大一�
   AA_513:['docs/story_planning/AA_513_女主角生活稿對照_阿凱四句改私訊_以安窗邊旁白.md','a2e4bf196'],
   AA_523:['docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md','0d7b5388b'],   /* AA_523 第 6 節 6-3：陳助教 h509_ta_sis 改字（src 'AA_523 6-3'）；時間在 tests/aa508_509_feed_unit.js 第 6 段、tests/aa523_sis_b16_unit.js 第 6 節 */
   AA_514:['docs/story_planning/AA_514_新稿懸著的承諾自查_可昕最後一場模擬法庭.md','9bca0f407'],   /* AA_514 第 4 節第 3 點：晨希叫子晴不加「學姊」（h507_cx_zq、h508_cx_zq 改字，src 'AA_514 4'）*/
-  AA_520:['docs/story_planning/AA_520_予樂自己的線_辦活動的人不在照片裡.md','481dd8238'],
-  AA_1014:['docs/story_planning/AA_1014_別人說起可昕.md','774afd5fcf']};   /* 2026-11-14 AA_1014 別人說起可昕 10 句（h1014_1～10，src 'AA_1014'）*/   /* AA_520 第 2 節：h503_yule 後面兩句（items 第 4 欄 'AA_520 2'）；其他在 tests/aa520_yule_unit.js */
+  AA_520:['docs/story_planning/AA_520_予樂自己的線_辦活動的人不在照片裡.md','481dd8238']};   /* AA_520 第 2 節：h503_yule 後面兩句（items 第 4 欄 'AA_520 2'）；其他在 tests/aa520_yule_unit.js */
 const show0=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
 /* CANON-NO-ECON-1112 第三批拿掉的手機列（外校室友、舊序章人物；條件 yule／econGroup）的句子：從拿掉以前的開發分支讀，稿上那幾句不算漏 */
 const GONE=(()=>{ const s=show0('cfc0fd04bf','src/data/heard_lines.js'), o=new Set(); for(const l of s.split('\n')) if(/cond:'(yule|econGroup)'/.test(l)) for(const m of l.matchAll(/'((?:[^'\\]|\\.)*)'/g)) o.add(m[1]); return o; })();
@@ -82,7 +81,7 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), iD=sc('src
   for(const e of L.phone) for(const it of e.items) all.push([it[3]?String(it[3]).split(' ')[0]:srcOf(e),it[2],e.id]);   /* items 第 4 欄＝那一句另外的稿（AA_520 第 2 節 h503_yule 後面兩句）*/
   const bad=all.filter(([s,t])=>!DOC[s]||!DOC[s].includes(t));
   /* 句數 123→99：外校室友、舊序章人物的手機列拿掉（CANON-NO-ECON-1112 第三批：這一項拿掉） */
-  check('0. 遊戲裡每一句都在它那一份稿裡（AA_503 d13ab3ab7、AA_504 da3e72727、AA_505 795fbecfd、AA_506／AA_507 31a4c4002、AA_508／AA_509／AA_510 28f981438、AA_513 a2e4bf196、AA_520 481dd8238、AA_523 0d7b5388b，一字不差；'+all.length+' 句）',all.length===109/* 2026-11-14 AA_1014 加 10 句（舊期望 99）*/&&Object.values(DOC).every(d=>d.length>1000)&&!bad.length,J(bad.slice(0,6)));
+  check('0. 遊戲裡每一句都在它那一份稿裡（AA_503 d13ab3ab7、AA_504 da3e72727、AA_505 795fbecfd、AA_506／AA_507 31a4c4002、AA_508／AA_509／AA_510 28f981438、AA_513 a2e4bf196、AA_520 481dd8238、AA_523 0d7b5388b，一字不差；'+all.length+' 句）',all.length===99&&Object.values(DOC).every(d=>d.length>1000)&&!bad.length,J(bad.slice(0,6)));
   /* 稿上的「別人說起她」（X-4）每一句 */
   const got=new Set(all.map(x=>x[1])), heard=[];
   for(const k of ['AA_503','AA_504','AA_505','AA_506','AA_507']){ let on=false, last=''; for(const l of (DOC[k]||'').split('\n')){ if(/^### \d+-4\. 別人說起她/.test(l)){ on=true; continue; } if(/^(### |## |---)/.test(l)){ on=false; continue; } if(!on) continue; let m;
@@ -129,7 +128,7 @@ await sec('1',async()=>{ if(!HAS()){ check('1. HEARD',false,'沒有 HEARD'); ret
     setup(e,w.a.day-1,23.9); const before=HEARD.talkDue(H.G,e.who); const beforeOk=!before||before.id!==e.id;
     let afterOk=true; if(w.b){ setup(e,w.b.day,12); const last=HEARD.talkDue(H.G,e.who); setup(e,w.b.day+1,12); const after=HEARD.talkDue(H.G,e.who); afterOk=!!last&&last.id===e.id&&(!after||after.id!==e.id); }
     if(!(inOk&&beforeOk&&afterOk)) bad.push(e.id+' '+J({inOk,beforeOk,afterOk,from:e.from,until:e.until,day:D(w.a.day)})); }
-  check('1. 每一句（'+HL().talk.length+' 句）在它的那幾天才說：from 那天有、前一天沒有、until 那天有、隔天沒有',HL().talk.length===67/* 2026-11-14 AA_1014 加 10 句（舊期望 57）*/&&!bad.length,J(bad.slice(0,6)));
+  check('1. 每一句（'+HL().talk.length+' 句）在它的那幾天才說：from 那天有、前一天沒有、until 那天有、隔天沒有',HL().talk.length===57&&!bad.length,J(bad.slice(0,6)));
   /* 要認識她、一句一次、一天一句 */
   const ps=HL().talk.find(e=>e.id==='h503_ps_an'); const d=TDt('Y1S1',8,2);
   fresh(d,12,{}); meet('classmate_peishan'); check('1. 沛珊說以安：玩家還不認識以安＝不說',!HEARD.talkDue(H.G,'classmate_peishan'));

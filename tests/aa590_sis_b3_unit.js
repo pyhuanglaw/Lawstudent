@@ -50,7 +50,7 @@ await sec(1,()=>{
   /* 選項在遊戲裡帶「」或括號；她的話、旁白就是字串 */
   /* 第 57 列「好。有翻開就好。」：使用者 11-02 第 55 列改成不問成績，照級別回的那幾句（第 57 列、保289～保291）整段不再演，不在遊戲裡 */
   /* 第 24 列「又遇到你了。」（熱水 HELPED 那一句）：AA_595 跟著空保溫瓶那條線拿掉；第 66 列（期末飯她先說）：AA_591 第 11 節第 13 點「學姊不會先說」整支拿掉，第 8 節驗不在 */
-  const miss=keep.filter(r=>r.n!=='57'&&r.n!=='24'&&r.n!=='66'&&!inGame(r.nw)&&!inGame(require('./aa959_map.js').map(r.nw,null,'heroine_05'))/* AA_959：之後又照覆寫表拿掉開頭「……」*/).map(r=>'#'+r.n+' '+r.nw);
+  const miss=keep.filter(r=>r.n!=='57'&&r.n!=='24'&&r.n!=='66'&&!inGame(r.nw)).map(r=>'#'+r.n+' '+r.nw);
   check('1. 每一列「改成」一字不差在遊戲裡（字串常數；第 57 列跟著第 55 列整段拿掉；第 24 列 AA_595 拿掉；第 66 列 AA_591 拿掉）',!miss.length&&!inGame('好。有翻開就好。')&&!inGame('下學期，我出難一點的題目給你。')&&!inGame('又遇到你了。'),J(miss));
   const P104='……其實一點都不早。真的想準備的人，有的大一就開始了。';
   const P104G=require('./line_rows_expect.js').fwd(P104,'src/data/sis_b4_events.js');   /* 2026-11-11（X324 G 區，AA_802_sis_b4_anyt.json@f2a55c1e7）：sis_b4_events.js 第 45 列拿掉句首「……」——表上（AA_590）照舊是 P104，遊戲裡是 AA_802 那一列的 new。舊期望：inGame(P104) */

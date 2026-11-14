@@ -1,13 +1,13 @@
 {
- "objects": 73,
- "unique_meshes": 68,
- "tris": 17001,
- "tris_drawn": 22093,
- "materials": 73,
- "out": "../l118/i7_noodle2/l118_noodle2.glb",
- "bytes": 1667472,
+ "objects": 40,
+ "unique_meshes": 40,
+ "tris": 15727,
+ "tris_drawn": 15727,
+ "materials": 24,
+ "out": "assets/models/env/second_ai/l118_noodle2.glb",
+ "bytes": 1525760,
  "texres": 512,
- "tris_total": 22093,
+ "tris_total": 15727,
  "layout": "l118_noodle2.layout.json",
  "seats": 10
 }

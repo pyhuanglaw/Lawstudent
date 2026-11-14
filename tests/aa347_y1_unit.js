@@ -145,7 +145,7 @@ const J=x=>JSON.stringify(x);
     return [a>=0&&b>=0&&J(L.slice(a,a+3).map(m=>m.from+':'+m.text))===J(['zhe:系籃練習 今天投進三顆','zhe:三十顆裡面','yu:進步了'])&&J(L.slice(b,b+3).map(m=>m.from+':'+m.text))===J(['classmate_bohan:總圖十點關。','classmate_bohan:我被趕出來了。','zhe:你根本住那裡吧'])&&near(L[a].h,22+40/60)&&near(L[b].h,22+10/60)]; });
   chk('6. 私訊：以安 15:20「總圖三樓的冷氣壞了。」「我換到二樓。……二樓的也壞了。」；語彤 17:40 黑板照片、「蘇姨說不要改。客人看得懂。」；芯慈 23:30《檔案室的燈》三則',()=>[J(P('p:heroine_01').slice(-2))===J(['總圖三樓的冷氣壞了。','我換到二樓。……二樓的也壞了。'])&&near(TH('p:heroine_01').slice(-2)[0].h,15+20/60)
     &&J(P('p:heroine_03').slice(-2))===J(['📷（茶屋門口的黑板，今天的茶點寫錯一個字）','蘇姨說不要改。客人看得懂。'])&&near(TH('p:heroine_03').slice(-2)[0].h,17+40/60)
-    &&J(P('p:classmate_xinci').slice(-3))===J(['最近在追《檔案室的燈》。','第三集有一個律師講錯了一條。','我還是會看完。'])&&near(TH('p:classmate_xinci').slice(-3)[0].h,23.5),J([P('p:heroine_01'),P('p:heroine_03'),P('p:classmate_xinci')])]);
+    &&J(P('p:classmate_xinci').slice(-3))===J(['最近在追《檔案室的燈》。','第三集有一個律師講錯了一條。','……我還是會看完。'])&&near(TH('p:classmate_xinci').slice(-3)[0].h,23.5),J([P('p:heroine_01'),P('p:heroine_03'),P('p:classmate_xinci')])]);
   chk('6. 阿凱 22:05「我做了一個 App」「宿舍洗衣機排隊用的」「你下載一下 拜託」；兩週以後同一則的後半「目前使用者：五人」「我 你 還有三個我不認識的」',()=>{ const L=TH('p:kai'), a=L.find(m=>m.text==='我做了一個 App'), b=L.find(m=>m.text==='目前使用者：五人');
     return [a&&b&&J(P('p:kai').filter(t=>/App|洗衣機|下載|使用者|不認識/.test(t)))===J(['我做了一個 App','宿舍洗衣機排隊用的','你下載一下 拜託','目前使用者：五人','我 你 還有三個我不認識的'])&&b.day-a.day>=14&&near(a.h,22+5/60),J(P('p:kai'))+' '+(a&&b?b.day-a.day:'')]; });
   chk('6. 一天最多一則；4/24（群組的劇情訊息那天）不加',()=>{ const days={}; for(const m of (G.msgs||[])) if(m.tag&&/^dp_y1s2_/.test(m.tag)){ const id=m.tag.replace(/^dp_/,'').replace(/_\d+_\d+$/,''); days[m.day]=days[m.day]||new Set(); days[m.day].add(id); }

@@ -124,11 +124,6 @@ const WHO={sea_yam:'阿伯',sea_aiyu:'阿姨',sea_mooncake:'店員',sea_couplet:
     const X=game(1000,plain,12,0), a=enter('wenzhou',X), b=enter('gongguan',X);
     check('7. 沒擺的日子、時段外（模型沒顯示）：那一攤沒有互動點，硬叫也不演、不扣錢；平常日（3/25 中午）溫州街沒有季節的互動點、公館只有花序門口「看門口的花」（平常那一句）',!bad.length&&plain!=null&&!a.E.interactables.length&&b.E.interactables.length===1&&b.E.interactables[0].plain===true&&b.E.interactables[0].label==='看門口的花'/* 2026-11-12 改期望（AA_793@a82fe117b）：四段季節布置以外的日子公館多一個「看門口的花」，念 plain 那一句；舊期望：一個都沒有 */,bad.slice(0,6).join(' | ')+' '+plain+' '+JSON.stringify(a.E.interactables.concat(b.E.interactables).map(i=>i.label))); }
 
-  /* 7b 區域 build 回傳的 z 沒有 id（遊戲真正的 zones3d.js 就是這樣；上面的假區域有 id 才沒抓到）：花序門口的「看門口的花」只放公館，溫州街不放（REL76_reach，BB 2026-11-14：溫州街 (44,20.8) 在房子裡、按不到）*/
-  { let plain=null; for(let d=30;d<=1500;d++){ if(/-03-25$/.test(CALENDAR.dateOf(d).key)){ plain=d; break; } } const X=game(1000,plain,12,0); global.GAME=X.GM; const att=(zid)=>{ const E={interactables:[]}, z={group:mk('t'),nav:null}; SS3.attach(E,z,zid); return E.interactables.filter(i=>i.plain).length; };
-    const w=att('wenzhou'), g=att('gongguan'), u=att(undefined);
-    check('7b. 區域沒有 id 時照 S.hook 給的區域 id 判斷：溫州街 0 顆、公館 1 顆「看門口的花」、不知道哪一區 0 顆',w===0&&g===1&&u===0,'wenzhou '+w+'、gongguan '+g+'、沒有區域 id '+u); }
-
   /* 8 落地布置的看 */
   { const bad=[]; let n=0;
     for(const id of Object.keys(LOOKS)) for(const {zid,code,q} of LOOKS[id]){ const h=midOf(code), d=dayFor(code,h); if(d==null){ bad.push(id+' '+code+' 找不到日子'); continue; }

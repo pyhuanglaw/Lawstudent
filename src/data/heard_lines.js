@@ -102,17 +102,6 @@ const HEARD_LINES={
     {id:'h506_yx_ps',who:'pool_15',about:'classmate_peishan',t:'沛珊這學期沒有來。她的位子我幫她留到期中。',from:'Y2S2:W5一',until:'Y2S2:end',src:'AA_506 6-4'},   /* 廖芸萱「第 5 週起」（她大二下第 16 週畢業）*/
     {id:'h507_cx_zq',who:'pool_11',about:'heroine_04',t:'子晴回來看社課，第一件事是去數導線。',from:'Y3S1:W1一',until:'Y3S1:end',src:'AA_514 4'},   /* 葉晨希「吉他社」（AA_507 4-4）：她在吉他社社課出現（talk 管道不限地點）；AA_514 第 4 節第 3 點：同屆同社，不叫「學姊」 */
     {id:'h508_cx_zq',who:'pool_11',about:'heroine_04',t:'子晴畢業前，把社辦每一條導線都檢查了一次。我的那條，標籤還在。',from:'2028-06-01',until:'Y3S2:end',src:'AA_514 4'},   /* 葉晨希「6 月以後」（AA_508 4-4；她 2028-06 畢業＝大三下第 16 週）；AA_514 第 4 節第 3 點：不叫「學姊」 */
-    /* ---------- AA_1014 別人說起可昕（企劃線 774afd5fcf，BB_465 照用；D158 同校以後補 AA_503 x-4）：about kexin＝認識她才說（SOCIAL.metD 認 KX_MET）。國考 2029-08-04＝第 10 列到前一天 ---------- */
-    {id:'h1014_1',who:'pool_4',about:'kexin',t:'可昕一個禮拜就把全班的名字記起來了。我的點名板都快用不到了。',from:'Y1S1:W3一',until:'Y1S1:W8日',src:'AA_1014'},
-    {id:'h1014_2',who:'classmate_bohan',about:'kexin',t:'杜可昕上課問了老師一個問題，老師想了五秒。全班都在等。',from:'Y1S1:W6一',until:'Y1S1:end',src:'AA_1014'},
-    {id:'h1014_3',who:'heroine_01',about:'kexin',t:'可昕的室友每天晚上都買宵夜。可昕說她胖了兩公斤，我看不出來。',from:'Y1S2:W2一',until:'Y1S2:W15日',src:'AA_1014'},
-    {id:'h1014_4',who:'classmate_peishan',about:'kexin',t:'可昕暑假要回高雄，在早午餐店打工。她說她只會煎蛋，老闆說那就夠了。',from:'Y1S2:W14一',until:'Y1S2:W16日',src:'AA_1014'},
-    {id:'h1014_5',who:'pool_7',about:'kexin',t:'可昕這幾天都在總圖待到閉館。她說模擬法庭對面那組很強，她很開心。',from:'Y2S1:W10一',until:'Y2S1:W13日',src:'AA_1014'},
-    {id:'h1014_6',who:'pool_10',about:'kexin',t:'可昕暑假七月要去事務所打雜。她說先去看律師每天到底在做什麼。',from:'Y2S2:W10一',until:'2027-06-30',src:'AA_1014'},
-    {id:'h1014_7',who:'pool_1',about:'kexin',t:'可昕最後一場模擬法庭，結辯講完，法官那邊有人在寫筆記。她走出來才說她的腳一直在抖。',from:'2027-12-05',until:'Y3S1:end',src:'AA_1014'},
-    {id:'h1014_8',who:'pool_13',about:'kexin',t:'我訪問可昕以後想做什麼。她說想讓拿著看不懂的紙來的人，聽得懂自己發生了什麼事。那一段我一秒都沒剪。',from:'Y3S2:W2一',until:'Y3S2:end',src:'AA_1014'},
-    {id:'h1014_9',who:'pool_4',about:'kexin',t:'畢冊每個人寫一句話，可昕寫「我來過！」。我把她那一句排在整頁的正中間。',from:'Y4S1:W10一',until:'Y4S1:end',src:'AA_1014'},
-    {id:'h1014_10',who:'pool_7',about:'kexin',t:'可昕每天九點就在總圖。桌上那個保溫瓶是我送她的，她說每天都有在用。',from:'Y4S2:W2一',until:'2029-08-03',src:'AA_1014'},
   ],
   kai203:[
     /* AA_503 7-2：子晴練習賽的私訊選「他沒講。」（ZQ_PRACTICE 'tell'）→ 下一次在 203 阿凱這一句，算 KAI_COUNTED（AA_502 3-3）*/

@@ -34,7 +34,6 @@ const LI_F='AA_753_peishan_ladder_linesIf.json', LI_SHA='3f6c7d3bb9'/* （CANON-
 const str=x=>typeof x==='string'?x:(x&&x.narr)||null;
 const cond=q=>{ const o={}; for(const k in q) if(k!=='t'&&k!=='note') o[k]=q[k]; return o; };
 for(const F of FILES){ const raw=show(F.sha,'docs/story_planning/'+F.f); F.A=raw?JSON.parse(raw):null; }
-const LADDER=require('./aa959_map.js').unmapDeep(require('vm').runInThisContext('LADDER'),'ladder.js');   /* AA_959（DLG-FULL-REVIEW-1110）：匯入最後一步照覆寫表換的字先換回來（分人），再逐字對沛珊的稿 */
 const OLD=(()=>{ const s=show(BASE,'src/data/ladder.js'); if(!s) return null; try{ return new Function(s+';return LADDER;')(); }catch(e){ return null; } })();
 let WANT=[], CH=[];
 GM.choose=async o=>{ const T=o.map(q=>q.t||q.text); CH.push(T); const w=WANT.shift(); const k=typeof w==='number'?w:T.indexOf(w); return k>=0?k:0; };

@@ -7,7 +7,6 @@
 //   4. 遊戲那 54 格＝稿的新字（D26 可昕句中「……」照 AA_694 拿掉＝game）；舊字都不在遊戲檔了；align 12 格遊戲＝稿的新字（本來就是）
 //   5. 遊戲整份和重匯以前的開發分支（BASE）逐格比：只有這 54 格不同；un812 還原以後兩版一樣；語彤 D14 收尾「天快暗了。夕陽，我想留到河邊看。」照在
 'use strict';
-const M959=require('./aa959_map.js');   /* AA_959（DLG-FULL-REVIEW-1110）：遊戲的 date_lines 先照覆寫表換回舊字再比（AA_959 本身逐列驗在 tests/aa959_overlay_unit.js）*/
 const fs=require('fs'), path=require('path'), cp=require('child_process');
 const ROOT=path.join(__dirname,'..'), J=JSON.stringify;
 const C=require('./date_src_sha.js'), SP='docs/story_planning/', BASE='12b9649687', R=C.KX944_1113;   /* BASE＝重匯以前的開發分支 */
@@ -19,7 +18,7 @@ const DL=t=>JSON.parse(t.slice(t.indexOf('const DATE_LINES=')+17,t.lastIndexOf('
 const leaves=(o,p,out)=>{ if(o&&typeof o==='object'){ for(const k of Object.keys(o)) leaves(o[k],p+'/'+k,out); } else out[p]=o; return out; };
 const get=(o,p)=>{ for(const k of p.split('/').filter(Boolean)) o=o==null?o:o[k]; return o; };
 const LOCS=Array.from({length:33},(_,i)=>'D'+String(i+1).padStart(2,'0'));
-const NOW=M959.unmapDeep(DL(read('src/data/date_lines.js')),'date_lines.js');
+const NOW=DL(read('src/data/date_lines.js'));
 const gp=r=>'/loc/'+r.loc+'/lines/'+r.who+'/'+r.path;
 const G=R.filter(r=>!r.align), AL=R.filter(r=>r.align);
 
@@ -60,6 +59,7 @@ const G=R.filter(r=>!r.align), AL=R.filter(r=>r.align);
 { const wt=show(BASE,'src/data/date_lines.js');
   if(wt){ const a=leaves(DL(wt),'',{}), b=leaves(NOW,'',{}); const diff=[]; for(const p of new Set([...Object.keys(a),...Object.keys(b)])) if(a[p]!==b[p]&&p!=='/source') diff.push(p);
     const want=G.map(gp).sort();
+    C.rc2Layer(diff,a,b,check,want);   /* 2026-11-13 76f8 rc2（D158-KX-SAMESCHOOL，BB_467／AA_987）：可昕外校前提 5 格（date_src_sha.js RC2_1113；新舊字在 tests/d158_rc2_rows.json）也換了字——這裡先拿掉再比（同時驗 5 格都是新字、舊字整份 0 格）；舊期望是拿掉上面那幾層以後就只差這一輪的格子 */
     check('5. 遊戲整份（'+Object.keys(b).length+' 格）和重匯以前（'+BASE+'）逐格比：只有這 54 格不同（AA_946 對齊的 12 格、別人、fx、短句、交通偏好零差異）',Object.keys(b).length>30000&&J(diff.sort())===J(want),J(diff.filter(p=>!want.includes(p)).slice(0,4)));
     check('5. 那 54 格重匯以前＝稿的 old',G.every(r=>a[gp(r)]===r.old));
     check('5. un812 把現在的遊戲檔還原以後＝重匯以前的遊戲檔 un812',J(C.un812(NOW).loc)===J(C.un812(DL(wt)).loc));

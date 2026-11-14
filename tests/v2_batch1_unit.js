@@ -49,7 +49,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
     L=await go({ECON_PAST_SHARED:'half'},[3]);
     check('慈 2（half）：「自學的人，第三章懂嗎？」→「懂一半。」→「好，那你懂的那一半先講。」（AA_209）',L.includes('芯慈：自學的人，第三章懂嗎？')&&L.includes('祐廷：懂一半。')&&L.includes('芯慈：好，那你懂的那一半先講。')&&opts.length===1,JSON.stringify(L));
     L=await go({},[3,0]);
-    check('慈 2（沒說過）：「你怎麼這麼熟？」→ 玩家選說多少（三個）→「念過。一個多月。」→「我就知道。」→ full',L.includes('芯慈：你怎麼這麼熟？')&&JSON.stringify(opts[1])==='["「念過。一個多月。」","「自學過一點。」","「第三章我也還在念。」"]'&&L.includes('芯慈：我就知道。')&&G.flags.ECON_PAST_SHARED==='full'&&SOCIAL.has('classmate_xinci','ECON_TOGETHER'),JSON.stringify(L));
+    check('慈 2（沒說過）：「……你怎麼這麼熟？」→ 玩家選說多少（三個）→「念過。一個多月。」→「我就知道。」→ full',L.includes('芯慈：……你怎麼這麼熟？')&&JSON.stringify(opts[1])==='["「念過。一個多月。」","「自學過一點。」","「第三章我也還在念。」"]'&&L.includes('芯慈：我就知道。')&&G.flags.ECON_PAST_SHARED==='full'&&SOCIAL.has('classmate_xinci','ECON_TOGETHER'),JSON.stringify(L));
     check('慈 2：以安不在場，KNOWS_ECON_YEAR 不變',!SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'));
     L=await go({ECON_PAST_SHARED:'none'},[3,1]);
     check('慈 2（none）：「自學過一點。」→「自學的人，第三章懂嗎？」「懂一半。」「一半也好。」→ half',L.includes('芯慈：自學的人，第三章懂嗎？')&&L.includes('祐廷：懂一半。')&&G.flags.ECON_PAST_SHARED==='half',JSON.stringify(L));
@@ -57,7 +57,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
     check('慈 2：「第三章我也還在念。」→「……好，不說也行。」→ 不變（還是沒有）、也對經濟題',L.includes('芯慈：……好，不說也行。')&&G.flags.ECON_PAST_SHARED===undefined&&SOCIAL.has('classmate_xinci','ECON_TOGETHER'),JSON.stringify(L));
     /* 慈 2：有 P4B_SEEN 的玩家（設它的事件拿掉）（CANON-NO-ECON-1112 第三批：這一項拿掉）*/
     L=await go({},[2]);
-    check('慈 2：原本的三個選項照舊（「妳為什麼要雙主修？」→ AA_547 兩句「我喜歡財金。……」「……我爸媽都是律師。……」→ 謝謝）、沒有 ECON_TOGETHER',L.includes('芯慈：我喜歡財金。看財報比看小說好看。')&&L.includes('芯慈：我爸媽都是律師。他們說，念我喜歡的就好。')&&!L.some(t=>/會計師|會餓死/.test(t))&&L[L.length-1]==='芯慈：謝謝。我要繼續讀了。'&&!SOCIAL.has('classmate_xinci','ECON_TOGETHER'),JSON.stringify(L)); }
+    check('慈 2：原本的三個選項照舊（「妳為什麼要雙主修？」→ AA_547 兩句「我喜歡財金。……」「……我爸媽都是律師。……」→ 謝謝）、沒有 ECON_TOGETHER',L.includes('芯慈：我喜歡財金。看財報比看小說好看。')&&L.includes('芯慈：……我爸媽都是律師。他們說，念我喜歡的就好。')&&!L.some(t=>/會計師|會餓死/.test(t))&&L[L.length-1]==='芯慈：謝謝。我要繼續讀了。'&&!SOCIAL.has('classmate_xinci','ECON_TOGETHER'),JSON.stringify(L)); }
   /* ---------- 語彤 6 房東來過了（C12；AA_11 事件 6）---------- */
   { const e=ev('ev_yutong_landlord'); check('語彤 6：事件在',!!e);
     if(e){ const at=(term,w,wd,h)=>{ const d=wk(term,w,wd); fresh(d,h,'noodle'); return EVENTS.check(e); };
