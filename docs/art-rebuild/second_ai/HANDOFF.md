@@ -2,8 +2,8 @@
 
 ## 全部待辦（2026-11-14 02:2x UTC 交班；LAWWW2-C）——以這一節為準
 
-值班登記：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜claude/focused-cray-c9uwvw｜接班基準 5b317a192f｜2026-11-13（使用者「繼續」，同帳號同工作階段回班）
-上一班（本班交班）：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜最後 commit 見下面「交班六類（11-14）」A｜正常交班（使用者 11-14 02:2x「現在交班」）
+值班登記：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜claude/focused-cray-c9uwvw｜接班基準 4ec1acd5c0｜2026-11-14 02:0x UTC（使用者「現在接班」「上次交班之後沒有人接班 等於你繼續即可」）
+上一班：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜最後 commit 4ec1acd5c0｜正常交班（快照 2026-11-14T0202Z_C_LAWWW2）
 
 ### 暫停中
 - BADMINTON-CLIP v4（WIP 1aba3ec42）、FAIR-TENT-CAM（WIP 未交）：暫停。誰決定：使用者（室內美術優先）。恢復條件：SHOP-REALISM-1112 剩下的店交完。負責人 LAWWW2。下次檢查 11-19。

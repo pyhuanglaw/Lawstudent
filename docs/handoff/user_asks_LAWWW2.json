@@ -1137,6 +1137,15 @@
    "wants": "X365",
    "task": "SHOP-REALISM-1112",
    "note": "補充 UA-LAWWW2-1113-02：做法說明要逐一列出 LAWWW2 實際在用的工具（建模、下載 CC0、烘焙、截圖、對照圖、量模型、測試、做 patch）和用法；只在 scratchpad 的小工具搬進 repo。"
+  },
+  {
+   "id": "UA-LAWWW2-1114-01",
+   "at": "2026-11-14T02:0x",
+   "quote": "現在接班／你上次交班之後沒有人接班 等於你繼續即可",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "SHOP-REALISM-1112",
+   "note": "LAWWW2-C 交班（4ec1acd5c0）後沒人接，同一個工作階段重新登記值班、照 HANDOFF 下一班第一件事接續。"
   }
  ]
 }
