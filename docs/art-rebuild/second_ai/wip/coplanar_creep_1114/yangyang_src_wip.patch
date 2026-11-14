@@ -1,0 +1,19 @@
+diff --git a/tools/blender/env_second/bb_support/yangyang_interior.py b/tools/blender/env_second/bb_support/yangyang_interior.py
+index 57ca7d107f..04d58f98df 100644
+--- a/tools/blender/env_second/bb_support/yangyang_interior.py
++++ b/tools/blender/env_second/bb_support/yangyang_interior.py
+@@ -418,12 +418,12 @@ K.ph_put('potted_plant_02', X1 - 0.25, 0, ss['z0'] - 0.3, 0.4, share=False, heig
+ 
+ # ================= 後牆：冷飲櫃、紅色門簾、層架、紙箱、盆栽 =================
+ fz = S['fridge']
+-VC.cbox(fz['x0'], fz['x1'], 0, 0.15, fz['z0'], fz['z1'], '#e8eaea'); VC.cbox(fz['x0'], fz['x1'], fz['h'] - 0.25, fz['h'], fz['z0'], fz['z1'], '#e8eaea'); VC.cbox(fz['x0'], fz['x1'], 0, fz['h'], fz['z0'], fz['z0'] + 0.06, '#e8eaea')   # 冷飲櫃的殼（裡面空的，看得到發光的飲料） VC.cbox(fz['x0'], fz['x1'], fz['h'] - 0.22, fz['h'], fz['z1'], fz['z1'] + 0.01, '#f4f4f2')
++VC.cbox(fz['x0'], fz['x1'], 0, 0.15, fz['z0'] + 0.06, fz['z1'], '#e8eaea'); VC.cbox(fz['x0'], fz['x1'], fz['h'] - 0.25, fz['h'], fz['z0'] + 0.06, fz['z1'], '#e8eaea'); VC.cbox(fz['x0'], fz['x1'], 0, fz['h'], fz['z0'], fz['z0'] + 0.06, '#e8eaea')   # 冷飲櫃的殼（底座、頂蓋從背板前面開始，背面不和背板疊：COPLANAR-CREEP-1114；裡面空的，看得到發光的飲料） VC.cbox(fz['x0'], fz['x1'], fz['h'] - 0.22, fz['h'], fz['z1'], fz['z1'] + 0.01, '#f4f4f2')
+ face(PR, ((fz['x0'] + fz['x1']) / 2, fz['h'] - 0.11, fz['z1'] + 0.012), '+z', 0.6, 0.18, C['cold'])
+ face(SCR, ((fz['x0'] + fz['x1']) / 2, (0.15 + fz['h'] - 0.25) / 2, fz['z0'] + 0.08), '+z', fz['x1'] - fz['x0'] - 0.1, fz['h'] - 0.42, SC['fridge'])
+ VC.cbox(fz['x0'] + 0.03, fz['x0'] + 0.05, 0.15, fz['h'] - 0.25, fz['z0'] + 0.08, fz['z1'], '#e8eaea'); VC.cbox(fz['x1'] - 0.05, fz['x1'] - 0.03, 0.15, fz['h'] - 0.25, fz['z0'] + 0.08, fz['z1'], '#e8eaea')
+ face(GLS, ((fz['x0'] + fz['x1']) / 2, (0.15 + fz['h'] - 0.25) / 2, fz['z1'] - 0.01), '+z', fz['x1'] - fz['x0'] - 0.08, fz['h'] - 0.4, (0, 0, 1, 1))
+-VM.cbox(fz['x1'] - 0.12, fz['x1'] - 0.09, 0.7, 1.4, fz['z1'], fz['z1'] + 0.04, '#9a9ea2'); VC.cbox(fz['x0'], fz['x1'], 0, 0.15, fz['z1'] - 0.02, fz['z1'], '#3a3a3a')
++VM.cbox(fz['x1'] - 0.12, fz['x1'] - 0.09, 0.7, 1.4, fz['z1'], fz['z1'] + 0.04, '#9a9ea2'); VC.cbox(fz['x0'] + 0.004, fz['x1'] - 0.004, 0.003, 0.147, fz['z1'] - 0.02, fz['z1'] + 0.003, '#3a3a3a')   # 踢腳板：前面凸出 3 mm、上下左右各縮一點，不和殼疊面（COPLANAR-CREEP-1114）
+ cd = S['curtainDoor']; bv = wg('back', 'vc')
+ bv.cbox(cd['x'] - cd['w'] / 2, cd['x'] + cd['w'] / 2, 0, 2.1, Z0, Z0 + 0.01, '#2a2420'); bv.cbox(cd['x'] - cd['w'] / 2 - 0.06, cd['x'] + cd['w'] / 2 + 0.06, 2.1, 2.16, Z0, Z0 + 0.05, '#6a4a2a')
+ face(wg('back', 'print'), (cd['x'], 1.75, Z0 + 0.06), '+z', cd['w'], 1.26, C['noren'])
