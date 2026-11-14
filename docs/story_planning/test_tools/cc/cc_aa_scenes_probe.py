@@ -6,6 +6,7 @@
       （「……你聽到了。」在 ev_sis_prof_xu_door，那一場已作廢（retired：BB_207／AA_261，W7 推甄取消），不演，結果裡寫明。）
   ARC＝女主角故事線（AA_712，src/arcs3d.js）：ARCS 每一個人【捷徑】她站到祐廷面前 → 取她的第 BEAT 拍（HEROINE_ARCS，ARCS.resolve）→ ARCS.run（遊戲聊天時演的同一支）→
       每一句、選單（選第 1 個）、她的回話記下來，截圖。預設 heroine_01、heroine_05、heroine_03 第 1 拍。
+CC-B 11-14：出發鍵認「現在出發…」。
 CC_02 清單 2026-11-12：1✓（日子照事件的 term／time 給的區間） 2✓（事件、拍子從遊戲資料讀：STORY_EVENTS、HEROINE_ARCS） 3✓（每一場重新讀檔） 4✓（選單選第 1 個、全部記） 5n/a（抽演：直接演，不走路觸發） 6✓（一句一句點） 7✓ 8n/a（不判，字給 BB） 9n/a（不藏人：要看誰在場） 10✓（條件事件關掉） 11✓ 12✓（每一場同樣欄位） 13✓（讀檔、直接演、她站好都是捷徑，標）
   GIFT＝節日送禮（AA_732～734，src/gifthol3d.js GIFTH）：GIFTS 每一組（誰@節日那天）【前置／捷徑】讀檔到 campus 那天 15:00、她站到祐廷前面、包包【捷徑】放兩樣（她 love 的一樣＋ok 的一樣）→
       照玩家走到她旁邊按互動 → 選「送她禮物…」→ 選 love 那一樣 → 一句一句記（open 句、item 句、herGive 回禮）→ 截圖。預設學姊、以安聖誕、語彤情人節。
@@ -171,7 +172,7 @@ async def part_date(pg, cdp, res):
         while time.time() - t0 < 400:
             st = await pg.evaluate(STEP)
             if st['choices']:
-                i = next((n for n, t in enumerate(st['choices']) if t.startswith('出發')), None)
+                i = next((n for n, t in enumerate(st['choices']) if t.startswith('出發') or t.startswith('現在出發')), None)   # CC-B 11-14（AA_SCENES_DATE_r3）：main 的按鈕是「現在出發〈地點〉　捷運 約 25 分鐘」
                 if i is not None: got = True
                 else: i = 0
                 picked.append([st['choices'], st['choices'][i]]); await pg.screenshot(path=os.path.join(OUT, 'date_%s_menu_%02d.png' % (loc, len(picked))))
