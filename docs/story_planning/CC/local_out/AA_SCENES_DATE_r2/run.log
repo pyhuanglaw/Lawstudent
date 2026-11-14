@@ -1,0 +1,27 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_aa_scenes_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\AA_SCENES_DATE_r2\out
+CC AA 重匯抽演：SHA 6106fae2d2；PARTS ['DATE']；EVS ['ev_sis_w1', 'ev_sis_family_dinner', 'ev_grad_debate', 'ev_sis_video', 'ev_sis_video_gf', 'ev_us_canyon']；ARCS ['heroine_01', 'heroine_05', 'heroine_03'] 第 1 拍
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [DATE heroine_05 D01] 【前置／捷徑】讀檔到宿舍 2025-10-18 08:00、和她熟 →【捷徑】DATE.book：{"book": {"trip": "T0001", "depart": null, "back": NaN, "kind": "half", "transport": "mrt", "fare": 60}, "out": {"id": "date_T0001", "h": NaN, "travelH": 0.4166666666666667, "title": "和溫書瑀去華山1914文創園區"}, "money": 22000}
+PASS [DATE heroine_05 D01] 排得進約會（DATE.book ok）  {"book": {"trip": "T0001", "depart": null, "back": NaN, "kind": "half", "transport": "mrt", "fare": 60}, "out": {"id": "date_T0001", "h": NaN, "travelH": 0.4166666666666667, "title": "和溫書瑀去華山1914文創園區"}, "money": 22000}
+  [前置／捷徑] [DATE heroine_05 D01] 【捷徑】時間撥到 nan（出發前 12 分鐘）
+  [ 451.0s] [DATE heroine_05 D01] 選單一路 ["「好。」"]
+  [ 451.0s] [DATE heroine_05 D01] 句子（說話的人｜字｜字幕｜底）：[["", "（", "阿凱的國界", "none"], ["", "（阿凱蹲在地上，用紙膠帶繞著他那組床和書桌貼了一圈。）", "阿凱的國界", "none"], ["阿凱", "期中考週。這裡是國界。", "阿凱的國界", "none"], ["阿凱", "……過了這條線要安靜。我在寫作業。", "阿凱的國界", "none"], ["阿凱", "謝謝配合。", "阿凱的國界", "none"]]
+  [ 451.0s] [DATE heroine_05 D01] 演完：{"zone": "dorm", "h": NaN, "money": 22000, "trips": [{"status": "booked", "spots": []}]}（出發前錢 22000）
+FAIL [DATE heroine_05 D01] 時間到跳「出發」、約會演得完  [false, 5]
+  [前置／捷徑] [DATE heroine_05 D02] 【前置／捷徑】讀檔到宿舍 2025-10-18 08:00、和她熟 →【捷徑】DATE.book：{"book": {"trip": "T0001", "depart": null, "back": NaN, "kind": "half", "transport": "mrt", "fare": 60}, "out": {"id": "date_T0001", "h": NaN, "travelH": 0.5, "title": "和溫書瑀去松山文創園區"}, "money": 22000}
+PASS [DATE heroine_05 D02] 排得進約會（DATE.book ok）  {"book": {"trip": "T0001", "depart": null, "back": NaN, "kind": "half", "transport": "mrt", "fare": 60}, "out": {"id": "date_T0001", "h": NaN, "travelH": 0.5, "title": "和溫書瑀去松山文創園區"}, "money": 22000}
+  [前置／捷徑] [DATE heroine_05 D02] 【捷徑】時間撥到 nan（出發前 12 分鐘）
+  [ 873.0s] [DATE heroine_05 D02] 選單一路 ["「好。」"]
+  [ 873.0s] [DATE heroine_05 D02] 句子（說話的人｜字｜字幕｜底）：[["", "（阿凱蹲在地上，用紙膠帶繞著他那組", "阿凱的國界", "none"], ["", "（阿凱蹲在地上，用紙膠帶繞著他那組床和書桌貼了一圈。）", "阿凱的國界", "none"], ["阿凱", "期中考週。這裡是國界。", "阿凱的國界", "none"], ["阿凱", "……過了這條線要安靜。我在寫作業。", "阿凱的國界", "none"], ["阿凱", "謝謝配合。", "阿凱的國界", "none"]]
+  [ 873.0s] [DATE heroine_05 D02] 演完：{"zone": "dorm", "h": NaN, "money": 22000, "trips": [{"status": "booked", "spots": []}]}（出發前錢 22000）
+FAIL [DATE heroine_05 D02] 時間到跳「出發」、約會演得完  [false, 5]
+  [前置／捷徑] [DATE heroine_05 D04] 【前置／捷徑】讀檔到宿舍 2025-10-18 08:00、和她熟 →【捷徑】DATE.book：{"book": {"trip": "T0001", "depart": null, "back": NaN, "kind": "half", "transport": "mrt", "fare": 50}, "out": {"id": "date_T0001", "h": NaN, "travelH": 0.25, "title": "和溫書瑀去西門町電影院"}, "money": 22000}
+PASS [DATE heroine_05 D04] 排得進約會（DATE.book ok）  {"book": {"trip": "T0001", "depart": null, "back": NaN, "kind": "half", "transport": "mrt", "fare": 50}, "out": {"id": "date_T0001", "h": NaN, "travelH": 0.25, "title": "和溫書瑀去西門町電影院"}, "money": 22000}
+  [前置／捷徑] [DATE heroine_05 D04] 【捷徑】時間撥到 nan（出發前 12 分鐘）
+  [1294.0s] [DATE heroine_05 D04] 選單一路 ["「好。」"]
+  [1294.0s] [DATE heroine_05 D04] 句子（說話的人｜字｜字幕｜底）：[["", "（阿凱蹲在地上，用紙", "阿凱的國界", "none"], ["", "（阿凱蹲在地上，用紙膠帶繞著他那組床和書桌貼了一圈。）", "阿凱的國界", "none"], ["阿凱", "期中考週。這裡是國界。", "阿凱的國界", "none"], ["阿凱", "……過了這條線要安靜。我在寫作業。", "阿凱的國界", "none"], ["阿凱", "謝謝配合。", "阿凱的國界", "none"]]
+  [1294.0s] [DATE heroine_05 D04] 演完：{"zone": "dorm", "h": NaN, "money": 22000, "trips": [{"status": "booked", "spots": []}]}（出發前錢 22000）
+FAIL [DATE heroine_05 D04] 時間到跳「出發」、約會演得完  [false, 5]
+PASS 沒有 JS 例外  []
+FAILED 3: [DATE heroine_05 D01] 時間到跳「出發」、約會演得完；[DATE heroine_05 D02] 時間到跳「出發」、約會演得完；[DATE heroine_05 D04] 時間到跳「出發」、約會演得完
