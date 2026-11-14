@@ -38,7 +38,7 @@ check('2-0. 讀稿：以安 admin_remedy w7、阿哲 family_law w11 的改法在
 check('2-1. 行政救濟第 7 週以安：「如果……呢？」開頭，不用「假設」（可昕的習慣）',J(rep('admin_remedy',7,'heroine_01'))===J([AN7]),J(rep('admin_remedy',7,'heroine_01')));
 check('2-2. 對照：同一週芯慈、柏翰的句子照舊；那一週還是開 BB 內容（reviewed）',J(rep('admin_remedy',7,'classmate_xinci'))===J(['拒絕申請，看起來是行政處分。要件我都對過了。……可是補助如果是用契約給的呢？'])&&J(rep('admin_remedy',7,'classmate_bohan'))===J(['這題考的是第一步：審判權。法院選錯了，後面寫得再好都是零分。'])&&SYLLABUS.reviewed.includes('admin_remedy|7'));
 check('3-1. 親屬第 11 週阿哲：刪後半「……可是投的人知道有人在聽。」',J(rep('family_law',11,'zhe'))===J([ZHE11]),J(rep('family_law',11,'zhe')));
-check('3-2. 對照：同一週 Alison（AA_313 5-4 已改「……我十二歲也很笨啦。」）、芯慈照舊；那一週還是開 BB 內容',J(rep('family_law',11,'yu'))===J(['欸，孩子自己的意見呢？十二歲已經很懂了好不好。……我十二歲也很笨啦。'])&&J(rep('family_law',11,'classmate_xinci'))===J(['如果孩子說了算，爸媽就會開始討好孩子。……那也不一定是壞事？'])&&SYLLABUS.reviewed.includes('family_law|11'));
+check('3-2. 對照：同一週 Alison（AA_313 5-4 已改「……我十二歲也很笨啦。」）、芯慈照舊；那一週還是開 BB 內容',J(rep('family_law',11,'yu'))===J(['孩子自己的意見呢？十二歲已經很懂了好不好。……我十二歲也很笨啦。'/* RC2-PORT-DEV-1114：AA_959 第 605 列（AA_1000）拿掉開頭「欸，」 */])&&J(rep('family_law',11,'classmate_xinci'))===J(['如果孩子說了算，爸媽就會開始討好孩子。……那也不一定是壞事？'])&&SYLLABUS.reviewed.includes('family_law|11'));
 check('4-1. syllabus.js 的來源寫上 AA_255 附錄（白名單版本）',/AA_255@52900eb23/.test(SYLLABUS.source),SYLLABUS.source);
 check('4-2. 課表裡已經沒有舊句（「假設申請的是…」、阿哲那句的後半）',!J(SYLLABUS.courses).includes('假設申請的是')&&!J(SYLLABUS.courses).includes('可是投的人知道有人在聽'));
 H.done();

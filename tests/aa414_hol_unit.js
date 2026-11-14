@@ -55,7 +55,7 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
       YT_VDAY_RIVER:'情人節她下班，蘇姨叫你們去別的地方',YT_VDAY_SHOP:'情人節，她五點下班以後',YT_VDAY_FIELD:'她帶你去看她做田野的地方',YT_VDAY_NIANGAO:'她把媽媽買的年糕多拿一袋給你',YT_MOON:'中秋烤肉前，在河濱剝柚子'};
     const NEW630=['YT_VDAY_RIVER','YT_VDAY_SHOP','YT_VDAY_NIANGAO'];   /* AA_630 H-025～H-027：面板名稱照新稿 */ const bad=Object.keys(W).filter(k=>ML[k]!==W[k]||(!NEW630.includes(k)&&!inDoc('`'+k+'`「'+W[k]+'」')));
     check('0. 人物頁記憶 10 個（稿裡「`代號`「名稱」」，social3d.js MEMORY_LABEL）',!bad.length,J(bad)); }
-  { const bad=[]; const T=t=>{ if(typeof t==='string'&&!inDoc(t)) bad.push(t); };
+  { const bad=[]; const T=t=>{ if(typeof t==='string'&&!inDoc(t)&&!inDoc(require('./aa959_map.js').unmap(t,'an_yt_hol_events.js'))/* RC2-PORT-DEV-1114：AA_959 783 列換過的字，換回舊字再對稿 */) bad.push(t); };
     for(const k in ANYTHOL_LINES){ const v=ANYTHOL_LINES[k]; if(k==='grp') v.forEach(x=>T(x[1])); else if(Array.isArray(v)) v.forEach(T); else T(v); }
     for(const e of ANYTHOL_EVENTS) for(const l of e.dialogue){ if(l.text!==undefined) T(l.text); if(l.scene!==undefined) T(l.scene); if(l.name!==undefined) T(l.name); for(const c of (l.choice||[])) T(c.text); }
     for(const a of X().HOL) T(a.out.title);
@@ -88,13 +88,13 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
     check('1-1. 油錢有扣（出發的時候 -900 交通）',m0-H.G.money===900&&J(money)===J([[-900,'交通']]),J(money));
     check('1-1. 背景：car_morning → tc_park（公園門口、公園）→ car_night（國道・休息站）',J(H.bgs.map(img).filter((b,i,A)=>typeof b==='string'&&b!=='dark'&&A.indexOf(b)===i))===J(['car_morning','tc_park','car_night']),J(H.bgs.map(img)));
     check('1-1. 那一場照稿（「我想來。」）',J(L)===J(['（她站在公園門口，圍巾圍到下巴。看到你下車，先看了一下手錶。）','你出門的時候傳了訊息。我算你兩點到。','開了兩個多小時，就為了這個？你可以不用來的。','……嗯。','（她把圍巾拉下來一點。）',
-      '（公園裡只有幾個遛狗的人。你們走了兩圈。她一直在講寒假讀的公司法，講到一半停下來。）','我在講公司法。今天是情人節。','……你不要笑。','（傍晚，她送你到車子旁邊。你要上車的時候，她把一個紙袋塞給你。）','回去再打開。開車不要看手機。','（休息站，你打開紙袋。是一盒太陽餅，盒子上貼著一張便利貼，寫著你的名字。）']),J(L));
+      '（公園裡只有幾個遛狗的人。你們走了兩圈。她一直在講寒假讀的公司法，講到一半停下來。）','我在講公司法。今天是情人節。','……算了，我繼續講。'/* RC2-PORT-DEV-1114：AA_959 第 732 列 */,'（傍晚，她送你到車子旁邊。你要上車的時候，她把一個紙袋塞給你。）','回去再打開。開車不要看手機。','（休息站，你打開紙袋。是一盒太陽餅，盒子上貼著一張便利貼，寫著你的名字。）']),J(L));
     check('1-1. AN_VDAY_Y1 went、記憶 AN_VDAY_TC、熟悉 +3、自在 +6、她的戀愛 +5、裂縫 -1（2→1）、回到臺北 20:00',H.G.flags.AN_VDAY_Y1==='went'&&SOCIAL.has(AN,'AN_VDAY_TC')&&dRel(AN,a)===VDAY&&H.G.flags.AN_CRACK===1&&H.G.hour===20&&H.G.day===H.D('2026-02-14'),dRel(AN,a)+' crack '+H.G.flags.AN_CRACK+' h '+H.G.hour);
     at('2026-02-14',20.5); rules(); check('1-1. 有來的：沒有 15:00／17:00／20:00 那幾則',!dms(AN).some(t=>/公園門口。兩點|夜市的烤玉米攤/.test(t))); }
   { setup('2026-02-12',21.05,AN); rules(); PHONE.answer(H.G,'anyt_an_y1_ask',0); rules(); const L=await play('ev_an_vday_y1',[1]);
     check('1-1. 「路上不塞。」→「不是塞不塞的問題。」旁白「（她看了你一下，沒有再說。）」',L[3]==='不是塞不塞的問題。'&&L[4]==='（她看了你一下，沒有再說。）'&&!L.includes('……嗯。'),J(L)); }
   { setup('2026-02-12',21.05,AN); rules(); PHONE.answer(H.G,'anyt_an_y1_ask',1); rules(); const r=dms(AN).slice(-2); at('2026-02-14',19.9); rules(); const n19=dms(AN).length; at('2026-02-14',20.05); rules();
-    check('1-1. 「在臺北。」→「好。我只是問問。」、AN_VDAY_Y1 no、沒有出遊；2/14 20:00「（照片：夜市的烤玉米攤）」「我媽說這一攤開了三十年。」',J(r)===J(['在臺北。','好。我只是問問。'])&&H.G.flags.AN_VDAY_Y1==='no'&&!OUT.get(H.G,'anyt_an_vday_y1')&&J(dms(AN).slice(n19))===J(['（照片：夜市的烤玉米攤）','我媽說這一攤開了三十年。'])&&!dms(AN).some(t=>/公園門口/.test(t)),J(dms(AN))); }
+    check('1-1. 「在臺北。」→「好。我只是問問。」、AN_VDAY_Y1 no、沒有出遊；2/14 20:00「（照片：夜市的烤玉米攤）」「我媽說這一攤開了三十年。」',J(r)===J(['在臺北。','好。問問而已。'/* RC2-PORT-DEV-1114：AA_959 第 570 列 */])&&H.G.flags.AN_VDAY_Y1==='no'&&!OUT.get(H.G,'anyt_an_vday_y1')&&J(dms(AN).slice(n19))===J(['（照片：夜市的烤玉米攤）','我媽說這一攤開了三十年。'])&&!dms(AN).some(t=>/公園門口/.test(t)),J(dms(AN))); }
   { setup('2026-02-12',21.05,AN); rules(); PHONE.answer(H.G,'anyt_an_y1_ask',0); rules(); const a=relOf(AN); at('2026-02-14',14.55); expire(); const f=H.G.flags.AN_VDAY_Y1; rules(); const n=dms(AN).length;
     at('2026-02-14',15.05); rules(); const m1=dms(AN).slice(n); at('2026-02-14',17.05); rules(); const m2=dms(AN).slice(n);
     check('1-1. 答應了沒到（過了 14:30）：記 missed、15:00「我在公園門口。兩點到現在。」、17:00「我回家了。你沒事就好。」；不扣關係；沒有 20:00 的照片',f==='missed'&&J(m1)===J(['我在公園門口。兩點到現在。'])&&J(m2)===J(['我在公園門口。兩點到現在。','我回家了。你沒事就好。'])&&dRel(AN,a)==='{}'&&(at('2026-02-14',20.5),rules(),!dms(AN).some(t=>/烤玉米/.test(t))),J({f,m1,m2})); }
@@ -166,7 +166,7 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
   });
   await sec('6',async()=>{
   { setup('2027-02-13',21.05,YT); rules();
-    check('2-2. 交往中：2/13 21:00「明天我五點下班。」「秀琴姨放假。……我煮。你要不要來吃。」；回覆三個',J(dms(YT))===J(['明天我五點下班。','秀琴姨放假。……我煮。你要不要來吃。'])&&J(optsOf('anyt_yt_y2_ask'))===J(['好。','不去別的地方？','明天不行。']),J(dms(YT)));
+    check('2-2. 交往中：2/13 21:00「明天我五點下班。」「秀琴姨放假。……我煮。你要不要來吃。」；回覆三個',J(dms(YT))===J(['明天我五點下班。','秀琴姨放假，我煮。你要不要來吃。'/* RC2-PORT-DEV-1114：AA_959 第 764 列 */])&&J(optsOf('anyt_yt_y2_ask'))===J(['好。','不去別的地方？','明天不行。']),J(dms(YT)));
     PHONE.answer(H.G,'anyt_yt_y2_ask',1); rules(); const r=dms(YT).slice(-1)[0], q=OUT.get(H.G,'anyt_yt_vday_y2');
     check('2-2. 「不去別的地方？」→「家裡就好。今天外面人多，我會累。」；出遊 17:30、late 0.5、她家',r==='家裡就好。今天外面人多，我會累。'&&!!q&&q.h===17.5&&q.late===0.5&&q.place==='新生南路・她家'&&q.title==='情人節（她家）',J(q));   /* 2026-11-11（X324 G 區，AA_802_sis_b4_anyt.json@f2a55c1e7）：an_yt_hol_events.js 句首「……」拿掉、遊戲照新句。舊期望：「……家裡就好。今天外面人多，我會累。」 */
     at('2027-02-14',17.1); const a=relOf(YT); const {L}=await goOut('anyt_yt_vday_y2',[0]);

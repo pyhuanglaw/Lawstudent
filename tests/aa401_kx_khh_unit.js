@@ -26,7 +26,7 @@ let doc=''; try{ doc=cp.execSync('git show 18251b0e1:"docs/story_planning/AA_401
 try{ if(doc) doc+='\n'+cp.execSync('git show 72ab8199aa:"docs/story_planning/AA_942_回LAWWW_可昕2028暑假六件.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}   /* AA_942 ④（企劃線 72ab8199aa）改的兩句 */
 await sec(0,()=>{ const A=TERMEND_LINES.KX_ASK, G0={flags:{}}; const all=[]; for(const k in A){ const v=typeof A[k]==='function'?[A[k]({flags:{EXCHANGE_ROUTE:'US'}}),A[k]({flags:{}})].flat():A[k]; for(const o of v) all.push(o.t.replace(/^「|」$/g,''),...o.r); }
   const src=fs.readFileSync(path.join(H.ROOT,'src/kx_khh3d.js'),'utf8'); for(const m of src.matchAll(/'([^'\n]{4,})'/g)) if(/[一-鿿]/.test(m[1])&&!/[＝（）／]/.test(m[1].slice(0,1))&&!/^(打給可昕)$/.test(m[1])) all.push(m[1]);
-  const notIn=[...new Set(all)].filter(t=>doc.indexOf(t)<0&&!/哪一次寒暑假|十二月底|答應過|學期末約會/.test(t));
+  const P959=t=>doc.indexOf(t)<0&&!/哪一次寒暑假|十二月底|答應過|學期末約會/.test(t); const notIn=[...new Set(all)].filter(t=>P959(t)&&P959(require('./aa959_map.js').unmap(t,'kx_khh3d.js')));   /* RC2-PORT-DEV-1114：AA_959 783 列換過的字，換回舊字再對稿 */
   check('0. KX_ASK 和 kx_khh3d.js 的句子都在稿裡',ok&&!!doc&&!notIn.length,J(notIn)); });
 /* ---- 1 ---- */
 await sec(1,()=>{ const A=TERMEND_LINES.KX_ASK, f=x=>typeof x==='function';

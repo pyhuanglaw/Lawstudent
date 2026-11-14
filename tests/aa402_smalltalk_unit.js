@@ -13,7 +13,7 @@ const AA497=new Set(['財金系的課跟法律系的撞了一堂，我改修晚�
   '以安不在，她的位子一直空著。我想把書放上去，又沒放。','國考跟研究所，我兩個都報了。本來想先實習再說的。']);   /* AA_497 2-9 換掉的兩句 */
 const NEW=id=>SMALLTALK[id].filter(e=>typeof e==='object'&&e.term&&!/^Y1/.test(e.term[0]));
 /* 閒聊是有名字說的，遊戲裡不加外面的「」（TEXT-QUOTE-UNIFY-1108 第四批，AA-B 11-08 05:31）；稿上有「」：加回外面那一對再找（一字不差）*/
-const inDoc=t=>doc.indexOf('「'+t+'」')>=0;
+const inDoc0=t=>doc.indexOf('「'+t+'」')>=0, inDoc=t=>inDoc0(t)||inDoc0(require('./aa959_map.js').unmap(t,'events.js'));   /* RC2-PORT-DEV-1114：AA_959 783 列換過的字，換回舊字再對稿 */
 check('0. 每一句都在稿裡（一字不差；稿上有外面的「」；AA_497 換的、加的句子不算這份稿）',!!doc&&[...NEW('classmate_bohan'),...NEW('classmate_xinci')].filter(e=>!AA497.has(e.t)).every(e=>inDoc(e.t)),J([...NEW('classmate_bohan'),...NEW('classmate_xinci')].filter(e=>!AA497.has(e.t)&&!inDoc(e.t)).map(e=>e.t)));
 check('0. 柏翰 12 句、芯慈 13 句（大二上～大四下；AA_497 拿掉追劇那一句＝12 句，另加四句；AA_547 換的財金系那一句也列在 AA497＝7 句），每句 once',NEW('classmate_bohan').length===12&&NEW('classmate_xinci').length===12+4&&NEW('classmate_xinci').filter(e=>AA497.has(e.t)).length===7&&[...NEW('classmate_bohan'),...NEW('classmate_xinci')].every(e=>e.once===true));
 /* 一整學期每天說一次：回傳 [{t, week, day}] */
@@ -26,7 +26,7 @@ for(const [id,term,lines] of [
   ['classmate_bohan','Y3S2',[['推甄的書面資料，我寫到第四版了。',1],['暑假我不回新竹。總圖暑假也開。',13]]],
   ['classmate_bohan','Y4S1',[['面試的問題，我準備了四十題。',5,8],['推甄上了。……我媽在電話裡哭了，我沒有。',12]]],
   ['classmate_xinci','Y2S2',[['週四晚上我借了一間討論室。你要來的話，我多印一份。',1],['期末考完那天晚上，有空嗎？我先問，你不用現在回答。',13]]],
-  ['classmate_xinci','Y3S1',[['我爸說寒假可以去事務所幫忙。……我還沒決定。',1],['以安的交換，你知道她選哪裡嗎？……我只是問。',8,12]]],
+  ['classmate_xinci','Y3S1',[['我爸說寒假可以去事務所幫忙。……我還沒決定。',1],['以安的交換，你知道她選哪裡嗎？……隨口問的。'/* RC2-PORT-DEV-1114：AA_959 第 571 列 */,8,12]]],
   ['classmate_xinci','Y4S1',[['國考跟研究所，我兩個都報了。本來想先實習再說的。',1]]] ]){   /* AA_497 2-9：換句、追劇那一句拿掉 */
   const L=termRun(id,term); const bad=lines.filter(([t,w0,w1])=>{ const o=once(L,t); return o.length!==1||o[0].week<w0||(w1&&o[0].week>w1); });
   check('1. '+id+' '+term+'：兩句都出現、各一次、在條件的週次裡',!bad.length,J({bad:bad.map(b=>b[0]),got:L.filter(x=>lines.some(l=>l[0]===x.t))})); }

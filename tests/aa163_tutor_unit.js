@@ -69,7 +69,7 @@ await sec(4,async()=>{ const w=n=>TD('Y1S2',n,2); fresh(key(w(5)-1),12); JOBS.ph
   check('4. 下一堂開場：國中生「老師上週沒來，我媽以為你被我氣跑了。」',i>=0&&H.said[i].who==='國中生'&&i<=1,J(L()));
   check('4. 去了：連續次數歸零',(H.G.flags.TUTOR_MISS_RUN|0)===0);
   await go(w(7)); check('4. 上週有去：沒有那一句',!H.said.some(s=>/上週/.test(s.t)));
-  miss(w(8)); await go(w(9)); check('4. 第二次沒去：第二句',said('上週你沒來，我自己把那一課看完了。……騙你的，看一半。'));
+  miss(w(8)); await go(w(9)); check('4. 第二次沒去：第二句',said('上週你沒來，我自己把那一課看完了。……其實只看一半。'/* RC2-PORT-DEV-1114：AA_959 第 528 列（AA_994）換過的字 */));
   miss(w(10)); await go(w(11)); check('4. 第三次：學生的媽媽「老師上週忙吼？沒關係，柳丁還是有切。」',saidBy('學生的媽媽','老師上週忙吼？沒關係，柳丁還是有切。'));
   const before=msgs(MX).length; miss(w(12)); miss(w(13)); check('4. 連續兩週：明軒還沒問',msgs(MX).length===before);
   miss(w(14)); at(w(14),21.5); const M=msgs(MX); check('4. 連續三週：明軒「家長問我你是不是不做了。不做也沒關係，跟我說一聲就好。」',M.includes('家長問我你是不是不做了。不做也沒關係，跟我說一聲就好。'),J(M));

@@ -39,7 +39,7 @@ const QX=y=>{ const R=H.G.flags.SIS_QIXI; return R&&typeof R==='object'&&R[y]!=n
 const logN=()=>(H.G.dateLog&&H.G.dateLog[ID]&&H.G.dateLog[ID].count)|0;
 const US=f=>Object.assign({EXCHANGE_ROUTE:'US',EXCH_RULE:1,US_DEPARTED:true,US_ARRIVED:true,US_ARRIVED_DAY:H.D('2028-08-02'),US1:'together',Y4_PATH:'bar',Y4_PATH_DAY:H.D('2028-06-08')},f||{});
 const VDAY=J({fam:3,comf:6,npcRom:5}), CALL=J({fam:2,comf:3,npcRom:3});
-const L11=['（店裡只有兩桌客人。她已經坐在靠牆的位子，菜單沒有翻開。）','這家今天不會客滿。我查過了。','鯖魚。你呢？','好。兩份鯖魚。','（吃到一半，她問你暑假在做什麼，你講了，她聽得很認真。）','我九月開學。研究室的位子已經分好了，靠門。','……開學以後，平日晚上我大概都在那裡。','七點以後。七點以前我不理人。','（巷口的花店門口擺了一排包好的玫瑰。她看了一眼，沒有停。）'];
+const L11=['（店裡只有兩桌客人。她已經坐在靠牆的位子，菜單沒有翻開。）','這家今天不會客滿。我前天打電話問過。'/* RC2-PORT-DEV-1114：AA_959 第 698 列（AA_1019） */,'鯖魚。你呢？','好。兩份鯖魚。','（吃到一半，她問你暑假在做什麼，你講了，她聽得很認真。）','我九月開學。研究室的位子已經分好了，靠門。','……開學以後，平日晚上我大概都在那裡。','七點以後。七點以前我不理人。','（巷口的花店門口擺了一排包好的玫瑰。她看了一眼，沒有停。）'];
 const L12=['（八點零五分，她從研究室出來，手上拿著一疊印好的稿子。）','第三節寫完了。……第二節被我刪了一半。','（你們坐在法律系館A門口的台階上吃便當。暑假的晚上，校園裡沒什麼人。）','算。刪掉的那一半本來就不該寫。','明年八月，我就在美國了。','（她把便當盒蓋起來，收進袋子裡。）','走吧。我送你到路口。'];
 const L13=['（週六早上的市集，攤子上堆著桃子和玉米。）','這邊沒有七夕。','臺灣那邊快過完了。……我早上算過時差。','（她挑了兩顆桃子，捏了一下，放回去一顆。）','這邊的七夕是什麼？','買桃子。','好。那就買桃子。'];
 const LV=['我這邊是早上。你那邊是七夕。','我剛起來。頭髮很亂。','（畫面黑掉。）等我一下。','（過了一分鐘，鏡頭打開。頭髮綁好了。）','好了。','十二月我就回去了。','（她那邊有人在敲門。她說室友要出門，掛掉以前，對著鏡頭揮了一下手。）'];
@@ -56,7 +56,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     check('0. 劇情匯入白名單：AA_388 @3a509150 approved（AA-B 2026-10-23 07:0x 交付 DL-AA388-QIXI）、task SIS-QIXI-L-1023、kind text',!!f&&f.sha==='3a509150'&&f.status==='approved'&&/AA-B 2026-10-23 07:0x/.test(f.approvedBy||'')&&/DL-AA388-QIXI/.test(f.approvedBy||'')&&f.task==='SIS-QIXI-L-1023'&&f.kind==='text',J(f)); }
   { const e=ev('ev_sis_qixi');
     check('0. ev_sis_qixi 不是 once（每年同一個 id）、出遊（trigger outing）',!e.once&&e.trigger==='outing'&&Array.isArray(e.participants)&&e.participants[0]===ID); }
-  { const A590=require('./aa590_doc.js'), A591=require('./aa591_doc.js'), bad=[]; const T_=t=>{ if(typeof t==='string'&&!inDoc(t)&&!A590.has(t)&&!A591.has(t)) bad.push(t); };   /* AA_591（學姊改稿第四批，企劃線 6b35748c7）改過的句子在 AA_591 的表上 */   /* AA_590（學姊改稿第三批，企劃線 68ceea665，使用者 11-02 確認）改過的句子在 AA_590 的表上，不在這份原稿 */
+  { const A590=require('./aa590_doc.js'), A591=require('./aa591_doc.js'), bad=[]; const T_=t=>{ if(typeof t==='string'&&!inDoc(t)&&!A590.has(t)&&!A591.has(t)&&!inDoc(require('./aa959_map.js').unmap(t,'sis_qixi_events.js'))/* RC2-PORT-DEV-1114：AA_959 783 列換過的字，換回舊字再對稿 */) bad.push(t); };   /* AA_591（學姊改稿第四批，企劃線 6b35748c7）改過的句子在 AA_591 的表上 */   /* AA_590（學姊改稿第三批，企劃線 68ceea665，使用者 11-02 確認）改過的句子在 AA_590 的表上，不在這份原稿 */
     const walk=v=>{ if(typeof v==='string') T_(v); else if(Array.isArray(v)) v.forEach(walk); else if(v&&typeof v==='object') Object.values(v).forEach(walk); };
     for(const k in SISQX_LINES) walk(SISQX_LINES[k]);
     for(const e of SISQX_EVENTS) for(const l of e.dialogue){ if(l.text!==undefined) T_(l.text); if(l.scene!==undefined) T_(l.scene); for(const c of (l.choice||[])) T_(c.text.replace(/^「(.*)」$/,'$1')); }

@@ -41,7 +41,7 @@ const HOLD=[56,57,58], SPECIAL=[16,72,67,27,28,29,30,82,90,91,93,94,95,96];   /*
   check('2. 第 13 節：祐廷的問句「以安，妳為什麼念法律？」、三個選項、分支 a_y1 照舊；舊句不在',SPEC13[0]==='祐廷：以安，妳為什麼念法律？'&&body.includes("{speaker:'player',text:'以安，妳為什麼念法律？'}")&&y.includes("{choice:[{text:'「妳媽媽好像很懂這些。」',goto:'a_mom'},{text:'「妳大一就知道了嗎？」',goto:'a_y1'},{text:'「換妳問我。」',goto:'a_me'}]}")&&y.includes('大一只知道我不想變成那個舍監。後面是慢慢想的。')&&!/一個國中生的家|所以我念法律，是為了把地圖畫好|這也是理由之一/.test(stripC(y))); }
 { const bad=[]; for(const r of rows){ if(HOLD.includes(r.n)||SPECIAL.includes(r.n)) continue; const f=fileOf(r.where);
     if(r.n===33&&f==='src/data/jp_events.js'&&SRC[f].includes('（你寫了一張，拿給她看。上面只有一行：「再一次。」）')) continue;   /* 第 33 列（七夕短冊）被 AA_600 3-2 蓋過：祐廷寫「再一次。」、她寫「好。」（企劃線 031414cad，使用者 11-02 選「祐廷先開口」）*/
-    if(!f||!SRC[f].includes(r.nw)) bad.push('#'+r.n+' 改成不在 '+f+'：'+r.nw);
+    if(!f||(!SRC[f].includes(r.nw)&&!SRC[f].includes(require('./aa959_map.js').map(r.nw,f.split('/').pop()))/* RC2-PORT-DEV-1114：AA_959 783 列又換過的字（第 554 列），稿上的新句照表換完再找 */)) bad.push('#'+r.n+' 改成不在 '+f+'：'+r.nw);
     if(r.old!==r.nw&&!r.nw.includes(r.old)&&inCode(r.old).length) bad.push('#'+r.n+' 原句還在 '+inCode(r.old).join('、')+'：'+r.old); }
   check('2. 一般列（'+(97-HOLD.length-SPECIAL.length)+' 列）：改成在位置欄的檔、原句不在 src 程式碼',!bad.length,J(bad)); }
 check('2. 第 16 列：TEAM 那一句（Alison 給紙袋以後）「好。」；第 72 列：紐約送機兩處（朋友版、交往版）「好。」',

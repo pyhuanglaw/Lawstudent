@@ -27,7 +27,7 @@ let doc=''; try{ doc=cp.execSync('git show 895496a7:"docs/story_planning/AA_406_
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. 新檔載得到、index.html 接在 sis_b10_3d.js 後面；沒有大二版（ev_family_xmas_y2）',ok&&!!X()&&/sis_b10_3d\.js\?v=[^"]+"><\/script>\n<script src="src\/family_xmas3d\.js\?v=[^"]+"><\/script>/.test(html)&&!STORY_EVENTS.some(e=>e.id==='ev_family_xmas_y2'));
   const q=[...J(X().EVENT).matchAll(/"text":"([^"]+)"/g)].map(m=>m[1]).concat(['家族的規矩齁：直屬送直屬。一百五以內，超過的自己吞。','我用了。昨天。'],X().GIFTS.map(g=>g.t));   /* 12/15 第一句 AA_458 3-3 改成「期末考完，12/22」（稿在企劃線 b01e32018，逐字對在 tests/aa458_y1s1_unit.js）*/
-  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!['公館・火鍋店','學姊好，我是{name}。','我知道。直屬送直屬，我準備的是你的。'].includes(t));   /* 後兩句：AA_470 5-1（企劃線 5f54b6545）還沒認識她的兩句自我介紹，對字在 tests/aa470_sis_b12_unit.js */
+  const P959=t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!['公館・火鍋店','學姊好，我是{name}。','我知道。直屬送直屬，我準備的是你的。'].includes(t); const notIn=[...new Set(q)].filter(t=>P959(t)&&P959(require('./aa959_map.js').unmap(t,'family_xmas3d.js')));   /* 後兩句：AA_470 5-1（企劃線 5f54b6545）還沒認識她的兩句自我介紹，對字在 tests/aa470_sis_b12_unit.js */   /* RC2-PORT-DEV-1114：AA_959 783 列換過的字，換回舊字再對稿 */
   check('0. 每一句台詞、禮物名都在稿裡（一字不差）',!!doc&&!notIn.length,J(notIn)); });
 /* ---- 1 ---- */
 await sec(1,()=>{ fresh('2025-12-15',20); H.at('2025-12-15',21); ph(); const q=OUT.get(H.G,'famx_y1');
@@ -36,7 +36,7 @@ await sec(1,()=>{ fresh('2025-12-15',20); H.at('2025-12-15',21); ph(); const q=O
 /* ---- 2 ---- */
 await sec(2,async()=>{ fresh('2025-12-15',21.1); ph(); const m=(H.G.msgs||[]).find(x=>x.ask&&x.ask.id==='famx_y1_gift');
   check('2. 手機「買給學姊的聖誕禮物」：沒演過熱水那一場＝四樣（沒有手寫券），寫多少錢',!!m&&m.th==='sys'&&m.ask.opts.length===4&&m.ask.opts[0].t==='一盒鉛筆（2B）（60 元）'&&!m.ask.opts.some(o=>/今天先不改了/.test(o.t)),J(m&&m.ask.opts.map(o=>o.t)));
-  const W={pencil:['……鉛筆。','我讀判決都用鉛筆。這盒夠我用到考完。'],notebook:['我有很多本了。……這本我留著，考完再用。'],lemon:['考前喝這個。……你很懂。'],coupon:['……這是什麼。','好。我收下。不保證會用。']};
+  const W={pencil:['……鉛筆。','我讀判決都用鉛筆。這盒夠我用到考完。'],notebook:['我有很多本了。……這本我留著，考完再用。'],lemon:['考前喝這個。……你很懂。'],coupon:['……這是什麼。','好，我收下。不保證會用。'/* RC2-PORT-DEV-1114：AA_959 第 553 列 */]};
   for(const k of Object.keys(W)){ setup(k,k==='coupon'); const r0=Object.assign({},SOCIAL.rel(ID)); await goOut('famx_y1',[0]); const r1=SOCIAL.rel(ID);
     check('2. 送「'+k+'」：「'+W[k].join('」「')+'」；合適＝熟悉 +2、她的戀愛 +2；SIS_FAMXMAS_Y1 '+k,seq(['（長桌，六個人，一鍋。Kevin 坐在中間，負責下肉。）','（學姊坐在你對面。她的碗裡只有白飯和青菜。）','她二月要考試，不吃辣，不吃肉丸。不要問。','好，交換！直屬送直屬，學弟先！'].concat(W[k],['（牛皮紙裡是一支木頭鉛筆，筆身刻著你的名字。）','鉛筆。寫錯可以擦。','刻壞了兩支。這是第三支。','好！大家都送完了，吃！','（她九點就先走了。說要回去念書。走到門口，又回頭跟你說了一句。）','鉛筆用完了，再跟我說。']))&&r1.npcRom-r0.npcRom===2&&r1.fam-r0.fam===2&&H.G.flags.SIS_FAMXMAS_Y1===k&&SOCIAL.has(ID,'SIS_XMAS_PENCIL'),J({s:H.said.map(x=>x.t),d:[r1.npcRom-r0.npcRom,r1.fam-r0.fam]})); }
   setup('pencil'); check('2. 買了就扣錢（鉛筆 60）',H.G.money===5000-60,H.G.money);
@@ -51,8 +51,8 @@ await sec(3,async()=>{ setup('coupon',true); await goOut('famx_y1',[0]); H.at('2
   check('3. 大一下 ev_grad_reading：有那支鉛筆的（去了那一場，沒準備也算）多「我給你的那支剛好。」（AA_590 第 60 列，原「用我給你的那支。」）',!!gn&&gn.text==='我給你的那支剛好。'&&gn.if.custom({flags:{SIS_FAMXMAS_Y1:'none'}})&&gn.if.custom({flags:{SIS_FAMXMAS_Y1:'lemon'}})&&!gn.if.custom({flags:{}})&&!gn.if.custom({flags:{SIS_FAMXMAS_Y1:'missed'}}));
   const play=async(flags)=>{ fresh('2026-12-24',22,'FRIEND',flags); H.date(ID); OUT.plan(H.G,{id:'t_x2',ev:'ev_sis_xmas_y2',day:H.G.day,h:22,place:'x',title:'x',travel:'',travelH:0}); await goOut('t_x2',[1]); return H.said.map(x=>x.t); };
   const a=await play({SIS_FAMXMAS_Y1:'pencil'}), b=await play({SIS_FAMXMAS_Y1:'none'});
-  check('3. 大二聖誕夜（AA_386 3-1）送過禮物的：她先拿紙袋「去年是你先送。今年換我先拿出來。」→ 計畫本 → 你的螢光筆',a.indexOf('去年是你先送。今年換我先拿出來。')>=0&&a.indexOf('明年的計畫本。第一頁我寫了。回去再看。')<a.indexOf('（你把準備好的禮物給她。一盒綠色螢光筆。）')&&a.indexOf('去年是你先送。今年換我先拿出來。')<a.indexOf('明年的計畫本。第一頁我寫了。回去再看。'),J(a));
-  check('3. none 的照 3-1 原本的順序、沒有那一句',b.indexOf('去年是你先送。今年換我先拿出來。')<0&&b.indexOf('（你把準備好的禮物給她。一盒綠色螢光筆。）')<b.indexOf('明年的計畫本。第一頁我寫了。回去再看。'),J(b));
+  check('3. 大二聖誕夜（AA_386 3-1）送過禮物的：她先拿紙袋「去年是你先送。今年換我先拿出來。」→ 計畫本 → 你的螢光筆',a.indexOf('去年是你先送。今年換我先拿出來。')>=0&&a.indexOf('明年的計畫本，第一頁我寫了。回去再看。'/* AA_959 第 777 列 */)<a.indexOf('（你把準備好的禮物給她。一盒綠色螢光筆。）')&&a.indexOf('去年是你先送。今年換我先拿出來。')<a.indexOf('明年的計畫本，第一頁我寫了。回去再看。'/* AA_959 第 777 列 */),J(a));
+  check('3. none 的照 3-1 原本的順序、沒有那一句',b.indexOf('去年是你先送。今年換我先拿出來。')<0&&b.indexOf('（你把準備好的禮物給她。一盒綠色螢光筆。）')<b.indexOf('明年的計畫本，第一頁我寫了。回去再看。'/* AA_959 第 777 列 */),J(b));
   check('3. 大三聖誕夜沒有「去年的禮物，我還在用。」',!J(STORY_EVENTS.find(e=>e.id==='ev_sis_xmas_y3')).includes('去年的禮物，我還在用。')); });
 H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });

@@ -29,7 +29,7 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf
   const all=J(SISB10_EVENTS)+J(SISB10_LINES), q=[...all.matchAll(/"(?:text|t|r)":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISB10_LINES).flat().filter(x=>typeof x==='string'));
   const A591=require('./aa591_doc.js');   /* AA_591（學姊改稿第四批，企劃線 6b35748c7）改過的句子在 AA_591 的表上 */
   const A600=require('./aa600_doc.js');   /* AA_600（分手後不主動聯絡，企劃線 031414cad）新寫的旁白在 AA_600 的稿裡 */
-  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!A591.has(t.replace(/^「|」$/g,''))&&!A600.has(t.replace(/^「|」$/g,''))&&!['映月湖','總圖前','學姊家的巷口','跨年：映月湖','跨年：總圖前','跨年：學姊家的巷口','走路 約 10 分鐘','捷運 約 30 分鐘','總圖・門口','巷口的便利商店前','電話','法圖・二樓','兩點半 Café'].includes(t));
+  const P959=t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!A591.has(t.replace(/^「|」$/g,''))&&!A600.has(t.replace(/^「|」$/g,''))&&!['映月湖','總圖前','學姊家的巷口','跨年：映月湖','跨年：總圖前','跨年：學姊家的巷口','走路 約 10 分鐘','捷運 約 30 分鐘','總圖・門口','巷口的便利商店前','電話','法圖・二樓','兩點半 Café'].includes(t); const notIn=[...new Set(q)].filter(t=>P959(t)&&P959(require('./aa959_map.js').unmap(t,'sis_b10_events.js')));   /* RC2-PORT-DEV-1114：AA_959 783 列換過的字，換回舊字再對稿 */
   check('0. 每一句台詞、選項都在稿裡（一字不差）',!!doc&&!notIn.length,J(notIn)); });
 /* ---- 1 ---- */
 await sec(1,async()=>{ fresh('2026-12-24',20,'TW','FRIEND'); H.date(ID); H.at('2026-12-24',21); ph(); const m=(H.G.msgs||[]).find(x=>x.ask&&x.ask.id==='sisb10_nye_ask_y2');
