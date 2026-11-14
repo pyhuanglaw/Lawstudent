@@ -1,0 +1,23 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_limao_close_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\LIMAO_CLOSE_r1\out
+CC LIMAO_CLOSE：SHA c81a16b9c0c6da57774e49384bc6c54cb84eed80；2025-10-22；CLOSE_H 23.75；STAY_H 23.35；Windows＋GPU ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到 tingzhou 2025-10-22 23.75 時、站在禮貌生財門外 (27.3, 1.2)
+PASS FAIL_SETUP 檢查：在 tingzhou、23.75 時、這時候 PLACES 說沒開、找得到禮貌生財的門  {"zone": "tingzhou", "h": 23.81, "x": 27.3, "z": 1.2, "stand": true, "interact": "", "open": false, "canTalk": false, "master": {"hidden": true, "visible": false, "inZone": true, "x": 28.9, "z": 5.1}, "table": [{"label": "看算命桌", "x": 27.6, "z": 3.6}], "door": [{"label": "看禮貌生財", "x": 27.3, "z": 4.75, "to": null}], "msgs": []}
+  [  52.2s] ② 打烊時：上師 {"hidden": true, "visible": false, "inZone": true, "x": 28.9, "z": 5.1}；canTalk False；桌前互動 [{"label": "看算命桌", "x": 27.6, "z": 3.6}]
+PASS ② 打烊時上師收攤（看不到）  {"hidden": true, "visible": false, "inZone": true, "x": 28.9, "z": 5.1}
+PASS ② 打烊時桌前的字是「看算命桌」（不是「算命桌」能聊天）  [[{"label": "看算命桌", "x": 27.6, "z": 3.6}], false]
+  [  58.1s] 「① 走到禮貌生財門口」途中停下（離目標 0.20 m）：條件成立
+  [  58.1s] ① 門口互動鍵：看禮貌生財
+  [  61.6s] ① 按了門以後：{"zone": "tingzhou", "h": 23.88, "x": 27.27, "z": 3.95, "stand": true, "interact": "看禮貌生財", "open": false, "canTalk": false, "master": {"hidden": true, "visible": false, "inZone": true, "x": 28.9, "z": 5.1}, "table": [{"label": "看算命桌", "x": 27.6, "z": 3.6}], "door": [{"label": "看禮貌生財", "x": 27.3, "z": 4.75, "to": null}], "msgs": [], "screen": ["（騎樓下那張鋪紅布的桌子收起來了。門上貼著一張紙：「今日不看」。）"]}
+PASS ① 打烊後進不去（還在 tingzhou）  tingzhou
+  [  61.6s] ① 門口的鍵是「看禮貌生財」（「看…」＝打烊了只能看）；按了以後畫面上的字：["（騎樓下那張鋪紅布的桌子收起來了。門上貼著一張紙：「今日不看」。）"]
+FAIL ① 有提示，寫了營業時間（19:00／23:30 或「營業」字樣）  （騎樓下那張鋪紅布的桌子收起來了。門上貼著一張紙：「今日不看」。）
+  [前置／捷徑] 【前置／捷徑】讀檔進 tz_limao 2025-10-22 23.35 時（區域出生點），之後照遊戲時間走、不快轉
+PASS FAIL_SETUP 檢查：讀檔以後在 tz_limao、23.35 時、店開著  {"zone": "tz_limao", "h": 23.42, "x": 0.9, "z": 3.3, "stand": true, "interact": "", "open": true, "canTalk": true, "master": null, "table": [], "door": [{"label": "離開禮貌生財", "x": 0.9, "z": 4.6, "to": "tingzhou"}], "msgs": []}
+  [  94.9s] ③ 待在店裡：7 筆，開始 23.42 時、結束 23.52 時；[{"zone": "tz_limao", "h": 23.48, "x": 0.9, "z": 3.3, "stand": true, "interact": ""}, {"zone": "tz_limao", "h": 23.5, "x": 0.9, "z": 3.3, "stand": true, "interact": ""}, {"zone": "tz_limao", "h": 23.5, "x": 0.9, "z": 3.3, "stand": true, "interact": ""}, {"zone": "tingzhou", "h": 23.51, "x": 27.4, "z": 3.3, "stand": true, "interact": "看算命桌"}]
+  [  94.9s] ③ 提示：[{"k": "say", "w": "上師", "t": "今天就看到這裡。回去早點睡。"}]
+PASS ③ 被請出去：落點站得住  {"zone": "tingzhou", "h": 23.51, "x": 27.4, "z": 3.3, "stand": true, "interact": "看算命桌", "open": false, "canTalk": false, "master": {"hidden": true, "visible": false, "inZone": true, "x": 28.9, "z": 5.1}, "table": [{"label": "看算命桌", "x": 27.6, "z": 3.6}], "door": [{"label": "看禮貌生財", "x": 27.3, "z": 4.75, "to": null}], "msgs": [{"k": "say", "w": "上師", "t": "今天就看到這裡。回去早點睡。"}]}
+  [  94.9s] ③ 被請出去的時間 23.51、區域 tingzhou、位置 (27.40, 3.30)
+PASS 沒有 JS 例外  []
+FAILED 1: ① 有提示，寫了營業時間（19:00／23:30 或「營業」字樣）
