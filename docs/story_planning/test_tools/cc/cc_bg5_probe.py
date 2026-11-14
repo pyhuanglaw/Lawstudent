@@ -530,6 +530,12 @@ async def trigger(pg, cdp, run, c, q):
             if kk is not None and not tapped:
                 run.note('%s：遊戲自己跳出選單 %s → 點「%s」（像玩家）' % (c['k'], J(opts), opts[kk]))
                 await P.tap_choice(pg, cdp, kk); tapped = True; await pg.wait_for_timeout(1500); continue
+            evr = await pg.evaluate("(typeof EVENTS!=='undefined'&&EVENTS.running)||null")
+            if evr and kk is None:   # 11-14 BB-C（BB_379 BLACKBG_460 TEST_BUG）：別的劇情正在演（例：ev_y4_path 的出路選單）＝照玩家選第一個能點的、把它演完，不然 EVENTS.run 會直接 return
+                k2 = next((i for i, o in enumerate(s['ch']) if not o['dim']), 0)
+                run.note('%s：別的劇情 %s 正在演、選單 %s → 照玩家點「%s」把它演完' % (c['k'], evr, J(opts), opts[k2]))
+                if opts not in menus: menus.append(opts)
+                await P.tap_choice(pg, cdp, k2); await pg.wait_for_timeout(1200); continue
             if opts not in menus: menus.append(opts); run.note('%s：畫面上有別的選單（不點，等）：%s' % (c['k'], J(opts)))
         elif s['dlg'] and s['txt']:
             if not lines or lines[-1] != [s['name'], s['txt']]: lines.append([s['name'], s['txt']])

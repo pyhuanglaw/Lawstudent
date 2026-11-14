@@ -2476,8 +2476,15 @@ XILE_FUNC_r2 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_pla
 LIMAO_PARALLAX_r2 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 40 | TAG=limao_parallax_r2;ZONES=tz_limao;HOURS=20;NODEBUG=1;SIDE_OFF=0.8;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 # LAWWW2-C 10:11：WINVIEW-EDGE-STRIPE-1114 已在 v9.10.26（main 含 fc1813e4f2）→ 七間窗景 14:00 現在就拍，給 BB 判
 WINVIEW_EDGE_STRIPE_rel | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_window_view_probe.py | index.html | 30 | ZONES=gg_antai,gg_xianguo,gg_rongendian,daybreak,afar,aoki,bookstore;HOURS=14;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+# BB-C 10:16（BB_379 95782b24d9，P1，D99 優先）：VACGAP_C 阿凱回 203 不在 → r2 只跑 OTHERS，多收 presence 完整物件、G.zone、這一區 NPC 清單、阿凱 schedEnt／作息表（out/kai_0209_diag.json）
+VACGAP_C_r2 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_vacgap_probe.py | index.html | 60 | CASES=OTHERS;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 # BB-C 10:14（BB_379 c4d29eaf55，P1）：美國兩間沒店員 → r2 對 main、13:00／20:00，US_DIAG 記 SH831.staffed、G 日期時間、店裡全部 NPC（店員 id 61／62／63）
 SHOP_US_v2_r2 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 70 | TAG=shop_us_v2_r2;ZONES=us_market,us_asian_market;HOURS=13,20;NODEBUG=1;US_DIAG=1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+# BB-C 10:16（BB_379 95782b24d9）第 3 批重跑，對 main：溫特寶邸探針改認正式室內模型 shopreal_（使用者點名的店，排前面）；洋洋用新店員判法；BLACKBG 捷徑前先把正在演的劇情演完
+TZ_WENTE_v2_r2_1500 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_layout_window_probe.py | index.html | 10 | ZONE=tingzhou;SHOP=wente;HOUR=15;DIST=9;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+TZ_WENTE_v2_r2_2300 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_layout_window_probe.py | index.html | 10 | ZONE=tingzhou;SHOP=wente;HOUR=23;DIST=9;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+YY_GATE_r3 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_place_gate_probe.py | index.html | 50 | TAG=yy_gate_r3;ZONES=yangyang;HOURS=18,20.5;NODEBUG=1;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
+BLACKBG_460_r2 | 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35 | probe | docs/story_planning/test_tools/cc/cc_bg5_probe.py | index.html | 60 | BATCH=9;ORIENT=land;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35
 # BB-C 09:45（BB_379）：木曜日 r3＝TEST_SETUP（10/22 期中考週＝考試週坐滿模式）→ r4 改 10/08（三）14:00、二樓 SPAWN、四鏡頭＋座位＋ORDER_POOR＋點第一項、記點餐台詞原文＋選單截圖；另一支考試週 10/22 只驗「坐吧檯旁邊」坐得下。照 CC_02 戊5（長的不擋短的）排在 social_r2 前面
 # CC-C 10:0x：BOOKSTORE_r4 TEST_BUG——約人選單現在第一層就有「去頁間書屋逛逛」（沒有「看電影」那一類），PICKS 照新選單改
 CANON458_BOOKSTORE_r5_rc2e | 1404d5f2d4cb740d50df75741764be18ee746992 | probe | docs/story_planning/test_tools/cc/cc_invite_phone_probe.py | index.html | 25 | TAG=c458_bookstore;ZONE=gongguan;WHO=kexin;DAY=2026-10-14;HOUR=15;REL=45;FLAGS={"ACTN":{"bookstore":{"kexin":3}},"dating_kexin":false};PICKS=頁間書屋>今天;ROUTE=exit:bookstore;VISITED=bookstore;SHA=1404d5f2d4cb740d50df75741764be18ee746992
