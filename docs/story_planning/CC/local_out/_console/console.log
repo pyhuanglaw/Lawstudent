@@ -1,15 +1,3 @@
-[17:45:55] skip L118A_SEAT_cafe22 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[17:45:55] skip L118A_SEAT_dian1 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[17:45:55] skip L118A_SEAT_dian2 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[17:45:55] skip L118A_SEAT_self1 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[17:45:55] skip L118A_SEAT_korea1 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[17:45:55] skip L118A_SEAT_omu1 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[17:45:55] skip L118A_SEAT_omu2 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[17:45:55] skip L118A_SEAT_omu3 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[17:45:55] skip L118A_SEAT_noodle21 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[17:45:55] skip L118A_SEAT_noodle22 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[17:45:55] skip L118A_SEAT_pasta1 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
-[17:45:55] skip L118A_SEAT_pasta2 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
 [17:45:55] skip L118A_SEAT_pasta3 (already done on bc407bfc518c8d6a4260d1a1fa395cb93fc9058b)
 [17:45:55] skip STAIR_old_walk (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
 [17:45:55] skip STAIR_old_run (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
@@ -1998,3 +1986,15 @@
        27fc47584c..dc1be8b92c  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [21:52:40] ==== END   WINVIEW_MIRROR_gg3  exit=0  142s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       dc1be8b92c..18c88602ab  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:52:46] ==== END   WINVIEW_MIRROR_rooms  exit=1  148s   ====
+[21:53:00] memory 45% before starting WZ_LITE_r1 (2 running)
+[21:53:00] ==== START WZ_LITE_r1  (probe @ aa876bf9b9ad16262c2106615619a1f4cec5f77b) ====
+[21:53:03] [res] cpu=3% mem=45% (14.3/31.4 GB) chrome_testing=4  START WZ_LITE_r1
+[21:53:04] memory 45% before starting SHOPREAL_BIKE_v21 (2 running)
+[21:53:04] ==== START SHOPREAL_BIKE_v21  (probe @ aa876bf9b9ad16262c2106615619a1f4cec5f77b) ====
+[21:53:07] [res] cpu=3% mem=47% (14.4/31.4 GB) chrome_testing=4  START SHOPREAL_BIKE_v21
+[21:55:55] 正在跑：GATE_REF_r1（已跑 4 分／上限 30 分）、WZ_LITE_r1（已跑 2 分／上限 30 分）、SHOPREAL_BIKE_v21（已跑 2 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:57:05] [res] cpu=1% mem=48% (15.3/31.4 GB) chrome_testing=9  END GATE_REF_r1
