@@ -175,6 +175,11 @@ d = setup()
 subprocess.run(['git', 'init', '-q', d])
 buf = io.StringIO()
 with redirect_stdout(buf):
+    rc0 = H.main(['--root', d, 'snapshot', '--role', 'LAWWW', '--account', 'B'])
+expect('snapshot：交接檔沒有「下一班第一件事」「大改動：」＝結束碼 1、不存快照（D165、D166）', rc0 == 1 and '大改動' in buf.getvalue() and not [x for x in os.listdir(os.path.join(d, 'docs/handoff/snapshots')) if '_B_LAWWW' in x], buf.getvalue()[:200])
+with open(os.path.join(d, 'docs/HANDOFF_GAP_MATRIX.md'), 'a', encoding='utf-8') as _f: _f.write('\n**下一班第一件事**：T1\n大改動：無\n')
+buf = io.StringIO()
+with redirect_stdout(buf):
     H.main(['--root', d, 'snapshot', '--role', 'LAWWW', '--account', 'B'])
 snaps = sorted(os.listdir(os.path.join(d, 'docs/handoff/snapshots')))
 s = json.load(open(os.path.join(d, 'docs/handoff/snapshots', snaps[-1])))

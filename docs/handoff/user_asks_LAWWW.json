@@ -5473,6 +5473,15 @@
    "status": "進行中",
    "task": "BRANCH-CLEAN-1114",
    "src": "使用者對 LAWWW-B；LAWWW-B 試 git push --delete wip/onetap-fav-1103 被平台擋（雲端工作階段只能推自己的分支）"
+  },
+  {
+   "id": "UA-LAWWW-1114-19",
+   "at": "2026-11-14T13:0xZ",
+   "quote": "交接規則的部分你要自己想一下，譬如說你做了很多的改動，譬如說舊序章刪掉，那如果下一個帳號只讀你的交代他要做的事情，那他根本就不知道遊戲已經有很大的變動的話怎麼辦啊。你的交接規則也不能太簡陋啊",
+   "kind": "轉述",
+   "status": "規則（永久）",
+   "task": "HANDOFF-RULE-GAPS-1114",
+   "src": "使用者對 LAWWW-B；原話依 D158 不留字。落實：D166（docs/handoff/BIG_CHANGES.md＋takeover.py 列出＋snapshot 擋）"
   }
  ]
 }
