@@ -15,6 +15,7 @@
    做好的店要從基準表拿掉：`node tests/shop_cc0_unit.js --write`（同一個 commit）。
 2. 這間店原本的單元測試全部照過（例：118 巷 `tests/l118_*`、`tests/*<店名>*_unit.js`；`grep -l <店的 id> tests/*.js` 找）。
 3. `node tests/place_gate_unit.js` 只能剩「狀態表過期」那一項（`SHOP_STANDARD_STATUS.md` 不要放進 patch，LAWWW 整合時 `--write` 重產）。
+   - **疊面先查、後寫**（LAWWW2-C 11-14：大口一樓前牆框疊面 5.13→6.81 m²，因為先跑了 `--coplanar --write` 把基準蓋掉，驗收沒抓到）：改了 GLB 以後**先跑 `node tests/place_gate_unit.js`（不加任何 `--write`）**，看有沒有「牆沒有疊在同一平面……比基準多」。有就是真的疊面：把那兩片錯開 ≥ 2 mm 或合成一片、重建重烘，**不准用 `--coplanar --write` 調高基準過關**。沒有新的疊面，才跑 `--coplanar --write`（基準變少或照舊）。驗收的人（LAWWW2）也照這個順序。工具也會擋（LAWWW-C 8f1b338c22）：`--coplanar --write` 遇到任何模型 wall／always 比基準多 ≥ 0.01 m² 就不寫、結束碼 1。**不要加 `--allow-grow`，除非 LAWWW 同意**（整間重做、換新模型那種），commit 訊息寫為什麼。順序：先跑 place_gate → 修模型 → 再跑 `--coplanar --write`。
 
 **看圖（我看並排圖判；BB 之後還會再判一次）**
 
