@@ -133,7 +133,7 @@ def east_cell(xf, k, j, u0, u1, y, y1):
     if j == 1:   # 一排杯子
         for q in range(3): K.mug(sh, *xf.p(u0 + 0.1 + q * 0.18, 0, 0.0)[::2], y, col=('#f2efe8', '#c9b48a', '#8a6a4a')[(q + k) % 3])
         return
-    if (k, j) == (1, 3): small_plant_at(xf, mid, y, h=0.3); return
+    if (k, j) == (1, 3): _cx, _, _cz = xf.p(mid, 0, 0.0); C.ph_put(sh, 'planter_pot_clay', _cx, y, _cz, yaw=0.7, height=0.1, decimate=0.25); C.ph_put(sh, 'fern_02', _cx, y + 0.07, _cz, yaw=1.9, s=0.5, part=0, tag='_p0', decimate=0.6); return   # mokuyobi v2.2：格子裡的白盆＋黃金葛葉片卡 → Poly Haven 陶盆＋蕨類
     if (k, j) == (0, 3): lying_books(xf, mid, 0.0, y, 5); return
     books_in(xf, u0, u1, y, y1, 0.38)
 _EB = [i for i in LAY['items'] if i['kind'] == 'bookcase_east'][0]   # v3：東牆的高書櫃（參考圖左牆那座）
