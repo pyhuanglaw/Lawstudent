@@ -69,6 +69,10 @@ US_DIAG_JS = r"""(z=>{ const G=GAME.G, f=v=>+(+v).toFixed(2); let st=null; try{ 
   const N=Object.entries(GAME.npc||{}).map(([k,n])=>({key:k, id:n&&(n.id||n.charId)||null, num:n&&(n.num!=null?n.num:(n.cid!=null?n.cid:null)), clerk:!!(n&&(n.clerk||n.clerkFlag)), x:n&&n.obj?f(n.obj.position.x):null, z:n&&n.obj?f(n.obj.position.z):null, hidden:!!(n&&n.hidden)}));
   const E=(GAME.E.npcs||[]).map(n=>({id:n.id||n.charId||null, num:n.num!=null?n.num:null, clerk:!!(n.clerk||n.clerkFlag), x:n.obj?f(n.obj.position.x):null, z:n.obj?f(n.obj.position.z):null, hidden:!!n.hidden, vis:n.obj?n.obj.visible!==false:null}));
   return {zone:G.zone, staffed:st, key:d.key, wd:d.wd, hour:f(G.hour), inUS:us, gameNpc:N, eNpcs:E}; })"""
+US_CLERK_JS = r"""(()=>{ const E=GAME.E, f=v=>+(+v).toFixed(2); const inE=new Set(E.npcs||[]);
+  const all=Object.entries(GAME.npc||{}).map(([k,n])=>({k,n})).concat((E.npcs||[]).filter(n=>!Object.values(GAME.npc||{}).includes(n)).map(n=>({k:null,n})));
+  const C=all.filter(({n})=>n&&(n.clerk||n.clerkFlag||[61,62,63].includes(n.num)||[61,62,63].includes(n.cid))).map(({k,n})=>({key:k, id:n.id||n.charId||null, num:n.num!=null?n.num:(n.cid!=null?n.cid:null), inNpcs:inE.has(n), hidden:!!n.hidden, hasObj:!!n.obj, parent:n.obj?(n.obj.parent?(n.obj.parent.name||n.obj.parent.type):null):null, inScene:n.obj?(()=>{ let q=n.obj; while(q.parent) q=q.parent; return q===E.scene; })():false, visible:n.obj?n.obj.visible!==false:null, x:n.obj?f(n.obj.position.x):null, z:n.obj?f(n.obj.position.z):null}));
+  return {gmZone:(GAME.G&&GAME.G.zone)||null, eZone:E.zone&&E.zone.def?E.zone.def.id:null, nNpcs:(E.npcs||[]).length, clerks:C}; })()"""
 SIDE_OFF = float(os.environ.get('SIDE_OFF') or 0)   # BB-C 11-14 LIMAO_PARALLAX_r2：⑤ 店外左右固定平移這麼多公尺（例 0.8），站不站得住都照拍；0＝照舊 1.5／1.0／0.6   # BB-C 09:45 ②：考試週只驗「坐吧檯旁邊」那一個位子（MOKS.barSide），要真的坐下（ok）才算
 SETTLED = "(async()=>{ for(let i=0;i<120;i++){ const A=ASSETS; const n=Object.keys(A.status).filter(k=>!A.cache[k]&&!A.errors.some(e=>e.startsWith(k+':'))).length; if(!n) return i; await new Promise(r=>setTimeout(r,250)); } return -1; })()"
 ROOM_JS = r"""(()=>{ const E=GAME.E, N=E.nav, f=v=>+(+v).toFixed(2); let x0=1e9,x1=-1e9,z0=1e9,z1=-1e9,n=0;
@@ -367,7 +371,14 @@ async def enter_cam(pg, cdp, tag, rm, zid, h):
 
 async def gate_zone(pg, cdp, zid, h, rows, cons):
     hh = '%02d%02d' % (int(h), int(round((h % 1) * 60))); tag = '[%s %s]' % (zid, hh)
-    s = await (D.load_zone(pg, cdp, zid, DAY, h, x=SPAWN[0], z=SPAWN[1], lv=int(SPAWN[2]) if len(SPAWN) > 2 else 0, wait=8000) if len(SPAWN) >= 2 else D.load_zone(pg, cdp, zid, DAY, h, wait=8000))
+    s = await (D.load_zone(pg, cdp, zid, DAY, h, x=SPAWN[0], z=SPAWN[1], lv=int(SPAWN[2]) if len(SPAWN) > 2 else 0, wait=(500 if US_DIAG else 8000)) if len(SPAWN) >= 2 else D.load_zone(pg, cdp, zid, DAY, h, wait=(500 if US_DIAG else 8000)))
+    if US_DIAG:   # BB-C 10:16（LAWWW 要的）：讀檔後 0.5／5／15 秒各記一次 clerk 的 NPC（一開始就沒有，還是後來才不見：obj.parent、visible、在不在 E.npcs）＋GM.G.zone
+        ts_ = []
+        for at_ in (0.5, 5, 15):
+            if ts_: await pg.wait_for_timeout(int((at_ - ts_[-1]['at']) * 1000))
+            snap_ = await pg.evaluate(US_CLERK_JS); snap_['at'] = at_; ts_.append(snap_)
+            R.note('%s US_DIAG 讀檔後 %s 秒：%s' % (tag, at_, J(snap_)))
+        open(os.path.join(OUT, 'us_diag_clerk_%s_%s.json' % (zid, int(h * 100))), 'w', encoding='utf-8').write(J(ts_))
     R.setup('%s 【前置／捷徑】讀檔進 %s %s %.2f 時（區域的出生點）、錢補到 5000（⑦ 要買得起）' % (tag, zid, DAY, h))
     await pg.evaluate("(()=>{ if(GAME.G) GAME.G.money=Math.max(GAME.G.money|0,5000); })()")
     if GATE_FLAGS:   # BB-C 11-14 SHOP_B5：禮貌生財書房要解鎖（LM_STUDY）才進得去——墊旗標以後用遊戲自己的讀檔再讀一次，區域照旗標重建

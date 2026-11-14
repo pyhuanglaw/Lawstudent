@@ -652,6 +652,9 @@ async def analyze(pg, tag, loc, stage, dating, ctx, ev, screen, picked, names, e
     locname = await pg.evaluate("(l=>DATE.loc(l).name)", loc)
     Z = zl(loc); IDX = text_index({'lines': Z, 'dislikeLine': ((DL['loc'][loc].get('dislikeLine') or {}).get(ZQ) or {})}, '/' + loc); DIDX = None
     nondating = {t for t, ks in IDX.items() if any('/dating/' not in k for k in ks)}
+    # 11-14 BB-C（BB_379 027fc1a3b4，DATE35_PS_ARR TEST_BUG）：D04／D05 看電影是 date3d.js 的固定段落（S.fixedOf），旁白「（看電影。）」不在 date_lines.js 格子裡——放行
+    FIXED = set(await pg.evaluate("""(l=>{ const out=[]; const f=(typeof DATE!=='undefined'&&DATE.fixedOf)?DATE.fixedOf(l):null; const walk=v=>{ if(typeof v==='string'){ if(v.startsWith('（')) out.push(v); } else if(Array.isArray(v)) v.forEach(walk); else if(v&&typeof v==='object') Object.values(v).forEach(walk); }; walk(f); if(f) out.push('（看電影。）'); return out; })""", loc) or [])
+    if FIXED: log('  固定段落（不算格子、放行）：%s' % J(sorted(FIXED)))
     dr = draft_of(loc)
     if dr is not None: DIDX = text_index({'lines': ((dr.get('lines') or {}).get(ZQ) or {}), 'dislikeLine': ((dr.get('dislikeLine') or {}).get(ZQ) or {})}, '/' + loc)
     else: log('  （源稿讀不到＝只和遊戲資料檔 date_lines.js 比）')
@@ -705,7 +708,7 @@ async def analyze(pg, tag, loc, stage, dating, ctx, ev, screen, picked, names, e
         return wt
 
     for i, (kind, arg, buf) in enumerate(segs):
-        lines = [e for e in buf if e['k'] == 'say' and not SYS_NARR.search(e['t']) and (mine(e) or (not e['who'] and e['t'].startswith('（')))]
+        lines = [e for e in buf if e['k'] == 'say' and not SYS_NARR.search(e['t']) and e['t'] not in FIXED and (mine(e) or (not e['who'] and e['t'].startswith('（')))]
         if kind in ('pre', 'settle', 'other'): continue
         if kind == 'night':
             night = buf[0]['t'] if buf else None; continue
