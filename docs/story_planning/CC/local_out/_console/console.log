@@ -1,11 +1,3 @@
-[23:13:04] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
-[23:13:04] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
-[23:13:04] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
-[23:13:04] memory 43% before starting W1R_A3_dorm (2 running)
-[23:13:04] ==== START W1R_A3_dorm  (probe @ 1f304f00544cae61d8abf58bea60e3b9d7cb4ea2) ====
-[23:13:07] [res] cpu=12% mem=43% (13.7/31.4 GB) chrome_testing=5  START W1R_A3_dorm
-[23:13:42] [res] cpu=12% mem=43% (13.5/31.4 GB) chrome_testing=4  END W1R_A2_sleep
-    To https://github.com/pyhuanglaw/Lawstudent.git
        367152458f..8c52ceea33  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [23:13:51] ==== END   W1R_A2_sleep  exit=0  123s   ====
@@ -1998,3 +1990,11 @@
 [12:08:41] ==== END   CEIL_d785  exit=0  211s   ====
 [12:08:45] solo item DN_FPS_c94f waits: no new items start until the 1 running item(s) finish
 [12:09:02] [res] cpu=1% mem=30% (9.7/31.4 GB) chrome_testing=0  END WINVIEW_859b
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       3c819385e4..53aea648f0  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[12:09:13] ==== END   WINVIEW_859b  exit=0  341s   ====
+[12:09:16] memory 31% before starting DN_FPS_c94f (0 running)
+[12:09:16] ==== START DN_FPS_c94f  (probe @ c94f2bf7d361defdc7549386cadb7acd4e56e355) ====
+[12:09:19] [res] cpu=1% mem=31% (9.9/31.4 GB) chrome_testing=0  START DN_FPS_c94f
+[12:10:58] [res] cpu=3% mem=31% (9.8/31.4 GB) chrome_testing=0  END DN_FPS_c94f
