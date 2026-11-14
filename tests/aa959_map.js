@@ -19,9 +19,9 @@ const code = r => /['"]/.test(r.old);
 /* 跟著換的送訊息程式（tools/story/aa959.py LINKED）：msg_replies.js 傳來的訊息那幾列 */
 const LINKED = { 'msg_replies.js': ['aa555_3d.js', 'r2y3b3d.js', 'r3_3d.js', 'y2b3d.js', 'y2r2_3d.js', 'aa554_3d.js', 'y1fill_events.js'] };
 function rows(file, who) {
-  let b = file ? path.basename(file) : null; const w = (who && who !== '(共用)') ? who : null;
+  let b = file ? path.basename(file) : null; const w = (who && who !== '(共用)') ? who : null; const b0 = b;
   for (const [src, fs_] of Object.entries(LINKED)) if (b && fs_.includes(b)) b = src;
-  return T.rows.filter(r => !code(r) && (!w || r.speaker === w) && r.files.some(f => (!b || f === b) && !skip(f, r.old))).sort((a, c) => c.old.length - a.old.length);
+  return T.rows.filter(r => !code(r) && (!w || r.speaker === w) && r.files.some(f => (!b || f === b || f === b0) && !skip(f, r.old)))   /* b0：表上直接標這個檔的列（AA_997 aa555_3d.js）也算 */.sort((a, c) => c.old.length - a.old.length);
 }
 function map(s, file, who) {
   if (typeof s !== 'string') return s;
