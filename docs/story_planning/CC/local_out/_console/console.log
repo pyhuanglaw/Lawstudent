@@ -1,15 +1,3 @@
-[17:45:55] skip N1_PAYS (already done on ab282014af7e5c878ad171819465665fcc4ae2a5)
-[17:45:55] skip N1_PAYS_pure (already done on ab282014af7e5c878ad171819465665fcc4ae2a5)
-[17:45:55] skip N1_AA811_A (already done on ab282014af7e5c878ad171819465665fcc4ae2a5)
-[17:45:55] skip N1_MOKU_PLANT_7b (already done on ab282014af7e5c878ad171819465665fcc4ae2a5)
-[17:45:55] skip N1_AA811_A2 (already done on ab282014af7e5c878ad171819465665fcc4ae2a5)
-[17:45:55] skip N1_MOKU_PLANT_7c (already done on ab282014af7e5c878ad171819465665fcc4ae2a5)
-[17:45:55] skip N1_AA814_H23 (already done on ab282014af7e5c878ad171819465665fcc4ae2a5)
-[17:45:55] skip JOY_live1_r2 (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
-[17:45:55] skip JOY_779_1_r2 (already done on 779ddd65081bf770e9850d948b54ecc21dc4d120)
-[17:45:55] skip N1_SEASON_gg (already done on b77af3a4fe6d348ae58337a1ce708442ef9ef458)
-[17:45:55] skip N1_SEASON_wz (already done on b77af3a4fe6d348ae58337a1ce708442ef9ef458)
-[17:45:55] skip N1_POOL_swim (already done on b77af3a4fe6d348ae58337a1ce708442ef9ef458)
 [17:45:55] skip N1_AA811 (already done on b77af3a4fe6d348ae58337a1ce708442ef9ef458)
 [17:45:55] skip N1_LEADOUT (already done on 01679bc0a7580dabd373d2fbfda8542c21e0fc20)
 [17:45:55] skip LEADOUT_old (already done on 15e7b31f83b1559d4ebfec7b322aaf956698990d)
@@ -1998,3 +1986,15 @@
 [21:48:46] [res] cpu=9% mem=45% (14.5/31.4 GB) chrome_testing=5  START AA355_6_sports_r4
 [21:48:46] solo item FIRST_limao_r1 waits: no new items start until the 2 running item(s) finish
 [21:49:45] [res] cpu=6% mem=43% (13.7/31.4 GB) chrome_testing=4  END HL1_CIRCLE_1028_r5
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ac77545742..1d48ed5839  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:49:52] ==== END   HL1_CIRCLE_1028_r5  exit=1  224s   ====
+[21:50:07] memory 43% before starting WINVIEW_MIRROR_gg3 (1 running)
+[21:50:07] memory 43% before starting WINVIEW_MIRROR_rooms (2 running)
+[21:50:07] ==== START WINVIEW_MIRROR_gg3  (probe @ aa876bf9b9ad16262c2106615619a1f4cec5f77b) ====
+[21:50:07] ==== START WINVIEW_MIRROR_rooms  (probe @ aa876bf9b9ad16262c2106615619a1f4cec5f77b) ====
+[21:50:10] [res] cpu=2% mem=44% (13.7/31.4 GB) chrome_testing=5  START WINVIEW_MIRROR_gg3
+[21:50:10] [res] cpu=2% mem=44% (13.7/31.4 GB) chrome_testing=5  START WINVIEW_MIRROR_rooms
+[21:50:55] 正在跑：AA355_6_sports_r4（已跑 2 分／上限 20 分）、WINVIEW_MIRROR_gg3（已跑 0 分／上限 25 分）、WINVIEW_MIRROR_rooms（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:51:11] [res] cpu=7% mem=49% (15.3/31.4 GB) chrome_testing=8  END AA355_6_sports_r4
