@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "BG3D_SOC_front",
+  "sha": "6106fae2d278ba8ac97ebbf9265ca141c5e0ab35",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_closeup_probe.py",
+  "env": "ZONE=campus;HOURS=14;VIEW=1600x900;PLAIN_NAMES=1;NOPEOPLE=1;TAG=bg3d_soc;CAMS=bg3d_soc_front@35.4,1.6,-85>15.4,4,-85@70/bg3d_soc_30@32.7,1.6,-95>15.4,4,-85@70;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35",
+  "machine": "MSI",
+  "start": "2026-11-14T21:04:01",
+  "end": "2026-11-14T21:05:37",
+  "seconds": 96,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "21",
+  "url": "http://127.0.0.1:8802/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 12,
+    "mem": 54,
+    "used_gb": 17.0,
+    "chrome_testing": 14
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}

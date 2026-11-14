@@ -1,0 +1,13 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_closeup_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\BG3D_SOC_front\out
+CC 店內近照：TAG bg3d_soc；SHA 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35；ZONE campus；HOURS [14.0]；CAMS [{"name": "bg3d_soc_front", "from": [35.4, 1.6, -85.0], "at": [15.4, 4.0, -85.0], "fov": 70.0}, {"name": "bg3d_soc_30", "from": [32.7, 1.6, -95.0], "at": [15.4, 4.0, -85.0], "fov": 70.0}]；Windows＋GPU ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS FAIL_SETUP 檢查：CAMS 解析得出來（2 組）  bg3d_soc_front@35.4,1.6,-85>15.4,4,-85@70/bg3d_soc_30@32.7,1.6,-95>15.4,4,-85@70
+  [前置／捷徑] [campus 1400] 【前置／捷徑】讀檔進 campus 2025-10-22 14.00 時（出生點）
+PASS FAIL_SETUP 檢查：[campus 1400] 讀檔以後真的在 campus  campus
+  [  47.8s] [campus 1400] 「bg3d_soc_front」拍之前等資源：{"waited_s": 1.02, "pending": 0, "keys": []}
+  [  49.0s] [campus 1400] 近照「bg3d_soc_front」相機 [35.4, 1.6, -85.0] → [15.4, 4.0, -85.0]（fov 70.0）：{"magenta_pct": 0, "center_mean": 87.8, "center_sd": 49.5}
+  [  50.4s] [campus 1400] 「bg3d_soc_30」拍之前等資源：{"waited_s": 1.05, "pending": 0, "keys": []}
+  [  51.4s] [campus 1400] 近照「bg3d_soc_30」相機 [32.7, 1.6, -95.0] → [15.4, 4.0, -85.0]（fov 70.0）：{"magenta_pct": 0, "center_mean": 82.9, "center_sd": 49.2}
+PASS 沒有 JS 例外  []
+ALL PASS
