@@ -87,13 +87,17 @@ IT_DIAG_JS = r"""(a=>{ const E=GAME.E, P=E.player, f=v=>+(+v).toFixed(2), lab=i=
     nearest:ni, btn:btn?{shown:vis(btn), cls:btn.className, label:((document.getElementById('interactLabel')||{}).textContent||'').trim()}:null, toast:tst?{shown:vis(tst), t:(tst.textContent||'').trim().slice(0,40)}:null, near}; })"""
 FACE_JS = "(p=>{ const P=GAME.E.player; if(!P||!P.obj) return null; const o=P.obj.position; P.obj.rotation.y=Math.atan2(p[0]-o.x, p[1]-o.z); return +P.obj.rotation.y.toFixed(2); })"
 LAST_EXIT = {}   # 區域 → (門外區域, 門外出生點)：打烊那一輪拍店外用
+ENTRY_IN = float(os.environ.get('ENTRY_IN') or 1.0)   # CC-B 11-14（BB-B 12:24）：⑦b 進門那張從出口往房間內走幾公尺（木曜日出口在樓梯間，1 m 還貼著牆＝要 3 m 以上）
+LOOKUP = (os.environ.get('LOOKUP') or '0') == '1'   # CC-B 11-14（BB-B 12:24）：二樓的店——街上抬頭看二樓窗（店外中間那個位置，對準店面、抬到 LOOKUP_Y 公尺）
+LOOKUP_Y = float(os.environ.get('LOOKUP_Y') or 5.0)
+PARALLAX_NA = (os.environ.get('PARALLAX_NA') or '0') == '1'
 SIDE_OFF = float(os.environ.get('SIDE_OFF') or 0)   # BB-C 11-14 LIMAO_PARALLAX_r2：⑤ 店外左右固定平移這麼多公尺（例 0.8），站不站得住都照拍；0＝照舊 1.5／1.0／0.6   # BB-C 09:45 ②：考試週只驗「坐吧檯旁邊」那一個位子（MOKS.barSide），要真的坐下（ok）才算
 SETTLED = "(async()=>{ for(let i=0;i<120;i++){ const A=ASSETS; const n=Object.keys(A.status).filter(k=>!A.cache[k]&&!A.errors.some(e=>e.startsWith(k+':'))).length; if(!n) return i; await new Promise(r=>setTimeout(r,250)); } return -1; })()"
 ROOM_JS = r"""(()=>{ const E=GAME.E, N=E.nav, f=v=>+(+v).toFixed(2); let x0=1e9,x1=-1e9,z0=1e9,z1=-1e9,n=0;
   if(N&&N.cols){ for(let j=0;j<N.rows;j++) for(let i=0;i<N.cols;i++){ const w=N.toWorld(i,j); if(E.canStand(w[0],w[1],0.3,0)){ n++; x0=Math.min(x0,w[0]); x1=Math.max(x1,w[0]); z0=Math.min(z0,w[1]); z1=Math.max(z1,w[1]); } } }
   const IT=(E.interactables||[]).filter(i=>!i.hidden); const lab=i=>String(typeof i.label==='function'?i.label():i.label||'');
   const ex=IT.filter(i=>i.exit).sort((a,b)=>(lab(b).startsWith('離開')?1:0)-(lab(a).startsWith('離開')?1:0))[0]||null;
-  const CTW=[/點餐|點飲料|點菜/,/結帳|收銀/,/買|店員|老闆/,/吧台|吧檯|櫃/]; const ctr=i=>{ const k=CTW.findIndex(r=>r.test(lab(i))); return k<0?99:k; };   // 11-13 BB-C：辛亥韓食先挑到「小菜櫃」（只看旁白、不點餐）＝點餐、結帳類優先
+  const CTW=[/點餐|點飲料|點菜|點東西/,/結帳|收銀/,/買|店員|老闆/,/吧台|吧檯|櫃/]; const ctr=i=>{ const L=lab(i); if(/^看/.test(L)) return 99; const k=CTW.findIndex(r=>r.test(L)); return k<0?99:k; };   /* CC-B 11-14（BB-B 12:24，GATE2_MOKUYOBI_r4）：木曜日的點單是「點東西（…）」；「看看書櫃」這類「看…」不是櫃台 */   // 11-13 BB-C：辛亥韓食先挑到「小菜櫃」（只看旁白、不點餐）＝點餐、結帳類優先
   const ct=IT.filter(i=>!i.exit&&!i.seat&&ctr(i)<99).sort((a,b)=>ctr(a)-ctr(b))[0]||null;
   const seat=IT.filter(i=>i.seat)[0]||null;
   return {n, box:n?[f(x0),f(x1),f(z0),f(z1)]:null, c:n?[f((x0+x1)/2),f((z0+z1)/2)]:null, exit:ex?{x:f(ex.x),z:f(ex.z),label:lab(ex),to:ex.exit.to||null,spawn:ex.exit.spawn||null}:null,
@@ -522,9 +526,9 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
             except Exception: pass
     row['v']['1b_people_pos'] = 'FAIL' if (ppl.get('clerk_in_furniture') or ppl.get('face_wall')) else ('PASS' if ppl['total'] else 'UNKNOWN')
     await pg.evaluate(D.HUD + '(false)'); await pg.wait_for_timeout(400)
-    s1 = await snap(pg, (ex + ux * 1.0, by + 1.6, ez + uz * 1.0), (cx + ux * m * 0.8, by + 1.2, cz + uz * m * 0.8), 66)
+    s1 = await snap(pg, (ex + ux * ENTRY_IN, by + 1.6, ez + uz * ENTRY_IN), (cx + ux * m * 0.8, by + 1.2, cz + uz * m * 0.8), 66)
     await pg.evaluate(HIDE_PEOPLE + '(true)')   # ⑦b 比色用：同一個鏡頭藏人（XS_REAL r1：進門那張玩家的頭擋在畫面上）
-    s1h = await snap(pg, (ex + ux * 1.0, by + 1.6, ez + uz * 1.0), (cx + ux * m * 0.8, by + 1.2, cz + uz * m * 0.8), 66)
+    s1h = await snap(pg, (ex + ux * ENTRY_IN, by + 1.6, ez + uz * ENTRY_IN), (cx + ux * m * 0.8, by + 1.2, cz + uz * m * 0.8), 66)
     await pg.evaluate(HIDE_PEOPLE + '(false)')
     await pg.evaluate(HIDE_PEOPLE + '(true)')   # PC GATE_CAL_1cd2：人站在窗前，泰米夜窗深藍只算到 42.9%＝誤判 PASS
     s2 = await snap(pg, (cx, by + 1.6, cz), (ex - ux * 2.0, by + 1.8, ez - uz * 2.0), 60, win=True, box=rm.get('box'))
@@ -623,6 +627,9 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
         await pg.evaluate(D.HUD + '(false)')
         await pg.evaluate(HIDE_PEOPLE + '(true)')  # 視差只看店面：玩家、路人在畫面中間會把差值灌高
         s4 = await snap(pg, base, tgt, win=True, near=[tgt[0], tgt[2], 4.5]); s4l = await snap(pg, (side[-1][0][0], 1.6, side[-1][0][1]), tgt); s4r = await snap(pg, (side[1][0][0], 1.6, side[1][0][1]), tgt)
+        if LOOKUP:
+            su = await snap(pg, base, (tgt[0], LOOKUP_Y, tgt[2]), 60)
+            open(os.path.join(OUT, 'lookup_%s_%s.png' % (zid, hh)), 'wb').write(base64.b64decode(su['u'].split(',', 1)[1])); R.note('%s 街上抬頭看二樓窗：lookup_%s_%s.png（從 %s 看 %s，交 BB 看圖）' % (tag, zid, hh, J([round(v, 2) for v in base]), J([round(tgt[0], 2), LOOKUP_Y, round(tgt[2], 2)])))
         await pg.evaluate(HIDE_PEOPLE + '(false)'); await pg.evaluate(D.HUD + '(true)')
         pd = await pg.evaluate(CROPDIFF_JS, {'us': [s4l['u'], s4['u'], s4r['u']]}); a4 = await pg.evaluate(ANA_JS, {'u': s4['u']})
         # 判法改射線（PC GATE_CAL：左右移 1.5 m 連平面圖的畫面也整個變，像素差不能分立體）：從店外鏡頭往門面打 24×16 條，略過玻璃、半透明、人；
@@ -703,6 +710,7 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
     fl = ['', '' if row['v'].get('2_window') == 'PASS' else row['v'].get('2_window', ''), '', '' if row['v'].get('3_ceiling') == 'PASS' else row['v'].get('3_ceiling', ''),
           '' if row['v'].get('5_parallax') in ('PASS', None) else row['v'].get('5_parallax'), '', '', '']
     verdict = '  '.join('%s=%s' % (k, v) for k, v in sorted(row['v'].items()))
+    if PARALLAX_NA and '5_parallax' in row['v']: row['v']['5_parallax'] = 'N/A'; verdict = verdict.replace('5_parallax=UNKNOWN', '5_parallax=N/A').replace('5_parallax=FAIL', '5_parallax=N/A')   # BB-B 12:24：二樓的店（木曜日）街上只看得到樓梯門和招牌，視差記 N/A
     sh = await pg.evaluate(SHEET_JS, {'urls': urls, 'labels': labels, 'flags': fl, 'rects': [None, [r['rect'] for r in a2.get('rects', [])], None, None, None, None, None, None],
                                       'title': '%s %s %s（%s，%s）' % (rm['name'], zid, hh, TAG, SHA[:9]), 'verdict': verdict})
     open(os.path.join(OUT, 'gate_%s_%s.jpg' % (zid, hh)), 'wb').write(base64.b64decode(sh.split(',', 1)[1]))
