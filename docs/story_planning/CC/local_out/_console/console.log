@@ -1,17 +1,3 @@
-       9400277b34..9912b6a1bb  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[22:43:27] ==== END   STUDY_fix_b  exit=1  915s   ====
-[22:43:30] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
-[22:43:30] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
-[22:43:30] blender item LW2_TZ_PREV waits until the 2 running item(s) finish; other items go first
-[22:43:30] memory 45% before starting ROUTE_E4 (2 running)
-[22:43:30] ==== START ROUTE_E4  (probe @ 5685a3019fb4aa0bf44c7fdd660037f8859cfb2d) ====
-[22:43:33] [res] cpu=20% mem=46% (14.4/31.4 GB) chrome_testing=4  START ROUTE_E4
-[22:46:52] 正在跑：SAVE_LZ_growB（已跑 20 分／上限 120 分）、STUDY_fix_c（已跑 4 分／上限 20 分）、ROUTE_E4（已跑 3 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
-[22:48:51] [res] cpu=31% mem=49% (15.5/31.4 GB) chrome_testing=5  END ROUTE_E4
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       9912b6a1bb..92bfd073a9  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [22:49:27] ==== END   ROUTE_E4  exit=0  321s   ====
 [22:49:32] blender item BLENDER_PING waits until the 2 running item(s) finish; other items go first
 [22:49:32] blender item LW2_FN_VIEW waits until the 2 running item(s) finish; other items go first
@@ -1998,3 +1984,17 @@
 [11:40:15] [res] cpu=1% mem=32% (10.3/31.4 GB) chrome_testing=0  START CAFE2_FIRST_6b1d
 [11:41:55] 正在跑：CAFE2_FIRST_6b1d（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [11:42:35] [res] cpu=1% mem=30% (9.5/31.4 GB) chrome_testing=0  END CAFE2_FIRST_6b1d
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       126763619b..1d6bf9a270  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[11:42:41] ==== END   CAFE2_FIRST_6b1d  exit=0  143s   ====
+[11:42:44] memory 30% before starting CAFE2_RUN_6b1d (0 running)
+[11:42:44] memory 30% before starting SHOP_B4_antai_close (1 running)
+[11:42:44] ==== START CAFE2_RUN_6b1d  (probe @ 6b1d2a2b2594c43875fea820a45fd28956ec8aee) ====
+[11:42:44] memory 30% before starting SHOP_B4_xianguo_close (2 running)
+[11:42:44] ==== START SHOP_B4_antai_close  (probe @ 3cbdf9ef839fcb47a7d9e8b6745a779ba31aed87) ====
+[11:42:44] ==== START SHOP_B4_xianguo_close  (probe @ 3cbdf9ef839fcb47a7d9e8b6745a779ba31aed87) ====
+[11:42:47] [res] cpu=4% mem=30% (9.6/31.4 GB) chrome_testing=0  START CAFE2_RUN_6b1d
+[11:42:47] [res] cpu=2% mem=30% (9.6/31.4 GB) chrome_testing=0  START SHOP_B4_antai_close
+[11:42:47] [res] cpu=2% mem=30% (9.6/31.4 GB) chrome_testing=0  START SHOP_B4_xianguo_close
+[11:44:28] [res] cpu=69% mem=43% (13.5/31.4 GB) chrome_testing=9  END SHOP_B4_antai_close

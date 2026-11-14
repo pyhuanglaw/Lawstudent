@@ -1,0 +1,14 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_closeup_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SHOP_B4_antai_close\out
+CC 店內近照：TAG antai_v2；SHA 3cbdf9ef839fcb47a7d9e8b6745a779ba31aed87；ZONE gg_antai；HOURS [14.0]；CAMS [{"name": "endcapL", "from": [-2.05, 1.45, 3.7], "at": [-2.05, 1.45, 2.62], "fov": 50.0}, {"name": "endcapR", "from": [2.05, 1.45, 3.7], "at": [2.05, 1.45, 2.62], "fov": 50.0}, {"name": "endcaps", "from": [0.0, 1.6, 4.4], "at": [0.0, 1.3, 2.6], "fov": 62.0}, {"name": "bp", "from": [2.7, 1.35, 1.3], "at": [4.05, 0.88, 1.3], "fov": 50.0}, {"name": "bp2", "from": [3.0, 1.55, 2.7], "at": [4.05, 0.85, 1.2], "fov": 55.0}]；Windows＋GPU ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS FAIL_SETUP 檢查：CAMS 解析得出來（5 組）  endcapL@-2.05,1.45,3.7>-2.05,1.45,2.62/endcapR@2.05,1.45,3.7>2.05,1.45,2.62/endcaps@0,1.6,4.4>0,1.3,2.6@62/bp@2.7,1.35,1.3>4.05,0.88,1.3/bp2@3.0,1.55,2.7>4.05,0.85,1.2@55
+  [前置／捷徑] [gg_antai 1400] 【前置／捷徑】讀檔進 gg_antai 2025-10-22 14.00 時（出生點）
+PASS FAIL_SETUP 檢查：[gg_antai 1400] 讀檔以後真的在 gg_antai  gg_antai
+  [  41.4s] [gg_antai 1400] 近照「endcapL」相機 [-2.05, 1.45, 3.7] → [-2.05, 1.45, 2.62]（fov 50.0）：{"magenta_pct": 0, "center_mean": 198.1, "center_sd": 34.8}
+  [  41.5s] [gg_antai 1400] 近照「endcapR」相機 [2.05, 1.45, 3.7] → [2.05, 1.45, 2.62]（fov 50.0）：{"magenta_pct": 0, "center_mean": 202.2, "center_sd": 40}
+  [  41.7s] [gg_antai 1400] 近照「endcaps」相機 [0.0, 1.6, 4.4] → [0.0, 1.3, 2.6]（fov 62.0）：{"magenta_pct": 0, "center_mean": 162.1, "center_sd": 72.3}
+  [  41.8s] [gg_antai 1400] 近照「bp」相機 [2.7, 1.35, 1.3] → [4.05, 0.88, 1.3]（fov 50.0）：{"magenta_pct": 0, "center_mean": 168.8, "center_sd": 66.7}
+  [  42.0s] [gg_antai 1400] 近照「bp2」相機 [3.0, 1.55, 2.7] → [4.05, 0.85, 1.2]（fov 55.0）：{"magenta_pct": 0, "center_mean": 179.1, "center_sd": 53.4}
+PASS 沒有 JS 例外  []
+ALL PASS
