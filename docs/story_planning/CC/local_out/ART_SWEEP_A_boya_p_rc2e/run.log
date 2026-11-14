@@ -1,0 +1,11 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_closeup_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_SWEEP_A_boya_p_rc2e\out
+CC 店內近照：TAG art_sweep_a_boya_p；SHA 1404d5f2d4cb740d50df75741764be18ee746992；ZONE boya；HOURS [14.0]；CAMS [{"name": "boya101_back", "from": [-11.3, 3.4, -7.6], "at": [-10.5, 1.3, 7.0], "fov": 55.0}, {"name": "boya101_stage", "from": [-12.5, 1.6, 7.8], "at": [-11.3, 1.5, -6.0], "fov": 60.0}]；Windows＋GPU ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS FAIL_SETUP 檢查：CAMS 解析得出來（2 組）  boya101_back@-11.3,3.4,-7.6>-10.5,1.3,7.0@55/boya101_stage@-12.5,1.6,7.8>-11.3,1.5,-6@60
+  [前置／捷徑] [boya 1400] 【前置／捷徑】讀檔進 boya 2025-10-22 14.00 時（出生點）
+PASS FAIL_SETUP 檢查：[boya 1400] 讀檔以後真的在 boya  boya
+  [  49.0s] [boya 1400] 近照「boya101_back」相機 [-11.3, 3.4, -7.6] → [-10.5, 1.3, 7.0]（fov 55.0）：{"magenta_pct": 0, "center_mean": 117.2, "center_sd": 67}
+  [  49.1s] [boya 1400] 近照「boya101_stage」相機 [-12.5, 1.6, 7.8] → [-11.3, 1.5, -6.0]（fov 60.0）：{"magenta_pct": 0, "center_mean": 75.9, "center_sd": 27.9}
+PASS 沒有 JS 例外  []
+ALL PASS
