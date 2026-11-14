@@ -1,0 +1,95 @@
+diff --git a/src/campuskit3d.js b/src/campuskit3d.js
+index 6e06469a2a..3cd72e68ed 100644
+--- a/src/campuskit3d.js
++++ b/src/campuskit3d.js
+@@ -212,7 +212,10 @@ const CK=(function(){ 'use strict';
+      正式外觀是 Blender 模型（ASSETS 'bldg.campus_gate'，tools/blender/env_second/campus_gate.py，同一套尺寸）；這裡是導航阻擋、鏡頭碰撞的位置，以及正式模型載入失敗時的備用。
+      本地座標：門的中線 z=0，+z 是校外、−z 是校內。g.userData.gate.blocks：[x,z,w,d,pad]（本地座標），區域放好之後轉成導航阻擋（zones3d.js placeBlocks）；
+      .house：門房（鏡頭碰撞）；.lanes：兩條通道中心的 x（出口互動點放在通道上）。 */
+-  const GATE={house:{x0:-1.7,x1:1.7,z0:-2.7,z1:2.1,h:3.5}, pillars:[-8.1,-2.45,2.45,8.1], leaves:[-7.55,-3.0,3.0,7.55], walls:[[-10,-8.6],[8.6,10]], lanes:[-5.27,5.27], PS:0.86, PH:3.9, leafL:2.15};
++  /* 2026-11-14 LAWWW2-B GATE-REF-1114（使用者：「學校裡的校門，請依照我的參考圖改」）：門房加寬成切角的紅磚亭（x ±2.7）、前面半圓花圃（半徑 3.5、圓心 z 1.7，要擋）、
++     只剩外側兩座大石柱（內側兩座拿掉）、石柱外側各一個小石墩（x ±8.95）、鐵門各一扇掛在石柱內側、矮牆從 ±9.25 起；通道中心 ±5.5（花圃邊 3.5～石柱內側 7.5）。尺寸和 campus_gate.py v2 同一套。 */
++  const GATE={house:{x0:-2.7,x1:2.7,z0:-2.6,z1:2.0,h:3.3}, pillars:[-8.1,8.1], piers:[-8.95,8.95], leaves:[-7.5,7.5], walls:[[-10,-9.25],[9.25,10]], lanes:[-5.5,5.5], PS:1.0, PH:3.3, leafL:2.6,
++    planter:[[0,1.0,7.0,1.4],[0,2.45,6.4,1.5],[0,3.95,5.0,1.5],[0,4.95,2.6,0.5]]};   // planter：半圓花圃的導航阻擋 [x,z,寬,深]（本地座標；由寬到窄四塊疊成半圓）
+   function gate(o){ o=o||{}; const g=new THREE.Group(); const bin=new TK.Bin(); const blocks=[];
+     const wall=wallMat(o.wall||'#8a5642'), trim=trimMat(o.trim||'#bfb29a'), iron=TK.col('#1f2124',{roughness:0.5,metalness:0.6}), base=TK.col('#8f8a82',{roughness:0.7});
+     const PS=GATE.PS, PH=GATE.PH;
+@@ -222,7 +225,9 @@ const CK=(function(){ 'use strict';
+       bin.add(base,TK.boxG(1.12,0.55,1.12),x,0.275,0); bin.add(trim,TK.boxG(1.06,0.15,1.06,1.2),x,0.625,0); bin.add(trim,TK.boxG(PS,PH-0.7,PS,1.2),x,0.7+(PH-0.7)/2,0);
+       bin.add(trim,TK.boxG(1.0,0.14,1.0,1.2),x,PH+0.07,0); bin.add(trim,TK.boxG(1.2,0.18,1.2,1.2),x,PH+0.23,0); bin.add(trim,TK.boxG(1.0,0.1,1.0,1.2),x,PH+0.37,0);
+       bin.add(iron,TK.boxG(0.24,0.22,0.24),x,PH+0.53,0,0,{noShadow:true}); bin.add(lampMat,TK.boxG(0.38,0.58,0.38),x,PH+0.93,0,0,{noShadow:true}); bin.add(iron,TK.boxG(0.6,0.06,0.6),x,PH+1.25,0,0,{noShadow:true});
+-      blocks.push([x,0,1.12,1.12,0.15]); }
++      blocks.push([x,0,1.24,1.24,0.15]); }
++    for(const x of GATE.piers){ bin.add(trim,TK.boxG(0.6,2.2,0.6,1.2),x,1.1,0); blocks.push([x,0,0.7,0.7,0.1]); }   // 石柱外側的小石墩
++    for(const [px,pz,pw,pd] of GATE.planter){ bin.add(base,TK.boxG(pw,0.3,pd),px,0.15,pz); blocks.push([px,pz,pw,pd,0.05]); }   // 門房前的半圓花圃（備用外觀只有石台）
+     // 兩端的矮牆（面磚、花崗石勒腳、石材壓頂）：|x| 8.6～10，接上區域原本的圍牆
+     for(const [a,b] of GATE.walls){ const wl=b-a, wc=(a+b)/2; bin.add(base,TK.boxG(wl,0.4,0.7),wc,0.2,0); bin.add(wall,TK.boxG(wl,1.45,0.6,1.2),wc,0.4+0.725,0); bin.add(trim,TK.boxG(wl,0.15,0.74,1.2),wc,1.925,0); blocks.push([wc,0,wl,0.74,0.15]); }
+     // 鐵門：每條通道兩扇，白天往校內打開、靠在燈柱旁
+diff --git a/tests/gate_ref_1114_unit.js b/tests/gate_ref_1114_unit.js
+new file mode 100644
+index 0000000000..c0a7a9679d
+--- /dev/null
++++ b/tests/gate_ref_1114_unit.js
+@@ -0,0 +1,62 @@
++// 校門照使用者的參考圖改（GATE-REF-1114，使用者 2026-11-14 對 LAWWW2-B：「學校裡的校門，請依照我的參考圖改」）——導航和模型同一套尺寸。不需要瀏覽器（D131）。
++// 新配置（tools/blender/env_second/campus_gate.py v2）：正中間切角的紅磚門房（x ±2.7、z −2.6～2.0）、門房前半圓花圃（半徑 3.5、圓心 z 1.7）、
++//   外側兩座大石柱（x ±8.1；舊版內側 ±2.45 那兩座拿掉）、石柱外側小石墩（±8.95）、兩條通道（中心 ±5.5）。
++// 檢查（在 Node 建出遊戲真正的公館、校園區域；公館校門在 (0,−46) 不轉，校園校門在 (−124,0) 轉 −90°）：
++//   ① 花圃擋得住：花圃裡三個點走不進去（修改前花圃不存在，走得過去）
++//   ② 門房加寬：門房裡靠邊的點 (±2.4) 走不進去（修改前門房只到 ±1.7）
++//   ③ 兩條通道走得通：通道中心從校外到校內每 0.5 m 都站得住；找路從校外走到校內不繞遠（公館區域只到校門內 4 m）
++//   ④ CK.gate 的尺寸和模型的 JSON（campus_gate.json：house、planter、pillars、piers）一致
++//   ⑤ 校園那一側（轉 −90°）：通道站得住、花圃擋得住
++//   ⑥ 出口互動點放在通道上、站得住
++// 用法：node tests/gate_ref_1114_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node'));
++const _warn=console.warn; console.warn=(...a)=>{ if(/載入失敗|LOD|Missing/.test(String(a[0]))) return; _warn(...a); };
++const src0=fs.readFileSync(path.join(ROOT,'tests/nav_buildings_unit.js'),'utf8'); const files=eval(src0.match(/const files=(\[[^\]]*\])/)[1]);
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const plen=(a,p)=>{ if(!p||!p.length) return 0; let len=Math.hypot(p[0][0]-a[0],p[0][1]-a[1]); for(let i=1;i<p.length;i++) len+=Math.hypot(p[i][0]-p[i-1][0],p[i][1]-p[i-1][1]); return len; };   // 路徑長（從起點算）
++function build(zone){ const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.ray=E.ray||new THREE.Raycaster(); E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.extras=[];
++  global.GAME={G:{zone,day:10,hour:14,flags:{},weather:'clear',visited:{}}}; const z=Z3.ZONES[zone].build(E); return {z,nav:z.nav,inter:E.interactables.slice()}; }
++const J=JSON.parse(fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/campus_gate.json'),'utf8'));
++const gk=CK.gate().userData.gate;
++
++// ---- 公館：校門 (0,−46)，本地 +z（校外）＝世界 +z ----
++{ const {nav,inter}=build('gongguan'); const W=(lx,lz)=>[lx,-46+lz];
++  const inPl=[[0,3.0],[2.4,2.4],[-2.8,1.2]].map(p=>nav.free(...W(...p)));
++  check('① 花圃擋得住（公館側）：(0,3.0)、(2.4,2.4)、(−2.8,1.2) 都走不進去', inPl.every(f=>!f), JSON.stringify(inPl));
++  const inH=[[2.4,0],[-2.4,-1.5]].map(p=>nav.free(...W(...p)));
++  check('② 門房加寬到 ±2.7：(2.4,0)、(−2.4,−1.5) 走不進去', inH.every(f=>!f), JSON.stringify(inH));
++  let bad=[]; for(const lx of gk.lanes) for(let lz=6;lz>=-3.5;lz-=0.5){ if(!nav.free(...W(lx,lz))) bad.push([lx,lz]); }   // 公館區域只到校門內 4 m
++  check('③ 兩條通道（中心 '+gk.lanes.join('、')+'）從校外 6 m 到校內 3.5 m 每 0.5 m 都站得住', bad.length===0, JSON.stringify(bad.slice(0,6)));
++  for(const lx of gk.lanes){ const a=W(lx,7), b=W(lx,-3.5); const p=nav.path(...a,...b); const len=plen(a,p);
++    check('③ 找路：通道 x '+lx+' 從校外 7 m 走到校內 3.5 m 不繞遠（直線 10.5 m）', !!p&&len>9.5&&len<12.5, p?len.toFixed(1)+' m':'找不到路'); }
++  const ex=inter.filter(i=>Math.abs(i.z+46)<6&&gk.lanes.some(lx=>Math.abs(i.x-lx)<0.6));
++  check('⑥ 出口互動點在通道上、站得住（公館側）', ex.length>=2&&ex.every(i=>nav.free(i.x,i.z)), ex.map(i=>'('+i.x.toFixed(1)+','+i.z.toFixed(1)+')').join(' ')); }
++
++// ---- ④ 尺寸和模型一致 ----
++{ const H=gk.house, JH=J.house||{};
++  check('④ 門房尺寸和 campus_gate.json 一致', JH.x1!==undefined&&Math.abs((H.w-0.2)-(JH.x1-JH.x0))<0.02&&Math.abs((H.d-0.2)-(JH.z1-JH.z0))<0.02, JSON.stringify(JH));
++  const pl=gk.blocks.filter(b=>b[1]>0.9&&Math.abs(b[0])<0.01); const maxZ=Math.max(...pl.map(b=>b[1]+b[3]/2)), maxW=Math.max(...pl.map(b=>b[2]));
++  const JP=J.planter||{};
++  check('④ 花圃阻擋的範圍和模型的半圓（半徑 r、圓心 zc）一致', JP.r!==undefined&&pl.length>=3&&Math.abs(maxZ-(JP.zc+JP.r))<0.2&&Math.abs(maxW-2*JP.r)<0.2, '最遠 z '+maxZ+'、最寬 '+maxW+'；模型 '+JSON.stringify(JP));
++  const px=gk.blocks.filter(b=>b[1]===0&&Math.abs(b[2]-1.24)<0.01).map(b=>b[0]).sort((a,b)=>a-b);
++  check('④ 大石柱只有外側兩座，位置和模型一致', JSON.stringify(px)===JSON.stringify((J.pillars||[]).slice().sort((a,b)=>a-b)), JSON.stringify(px)+' vs '+JSON.stringify(J.pillars));
++  const qx=gk.blocks.filter(b=>b[1]===0&&Math.abs(b[2]-0.7)<0.01).map(b=>b[0]).sort((a,b)=>a-b);
++  check('④ 小石墩位置和模型一致', JSON.stringify(qx)===JSON.stringify((J.piers||[]).slice().sort((a,b)=>a-b)), JSON.stringify(qx)+' vs '+JSON.stringify(J.piers)); }
++
++// ---- ⑤ 校園：校門 (−124,0) 轉 −90°：本地 (lx,lz) → 世界 (−124−lz, lx)（校外＝−x）----
++{ const {nav}=build('campus'); const W=(lx,lz)=>[-124-lz,lx];
++  let bad=[]; for(const lx of gk.lanes) for(let lz=3;lz>=-6;lz-=0.5){ if(!nav.free(...W(lx,lz))) bad.push([lx,lz]); }
++  check('⑤ 校園側：兩條通道從校門外 3 m 到校內 6 m 都站得住', bad.length===0, JSON.stringify(bad.slice(0,6)));
++  for(const lx of gk.lanes){ const a=W(lx,2.5), b=W(lx,-6); const p=nav.path(...a,...b); const len=plen(a,p);
++    check('⑤ 校園側找路：通道 x '+lx+' 從校門外 2.5 m 走到校內 6 m 不繞遠（直線 8.5 m）', !!p&&len>7.5&&len<10.5, p?len.toFixed(1)+' m':'找不到路'); }
++  const inPl=[[0,3.0],[2.4,2.4],[2.4,0]].map(p=>nav.free(...W(...p)));
++  check('⑤ 校園側：花圃、門房走不進去', inPl.every(f=>!f), JSON.stringify(inPl)); }
++
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
