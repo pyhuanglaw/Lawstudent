@@ -63,6 +63,12 @@ R = L.Run('gate_' + TAG, OUT); D.setup(R, OUT)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 DAY = os.environ.get('DAY') or '2025-10-22'   # BB-C 09:45（BB_379 木曜日 r3 TEST_SETUP）：10/22 是期中考週，木曜日進「考試週坐滿」模式——可以改日期
 SEAT_BARSIDE = (os.environ.get('SEAT_BARSIDE') or '0') == '1'
+US_DIAG = (os.environ.get('US_DIAG') or '0') == '1'   # BB-C 10:14（BB_379 美國兩間沒店員 P1）：讀檔後記 SH831.staffed、G 的日期時間、店裡全部 NPC（店員 id 61／62／63）
+US_DIAG_JS = r"""(z=>{ const G=GAME.G, f=v=>+(+v).toFixed(2); let st=null; try{ st=typeof SH831==='undefined'?'沒有 SH831':(SH831.staffed?SH831.staffed(z,G):'沒有 staffed'); }catch(e){ st='ERR '+e.message; }
+  const d=CALENDAR.dateOf(G.day); let us=null; try{ us=typeof US!=='undefined'&&US.inUS?!!US.inUS(G):null; }catch(e){ us='ERR'; }
+  const N=Object.entries(GAME.npc||{}).map(([k,n])=>({key:k, id:n&&(n.id||n.charId)||null, num:n&&(n.num!=null?n.num:(n.cid!=null?n.cid:null)), clerk:!!(n&&(n.clerk||n.clerkFlag)), x:n&&n.obj?f(n.obj.position.x):null, z:n&&n.obj?f(n.obj.position.z):null, hidden:!!(n&&n.hidden)}));
+  const E=(GAME.E.npcs||[]).map(n=>({id:n.id||n.charId||null, num:n.num!=null?n.num:null, clerk:!!(n.clerk||n.clerkFlag), x:n.obj?f(n.obj.position.x):null, z:n.obj?f(n.obj.position.z):null, hidden:!!n.hidden, vis:n.obj?n.obj.visible!==false:null}));
+  return {zone:G.zone, staffed:st, key:d.key, wd:d.wd, hour:f(G.hour), inUS:us, gameNpc:N, eNpcs:E}; })"""
 SIDE_OFF = float(os.environ.get('SIDE_OFF') or 0)   # BB-C 11-14 LIMAO_PARALLAX_r2：⑤ 店外左右固定平移這麼多公尺（例 0.8），站不站得住都照拍；0＝照舊 1.5／1.0／0.6   # BB-C 09:45 ②：考試週只驗「坐吧檯旁邊」那一個位子（MOKS.barSide），要真的坐下（ok）才算
 SETTLED = "(async()=>{ for(let i=0;i<120;i++){ const A=ASSETS; const n=Object.keys(A.status).filter(k=>!A.cache[k]&&!A.errors.some(e=>e.startsWith(k+':'))).length; if(!n) return i; await new Promise(r=>setTimeout(r,250)); } return -1; })()"
 ROOM_JS = r"""(()=>{ const E=GAME.E, N=E.nav, f=v=>+(+v).toFixed(2); let x0=1e9,x1=-1e9,z0=1e9,z1=-1e9,n=0;
@@ -376,6 +382,8 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
         dbg = await pg.evaluate(DEBUGTXT_JS); row['debugText'] = dbg
         await pg.screenshot(path=os.path.join(OUT, '%s_%s_nodebug.png' % (zid, hh)))
         R.check('%s 玩家版畫面上沒有除錯字（career A0 B0 C0 那一類；網址 %s）' % (tag, dbg['url']), not dbg['hits'], J(dbg))
+    if US_DIAG:
+        ud = await pg.evaluate(US_DIAG_JS, zid); row['m']['us_diag'] = ud; R.note('%s US_DIAG：%s' % (tag, J(ud)))
     rm = await pg.evaluate(ROOM_JS); row['room'] = rm
     if not R.check('%s 量得到房間範圍、有門' % tag, bool(rm['box']) and bool(rm['exit']), J(rm)): rows.append(row); return
     cx, cz = rm['c']; ex, ez = rm['exit']['x'], rm['exit']['z']; by = 0.0
