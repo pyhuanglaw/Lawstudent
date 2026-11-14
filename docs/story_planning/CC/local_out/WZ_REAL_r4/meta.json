@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "WZ_REAL_r4",
+  "sha": "6106fae2d278ba8ac97ebbf9265ca141c5e0ab35",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_wz_real_probe.py",
+  "env": "TAG=wz_real_r4;SHA=6106fae2d278ba8ac97ebbf9265ca141c5e0ab35",
+  "machine": "MSI",
+  "start": "2026-11-14T20:29:05",
+  "end": "2026-11-14T20:34:21",
+  "seconds": 316,
+  "exit": 1,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "21",
+  "url": "http://127.0.0.1:8800/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 23,
+    "mem": 60,
+    "used_gb": 18.7,
+    "chrome_testing": 14
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}

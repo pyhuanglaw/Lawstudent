@@ -1,12 +1,3 @@
-[17:45:55] skip INVITE_TZ_keju (already done on 9aaa31edb9e6cfed31271cce28ec7041d37b0306)
-[17:45:55] skip DORM203_NOODLE (already done on 9aaa31edb9e6cfed31271cce28ec7041d37b0306)
-[17:45:55] skip YIZHAN_TAKE (already done on 9aaa31edb9e6cfed31271cce28ec7041d37b0306)
-[17:45:55] skip US_CART (already done on 9aaa31edb9e6cfed31271cce28ec7041d37b0306)
-[17:45:55] skip YY_ORDER (already done on 762104842ae5c75400e4c380d1e4d746d0998376)
-[17:45:55] skip SHIFT_SHOTS_72fc (already done on 72fc1ffc88f908c1b06242d7a14fd3967c2ca8d3)
-[17:45:55] skip SHIFT_SHOTS_18a3 (already done on 18a36664526d8ad28835fb924acb5438bd2ba2da)
-[17:45:55] skip SHIFT_BANNER_1f30 (already done on 1f304f00544cae61d8abf58bea60e3b9d7cb4ea2)
-[17:45:55] skip YUE_SIS_18a3 (already done on 18a36664526d8ad28835fb924acb5438bd2ba2da)
 [17:45:55] skip TUTOR_BACK (already done on 6b2834fae8e8c70218c5e6dcd1c2dedc07950d64)
 [17:45:55] skip LUWEI_72fc (already done on 72fc1ffc88f908c1b06242d7a14fd3967c2ca8d3)
 [17:45:55] skip FN_DOOR_72fc (already done on 72fc1ffc88f908c1b06242d7a14fd3967c2ca8d3)
@@ -1998,3 +1989,12 @@
 [20:29:05] ==== START WZ_REAL_r4  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
 [20:29:08] [res] cpu=1% mem=50% (15.7/31.4 GB) chrome_testing=9  START WZ_REAL_r4
 [20:29:42] [res] cpu=6% mem=46% (14.5/31.4 GB) chrome_testing=9  END AA_SCENES_DATE_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       733863ae56..c27da3c230  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:29:50] ==== END   AA_SCENES_DATE_r2  exit=1  1351s   ====
+[20:29:54] memory 47% before starting AA358_21_noodle (2 running)
+[20:29:54] ==== START AA358_21_noodle  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
+[20:29:57] [res] cpu=19% mem=48% (14.9/31.4 GB) chrome_testing=9  START AA358_21_noodle
+[20:30:55] 正在跑：GATE2_MOKUYOBI_r5（已跑 2 分／上限 25 分）、WZ_REAL_r4（已跑 1 分／上限 25 分）、AA358_21_noodle（已跑 1 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:34:21] [res] cpu=6% mem=52% (16.4/31.4 GB) chrome_testing=10  END WZ_REAL_r4
