@@ -654,6 +654,15 @@
    "status": "規則（永久）",
    "task": "CC-NOIDLE-1102",
    "note": "CC 已接班卻閒著（工作階段 idle、沒在跑、電腦佇列空或停）時，BB 自己 send_message 叫它開工並附佇列，不等使用者。做法：每小時保險喚醒加一步 get_session CC-C 看狀態；每次等 CC 結果時也看一次。接 UA-BB-1113-01。"
+  },
+  {
+   "id": "UA-BB-1114-01",
+   "at": "2026-11-14T02:0x",
+   "quote": "現在交班",
+   "kind": "原話",
+   "status": "已完成",
+   "task": "CC-NOIDLE-1102",
+   "note": "P0 換班口令：BB-C 停止一般開發、寫交班六類＋G、snapshot、duty handoff、關喚醒。"
   }
  ]
 }
