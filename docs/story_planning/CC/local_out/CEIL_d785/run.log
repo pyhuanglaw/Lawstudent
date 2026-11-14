@@ -1,0 +1,28 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_window_view_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\CEIL_d785\out
+CC 窗景第二層（SHOP-INTERIOR-VIEW-1112）：SHA d78586749bb73f82c6a239997686f7d3b84ce179；ZONES wz_print,wz_lin,wz_teishoku；HOURS [13.0, 21.0]；Windows＋GPU ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [wz_print 1300 天花板] 【前置／捷徑】讀檔進 wz_print 2025-10-22 13.00 時（出生點、預設跟隨鏡頭）
+  [  45.0s] [wz_print 1300 天花板] ① 預設：俯角 0.38、鏡頭高 2.84 m（天花板 None m、距離 3.2）；背景色 None 在畫面上半佔 0%；畫面 {"magenta_pct": 0, "center": {"mean": 132.7, "sd": 59.9, "rgb": [135, 133, 126]}, "upper_sky_pct": 2}
+  [  49.0s] [wz_print 1300 天花板] ② 手指往下拖（俯角最大）：俯角 1.05、鏡頭高 4.43 m（天花板 None m、距離 3.2）；背景色 None 在畫面上半佔 0%；畫面 {"magenta_pct": 0, "center": {"mean": 145.7, "sd": 56.2, "rgb": [145, 147, 141]}, "upper_sky_pct": 2.6}
+  [  52.9s] [wz_print 1300 天花板] ③ 手指往上拖（抬頭）：俯角 0.06、鏡頭高 1.84 m（天花板 None m、距離 3.2）；背景色 None 在畫面上半佔 0%；畫面 {"magenta_pct": 0, "center": {"mean": 126.5, "sd": 64.1, "rgb": [132, 126, 116]}, "upper_sky_pct": 1.8}
+  [前置／捷徑] [wz_print 2100 天花板] 【前置／捷徑】讀檔進 wz_print 2025-10-22 21.00 時（出生點、預設跟隨鏡頭）
+  [  66.0s] [wz_print 2100 天花板] ① 預設：俯角 0.38、鏡頭高 2.84 m（天花板 None m、距離 3.2）；背景色 None 在畫面上半佔 0%；畫面 {"magenta_pct": 0, "center": {"mean": 134.1, "sd": 61.6, "rgb": [137, 134, 128]}, "upper_sky_pct": 2.2}
+  [  69.7s] [wz_print 2100 天花板] ② 手指往下拖（俯角最大）：俯角 1.05、鏡頭高 4.43 m（天花板 None m、距離 3.2）；背景色 None 在畫面上半佔 0%；畫面 {"magenta_pct": 0, "center": {"mean": 131.6, "sd": 52.5, "rgb": [133, 132, 126]}, "upper_sky_pct": 2.9}
+  [  73.5s] [wz_print 2100 天花板] ③ 手指往上拖（抬頭）：俯角 0.06、鏡頭高 1.84 m（天花板 None m、距離 3.2）；背景色 None 在畫面上半佔 0%；畫面 {"magenta_pct": 0, "center": {"mean": 137.9, "sd": 67.7, "rgb": [143, 137, 129]}, "upper_sky_pct": 2.2}
+  [前置／捷徑] [wz_lin 1300 天花板] 【前置／捷徑】讀檔進 wz_lin 2025-10-22 13.00 時（出生點、預設跟隨鏡頭）
+  [  88.5s] [wz_lin 1300 天花板] ① 預設：俯角 0.38、鏡頭高 2.84 m（天花板 None m、距離 3.2）；背景色 None 在畫面上半佔 0%；畫面 {"magenta_pct": 0, "center": {"mean": 136.9, "sd": 54.4, "rgb": [155, 133, 112]}, "upper_sky_pct": 1.8}
+  [  92.7s] [wz_lin 1300 天花板] ② 手指往下拖（俯角最大）：俯角 1.05、鏡頭高 4.43 m（天花板 None m、距離 3.2）；背景色 None 在畫面上半佔 0%；畫面 {"magenta_pct": 0, "center": {"mean": 155.3, "sd": 51, "rgb": [168, 153, 134]}, "upper_sky_pct": 0.4}
+  [  96.8s] [wz_lin 1300 天花板] ③ 手指往上拖（抬頭）：俯角 0.06、鏡頭高 1.84 m（天花板 None m、距離 3.2）；背景色 None 在畫面上半佔 0%；畫面 {"magenta_pct": 0, "center": {"mean": 130.5, "sd": 47.6, "rgb": [147, 127, 104]}, "upper_sky_pct": 1.2}
+  [前置／捷徑] [wz_lin 2100 天花板] 【前置／捷徑】讀檔進 wz_lin 2025-10-22 21.00 時（出生點、預設跟隨鏡頭）
+  [ 109.3s] [wz_lin 2100 天花板] ① 預設：俯角 0.38、鏡頭高 2.84 m（天花板 None m、距離 3.2）；背景色 None 在畫面上半佔 0%；畫面 {"magenta_pct": 0, "center": {"mean": 110.8, "sd": 40.1, "rgb": [151, 101, 56]}, "upper_sky_pct": 0.5}
+  [ 113.1s] [wz_lin 2100 天花板] ② 手指往下拖（俯角最大）：俯角 1.05、鏡頭高 4.43 m（天花板 None m、距離 3.2）；背景色 None 在畫面上半佔 0%；畫面 {"magenta_pct": 0, "center": {"mean": 110.4, "sd": 36.3, "rgb": [145, 103, 59]}, "upper_sky_pct": 0.1}
+  [ 137.7s] [wz_lin 2100 天花板] ③ 手指往上拖（抬頭）：俯角 0.22、鏡頭高 1.63 m（天花板 None m、距離 5.2）；背景色 None 在畫面上半佔 0%；畫面 {"magenta_pct": 0, "center": {"mean": 54.3, "sd": 47.7, "rgb": [69, 51, 34]}, "upper_sky_pct": 0}
+  [前置／捷徑] [wz_teishoku 1300 天花板] 【前置／捷徑】讀檔進 wz_teishoku 2025-10-22 13.00 時（出生點、預設跟隨鏡頭）
+  [ 153.0s] [wz_teishoku 1300 天花板] 讀檔以後在 wenzhou＝打烊或進不去，跳過
+  [前置／捷徑] [wz_teishoku 2100 天花板] 【前置／捷徑】讀檔進 wz_teishoku 2025-10-22 21.00 時（出生點、預設跟隨鏡頭）
+  [ 166.5s] [wz_teishoku 2100 天花板] ① 預設：俯角 0.38、鏡頭高 2.84 m（天花板 None m、距離 3.2）；背景色 None 在畫面上半佔 0%；畫面 {"magenta_pct": 0, "center": {"mean": 69.5, "sd": 44, "rgb": [101, 62, 22]}, "upper_sky_pct": 0}
+  [ 170.0s] [wz_teishoku 2100 天花板] ② 手指往下拖（俯角最大）：俯角 1.05、鏡頭高 4.43 m（天花板 None m、距離 3.2）；背景色 None 在畫面上半佔 0%；畫面 {"magenta_pct": 0, "center": {"mean": 66.9, "sd": 38.9, "rgb": [97, 60, 20]}, "upper_sky_pct": 0}
+  [ 173.7s] [wz_teishoku 2100 天花板] ③ 手指往上拖（抬頭）：俯角 0.06、鏡頭高 1.84 m（天花板 None m、距離 3.2）；背景色 None 在畫面上半佔 0%；畫面 {"magenta_pct": 0, "center": {"mean": 67.3, "sd": 44.3, "rgb": [99, 60, 20]}, "upper_sky_pct": 0}
+PASS 沒有 JS 例外  []
+ALL PASS
