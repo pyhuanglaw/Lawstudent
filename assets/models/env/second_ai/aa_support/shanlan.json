@@ -1,11 +1,11 @@
 {
- "objects": 79,
- "unique_meshes": 79,
- "tris": 78469,
- "tris_drawn": 78469,
- "materials": 28,
+ "objects": 60,
+ "unique_meshes": 60,
+ "tris": 79600,
+ "tris_drawn": 79600,
+ "materials": 33,
  "out": "assets/models/env/second_ai/aa_support/shanlan.glb",
- "bytes": 6543676,
+ "bytes": 6398364,
  "texres": 512,
  "layout": 2,
  "seats": 16,
@@ -45,16 +45,12 @@
   ],
   [
    "Poly Haven",
-   "potted_plant_04"
-  ],
-  [
-   "Poly Haven",
    "potted_plant_02"
   ]
  ],
  "tris_by_level": {
-  "L1": 48703,
-  "L2": 28136,
+  "L1": 49974,
+  "L2": 27996,
   "walls": 1630
  }
 }
