@@ -1,0 +1,1 @@
+{"sha": "76f8b639f0641f93a99736d06a9d0d0675966343", "zone": "gongguan", "rows": [{"hour": 8.5, "cam": {"name": "bg3d_ntu_gate_gg", "from": [0.0, 1.6, -38.0], "at": [0.0, 4.0, -120.0], "fov": 60.0}, "img": {"magenta_pct": 0, "center_mean": 61.8, "center_sd": 46}, "file": "close_bg3d_gate_gg_0830_bg3d_ntu_gate_gg.png"}]}

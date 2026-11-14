@@ -1,12 +1,3 @@
-[22:25:58] skip SS3D_O1 (already done on 65212b697b96a553f1d5340e301d1803c11a3fae)
-[22:25:58] skip SS3D_O2 (already done on 65212b697b96a553f1d5340e301d1803c11a3fae)
-[22:25:58] skip G10_O1 (already done on 65212b697b96a553f1d5340e301d1803c11a3fae)
-[22:25:58] skip PS2_O1 (already done on 65212b697b96a553f1d5340e301d1803c11a3fae)
-[22:25:58] skip PS2_O2 (already done on 65212b697b96a553f1d5340e301d1803c11a3fae)
-[22:25:58] skip LM2_N4_r2 (already done on 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585)
-[22:25:58] skip LM2_N6_r2 (already done on 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585)
-[22:25:58] skip LM_cam2_new (already done on 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585)
-[22:25:59] skip LM_cam2_old (already done on e7ddae33fee86ab1567ab9f7b4764686cc9c321c)
 [22:25:59] skip LM_scene2_new (already done on 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585)
 [22:25:59] skip LM_scene2_int (already done on 0eb2a0049cc6feff9fcd2f91153eca1a5c30b585)
 [22:25:59] skip LM_scene2_old (already done on 65212b697b96a553f1d5340e301d1803c11a3fae)
@@ -1998,3 +1989,12 @@
 [10:14:25] ==== START BG3D_GATE_campus  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
 [10:14:28] [res] cpu=11% mem=42% (13.2/31.4 GB) chrome_testing=9  START BG3D_GATE_campus
 [10:15:58] [res] cpu=23% mem=46% (14.4/31.4 GB) chrome_testing=10  END BG3D_GATE_campus
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       865658494c..9a31663133  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:16:06] ==== END   BG3D_GATE_campus  exit=0  93s   ====
+[10:16:09] memory 42% before starting BG3D_GATE_gongguan (2 running)
+[10:16:09] ==== START BG3D_GATE_gongguan  (probe @ 76f8b639f0641f93a99736d06a9d0d0675966343) ====
+[10:16:12] [res] cpu=4% mem=42% (13.5/31.4 GB) chrome_testing=10  START BG3D_GATE_gongguan
+[10:16:54] 正在跑：L118_CAM36_b_r4（已跑 34 分／上限 60 分）、L118_CAM36_c_r4（已跑 3 分／上限 60 分）、BG3D_GATE_gongguan（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[10:17:41] [res] cpu=12% mem=45% (14.3/31.4 GB) chrome_testing=10  END BG3D_GATE_gongguan
