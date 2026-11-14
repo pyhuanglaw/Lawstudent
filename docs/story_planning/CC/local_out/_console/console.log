@@ -1,13 +1,3 @@
-[17:45:55] skip FIRST_gg_desk_r7noshop (already done on 0b32cab5cc265f579fb94ca66fc56c8e4a5f4b9c)
-[17:45:55] skip FIRST_xs_desk_r7 (already done on 0b32cab5cc265f579fb94ca66fc56c8e4a5f4b9c)
-[17:45:55] skip FIRST_xs_desk_r7noshop (already done on 0b32cab5cc265f579fb94ca66fc56c8e4a5f4b9c)
-[17:45:55] skip WZ_ICE_r3 (already done on 7f2c6bd31fc4bc5bea5e22e67909eb90eba6a528)
-[17:45:55] skip WZ_ICE_r2 (already done on d3bd4a0a738b7bd5f74dc8e54bdb81ef3bb3b610)
-[17:45:55] skip WZ_FRUIT_r2_look (already done on d3bd4a0a738b7bd5f74dc8e54bdb81ef3bb3b610)
-[17:45:55] skip WZ_FRUIT_r2_buy (already done on d3bd4a0a738b7bd5f74dc8e54bdb81ef3bb3b610)
-[17:45:55] skip NAV_FLOWER_2F_tap_r4B (already done on b236632dda37070b36ead90c0e327826175723d1)
-[17:45:55] skip L118_CAFE2_WIN (already done on 157df7b2c1939a31da2032716647f9d7fba04747)
-[17:45:55] skip NAV_FLOWER_2F_tap_r3A (already done on 375e6b82ecffd41ef44190c89111b01c46f7d40d)
 [17:45:55] skip NAV_FLOWER_2F_tap_r3B (already done on 375e6b82ecffd41ef44190c89111b01c46f7d40d)
 [17:45:55] skip NAV_FLOWER_2F_tap_r4A (already done on 07db13d3d5a0991aea8a321cc95a0d07bd076e22)
 [17:45:55] skip L118_CAM36_a_r3 (already done on f6772d22140949c6cd01204b89bc6ddf25882f38)
@@ -1998,3 +1988,13 @@
 [21:05:37] [res] cpu=3% mem=42% (13.4/31.4 GB) chrome_testing=5  END BG3D_SOC_front
 [21:05:48] memory 42% before starting AA_SCENES_DATE_r4 (2 running)
 [21:05:48] ==== START AA_SCENES_DATE_r4  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
+[21:05:51] [res] cpu=6% mem=42% (13.4/31.4 GB) chrome_testing=5  START AA_SCENES_DATE_r4
+[21:05:55] 正在跑：AA355_6_sports（已跑 5 分／上限 20 分）、BG3D_SOC_front（已跑 1 分／上限 15 分）、AA_SCENES_DATE_r4（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ed0b589293..c11b60a2f5  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:05:57] ==== END   BG3D_SOC_front  exit=0  96s   ====
+[21:06:38] memory 46% before starting AA355_4c_jp_r2 (2 running)
+[21:06:38] ==== START AA355_4c_jp_r2  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
+[21:06:41] [res] cpu=5% mem=45% (14.5/31.4 GB) chrome_testing=9  START AA355_4c_jp_r2
+[21:08:13] [res] cpu=6% mem=51% (16.0/31.4 GB) chrome_testing=9  END AA355_6_sports
