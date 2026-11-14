@@ -1,11 +1,3 @@
-[17:45:55] skip YY_SEATS_3414 (already done on 341436a25ed53942df4059d634d953a93e6ed988)
-[17:45:55] skip TUTOR_BACK_r6 (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
-[17:45:55] skip XS_TONGXIAN_across_r2_mon14 (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
-[17:45:55] skip XS_TONGXIAN_across_r2_2330 (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
-[17:45:55] skip FIRST_gg_desk_r4 (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
-[17:45:55] skip FIRST_xs_desk_r4 (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
-[17:45:55] skip SHIFT_SHOTS_ab9a (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
-[17:45:55] skip L118_CAM36_a (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
 [17:45:55] skip L118_CAM36_b (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
 [17:45:55] skip L118_CAM36_c (already done on df0db366936e400caf6b6f59478f810b7ed84fe5)
 [17:45:55] skip CANON_JACKET_MODEL (already done on 209b33be094f08e62eb8531e9462c17c02db5eea)
@@ -1998,3 +1990,11 @@
 [21:00:30] [res] cpu=1% mem=46% (14.1/31.4 GB) chrome_testing=5  START HL1_CIRCLE_1028
 [21:00:55] 正在跑：LIMAO_DOOR_r1（已跑 8 分／上限 45 分）、AA355_6_sports（已跑 0 分／上限 20 分）、HL1_CIRCLE_1028（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [21:01:24] [res] cpu=1% mem=46% (14.7/31.4 GB) chrome_testing=8  END LIMAO_DOOR_r1
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       8912a8000b..8ed85bf43b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:01:33] ==== END   LIMAO_DOOR_r1  exit=1  545s   ====
+[21:02:00] memory 48% before starting BG3D_LINZE_front (2 running)
+[21:02:00] ==== START BG3D_LINZE_front  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
+[21:02:03] [res] cpu=1% mem=48% (15.3/31.4 GB) chrome_testing=9  START BG3D_LINZE_front
+[21:03:36] [res] cpu=6% mem=49% (15.4/31.4 GB) chrome_testing=10  END BG3D_LINZE_front

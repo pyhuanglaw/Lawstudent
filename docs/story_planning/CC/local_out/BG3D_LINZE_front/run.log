@@ -1,0 +1,15 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_closeup_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\BG3D_LINZE_front\out
+CC 店內近照：TAG bg3d_linze；SHA 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35；ZONE campus；HOURS [14.0]；CAMS [{"name": "bg3d_linze_front", "from": [27.9, 1.6, -79.4], "at": [27.9, 4.0, -100.4], "fov": 70.0}, {"name": "bg3d_linze_30", "from": [38.4, 1.6, -82.2], "at": [27.9, 4.0, -100.4], "fov": 70.0}, {"name": "bg3d_linze_far", "from": [27.9, 1.6, -60.4], "at": [27.9, 8.0, -100.4], "fov": 60.0}]；Windows＋GPU ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS FAIL_SETUP 檢查：CAMS 解析得出來（3 組）  bg3d_linze_front@27.9,1.6,-79.4>27.9,4,-100.4@70/bg3d_linze_30@38.4,1.6,-82.2>27.9,4,-100.4@70/bg3d_linze_far@27.9,1.6,-60.4>27.9,8,-100.4@60
+  [前置／捷徑] [campus 1400] 【前置／捷徑】讀檔進 campus 2025-10-22 14.00 時（出生點）
+PASS FAIL_SETUP 檢查：[campus 1400] 讀檔以後真的在 campus  campus
+  [  50.2s] [campus 1400] 「bg3d_linze_front」拍之前等資源：{"waited_s": 1.02, "pending": 0, "keys": []}
+  [  51.3s] [campus 1400] 近照「bg3d_linze_front」相機 [27.9, 1.6, -79.4] → [27.9, 4.0, -100.4]（fov 70.0）：{"magenta_pct": 0, "center_mean": 91.1, "center_sd": 57}
+  [  52.7s] [campus 1400] 「bg3d_linze_30」拍之前等資源：{"waited_s": 1.05, "pending": 0, "keys": []}
+  [  53.9s] [campus 1400] 近照「bg3d_linze_30」相機 [38.4, 1.6, -82.2] → [27.9, 4.0, -100.4]（fov 70.0）：{"magenta_pct": 0, "center_mean": 98.5, "center_sd": 60.2}
+  [  55.3s] [campus 1400] 「bg3d_linze_far」拍之前等資源：{"waited_s": 1.03, "pending": 0, "keys": []}
+  [  56.3s] [campus 1400] 近照「bg3d_linze_far」相機 [27.9, 1.6, -60.4] → [27.9, 8.0, -100.4]（fov 60.0）：{"magenta_pct": 0, "center_mean": 81.2, "center_sd": 44.6}
+PASS 沒有 JS 例外  []
+ALL PASS
