@@ -86,6 +86,7 @@ IT_DIAG_JS = r"""(a=>{ const E=GAME.E, P=E.player, f=v=>+(+v).toFixed(2), lab=i=
     panels:[...document.querySelectorAll('.panel,.overlay,[id$="Panel"],[id$="Menu"]')].filter(e=>e.offsetParent&&!e.classList.contains('hide')).map(e=>e.id||e.className).slice(0,6),
     nearest:ni, btn:btn?{shown:vis(btn), cls:btn.className, label:((document.getElementById('interactLabel')||{}).textContent||'').trim()}:null, toast:tst?{shown:vis(tst), t:(tst.textContent||'').trim().slice(0,40)}:null, near}; })"""
 FACE_JS = "(p=>{ const P=GAME.E.player; if(!P||!P.obj) return null; const o=P.obj.position; P.obj.rotation.y=Math.atan2(p[0]-o.x, p[1]-o.z); return +P.obj.rotation.y.toFixed(2); })"
+LAST_EXIT = {}   # 區域 → (門外區域, 門外出生點)：打烊那一輪拍店外用
 SIDE_OFF = float(os.environ.get('SIDE_OFF') or 0)   # BB-C 11-14 LIMAO_PARALLAX_r2：⑤ 店外左右固定平移這麼多公尺（例 0.8），站不站得住都照拍；0＝照舊 1.5／1.0／0.6   # BB-C 09:45 ②：考試週只驗「坐吧檯旁邊」那一個位子（MOKS.barSide），要真的坐下（ok）才算
 SETTLED = "(async()=>{ for(let i=0;i<120;i++){ const A=ASSETS; const n=Object.keys(A.status).filter(k=>!A.cache[k]&&!A.errors.some(e=>e.startsWith(k+':'))).length; if(!n) return i; await new Promise(r=>setTimeout(r,250)); } return -1; })()"
 ROOM_JS = r"""(()=>{ const E=GAME.E, N=E.nav, f=v=>+(+v).toFixed(2); let x0=1e9,x1=-1e9,z0=1e9,z1=-1e9,n=0;
@@ -465,7 +466,22 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
     await pg.evaluate(SETTLED); await pg.wait_for_timeout(1500)
     row = {'zone': zid, 'hour': h, 'v': {}, 'm': {}}
     if s['zone'] != zid:
-        R.note('%s 讀檔以後在 %s＝沒開／進不去，這個時間跳過（不判）' % (tag, s['zone'])); row['skipped'] = 'closed:' + s['zone']; rows.append(row); return
+        R.note('%s 讀檔以後在 %s＝沒開／進不去，這個時間跳過（不判）' % (tag, s['zone'])); row['skipped'] = 'closed:' + s['zone']
+        if zid in LAST_EXIT:   # BB-C 11:23（LIMAO_REAL ③）：打烊時拍店外正面——鐵捲門、格子門開著還是關著（用前一個時間進店時記下的門外出生點）
+            oz_, sp_ = LAST_EXIT[zid]
+            await D.load_zone(pg, cdp, oz_, DAY, h, x=sp_['x'], z=sp_['z'], yaw=sp_.get('yaw', 0.0), wait=8000); await pg.evaluate(SETTLED); wa_ = await D.wait_assets(pg)
+            oy_ = sp_.get('yaw', 0.0); fx_, fz_ = math.sin(oy_), math.cos(oy_); tgt_ = (sp_['x'] - fx_ * 2.0, 1.4, sp_['z'] - fz_ * 2.0); base_ = (sp_['x'] + fx_ * 2.5, 1.6, sp_['z'] + fz_ * 2.5)
+            aim_ = await pg.evaluate(AIM_JS, {'zid': zid, 'sx': sp_['x'], 'sz': sp_['z']})
+            if aim_ and aim_.get('c'):
+                ax_, az_ = aim_['c'][0], aim_['c'][2]; dx_, dz_ = sp_['x'] - ax_, sp_['z'] - az_; dd_ = math.hypot(dx_, dz_) or 1.0
+                back_ = max(3.5, min(6.0, dd_ + 1.0)); tgt_ = (ax_, 1.4, az_); base_ = (ax_ + dx_ / dd_ * back_, 1.6, az_ + dz_ / dd_ * back_)
+            await pg.evaluate(D.HUD + '(false)'); await pg.evaluate(HIDE_PEOPLE + '(true)')
+            sc_ = await snap(pg, base_, tgt_); await pg.evaluate(HIDE_PEOPLE + '(false)'); await pg.evaluate(D.HUD + '(true)')
+            if sc_.get('u'): open(os.path.join(OUT, 'closed_front_%s_%s.png' % (zid, hh)), 'wb').write(base64.b64decode(sc_['u'].split(',', 1)[1]))
+            await pg.screenshot(path=os.path.join(OUT, 'closed_game_%s_%s.png' % (zid, hh)))
+            row['m']['closed_front'] = {'zone': oz_, 'from': [round(v, 2) for v in base_], 'at': [round(v, 2) for v in tgt_], 'aim': aim_, 'assets': wa_}
+            R.note('%s 打烊店外正面：%s（圖 closed_front_%s_%s.png、遊戲鏡頭 closed_game_%s_%s.png；鐵捲門、格子門交 BB 看圖）' % (tag, J(row['m']['closed_front']), zid, hh, zid, hh))
+        rows.append(row); return
     c0 = len(cons)
     if NODEBUG:   # BB-C 11-14 L118_SELF：玩家版（沒有 ?dev）畫面上不能有除錯字（AA 對照圖左下角「career A0 B0 C0 = 0」）
         dbg = await pg.evaluate(DEBUGTXT_JS); row['debugText'] = dbg
@@ -475,6 +491,7 @@ async def gate_zone(pg, cdp, zid, h, rows, cons):
         ud = await pg.evaluate(US_DIAG_JS, zid); row['m']['us_diag'] = ud; R.note('%s US_DIAG：%s' % (tag, J(ud)))
     rm = await pg.evaluate(ROOM_JS); row['room'] = rm
     if not R.check('%s 量得到房間範圍、有門' % tag, bool(rm['box']) and bool(rm['exit']), J(rm)): rows.append(row); return
+    if rm['exit'].get('spawn') and rm['exit'].get('to'): LAST_EXIT[zid] = (rm['exit']['to'], rm['exit']['spawn'])
     cx, cz = rm['c']; ex, ez = rm['exit']['x'], rm['exit']['z']; by = 0.0
     if len(SPAWN) >= 2:   # BB-C 01:5x（BB_379 木曜日 r2 4_solid TEST_BUG）：二樓的店，①～③ 固定鏡頭改從 SPAWN（二樓）算，高度加上玩家站的那層地板
         ex, ez = SPAWN[0], SPAWN[1]; by = await pg.evaluate("(()=>{ const P=GAME.E.player&&GAME.E.player.obj; return P?+P.position.y.toFixed(2):0; })()") or 0.0
