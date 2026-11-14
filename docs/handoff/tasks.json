@@ -57007,7 +57007,7 @@
    "id": "CANON-REPO-CLEAN-1114",
    "title": "X364 剩下的：tests 250 檔、tools 16 檔、docs 2 檔還有 D158 的字（玩家看不到）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P0",
    "source": "使用者選擇題 2026-11-14 01:5x（UA-LAWWW-1114-01）",
    "wants": "X366",
@@ -57015,7 +57015,8 @@
    "first": {
     "term": "Y1S1",
     "confirmed": true
-   }
+   },
+   "next": "【11-14 14:0x LAWWW-B 盤點（canon_scan）】開發分支 273 檔、1107 處：tests 254 檔 1003 處（_unit 224 檔 762 處；存檔 fixtures 7 檔 151 處；其他 21 檔 76 處——repro_1018 的 log／舊存檔、flow_*.py、save_compat_start1.py、date_src_sha.js；json 2 檔）、tools 16 檔 64 處（tools/msg/build_pool.py 15、build_msg2.py 13、各 *_fix.json 對照表、import_*）、docs 3 檔 40 處（story_import_allow.json 35、AA_959_overlay.json 4＝沛珊例外、release_9103 的 log 1）。_unit 135 檔只有 1～2 處（多半是註解）。做法：①docs／tools 18 檔 LAWWW 自己清（對照表裡要比對的舊字改成存 sha16 或編碼，照 canon_scan 自己的做法）②tests 等修 AA_959 測試的子代理回來後，另派子代理分批清（註解改代號；期望值裡的舊字改讀 git 舊版或 sha；fixtures 的存檔改鍵值）③企劃線 BB／CC 的檔各自清（已派）。｜"
   },
   {
    "id": "OFFBEAT-VIEW-P3-1114",
@@ -57455,7 +57456,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-14 14:0x】補做：USER_WANTS C25、X221 改好；三筆 waitUser.log 記了；asks 剩 2 項異常（LAWWW2 UA-LAWWW2-1114-05 的 task 欄要改 GATE-REF-1114、AA UA-AA-1114-06 和 X150 狀態不一樣）已通知兩位。還欠：incr、check_orphans 各跑一次。｜【11-14 12:4x】duty sync 收 LAWWW2-B、AA-B、BB-B、CC-B（五職位帳號 B 值班）。｜【11-14 12:2x LAWWW-B】fetch（清掉 7.8 GB 中斷的 tmp_pack）、duty find＝claude/adoring-meitner-mqzst8（seq 155）、ff 合併 c109767aae、rules_sync、duty register。對帳：check 302（多數「等使用者」沒寫原因，上一班同）、duty verify 8（舊帳號分支歷史）、roles 7（表外：LAWWW2 L118-SEAT、LAUNDRY-SEAT-PRIO、WINVIEW-TREE-BLOB、第 39 行；AA K-D3、X5-L2；BB NO-GO——要補 offList／reconcileIgnore）、asks OK、userwork 上一班交代 19 項沒動、loose 22。還沒做：incr、branch_audit --write、check_orphans、place_gate、FACTS.md 讀完、roles 7 項補登。磁碟只剩約 2 GB（.git 很大，不要開 worktree）。下一步照上一班快照：RC2-PORT-DEV-1114 → CI-RED-AA553-CANON4-1114 → CANON-REPO-CLEAN-1114。",
+   "next": "【11-14 14:05】incr、check_orphans 跑了：incr 異常 86 項都是舊帳（AA outbox 第 5xx 筆欄位不全等），沒有新的。｜【11-14 14:0x】補做：USER_WANTS C25、X221 改好；三筆 waitUser.log 記了；asks 剩 2 項異常（LAWWW2 UA-LAWWW2-1114-05 的 task 欄要改 GATE-REF-1114、AA UA-AA-1114-06 和 X150 狀態不一樣）已通知兩位。還欠：incr、check_orphans 各跑一次。｜【11-14 12:4x】duty sync 收 LAWWW2-B、AA-B、BB-B、CC-B（五職位帳號 B 值班）。｜【11-14 12:2x LAWWW-B】fetch（清掉 7.8 GB 中斷的 tmp_pack）、duty find＝claude/adoring-meitner-mqzst8（seq 155）、ff 合併 c109767aae、rules_sync、duty register。對帳：check 302（多數「等使用者」沒寫原因，上一班同）、duty verify 8（舊帳號分支歷史）、roles 7（表外：LAWWW2 L118-SEAT、LAUNDRY-SEAT-PRIO、WINVIEW-TREE-BLOB、第 39 行；AA K-D3、X5-L2；BB NO-GO——要補 offList／reconcileIgnore）、asks OK、userwork 上一班交代 19 項沒動、loose 22。還沒做：incr、branch_audit --write、check_orphans、place_gate、FACTS.md 讀完、roles 7 項補登。磁碟只剩約 2 GB（.git 很大，不要開 worktree）。下一步照上一班快照：RC2-PORT-DEV-1114 → CI-RED-AA553-CANON4-1114 → CANON-REPO-CLEAN-1114。",
    "evidence": "duty.json register",
    "sha": null
   },
