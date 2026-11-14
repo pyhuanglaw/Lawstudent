@@ -1,12 +1,3 @@
-[17:45:55] skip P0_LONGPLAY_dc3d (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
-[17:45:55] skip P0_LONGPLAY_98ec (already done on 98ec5b0f66120b7dcb37acfc5c362be73051f6bf)
-[17:45:55] skip P0_LONGPLAY_dc3d_solo (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
-[17:45:55] skip P0_LONGPLAY_98ec_solo (already done on 98ec5b0f66120b7dcb37acfc5c362be73051f6bf)
-[17:45:55] skip ST4_a_ccgpu (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
-[17:45:55] skip ST4_a2_pwdefault (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
-[17:45:55] skip ST4_b_lowpower (already done on dc3d33941c6a01a7a7a0e8db6cae751fab1b1d4c)
-[17:45:55] skip P0_LONGPLAY_fix_solo (already done on 2b6a545be878d1436ade6e987bb25822dadb1521)
-[17:45:55] skip GATE_CAL_1cd2 (already done on 1cd2116ee178d78a8e30408943f38e38052648c3)
 [17:45:55] skip GATE_CAL_bd86 (already done on bd8643003a363ecd3e9bb87fa59d839f6d22475a)
 [17:45:55] skip GATE_CAL_1cd2_r2 (already done on 1cd2116ee178d78a8e30408943f38e38052648c3)
 [17:45:55] skip GATE_CAL_bd86_r2 (already done on bd8643003a363ecd3e9bb87fa59d839f6d22475a)
@@ -1998,3 +1989,12 @@
 [21:25:15] [res] cpu=11% mem=48% (15.2/31.4 GB) chrome_testing=5  START HL1_CIRCLE_1028_r3
 [21:25:55] 正在跑：HL3_DMS_1028（已跑 6 分／上限 90 分）、LIMAO_REAL_r1（已跑 5 分／上限 45 分）、HL1_CIRCLE_1028_r3（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [21:30:06] [res] cpu=2% mem=50% (15.8/31.4 GB) chrome_testing=10  END HL3_DMS_1028
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       79619ea403..532414b381  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:30:31] ==== END   HL3_DMS_1028  exit=0  633s   ====
+[21:30:49] memory 51% before starting HL1_CIRCLE_1028_r3b (2 running)
+[21:30:49] ==== START HL1_CIRCLE_1028_r3b  (probe @ 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35) ====
+[21:30:51] [res] cpu=1% mem=51% (16.2/31.4 GB) chrome_testing=10  START HL1_CIRCLE_1028_r3b
+[21:30:55] 正在跑：LIMAO_REAL_r1（已跑 10 分／上限 45 分）、HL1_CIRCLE_1028_r3（已跑 5 分／上限 40 分）、HL1_CIRCLE_1028_r3b（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:31:58] [res] cpu=12% mem=50% (15.8/31.4 GB) chrome_testing=9  END HL1_CIRCLE_1028_r3

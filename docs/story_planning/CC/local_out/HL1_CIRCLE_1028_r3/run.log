@@ -1,0 +1,65 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_heroine_life1028_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\HL1_CIRCLE_1028_r3\out
+CC HEROINE-LIFE-1028（BB_468）：SHA 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35；PARTS HL1；ROWS c503_4_2,c503_5_2,c503_6_2；TERMS Y1S1,Y1S2,Y2S1；Windows＋GPU ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS FAIL_SETUP 檢查：讀得到使用者存檔 tests/fixtures/user_save_day51_1110.json
+PASS FAIL_SETUP 檢查：這個版本有 FEED、HCIRCLE
+PASS FAIL_SETUP 檢查：[HL1 c503_4_2] 遊戲資料有這一列
+  [  26.7s] [HL1 c503_4_2] 列：{"who": "heroine_01", "with": ["yu"], "alone": false, "always": true, "zone": "campus", "act": null, "days": [1, 3], "from": 18, "to": 18.833333333333332}；找日子 {"day": 6, "key": "2025-09-22", "wd": 1, "h": 18.25, "week": 4, "zone": "campus", "act": "wander", "tried": 9}
+PASS FAIL_SETUP 檢查：[HL1 c503_4_2] Y1S1 照 HCIRCLE.on 找得到成立的日子時段  {"day": 6, "key": "2025-09-22", "wd": 1, "h": 18.25, "week": 4, "zone": "campus", "act": "wander", "tried": 9}
+  [前置／捷徑] [HL1 c503_4_2] 【前置／捷徑】讀使用者存檔到 2025-09-22（週1）18.25 campus（條件事件關掉）；認識她和同伴、給她聯絡方式
+PASS FAIL_SETUP 檢查：[HL1 c503_4_2] 讀檔以後在 campus、這一列成立（HCIRCLE.on）  ["campus", {"on": true, "zone": "campus", "key": "2025-09-22", "h": 18.29, "wd": 1, "stage": "CLOSE_FRIEND"}]
+PASS [HL1 c503_4_2] ① 她在、看得到  {"pos": {"heroine_01": {"x": -21.71, "z": 5.45, "lv": 0, "vis": true, "pose": "walk", "seat": false, "leaving": false, "name": "小安"}, "yu": {"x": -21.18, "z": 6.43, "lv": 0, "vis": true, "pose": "walk", "seat": false, "leaving": false, "name": "Alison"}}, "together": true, "company": ["yu"], "player": {"x": 34, "z": -98}, "heard": {"c503_4_n1": 48, "c503_7_3": 35, "c503_5_2": 38}}
+PASS [HL1 c503_4_2] ② 同伴每一位都在她 3.2 m 內（yu；HCIRCLE.together=True）  {"dist": {"yu": 1.11}, "pos": {"heroine_01": {"x": -21.71, "z": 5.45, "lv": 0, "vis": true, "pose": "walk", "seat": false, "leaving": false, "name": "小安"}, "yu": {"x": -21.18, "z": 6.43, "lv": 0, "vis": true, "pose": "walk", "seat": false, "leaving": false, "name": "Alison"}}}
+PASS FAIL_SETUP 檢查：[HL1 c503_4_2] 她旁邊 5 m 內找得到站得住的點  {"x": -21.71, "z": 5.45, "lv": 0, "vis": true, "pose": "walk", "seat": false, "leaving": false, "name": "小安"}
+  [  76.9s] 到達「[HL1 c503_4_2] 走到她旁邊（3.0 m）」附近（0.18 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，23 秒
+  [前置／捷徑] [HL1 c503_4_2] 【捷徑】玩家放到她背後 15 m（{"x": -38.52, "z": 2.66, "d": 15, "run": true}），字幕重新收
+  [  89.9s] 到達「[HL1 c503_4_2] 走路跟著她（第 1 輪）」附近（0.22 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，13 秒
+  [  93.6s] 到達「[HL1 c503_4_2] 走路跟著她（第 2 輪）」附近（0.13 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [  97.2s] 到達「[HL1 c503_4_2] 走路跟著她（第 3 輪）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  97.2s] [HL1 c503_4_2] 跟著走：[{"k": 1, "her": [-53.49, 0.18], "me": [-38.52, 2.66], "d": 15.2, "run": true}, {"k": 2, "her": [-70.07, -2.56], "me": [-53.28, 0.26], "d": 17.0, "run": false}, {"k": 3, "her": [-74.8, -3.34], "me": [-69.94, -2.53], "d": 4.9, "run": true}]
+PASS [HL1 c503_4_2] ③b 正常走路從 15 m 外跟上去，聽得完 2 句（聽不完＝遊戲：她們走太快／聽的距離不夠，交 BB）  {"got": ["欸妳今天筆記寫了幾頁？", "兩頁。其中一頁是妳上課講的話。"], "follow": [{"k": 1, "her": [-53.49, 0.18], "me": [-38.52, 2.66], "d": 15.2, "run": true}, {"k": 2, "her": [-70.07, -2.56], "me": [-53.28, 0.26], "d": 17.0, "run": false}, {"k": 3, "her": [-74.8, -3.34], "me": [-69.94, -2.53], "d": 4.9, "run": true}]}
+  [  99.5s] [HL1 c503_4_2] 字幕（誰｜字）[["Alison", "欸妳今天筆記寫了幾頁？"], ["小安", "兩頁。其中一頁是妳上課講的話。"]]；資料 heard 拆開 [["Alison", "欸妳今天筆記寫了幾頁？"], ["不認識的女生", "兩頁。其中一頁是妳上課講的話。"]]
+PASS [HL1 c503_4_2] ③ 字幕照 heard 一句一句出、字一字不差、順序一樣（2 句）  {"want": ["欸妳今天筆記寫了幾頁？", "兩頁。其中一頁是妳上課講的話。"], "got": ["欸妳今天筆記寫了幾頁？", "兩頁。其中一頁是妳上課講的話。"]}
+  [ 104.6s] 到達「[HL1 c503_4_2] 走近她說話（第 1 輪）」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [ 107.5s] 「[HL1 c503_4_2] 走近她說話（第 2 輪）」途中停下（離目標 2.39 m）：條件成立
+  [ 111.6s] [HL1 c503_4_2] 找她說話：旁邊的人（STORY.companyOf）["yu"]；選單 [["（說點不一樣的）\n看你們現在多熟", "就這樣"]]；對話 ["你等一下要去哪？"]
+PASS [HL1 c503_4_2] ④ 同伴在她 3.2 m 內的時候，選單沒有「約她去…」  {"menus": [["（說點不一樣的）\n看你們現在多熟", "就這樣"]], "company": ["yu"], "dist": {"yu": 1.12}}
+PASS FAIL_SETUP 檢查：[HL1 c503_5_2] 遊戲資料有這一列
+  [ 111.7s] [HL1 c503_5_2] 列：{"who": "heroine_02", "with": ["hc_boss"], "alone": false, "always": false, "zone": "cafe", "act": "barista", "days": [1, 3, 5], "from": 11, "to": 15}；找日子 {"day": -8, "key": "2025-09-08", "wd": 1, "h": 11.25, "week": 2, "zone": "cafe", "act": "barista", "tried": 1}
+PASS FAIL_SETUP 檢查：[HL1 c503_5_2] Y1S1 照 HCIRCLE.on 找得到成立的日子時段  {"day": -8, "key": "2025-09-08", "wd": 1, "h": 11.25, "week": 2, "zone": "cafe", "act": "barista", "tried": 1}
+  [前置／捷徑] [HL1 c503_5_2] 【前置／捷徑】讀使用者存檔到 2025-09-08（週1）11.25 cafe（條件事件關掉）；認識她和同伴、給她聯絡方式
+PASS FAIL_SETUP 檢查：[HL1 c503_5_2] 讀檔以後在 cafe、這一列成立（HCIRCLE.on）  ["cafe", {"on": true, "zone": "cafe", "key": "2025-09-08", "h": 11.3, "wd": 1, "stage": "FRIEND"}]
+PASS [HL1 c503_5_2] ① 她在、看得到  {"pos": {"heroine_02": {"x": -2.5, "z": -5.15, "lv": 0, "vis": true, "pose": "idle", "seat": false, "leaving": false, "name": "林芷若"}, "hc_boss": {"x": -0.6, "z": -5.25, "lv": 0, "vis": true, "pose": "idle", "seat": false, "leaving": false, "name": "老闆"}}, "together": true, "company": ["hc_boss"], "player": {"x": 0, "z": 4.6}, "heard": {"c503_4_n1": 48, "c503_7_3": 35, "c503_5_2": 38}}
+PASS [HL1 c503_5_2] ② 同伴每一位都在她 3.2 m 內（hc_boss；HCIRCLE.together=True）  {"dist": {"hc_boss": 1.9}, "pos": {"heroine_02": {"x": -2.5, "z": -5.15, "lv": 0, "vis": true, "pose": "idle", "seat": false, "leaving": false, "name": "林芷若"}, "hc_boss": {"x": -0.6, "z": -5.25, "lv": 0, "vis": true, "pose": "idle", "seat": false, "leaving": false, "name": "老闆"}}}
+PASS FAIL_SETUP 檢查：[HL1 c503_5_2] 她旁邊 5 m 內找得到站得住的點  {"x": -2.5, "z": -5.15, "lv": 0, "vis": true, "pose": "idle", "seat": false, "leaving": false, "name": "林芷若"}
+  [ 133.1s] 到達「[HL1 c503_5_2] 走到她旁邊（3.0 m）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [ 141.5s] [HL1 c503_5_2] 字幕（誰｜字）[["老闆", "豆子快沒了。"], ["林芷若", "我昨天寫在白板上了。"], ["老闆", "……我沒看白板。"]]；資料 heard 拆開 [["老闆", "豆子快沒了。"], ["林芷若", "我昨天寫在白板上了。"], ["老闆", "……我沒看白板。"]]
+PASS [HL1 c503_5_2] ③ 字幕照 heard 一句一句出、字一字不差、順序一樣（3 句）  {"want": ["豆子快沒了。", "我昨天寫在白板上了。", "……我沒看白板。"], "got": ["豆子快沒了。", "我昨天寫在白板上了。", "……我沒看白板。"]}
+  [ 202.0s] 走不到「[HL1 c503_5_2] 走近她說話（第 1 輪）」：最後位置 (1.21,-5.08)，目標 (-2.5,-5.15)；點地面 14 次、轉鏡頭 0 次、搖桿 8 次
+  [ 202.1s]   這段時間：畫面 2179 格／61 秒、遊戲時間 11.40→11.81、paused=False、開著的面板 []
+  [ 263.4s] 走不到「[HL1 c503_5_2] 走近她說話（第 2 輪）」：最後位置 (1.21,-5.08)，目標 (-2.5,-5.15)；點地面 15 次、轉鏡頭 0 次、搖桿 10 次
+  [ 263.4s]   這段時間：畫面 2295 格／61 秒、遊戲時間 11.81→12.21、paused=False、開著的面板 []
+  [ 324.8s] 走不到「[HL1 c503_5_2] 走近她說話（第 3 輪）」：最後位置 (1.21,-5.08)，目標 (-2.5,-5.15)；點地面 15 次、轉鏡頭 0 次、搖桿 10 次
+  [ 324.8s]   這段時間：畫面 2331 格／61 秒、遊戲時間 12.21→12.62、paused=False、開著的面板 []
+  [ 324.9s] [HL1 c503_5_2] 互動鍵是「和老闆說話」，不是她（林芷若）——不按（記下來）
+PASS FAIL_SETUP 檢查：[HL1 c503_5_2] 吧檯班：找得到「點餐」互動點  {"x": -2.5, "z": -3.2, "lv": 0, "label": "到吧檯點餐"}
+  [ 334.5s] 到達「[HL1 c503_5_2] 走到吧檯點餐點」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，9 秒
+  [ 334.6s] [HL1 c503_5_2] 吧檯點餐那一條：互動鍵「和林芷若說話」；選單 []；對話 []
+FAIL [HL1 c503_5_2] ④ 吧檯班（點餐那一條）：選單沒有「約她去…」（她在上班）  {"menus": [], "inv": []}
+PASS FAIL_SETUP 檢查：[HL1 c503_6_2] 遊戲資料有這一列
+  [ 334.7s] [HL1 c503_6_2] 列：{"who": "heroine_03", "with": ["wz_su"], "alone": false, "always": false, "zone": "wz_teahouse", "act": "linger", "days": [6, 0], "from": 13, "to": 17}；找日子 {"day": -2, "key": "2025-09-14", "wd": 0, "h": 13.25, "week": 2, "zone": "wz_teahouse", "act": "linger", "tried": 16}
+PASS FAIL_SETUP 檢查：[HL1 c503_6_2] Y1S1 照 HCIRCLE.on 找得到成立的日子時段  {"day": -2, "key": "2025-09-14", "wd": 0, "h": 13.25, "week": 2, "zone": "wz_teahouse", "act": "linger", "tried": 16}
+  [前置／捷徑] [HL1 c503_6_2] 【前置／捷徑】讀使用者存檔到 2025-09-14（週0）13.25 wz_teahouse（條件事件關掉）；認識她和同伴、給她聯絡方式
+PASS FAIL_SETUP 檢查：[HL1 c503_6_2] 讀檔以後在 wz_teahouse、這一列成立（HCIRCLE.on）  ["wz_teahouse", {"on": true, "zone": "wz_teahouse", "key": "2025-09-14", "h": 13.3, "wd": 0, "stage": "FRIEND"}]
+PASS [HL1 c503_6_2] ① 她在、看得到  {"pos": {"heroine_03": {"x": 2.95, "z": 2.4, "lv": 0, "vis": true, "pose": "idle", "seat": false, "leaving": false, "name": "陳語彤"}, "wz_su": {"x": 2.95, "z": 1.3, "lv": 0, "vis": true, "pose": "idle", "seat": false, "leaving": false, "name": "蘇姨"}}, "together": true, "company": ["wz_su"], "player": {"x": -3, "z": 9}, "heard": {"c503_4_n1": 48, "c503_7_3": 35, "c503_5_2": 38}}
+PASS [HL1 c503_6_2] ② 同伴每一位都在她 3.2 m 內（wz_su；HCIRCLE.together=True）  {"dist": {"wz_su": 1.1}, "pos": {"heroine_03": {"x": 2.95, "z": 2.4, "lv": 0, "vis": true, "pose": "idle", "seat": false, "leaving": false, "name": "陳語彤"}, "wz_su": {"x": 2.95, "z": 1.3, "lv": 0, "vis": true, "pose": "idle", "seat": false, "leaving": false, "name": "蘇姨"}}}
+PASS FAIL_SETUP 檢查：[HL1 c503_6_2] 她旁邊 5 m 內找得到站得住的點  {"x": 2.95, "z": 2.4, "lv": 0, "vis": true, "pose": "idle", "seat": false, "leaving": false, "name": "陳語彤"}
+  [ 358.3s] 到達「[HL1 c503_6_2] 走到她旁邊（3.0 m）」附近（0.22 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [ 360.4s] [HL1 c503_6_2] 字幕（誰｜字）[["蘇姨", "語彤，長桌那位的烏龍不要太燙。"], ["陳語彤", "我知道。他每次都這樣。"]]；資料 heard 拆開 [["蘇姨", "語彤，長桌那位的烏龍不要太燙。"], ["陳語彤", "我知道。他每次都這樣。"]]
+PASS [HL1 c503_6_2] ③ 字幕照 heard 一句一句出、字一字不差、順序一樣（2 句）  {"want": ["語彤，長桌那位的烏龍不要太燙。", "我知道。他每次都這樣。"], "got": ["語彤，長桌那位的烏龍不要太燙。", "我知道。他每次都這樣。"]}
+  [ 363.1s] 「[HL1 c503_6_2] 走近她說話（第 1 輪）」途中停下（離目標 1.74 m）：你等一下要去哪？
+  [ 367.5s] [HL1 c503_6_2] 找她說話：旁邊的人（STORY.companyOf）["wz_su"]；選單 [["（說點不一樣的）\n看你們現在多熟", "約她去…\n念書、吃飯、喝咖啡、散步、運動、出去玩", "就這樣"]]；對話 ["（有一陣子兩個人都沒講話，她看起來也沒有要找話題。）", "你最近考試多嗎？"]
+PASS [HL1 c503_6_2] ④ 旁邊只有 ["wz_su"]（PRIVTALK.PLACE_EXCEPT 不算有人）：選單有「約她去…」＝對（BB-B 13:22）  {"menus": [["（說點不一樣的）\n看你們現在多熟", "約她去…\n念書、吃飯、喝咖啡、散步、運動、出去玩", "就這樣"]], "inv": ["約她去…\n念書、吃飯、喝咖啡、散步、運動、出去玩"]}
+PASS 沒有 JS 例外  []
+FAILED 1: [HL1 c503_5_2] ④ 吧檯班（點餐那一條）：選單沒有「約她去…」（她在上班）
