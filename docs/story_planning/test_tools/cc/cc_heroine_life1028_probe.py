@@ -221,11 +221,11 @@ async def part_hl1(pg, cdp, sv0, res):
 
 PREP3 = r"""((a)=>{ const G=GAME.G, H=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05'];
   G.msgs=[]; G.phone=null; PHONE.rec(G); const F=G.flags=G.flags||{}; for(const k of ['dpN','dpPick','dpDay','dpLast','dpDayOf']) delete F[k];
-  G.contacts=G.contacts||{}; for(const id of H){ F['met_'+id]=true; G.contacts[id]=a.d0-1; try{ SOCIAL.meet(id,'campus'); }catch(e){} const r=SOCIAL.rel(id); r.fam=Math.max(r.fam,45); r.trust=Math.max(r.trust,30); r.comf=Math.max(r.comf,30); r.seen=Math.max(r.seen||0,20); r.talked=Math.max(r.talked||0,20); }
+  G.contacts=G.contacts||{}; for(const id of H){ F['met_'+id]=true; G.contacts[id]=a.d0-1; try{ SOCIAL.meet(id,'campus'); }catch(e){} const r=SOCIAL.rel(id); Object.assign(r,{fam:25,trust:10,comf:10,rom:0,npcRom:0}); r.seen=Math.max(r.seen||0,20); r.talked=Math.max(r.talked||0,20); delete F['dating_'+id]; }   /* 剛好 FAMILIAR（social3d.js S.stage：fam≥20、不到 FRIEND 的 fam40／trust25）——子晴 dp_zq_f1／f2 要 stage===FAMILIAR */
   PHONE.join(G,'family_law','法律系家族'); PHONE.join(G,'guitar','吉他社');
   return {stages:Object.fromEntries(H.map(id=>[id,SOCIAL.stage(id)])), groups:Object.keys(PHONE.rec(G).groups)}; })"""
 STEP3 = r"""((a)=>{ const G=GAME.G; let err=null; const HS=[7.5,9,12,15,17.5,19,21,22.5,23.9];
-  for(let d=a.d0; d<=a.d1; d++){ G.day=d; G.weekday=CALENDAR.dateOf(d).wd%7; for(const h of HS){ G.hour=h; try{ STORY.phoneRules(GAME); PHONE.tick(G,false); }catch(e){ if(!err) err=CALENDAR.dateOf(d).key+' '+h+'：'+String(e).slice(0,160); } } }
+  for(let d=a.d0; d<=a.d1; d++){ G.day=d; G.weekday=CALENDAR.dateOf(d).wd%7; G.weather=(a.rain&&((d-a.r0)%a.rain===0))?'rain':'clear'; for(const h of HS){ G.hour=h; try{ STORY.phoneRules(GAME); PHONE.tick(G,false); }catch(e){ if(!err) err=CALENDAR.dateOf(d).key+' '+h+'：'+String(e).slice(0,160); } } }
   const H=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05'];
   return (G.msgs||[]).filter(m=>H.includes(m.from)).map(m=>({day:m.day, date:CALENDAR.dateOf(m.day).key, h:+(+m.h||0).toFixed(2), from:m.from, th:m.th, tag:m.tag||null, text:String(m.text||m.img||'').slice(0,120)})).concat(err?[{err}]:[]); })"""
 HL3B_WANT = {'heroine_01': ['dp_a118_y1s1_an_row', 'dp_a118_y1s1_an_notice'], 'heroine_03': ['dp_a118_y1s1_yt_dish', 'dp_a118_y1s1_yt_rain'], 'heroine_02': ['dp_zhiruo_latte'], 'heroine_04': ['dp_zq_f1', 'dp_zq_f2', 'dp_ziqing_five']}
@@ -244,12 +244,12 @@ async def part_hl3b(pg, cdp, sv0, res):
     if not R.check('FAIL_SETUP 檢查：%s 找得到 9/1（第 1 週週一）和結束日' % tag, d0 is not None and d1 is not None, J([d0, d1])): return
     s = await load(pg, cdp, sv0, d0, 7.0, 'dorm')
     pr = await pg.evaluate(PREP3, {'d0': d0}); out['prep'] = pr
-    R.setup('%s 【前置／捷徑】讀使用者存檔到 %s、清掉手機（訊息、群組、每日小事的紀錄）＝當成新的一學期；五位女主角認識＋給聯絡方式＋關係墊到 FAMILIAR 以上；加 family_law、guitar 群組：%s' % (tag, (await keyof(pg, d0)), J(pr)))
-    if not R.check('FAIL_SETUP 檢查：%s 五位都 FAMILIAR 以上、兩個群組都在' % tag, all(v not in (None, 'STRANGER', 'ACQUAINTANCE') for v in pr['stages'].values()) and {'family_law', 'guitar'} <= set(pr['groups']), J(pr)): return
-    R.setup('%s 【捷徑：跳日子】%d → %d 每天 7:30～23:54 九個時間點叫 STORY.phoneRules＋PHONE.tick（遊戲每天的手機小事、到時間送出）' % (tag, d0, d1))
+    R.setup('%s 【前置／捷徑】讀使用者存檔到 %s、清掉手機（訊息、群組、每日小事的紀錄）＝當成新的一學期；五位女主角認識＋給聯絡方式＋關係設成剛好 FAMILIAR（fam 25、trust 10、comf 10）；加 family_law、guitar 群組：%s' % (tag, (await keyof(pg, d0)), J(pr)))
+    if not R.check('FAIL_SETUP 檢查：%s 五位都剛好 FAMILIAR、兩個群組都在' % tag, all(v == 'FAMILIAR' for v in pr['stages'].values()) and {'family_law', 'guitar'} <= set(pr['groups']), J(pr)): return
+    R.setup('%s 【捷徑：跳日子】%d → %d 每天 7:30～23:54 九個時間點叫 STORY.phoneRules＋PHONE.tick（遊戲每天的手機小事、到時間送出）；天氣【捷徑】每 5 天下雨一天、其他晴天（快轉不跑遊戲的天氣；語彤 yt_rain 要雨天）' % (tag, d0, d1))
     msgs = []
     for a in range(d0, d1 + 1, 15):
-        b = min(d1, a + 14); part = await pg.evaluate(STEP3, {'d0': a, 'd1': b}); msgs += [m for m in part if 'err' not in m]
+        b = min(d1, a + 14); part = await pg.evaluate(STEP3, {'d0': a, 'd1': b, 'rain': 5, 'r0': d0}); msgs += [m for m in part if 'err' not in m]
         for m in part:
             if 'err' in m: R.note('%s 例外：%s' % (tag, m['err']))
     out['msgs'] = msgs
