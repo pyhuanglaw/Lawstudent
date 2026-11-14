@@ -1,0 +1,39 @@
+CC WEEKEND_HOME：SHA 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35；2025-10-17 19.0；Windows＋GPU ≠ iPhone
+PASS FAIL_SETUP 檢查：遊戲載入
+  [前置／捷徑] 【前置／捷徑】讀檔到宿舍房間 2025-10-17 19.0（條件事件關掉）：{"day": 31, "key": "2025-10-17", "wd": 5, "cwd": 5, "hour": 19.01, "zone": "dorm", "home": false, "canGo": true}
+PASS FAIL_SETUP 檢查：週五、在宿舍、可以回家（HOME.canGo）  {"day": 31, "key": "2025-10-17", "wd": 5, "cwd": 5, "hour": 19.01, "zone": "dorm", "home": false, "canGo": true}
+  [  32.6s] 週五 室友 ["zhe", "classmate_bohan", "kai"]；這裡的人 ["kai"]；DORM203.allIn false；誰在哪 {"zhe": {"zone": "gongguan", "away": null, "what": "走走"}, "classmate_bohan": {"zone": "library", "away": null, "what": "看書"}, "kai": {"zone": "dorm", "away": null, "what": "在書桌前"}, "heroine_01": {"zone": "campus", "away": null, "what": "走走"}, "heroine_05": {"zone": "gongguan", "away": null, "what": "走走"}, "yu": {"zone": "xs_nanyang", "away": null, "what": "待一下"}, "heroine_02": {"zone": "cafe", "away": null, "what": "打工"}, "heroine_03": null, "heroine_04": null, "kexin": null}
+  [  32.6s] 週一（第 34 天）的課：[{"id": "const_1", "name": "憲法（上）", "req": true, "t0": 9.166666666666666, "t1": 12.166666666666666, "status": "upcoming", "exam": null}, {"id": "pe_y1s1", "name": "體育", "req": false, "t0": 15.5, "t1": 17.333333333333332, "status": "upcoming", "exam": null}]
+PASS FAIL_SETUP 檢查：手機「地點」有「回家」  "回家 捷運＋公車 約 40 分鐘 回家"
+  [  40.8s] 到家：{"day": 31, "key": "2025-10-17", "wd": 5, "cwd": 5, "hour": 19.72, "zone": "dorm", "home": true, "canGo": true}
+  [ 255.6s]     ["字卡", "回家 捷運＋公車 約 40 分鐘", "2025-10-17", 19.72, "dorm"]
+  [ 255.6s]     ["對話", "（家。19:43。）", "2025-10-17", 19.72, "dorm"]
+  [ 255.6s]     ["對話", "媽媽：宿舍的床睡得習慣嗎？", "2025-10-17", 19.72, "dorm"]
+  [ 255.6s]     ["選單", ["吃晚餐", "在家休息一下 一小時", "回宿舍 捷運＋公車 約 40 分鐘", "睡覺 隔天早上在家醒來", "存檔 存到存檔欄位"], "2025-10-17", "週五", 19.72, "dorm", true]
+  [ 255.6s]     ["點", "吃晚餐"]
+  [ 255.6s]     ["對話", "（晚餐。媽媽煮了一桌。）", "2025-10-17", 19.72, "dorm"]
+  [ 255.6s]     ["對話", "媽媽：錢夠用嗎？", "2025-10-17", 19.72, "dorm"]
+  [ 255.6s]     ["選單", ["「夠。」", "「這個月買書比較多。」"], "2025-10-17", "週五", 19.72, "dorm", true]
+  [ 255.6s]     ["點", "「夠。」"]
+  [ 255.6s]     ["對話", "媽媽：書的錢另外算。跟我說。", "2025-10-17", 19.72, "dorm"]
+  [ 255.6s]     ["選單", ["在家休息一下 一小時", "回宿舍 捷運＋公車 約 40 分鐘", "睡覺 隔天早上在家醒來", "存檔 存到存檔欄位"], "2025-10-17", "週五", 20.72, "dorm", true]
+  [ 255.6s]     ["點", "睡覺 隔天早上在家醒來"]
+  [ 255.6s]     ["字卡", "10 月 18 日 週六 08:30・家", "2025-10-18", 8.5, "dorm"]
+  [ 255.6s]     ["對話", "媽媽：早餐在桌上。我出去買菜。", "2025-10-18", 8.5, "dorm"]
+  [ 255.6s]     ["選單", ["在家休息一下 一小時", "回宿舍 捷運＋公車 約 40 分鐘", "睡覺 隔天早上在家醒來", "存檔 存到存檔欄位"], "2025-10-18", "週六", 8.5, "dorm", true]
+  [ 255.6s]     ["點", "睡覺 隔天早上在家醒來"]
+  [ 255.6s]     ["字卡", "10 月 19 日 週日 08:30・家", "2025-10-19", 8.5, "dorm"]
+  [ 255.6s]     ["對話", "媽媽：睡到這麼晚。……昨天幾點睡的？", "2025-10-19", 8.5, "dorm"]
+  [ 255.6s]     ["選單", ["在家休息一下 一小時", "回宿舍 捷運＋公車 約 40 分鐘", "睡覺 明天有課：先回宿舍再睡", "今晚住家裡，明天一早直接去學校 明天 07:40 在家醒來，坐捷運＋公車約 40 分鐘", "存檔 存到存檔欄位"], "2025-10-19", "週日", 8.5, "dorm", true]
+  [ 255.6s]     ["點", "睡覺 明天有課：先回宿舍再睡"]
+  [ 255.6s]     ["對話", "媽媽：（塞了一個保鮮盒）滷肉。冰箱放得下吧？", "2025-10-19", 8.5, "dorm"]
+  [ 255.6s]     ["字幕", "回到宿舍。", "2025-10-19", 9.2, "dorm"]
+  [ 257.0s] 最後：{"day": 33, "key": "2025-10-19", "wd": 0, "cwd": 0, "hour": 9.55, "zone": "dorm", "home": false, "canGo": true}；週一的課 []
+  [ 257.0s] 週一 這裡的人 []；DORM203.allIn false；誰在哪 {"zhe": null, "classmate_bohan": null, "kai": null, "heroine_01": null, "heroine_05": null, "yu": null, "pool_1": null, "pool_13": null, "pool_20": null, "pool_9": null, "classmate_youchen": null, "classmate_xinci": null, "classmate_mingxuan": null, "heroine_04": null, "classmate_peishan": {"zone": null, "away": "回台中", "what": ""}, "heroine_02": null, "heroine_03": null, "kexin": null}
+PASS 真的回到家（HOME.at，有「回家」字卡或「（家。…）」那一句）  {"day": 31, "key": "2025-10-17", "wd": 5, "cwd": 5, "hour": 19.72, "zone": "dorm", "home": true, "canGo": true}
+FAIL 週一早上在宿舍（日期＝週五＋3 天、星期一、區域 dorm、不在家）  {"day": 33, "key": "2025-10-19", "wd": 0, "cwd": 0, "hour": 9.55, "zone": "dorm", "home": false, "canGo": true}
+PASS 週一的課一堂都沒有被跳過（醒來時 status 都是 upcoming／open）  []
+  [ 257.0s] 「會錯過：…」那幾句：[]
+FAIL 週五找得到的室友、朋友，週一都還找得到（STORY.whereIs 不是 null）  {"zhe": [{"zone": "gongguan", "away": null, "what": "走走"}, null], "classmate_bohan": [{"zone": "library", "away": null, "what": "看書"}, null], "kai": [{"zone": "dorm", "away": null, "what": "在書桌前"}, null], "heroine_01": [{"zone": "campus", "away": null, "what": "走走"}, null], "heroine_05": [{"zone": "gongguan", "away": null, "what": "走走"}, null], "yu": [{"zone": "xs_nanyang", "away": null, "what": "待一下"}, null], "heroine_02": [{"zone": "cafe", "away": null, "what": "打工"}, null]}
+PASS 沒有 pageerror／JS 例外  []
+FAILED: 週一早上在宿舍（日期＝週五＋3 天、星期一、區域 dorm、不在家）, 週五找得到的室友、朋友，週一都還找得到（STORY.whereIs 不是 null）
