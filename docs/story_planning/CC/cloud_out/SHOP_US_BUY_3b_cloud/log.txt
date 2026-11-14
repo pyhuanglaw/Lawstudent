@@ -1,0 +1,88 @@
+CC SHOP_US_BUY：SHA 6106fae2d278ba8ac97ebbf9265ca141c5e0ab35；us_market,us_asian_market 2028-09-16 13.00；Windows＋GPU ≠ iPhone
+PASS FAIL_SETUP 檢查：遊戲載入
+  [前置／捷徑] [us_market] ③b 【前置／捷徑】讀檔進 us_market 2028-09-16 13.00 時、美國路線旗標再讀一次、錢設 5000：{"zone": "us_market", "key": "2028-09-16", "wd": 6, "hour": 13.02, "money": 5000, "cart": [], "own": {}, "bag": [], "inUS": true, "last": null}
+PASS [us_market] ③b FAIL_SETUP 檢查：在店裡、人在美國（EXCH.inUS）  {"zone": "us_market", "key": "2028-09-16", "wd": 6, "hour": 13.02, "money": 5000, "cart": [], "own": {}, "bag": [], "inUS": true, "last": null}
+  [  27.1s] [us_market] ③b 這一趟所有貨：[{"shelf": "service", "id": "usm_postcard", "n": "明信片和郵票（寄回臺灣）", "p": 85, "kind": "own"}, {"shelf": "produce", "id": "usm_apple", "n": "蘋果（一袋）", "p": 160, "kind": "eat"}, {"shelf": "produce", "id": "usm_banana", "n": "香蕉（一串）", "p": 48, "kind": "eat"}, {"shelf": "dairy", "id": "usm_milk", "n": "牛奶（一加侖）", "p": 121, "kind": "eat"}, {"shelf": "dairy", "id": "usm_eggs", "n": "蛋（十八顆）", "p": 137, "kind": "eat"}, {"shelf": "deli", "id": "usm_chicken", "n": "烤雞（半隻）", "p": 192, "kind": "eat"}, {"shelf": "frozen", "id": "usm_pizza", "n": "冷凍披薩", "p": 224, "kind": "eat"}, {"shelf": "frozen", "id": "usm_icecream", "n": "冰淇淋（一桶）", "p": 176, "kind": "eat"}, {"shelf": "aisle_cereal", "id": "usm_cereal", "n": "早餐穀片（家庭號）", "p": 147, "kind": "eat"}, {"shelf": "aisle_snacks", "id": "usm_chips", "n": "洋芋片（大包）", "p": 128, "kind": "eat"}, {"shelf": "aisle_pasta", "id": "usm_pasta", "n": "義大利麵＋紅醬", "p": 143, "kind": "eat"}, {"shelf": "aisle_pasta", "id": "usm_toast", "n": "吐司", "p": 96, "kind": "eat"}, {"shelf": "aisle_household", "id": "usm_tp", "n": "衛生紙（二十四捲）", "p": 608, "kind": "own"}]
+PASS [us_market] ③b FAIL_SETUP 檢查：找得到一貴一便宜（不是吃的；竹葉不是水餃）  [{"shelf": "service", "id": "usm_postcard", "n": "明信片和郵票（寄回臺灣）", "p": 85, "kind": "own"}, {"shelf": "aisle_household", "id": "usm_tp", "n": "衛生紙（二十四捲）", "p": 608, "kind": "own"}]
+PASS [us_market] ③b 拿貴的 FAIL_SETUP 檢查：有互動點 aisle_household
+  [  85.5s] 到達「[us_market] ③b 拿貴的 走到「第 7 走道：日用品」」附近（0.20 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，58 秒
+PASS [us_market] ③b 拿貴的 FAIL_SETUP 檢查：走到以後互動鍵是「第 7 走道：日用品」（aisle_household）  {"it": "aisle_household", "shown": true}
+  [  98.1s] [us_market] ③b 拿貴的    對話：日用品。衛生紙一串
+  [  98.1s] [us_market] ③b 拿貴的    對話：日用品。衛生紙一串二十四捲。
+  [  98.1s] [us_market] ③b 拿貴的    對話：（衛生
+  [  98.1s] [us_market] ③b 拿貴的    對話：（衛生紙二十四捲。冰箱門上的輪值表，這個月輪到你買。）
+  [  98.1s] [us_market] ③b 拿貴的    選單：["衛生紙（二十四捲） $18.99", "不用了"]
+  [  98.1s] [us_market] ③b 拿貴的    點：衛生紙（二十四捲） $18.99
+PASS [us_market] ③b 拿便宜的 FAIL_SETUP 檢查：有互動點 service
+  [ 158.4s] 走不到「[us_market] ③b 拿便宜的 走到「服務台」」：最後位置 (6.39,1.28)，目標 (-18.07,10.65)；點地面 1 次、轉鏡頭 1 次、搖桿 0 次
+  [ 158.5s]   這段時間：畫面 71 格／60 秒、遊戲時間 13.10→13.15、paused=False、開著的面板 []
+  [ 206.1s] [us_market] ③b 拿便宜的 點地沒走到，改推搖桿：{"ok": true, "t": 46.7, "pushes": 13, "by": "互動鍵＝服務台", "why": null}
+PASS [us_market] ③b 拿便宜的 FAIL_SETUP 檢查：走到以後互動鍵是「服務台」（service）  {"it": "service", "shown": true}
+  [ 213.3s] [us_market] ③b 拿便宜的    對話：服務台。可以寄包裹、買郵票，旁邊有一台換零錢的機器。
+  [ 213.3s] [us_market] ③b 拿便宜的    選單：["明信片和郵票（寄回臺灣） $2.65", "不用了 推車：衛生紙（二十四捲） 共 $18.99"]
+  [ 213.3s] [us_market] ③b 拿便宜的    點：明信片和郵票（寄回臺灣） $2.65
+PASS [us_market] ③b FAIL_SETUP 檢查：推車有兩樣 usm_tp、usm_postcard  [["usm_tp"], ["usm_tp", "usm_postcard"]]
+  [前置／捷徑] [us_market] ③b 【捷徑】錢設 86（只夠付便宜的 usm_postcard 85 元；貴的 usm_tp 608 元）
+PASS [us_market] ③b FAIL_SETUP 檢查：有互動點 checkout
+  [ 262.9s] 到達「[us_market] ③b 走到「結帳」」附近（0.13 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，50 秒
+PASS [us_market] ③b FAIL_SETUP 檢查：走到以後互動鍵是「結帳」（checkout）  {"it": "checkout", "shown": true}
+  [ 282.3s] [us_market] ③b 結帳    對話：收銀員：嗨，今天過得怎麼樣
+  [ 282.3s] [us_market] ③b 結帳    對話：收銀員：嗨，今天過得怎麼樣？找到你要的東西了嗎？
+  [ 282.3s] [us_market] ③b 結帳    選單：["結帳 衛生紙（二十四捲）、明信片和郵票（寄回臺灣） 共 $21.64（693 元）", "不用了"]
+  [ 282.3s] [us_market] ③b 結帳    點：結帳 衛生紙（二十四捲）、明信片和郵票（寄回臺灣） 共 $21.64（693 元）
+  [ 282.3s] [us_market] ③b 結帳    對話：（卡刷不過。
+  [ 282.3s] [us_market] ③b 結帳    對話：（卡刷不過。你把最貴的那一樣拿給收銀員，請她先拿掉。）
+  [ 282.3s] [us_market] ③b 結帳    對話：收銀員：要袋子嗎？一
+  [ 282.3s] [us_market] ③b 結帳    對話：收銀員：要袋子嗎？一個十分錢。
+  [ 282.3s] [us_market] ③b 結帳    選單：["要 $0.10", "不用了"]
+  [ 282.3s] [us_market] ③b 結帳    點：不用了
+  [ 282.3s] [us_market] ③b 結帳    對話：收銀員：祝你有美好的
+  [ 282.3s] [us_market] ③b 結帳    對話：收銀員：祝你有美好的一天。
+  [ 283.9s] [us_market] ③b 結帳：錢 86 → 1（扣 85）；推車 ["usm_tp", "usm_postcard"] → []；便宜的進物品／包包 True；貴的 False；USMKT.last {"zone": "us_market", "day": 1096, "items": ["usm_postcard"], "total": 85}；原文 ["收銀員：嗨，今天過得怎麼樣", "收銀員：嗨，今天過得怎麼樣？找到你要的東西了嗎？", "（卡刷不過。", "（卡刷不過。你把最貴的那一樣拿給收銀員，請她先拿掉。）", "收銀員：要袋子嗎？一", "收銀員：要袋子嗎？一個十分錢。", "收銀員：祝你有美好的", "收銀員：祝你有美好的一天。"]
+PASS [us_market] ③b 拿掉貴的、便宜的付掉：錢只扣便宜的 85 元  [86, 1]
+PASS [us_market] ③b 便宜的進了物品（貴的沒有）  [{}, {"usm_postcard": 1}]
+PASS [us_market] ③b 推車清空  []
+PASS [us_market] ③b 有說錢不夠那一句  [["對話", "收銀員：嗨，今天過得怎麼樣"], ["對話", "收銀員：嗨，今天過得怎麼樣？找到你要的東西了嗎？"], ["選單", ["結帳 衛生紙（二十四捲）、明信片和郵票（寄回臺灣） 共 $21.64（693 元）", "不用了"]], ["點", "結帳 衛生紙（二十四捲）、明信片和郵票（寄回臺灣） 共 $21.64（693 元）"], ["對話", "（卡刷不過。"], ["對話", "（卡刷不過。你把最貴的那一樣拿給收銀員，請她先拿掉。）"], ["對話", "收銀員：要袋子嗎？一"], ["對話", "收銀員：要袋子嗎？一個十分錢。"], ["選單", ["要 $0.10", "不用了"]], ["點", "不用了"], ["對話", "收銀員：祝你有美好的"], ["對話", "收銀員：祝你有美好的一天。"]]
+  [前置／捷徑] [us_asian_market] ③c 【前置／捷徑】讀檔進 us_asian_market 2028-09-16 13.00 時、美國路線旗標再讀一次、錢設 5000：{"zone": "us_asian_market", "key": "2028-09-16", "wd": 6, "hour": 13.01, "money": 5000, "cart": [], "own": {}, "bag": [], "inUS": true, "last": {"zone": "us_market", "day": 1096, "items": ["usm_postcard"], "total": 85}}
+PASS [us_asian_market] ③c FAIL_SETUP 檢查：在店裡、人在美國（EXCH.inUS）  {"zone": "us_asian_market", "key": "2028-09-16", "wd": 6, "hour": 13.01, "money": 5000, "cart": [], "own": {}, "bag": [], "inUS": true, "last": {"zone": "us_market", "day": 1096, "items": ["usm_postcard"], "total": 85}}
+  [ 299.2s] [us_asian_market] ③c 這一趟所有貨：[{"shelf": "asia_noodles", "id": "usa_noodle5", "n": "臺灣的泡麵（五包）", "p": 224, "kind": "eat"}, {"shelf": "asia_sauce", "id": "usa_soy", "n": "醬油", "p": 144, "kind": "own"}, {"shelf": "asia_sauce", "id": "usa_satay", "n": "沙茶醬", "p": 192, "kind": "own"}, {"shelf": "asia_snacks", "id": "usa_mantou", "n": "小饅頭餅乾", "p": 80, "kind": "eat"}, {"shelf": "asia_snacks", "id": "usa_pineapple", "n": "鳳梨酥（一盒）", "p": 288, "kind": "gift"}, {"shelf": "asia_dry", "id": "usa_oolong", "n": "臺灣烏龍茶", "p": 320, "kind": "gift"}, {"shelf": "asia_dry", "id": "usa_shiitake", "n": "乾香菇", "p": 240, "kind": "own"}, {"shelf": "asia_rice", "id": "usa_rice", "n": "米（五磅的小袋）", "p": 288, "kind": "own"}, {"shelf": "asia_produce", "id": "usa_bokchoy", "n": "青江菜", "p": 73, "kind": "eat"}, {"shelf": "asia_produce", "id": "usa_tofu", "n": "豆腐", "p": 64, "kind": "eat"}, {"shelf": "asia_frozen", "id": "usa_dumpling", "n": "水餃（五十顆）", "p": 320, "kind": "eat"}, {"shelf": "asia_drinks", "id": "usa_milktea", "n": "鋁箔包奶茶", "p": 41, "kind": "eat"}, {"shelf": "asia_drinks", "id": "usa_wintermelon", "n": "冬瓜茶", "p": 41, "kind": "eat"}, {"shelf": "asia_checkout", "id": "usa_mooncake", "n": "月餅", "p": 160, "kind": "gift"}]
+PASS [us_asian_market] ③c FAIL_SETUP 檢查：找得到一貴一便宜（不是吃的；竹葉不是水餃）  [{"shelf": "asia_sauce", "id": "usa_soy", "n": "醬油", "p": 144, "kind": "own"}, {"shelf": "asia_dry", "id": "usa_oolong", "n": "臺灣烏龍茶", "p": 320, "kind": "gift"}]
+PASS [us_asian_market] ③c 拿貴的 FAIL_SETUP 檢查：有互動點 asia_dry
+  [ 307.5s] 到達「[us_asian_market] ③c 拿貴的 走到「乾貨、茶葉（第 4 排）」」附近（0.18 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+PASS [us_asian_market] ③c 拿貴的 FAIL_SETUP 檢查：走到以後互動鍵是「乾貨、茶葉（第 4 排）」（asia_dry）  {"it": "asia_dry", "shown": true}
+  [ 330.8s] [us_asian_market] ③c 拿貴的    對話：乾貨、茶葉。香菇、
+  [ 330.8s] [us_asian_market] ③c 拿貴的    對話：乾貨、茶葉。香菇、紫菜、烏龍茶，茶葉的產地寫著臺灣。
+  [ 330.8s] [us_asian_market] ③c 拿貴的    選單：["臺灣烏龍茶 $9.99", "乾香菇 $7.49", "不用了"]
+  [ 330.8s] [us_asian_market] ③c 拿貴的    點：臺灣烏龍茶 $9.99
+  [ 330.8s] [us_asian_market] ③c 拿貴的    選單：["乾香菇 $7.49", "不用了 推車：臺灣烏龍茶 共 $9.99"]
+  [ 330.8s] [us_asian_market] ③c 拿貴的    點：不用了 推車：臺灣烏龍茶 共 $9.99
+PASS [us_asian_market] ③c 拿便宜的 FAIL_SETUP 檢查：有互動點 asia_sauce
+  [ 360.6s] 到達「[us_asian_market] ③c 拿便宜的 走到「醬料（第 2 排）」」附近（0.16 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，30 秒
+PASS [us_asian_market] ③c 拿便宜的 FAIL_SETUP 檢查：走到以後互動鍵是「醬料（第 2 排）」（asia_sauce）  {"it": "asia_sauce", "shown": true}
+  [ 385.5s] [us_asian_market] ③c 拿便宜的    對話：醬料。醬油有
+  [ 385.5s] [us_asian_market] ③c 拿便宜的    對話：醬料。醬油有五種，沙茶醬只剩最後一罐。
+  [ 385.5s] [us_asian_market] ③c 拿便宜的    選單：["醬油 $4.49", "沙茶醬 $5.99", "不用了 推車：臺灣烏龍茶 共 $9.99"]
+  [ 385.5s] [us_asian_market] ③c 拿便宜的    點：醬油 $4.49
+  [ 385.5s] [us_asian_market] ③c 拿便宜的    選單：["沙茶醬 $5.99", "不用了 推車：臺灣烏龍茶、醬油 共 $14.48"]
+  [ 385.5s] [us_asian_market] ③c 拿便宜的    點：不用了 推車：臺灣烏龍茶、醬油 共 $14.48
+PASS [us_asian_market] ③c FAIL_SETUP 檢查：推車有兩樣 usa_oolong、usa_soy  [["usa_oolong"], ["usa_oolong", "usa_soy"]]
+  [前置／捷徑] [us_asian_market] ③c 【捷徑】錢設 145（只夠付便宜的 usa_soy 144 元；貴的 usa_oolong 320 元）
+PASS [us_asian_market] ③c FAIL_SETUP 檢查：有互動點 asia_checkout
+  [ 447.0s] 走不到「[us_asian_market] ③c 走到「結帳櫃台」」：最後位置 (-0.4,1.73)，目標 (-4.15,4.55)；點地面 1 次、轉鏡頭 1 次、搖桿 0 次
+  [ 447.0s]   這段時間：畫面 78 格／61 秒、遊戲時間 13.06→13.11、paused=False、開著的面板 []
+  [ 456.1s] [us_asian_market] ③c 點地沒走到，改推搖桿：{"ok": true, "t": 8.2, "pushes": 2, "by": "互動鍵＝結帳櫃台", "why": null}
+PASS [us_asian_market] ③c FAIL_SETUP 檢查：走到以後互動鍵是「結帳櫃台」（asia_checkout）  {"it": "asia_checkout", "shown": true}
+  [ 478.6s] [us_asian_market] ③c 結帳    對話：（櫃台上放著一盤月餅
+  [ 478.6s] [us_asian_market] ③c 結帳    對話：（櫃台上放著一盤月餅，一顆一顆用小紙盒裝。阿姨：「一顆五塊。再不買就沒了。」）
+  [ 478.6s] [us_asian_market] ③c 結帳    選單：["月餅 $5.00", "不用了"]
+  [ 478.6s] [us_asian_market] ③c 結帳    點：不用了
+  [ 478.6s] [us_asian_market] ③c 結帳    對話：阿姨：（櫃台
+  [ 478.6s] [us_asian_market] ③c 結帳    對話：阿姨：（櫃台後面的阿姨抬頭看了你一眼。）臺灣來的？
+  [ 478.6s] [us_asian_market] ③c 結帳    選單：["結帳 臺灣烏龍茶、醬油 共 $14.48（464 元）", "不用了"]
+  [ 478.6s] [us_asian_market] ③c 結帳    點：結帳 臺灣烏龍茶、醬油 共 $14.48（464 元）
+  [ 478.6s] [us_asian_market] ③c 結帳    對話：阿姨：（阿姨看了看你手上的錢。）先拿便宜的，其他下次。
+  [ 478.6s] [us_asian_market] ③c 結帳    對話：阿姨：袋子要不要？不用錢。
+  [ 479.8s] [us_asian_market] ③c 結帳：錢 145 → 1（扣 144）；推車 ["usa_oolong", "usa_soy"] → []；便宜的進物品／包包 True；貴的 False；USMKT.last {"zone": "us_asian_market", "day": 1096, "items": ["usa_soy"], "total": 144}；原文 ["（櫃台上放著一盤月餅", "（櫃台上放著一盤月餅，一顆一顆用小紙盒裝。阿姨：「一顆五塊。再不買就沒了。」）", "阿姨：（櫃台", "阿姨：（櫃台後面的阿姨抬頭看了你一眼。）臺灣來的？", "阿姨：（阿姨看了看你手上的錢。）先拿便宜的，其他下次。", "阿姨：袋子要不要？不用錢。"]
+  [ 479.8s] [us_asian_market] ③c 竹葉實際：扣 144、便宜的 True、貴的 False、推車 []（設計：便宜的付掉、貴的放回）
+PASS 沒有 pageerror／JS 例外  []
+ALL PASS
