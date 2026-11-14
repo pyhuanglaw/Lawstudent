@@ -1,0 +1,37 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_SAVE_COMPAT_v95_c109\tests\save_compat_v95.py http://127.0.0.1:8804/index.html http://127.0.0.1:8801/index.html
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS v9.5 載入
+FAIL 這是 v9.5（標題畫面的版本字樣）  物與故事皆為虛構。
+    版本 v9.10.25（2026-11-11）
+  
+PASS v9.5 開新遊戲、點完開場、寫出自動存檔  對話 66 句、選項 3 個；{"v": 2, "name": "舊版玩家", "day": -369, "hour": 21, "zone": "dorm", "money": 22000}
+FAIL v9.5 的存檔沒有新版的欄位（courses、invites、msgs、acts）  bike,cg,choices,contacts,courses,daily,dateLog,dateMemory,day,energy,events,fav,flags,goal,goalDest,groupTrips,guitar,habits,home,hour,invites,legal,memo,mokuyobi,money,msgs,name,notes,offbeat,outings,phone,pos,records,rel,savedAt,social,stage,stats,trips,v,visited,weather,weekday,zone
+FAIL v9.5 舊湖邊（-30,-53.5）是 v9.5 走得到的地方  {"x": -33.75, "z": -49.25, "yaw": 3.14, "lv": 0, "y": 0}
+PASS v9.5 做出四個存檔（v9.5 自己寫的格式）  slot1: 第 3 天 campus, slot2: 第 9 天 gongguan, slot3: 第 23 天 cafe, lake: 第 5 天 campus
+PASS v9.5 沒有 JS 例外  []
+PASS 新版載入
+PASS 標題畫面停 8 秒：v9.5 的自動存檔沒有被改寫
+FAIL 按「繼續（自動存檔）」：名字、天數、時間、地點、金錢、旗標、舊版關係和 v9.5 存檔一樣、站得住  {"name": "祐廷", "day": 1, "hour": 17.55, "zone": "dorm", "money": 22000, "v": 2}
+PASS 欄位 1：標題「讀取」選單裡有 v9.5 的存檔（第 3 天）
+FAIL 欄位 1（第 3 天 campus）：讀得進來、各欄位一樣、站得住  {"day": 1, "hour": 17.55, "zone": "dorm", "money": 22000} stand=True
+PASS 欄位 1：課表紀錄是新的（之前的天數沒有補成上過、沒有成績、沒有選課）  {"done": 0, "attend": {}, "grades": [], "el": {}}
+FAIL 欄位 1：舊版關係同步到新版（只補一次）：阿哲熟悉度 ≥ 舊版 19  sync=True fam=12
+FAIL 欄位 1：手機「課表」是大一上第 3 週
+FAIL 欄位 1：手機「今天」照日曆列課（週五）
+PASS 欄位 2：標題「讀取」選單裡有 v9.5 的存檔（第 9 天）
+FAIL 欄位 2（第 9 天 gongguan）：讀得進來、各欄位一樣、站得住  {"day": 1, "hour": 17.55, "zone": "dorm", "money": 22000} stand=True
+PASS 欄位 2：課表紀錄是新的（之前的天數沒有補成上過、沒有成績、沒有選課）  {"done": 0, "attend": {}, "grades": [], "el": {}}
+FAIL 欄位 2：舊版關係同步到新版（只補一次）：阿哲熟悉度 ≥ 舊版 24  sync=True fam=12
+FAIL 欄位 2：手機「課表」是大一上第 4 週
+FAIL 欄位 2：手機「今天」照日曆列課（週四）
+PASS 欄位 3：標題「讀取」選單裡有 v9.5 的存檔（第 23 天）
+FAIL 欄位 3（第 23 天 cafe）：讀得進來、各欄位一樣、站得住  {"day": 1, "hour": 17.55, "zone": "dorm", "money": 22000} stand=True
+PASS 欄位 3：課表紀錄是新的（之前的天數沒有補成上過、沒有成績、沒有選課）  {"done": 0, "attend": {}, "grades": [], "el": {}}
+FAIL 欄位 3：舊版關係同步到新版（只補一次）：阿哲熟悉度 ≥ 舊版 28  sync=True fam=12
+FAIL 欄位 3：手機「課表」是大一上第 6 週
+FAIL 欄位 3：手機「今天」照日曆列課（週四）
+PASS 方案 A：v9.5 在舊湖邊的存檔（新版是普通教學館裡面）讀得進來、移到旁邊站得住的地方（15 m 內）、走得到普通的門口  r=ok 位置 (-33.75,-49.25)、移了 5.7 m、walk=True
+PASS 新版存檔：有 courses、v 是新版、v9.5 的欄位都還在
+FAIL 重新整理 → 繼續：讀回新版存檔（第 23 天 Café）  {"day": 1, "zone": "dorm", "hour": 17.55}
+PASS 新版沒有 JS 例外  []
+FAILED: 這是 v9.5（標題畫面的版本字樣）, v9.5 的存檔沒有新版的欄位（courses、invites、msgs、acts）, v9.5 舊湖邊（-30,-53.5）是 v9.5 走得到的地方, 按「繼續（自動存檔）」：名字、天數、時間、地點、金錢、旗標、舊版關係和 v9.5 存檔一樣、站得住, 欄位 1（第 3 天 campus）：讀得進來、各欄位一樣、站得住, 欄位 1：舊版關係同步到新版（只補一次）：阿哲熟悉度 ≥ 舊版 19, 欄位 1：手機「課表」是大一上第 3 週, 欄位 1：手機「今天」照日曆列課（週五）, 欄位 2（第 9 天 gongguan）：讀得進來、各欄位一樣、站得住, 欄位 2：舊版關係同步到新版（只補一次）：阿哲熟悉度 ≥ 舊版 24, 欄位 2：手機「課表」是大一上第 4 週, 欄位 2：手機「今天」照日曆列課（週四）, 欄位 3（第 23 天 cafe）：讀得進來、各欄位一樣、站得住, 欄位 3：舊版關係同步到新版（只補一次）：阿哲熟悉度 ≥ 舊版 28, 欄位 3：手機「課表」是大一上第 6 週, 欄位 3：手機「今天」照日曆列課（週四）, 重新整理 → 繼續：讀回新版存檔（第 23 天 Café）
