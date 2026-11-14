@@ -10,7 +10,8 @@
   python3 tools/handoff/takeover.py --account B --role LAWWW2 --apply    另外：規則包換成 RULE_SOURCE 的版本（rules_sync --apply）
 印的一頁：
   1 規則來源、上一任是誰（duty.json）、有沒有正式交班
-  2 上一任這個職位交接檔裡「下一班第一件事」的原文（照它做；每一條的做法、驗收標準在它寫的檔和任務的 note）
+  2 上一任這個職位交接檔裡「下一班第一件事」的原文（照它做；每一條的做法、驗收標準在它寫的檔和任務的 note）＋「C｜正在做的」原文（做到一半的）
+    ——使用者 2026-11-14：「接班最重要的就是你們要知道上一個帳號什麼東西做到一半，然後你們接下來要做什麼」
   3 使用者交代、歸這個職位、還沒做完的（userwork）
   4 你離開期間新增的規則（RULE_SOURCE 的 CLAUDE.md、自己的職位頁裡，你分支上那一版沒有的 D 編號，各一行）——只讀這幾條和自己的職位頁
   5 接下來：合併上一任的分支、duty register、回使用者「接班確認」（把第 2、3 節逐條寫接了沒）、照第 2 節第一條開工
@@ -47,6 +48,25 @@ def first_items(text, limit=28):
     return []
 
 
+DOING = re.compile(r'C｜正在做|C 正在做|正在做的|做到一半')
+
+
+def doing_items(text, limit=10):
+    """交接檔最新一次交班的「C｜正在做的」（做到一半的東西）：第一個符合的那一行＋後面的條列"""
+    L = text.split('\n')
+    for i, l in enumerate(L):
+        if not DOING.search(l) or FIRST.search(l):
+            continue
+        out = [l.strip()[:400]]
+        for m in L[i + 1:]:
+            s = m.strip()
+            if len(out) >= limit or not s or s.startswith('#') or s.startswith('---') or (s.startswith('**') and '｜' in s[:8]) or (s.startswith('- **') and '｜' not in s[:6] and re.match(r'- \*\*[A-G] ', s)):
+                break
+            out.append(m.rstrip()[:400])
+        return out
+    return []
+
+
 def new_rules(old_texts, new_texts):
     """new 有、old 沒有的 D 編號，各取第一次出現的那一行（截短）"""
     have = set(re.findall(r'\bD(\d{2,3})\b', '\n'.join(old_texts)))
@@ -75,6 +95,9 @@ def page(account, role, src=None, show=git, userwork=None):
     items = first_items(text)
     out.append(f'2. 上一任交代的「下一班第一件事」（原文；origin/{prev_br}:{FILES[role]}）——照這個順序做，接班確認裡逐條寫接了沒：')
     out += ['   ' + l for l in items] or ['   ⚠ 交接檔裡找不到「下一班第一件事」：讀那份交接檔的「B｜全部未完成」，並告訴值班 LAWWW']
+    dg = doing_items(text)
+    out.append('   上一任做到一半的（交接檔「C｜正在做的」原文；先確認這些有沒有保存、要不要接著做）：')
+    out += ['   ' + l for l in dg] or ['   ⚠ 交接檔沒有「正在做的」一段：看上一任最後幾個 commit（git log -5 origin/' + str(prev_br) + '），並告訴值班 LAWWW']
     uw = userwork(role) if userwork else []
     out.append(f'3. 使用者交代、歸 {role}、還沒做完的（userwork；{len(uw)} 項，排在接別人的交付之前）：')
     out += ['   ' + l[:200] for l in uw[:20]] or ['   （沒有）']
