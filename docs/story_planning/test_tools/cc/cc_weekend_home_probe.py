@@ -6,6 +6,7 @@
   → 手機「地點」→「回家」→ 家裡的選單照順序點：週五「吃晚餐」（沒有就「等吃晚餐」、再沒有「睡覺」）→ 週五晚上之後「睡覺」→ 週六「睡覺」→ 週日「睡覺」（＝回宿舍再睡）
   「會錯過：…」那一句照實記、點「照樣」；週日 21:30 媽媽問回不回宿舍＝點「回宿舍」。每個選單記當下的日期、星期、時間、區域、HOME.at，截圖。
   → 到週一早上在宿舍醒來：記日期、星期、時間、區域；週一每一堂課的狀態（CLS.status：upcoming／open＝還來得及，missed＝錯過）；室友、朋友（STORY.whereIs、GAME.npc）跟週五比。
+CC-B 11-14 12:3x 改：週日在家待到晚上、回宿舍走到床睡、週一先起床、朋友改看週一整天作息（雲端 r1：週日 08:30 就點「睡覺（先回宿舍再睡）」＝早上回宿舍、沒睡）。
 CC_02 清單 2026-11-14：1✓（DAY 預設 2025-10-17 週五 19:00，FAIL_SETUP 確認是週五、在宿舍、HOME.canGo） 2✓（課表、室友名單、朋友位置全部從遊戲讀：CLS.dayItems／status、DORM203 或 TZIS.MATES、STORY.whereIs） 3n/a（選單照固定順序挑字，不是第一個） 4✓（手機用 L.tap 點 #btnPhone、地點分頁、data-gohome；選單點 #choices 第 n 個） 5n/a（不走路，回家、回宿舍是遊戲的選單） 6✓（對話等字打完才記、每個選單都等） 7✓（lint） 8✓（週五和週一逐欄比：日期、區域、室友、朋友） 9✓（每個選單、到家、回到宿舍、週一醒來都截圖） 10✓（只有讀檔是捷徑） 11✓（佇列 probe、SHA 40 碼） 12✓（FAIL_SETUP：週五、在宿舍、可以回家、手機有「回家」、按了真的到家） 13n/a（不走路）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [DAY=2025-10-17] [HOUR=19] python3 cc_weekend_home_probe.py <url> <out>"""
 import os, sys, json, asyncio
@@ -31,6 +32,9 @@ PEOPLE_JS = r"""(()=>{ const G=GAME.G; let mates=null; try{ mates=(typeof TZIS!=
   const here=Object.keys(GAME.npc||{}); let allIn=null; try{ allIn=typeof DORM203!=='undefined'&&DORM203.allIn?!!DORM203.allIn(G,mates,G.day,G.hour):null; }catch(e){ allIn='ERR'; }
   return {mates, where, here, allIn}; })()"""
 CLASS_JS = r"""(d=>{ const G=GAME.G; try{ return CLS.dayItems(G,d).map(it=>({id:it.c.id, name:(it.c.name||it.c.title||it.c.id), req:!!(it.c.required||it.c.req||it.c.must||it.c.kind==='required'), t0:it.t0, t1:it.t1, status:CLS.status(G,it), exam:it.exam||null})); }catch(e){ return 'ERR '+e.message; } })"""
+MONSCAN_JS = r"""(a=>{ const G=GAME.G, keep={day:G.day,hour:G.hour,weekday:G.weekday}; const out={};
+  try{ for(const id of a.ids){ out[id]=null; for(const h of [8,10,12,14,16,18,20,22]){ G.day=a.day; G.hour=h; G.weekday=CALENDAR.dateOf(a.day).wd%7; let w=null; try{ w=STORY.whereIs(GAME,id); }catch(e){} if(w&&(w.zone||w.away)){ out[id]={h, zone:w.zone||null, away:w.away||null}; break; } } } }
+  finally{ Object.assign(G,keep); } return out; })"""
 UI_JS = r"""(()=>{ const D=GAME.D, vis=e=>!!e&&!!e.offsetParent&&!e.classList.contains('hide');
   const ch=[...document.querySelectorAll('#choices button')].filter(b=>b.offsetParent).map(b=>(b.innerText||b.textContent||'').replace(/\s+/g,' ').trim());
   const cap=document.getElementById('caption'), tc=document.getElementById('title3');
@@ -42,7 +46,12 @@ def pick(ch, st, log):
     """家裡的選單照固定順序挑：週五吃晚餐→睡覺、週六睡覺、週日睡覺（＝回宿舍再睡）；會錯過＝照樣；週日晚上問回不回宿舍＝回宿舍"""
     if any(t.startswith('照樣') for t in ch): return next(i for i, t in enumerate(ch) if t.startswith('照樣'))
     if any(t.startswith('回宿舍') for t in ch) and any(t.startswith('今晚住家裡') for t in ch) and not any(t.startswith('睡覺') for t in ch): return next(i for i, t in enumerate(ch) if t.startswith('回宿舍'))
-    order = ['吃晚餐', '等吃晚餐', '睡覺'] if st['wd'] == 5 else ['睡覺']
+    if st['wd'] == 1 and any(t.startswith('先起床') for t in ch): return next(i for i, t in enumerate(ch) if t.startswith('先起床'))   # 週一醒來的起床選單＝先起床（不去上課，只看狀態）
+    if st['wd'] == 0 and st['home'] and st['hour'] < 19:   # 週日白天：像玩家在家待到晚上（有晚餐先吃）再睡；11-14 雲端 r1：週日 08:30 就點「睡覺（先回宿舍再睡）」＝早上就回宿舍、沒睡
+        for w in ('吃晚餐', '在家休息一下'):
+            k = next((i for i, t in enumerate(ch) if t.startswith(w)), None)
+            if k is not None: return k
+    order = ['吃晚餐', '等吃晚餐', '睡覺'] if st['wd'] == 5 else (['吃晚餐', '睡覺'] if st['wd'] == 0 else ['睡覺'])
     for w in order:
         k = next((i for i, t in enumerate(ch) if t.startswith(w)), None)
         if k is not None: return k
@@ -72,8 +81,8 @@ async def main():
         await pg.screenshot(path=os.path.join(OUT, 'wh_1_phone_places.png'))
         if not R.check('FAIL_SETUP 檢查：手機「地點」有「回家」', bool(hb), J(hb)): await b.close(); sys.exit(R.finish())
         await L.tap(pg, cdp, '#phoneBody [data-gohome]'); await pg.wait_for_timeout(1500)
-        log = []; seen = set(); nmenu = 0; quiet = 0; arrived = None
-        for _ in range(400):
+        log = []; seen = set(); nmenu = 0; quiet = 0; arrived = None; bedded = False
+        for _ in range(int(os.environ.get('MAXSTEP') or 1500)):
             u = await pg.evaluate(UI_JS); st = await pg.evaluate(STATE_JS)
             if st['home'] and arrived is None: arrived = st; R.note('到家：%s' % J(st)); await pg.screenshot(path=os.path.join(OUT, 'wh_2_home.png'))
             for k_ in ('card', 'caption'):
@@ -93,6 +102,15 @@ async def main():
                 kk = ('dlg', u['who'], u['text'])
                 if kk not in seen: seen.add(kk); log.append(['對話', (u['who'] + '：' if u['who'] else '') + u['text'], st['key'], round(st['hour'], 2), st['zone']])
                 await pg.evaluate("GAME.dlgAdvance()"); await pg.wait_for_timeout(400); quiet = 0; continue
+            if st['wd'] == 0 and st['zone'] == 'dorm' and not st['home'] and not u['busy'] and st['hour'] >= 19 and not bedded:   # 週日晚上回到宿舍：照玩家走到床、睡覺
+                bedded = True; it = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z,it.lv|0]:null; })()")
+                log.append(['回宿舍以後找床', it, st['key'], round(st['hour'], 2)])
+                if it:
+                    await L.go_to(pg, cdp, R, it[0], it[1], 0.8, '床', max_s=150, lv=it[2], stop=lambda s_: s_['dlg'] or s_['choices'])
+                    for _t in range(4):
+                        if (await pg.evaluate(UI_JS))['choices']: break
+                        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+                continue
             if st['wd'] == 1 and st['zone'] == 'dorm' and not st['home'] and not u['busy']:
                 quiet += 1
                 if quiet >= 4: break
@@ -110,8 +128,11 @@ async def main():
         R.check('週一的課一堂都沒有被跳過（醒來時 status 都是 upcoming／open）', isinstance(c1, list) and not missed, J(missed or c1))
         warn = [r_ for r_ in log if r_[0] == '對話' and '會錯過' in r_[1]]
         R.note('「會錯過：…」那幾句：%s' % J(warn))
-        gone = [k for k, v in p0['where'].items() if v is not None and p1['where'].get(k) is None]
-        R.check('週五找得到的室友、朋友，週一都還找得到（STORY.whereIs 不是 null）', not gone, J({k: [p0['where'][k], p1['where'].get(k)] for k in gone}))
+        ids = [k for k, v in p0['where'].items() if v is not None]
+        f0 = await pg.evaluate(MONSCAN_JS, {'ids': ids, 'day': s0['day']}); f1 = await pg.evaluate(MONSCAN_JS, {'ids': ids, 'day': mon})
+        R.note('作息掃描（8～22 點，每 2 小時）週五 %s；週一 %s' % (J(f0), J(f1)))
+        gone = [k for k in ids if f0.get(k) is not None and f1.get(k) is None]
+        R.check('週五找得到的室友、朋友，週一的作息裡還在（8～22 點任一時段 STORY.whereIs 有值）', not gone, J({k: [f0.get(k), f1.get(k)] for k in gone}))
         open(os.path.join(OUT, 'weekend_home.json'), 'w', encoding='utf-8').write(J(res))
         R.check('沒有 pageerror／JS 例外', not errs, J(errs[:5]))
         await b.close()
