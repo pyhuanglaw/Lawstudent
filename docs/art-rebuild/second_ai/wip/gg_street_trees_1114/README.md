@@ -20,3 +20,10 @@
 - 測試（套在 e0525231f6 上）：afar_view、gg_views_1105、gg_views_1107、shop_viewpanes、shop_viewpanes2_1105、tz_shop_views_1112、wz_views_1105 共 7 支 ALL PASS（長寬比、日夜切換、不調暗都照舊）。
 - 還沒做的：瀏覽器沒跑（D131）——請 CC 在四間靠窗座位往外拍白天、晚上，BB 判。
 - 洋洋、Corner 唱片兩張原本就是照種類種的，沒動。
+
+## 第二份：慢輪單車窗外（視差窗 `assets/models/env/views/bikeshop_{day,night}.webp`）——交件（11-14 00:5x UTC）
+- 這兩張 11-05 也是「整顆 street_trees.glb 疊放」拍的（`bike_cmp.jpg` 上半＝改之前）。照同一份 `trees_gg.json` 重拍（`run_bike.sh`：鏡頭 (0.0875, 1.7, 21.39) 朝北、90° 水平視角、2048×1024 渲染再縮成原本的 1024×512；視差窗**不鏡像**）。
+- 玩家會看到：從慢輪店裡看出去，騎樓外兩棵人行道樟樹（遊戲裡 x −7、7.5 那兩棵）框住校門，校門裡是椰林大道。
+- **請套 `gg_street_trees_bikeshop.patch`**（底＝開發分支 0c49bcf64e，只換 2 張 webp）。
+- 測試（0c49bcf64e 上）：bike_*、gg_views_1105／1107、shop_viewpanes／viewpanes2_1105、tz_shop_views_1112、viewpane_side 共 10 支 ALL PASS。
+- 其他視差窗照片都看過（`views/*_day.webp`）：只有這一張有樹疊放的問題。
