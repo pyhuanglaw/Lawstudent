@@ -56902,7 +56902,7 @@
    },
    "next": "發布後：開發分支換 AA_959 最新表（含 D158-KX-SAMESCHOOL、AA_987 rows、AA_1012；fb528ac391 以後）＋canon897_fix.json 加 AA_987 pairs（study_scenes 重匯）＋白名單 AA_749_termend_kx_v2→b45c888f94（AA_1015 第二版；110b0fd990 是第一版、已被 BB 退件——AA-C 11-14 09:43 更正） 重匯＋tests/kexin_sameschool_unit.js（含 ALLOW 4 句、禁用字等我到台北）；驗：kexin_sameschool ALL PASS、BB_467 grep 全 0。rc2 分支 claude/rc2-76f8-wip a9c0d3376f 可對照",
    "xai": [],
-   "note": "｜11-14 10:1x：AA_959 定版改成 784 列（企劃線 53b7a59c2d，pendingBB 空；多 AA_1021 6 列、AA_1022 12 列）。aa959.py HAND 要加 story3d.js、holff3d.js。順序 AA959.layer 先、B5.fix 後（B5 已換好的會略過）。v9.10.26 已發布，可以開始。"
+   "note": "｜11-14 10:1x：AA_959 定版改成 784 列（企劃線 53b7a59c2d，pendingBB 空；多 AA_1021 6 列、AA_1022 12 列）。aa959.py HAND 要加 story3d.js、holff3d.js。順序 AA959.layer 先、B5.fix 後（B5 已換好的會略過）。v9.10.26 已發布，可以開始。｜11-14 10:1x 第一次試做已退回（開發分支沒變）：衝突解法可行；但 AA_959 784 列 --apply-hand 後還有 616 筆沒套到、分在 61 個檔，要逐檔判斷 importer／HAND，再修釘舊字的測試——工作量大。使用者用量只剩約 10%，留給下一個帳號。做法、61 個檔的清單：docs/handoff/rc2_port_1114/PLAN.md。"
   },
   {
    "id": "KX-HEARD-1014",
