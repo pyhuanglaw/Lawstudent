@@ -144,7 +144,7 @@ es = Xf(X1 - 0.11, -1.0, -math.pi / 2)                                          
 es.rbox(sh.w('right', 'walnut'), -0.95, 0.95, 1.47, 1.5, -0.11, 0.11, r=0.004)
 for u in (-0.75, 0.75): es.rbox(sh.w('right', 'vcm'), u - 0.012, u + 0.012, 1.3, 1.47, -0.11, -0.09, r=0.002, col='#2a2a2a')
 lying_books(es, -0.6, 0.0, 1.5, 3, w=0.2, d=0.15); K.book_rows(sh, 'books', es, -0.4, 0.15, 1.5, 0.08, hgt=0.24, depth=0.16, rng=R2)
-small_plant_at(es, 0.4, 1.5, h=0.28, r=0.06); _px, _, _pz = es.p(0.4, 0, 0); sh.hanging_pothos('pothos', _px, 1.62, _pz, n=5, drop=0.5)
+_px, _, _pz = es.p(0.4, 0, 0); C.ph_put(sh, 'planter_pot_clay', _px, 1.5, _pz, yaw=0.4, height=0.12, decimate=0.25); C.ph_put(sh, 'fern_02', _px, 1.58, _pz, yaw=2.2, s=0.75, part=3, tag='_p3', decimate=0.6)   # mokuyobi v2.2（LAWWW2-C 11-14 P2）：程式畫的盆＋黃金葛葉片卡 → Poly Haven 陶盆＋蕨類
 K.jar(sh, *es.p(0.75, 0, 0.0)[::2], 1.5, h=0.12, r=0.04, col='#e8dcc0', lid='#6a4630')
 sh.tally('v2 east')
 
