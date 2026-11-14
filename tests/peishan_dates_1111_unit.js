@@ -122,7 +122,7 @@ const haveSrc=Object.keys(SRC).length===33;
       const a=leaves(O.events[PS],'',{}), b=leaves(require('./date_src_sha.js').unWish921(JSON.parse(J(W))).events[PS],'',{}), d=Object.keys(b).filter(k=>a[k]!==b[k]);   /* 2026-11-12 第五批：說明欄四格先還原再比（同上） */
       check('7. 沛珊的事件和重匯以前比：格子一樣多、不一樣的 69 格都是字的欄位（條件、旗標、時間、花費、選項數沒動）',J(Object.keys(a))===J(Object.keys(b))&&d.length===69&&d.every(k=>/\/(text|t|title|wish|note|costNote)$/.test(k)),J(d.filter(k=>!/\/(text|t|title|wish|note|costNote)$/.test(k)))); } });
 
-  await sec(8,async()=>{ const cur=read('src/data/hometown_lines.js'), L=lit(cur), n=t=>L.filter(x=>x===t).length;
+  await sec(8,async()=>{ const cur=read('src/data/hometown_lines.js'), L=lit(cur).map(x=>M959.unmap(x,'hometown_lines.js'))/* RC2-PORT-DEV-1114：AA_959 又換的字（可昕 dating 那句）換回來再比 */, n=t=>L.filter(x=>x===t).length;
     check('8. sendFlag 那一句不動（旗標 PS_SCHOOLROAD）',cur.includes("sendFlag:[['下次來，我帶你去我國中走路上學那條路。','PS_SCHOOLROAD']]"));
     check('8. hometown_lines.js（註解以外）沒有早餐店、沙漏、標準答案、一百六',!/早餐店|沙漏|標準答案|一百六/.test(cur.replace(/\/\*[\s\S]*?\*\//g,'')));
     if(A757){ const bad=[]; for(const r of A757.hometown_rows){ const want=/兩處同字/.test(r.where)?2:1; if(n(r.new)!==want) bad.push(r.where+' new '+n(r.new)+' 處'); if(n(r.old)!==0) bad.push(r.where+' old 還有 '+n(r.old)+' 處'); }
@@ -173,7 +173,7 @@ const haveSrc=Object.keys(SRC).length===33;
     check('11. pg_dates.js：沛珊 17 格、來源寫著 AA_759@'+S759+'；沒有早餐店、蛋餅、四點半',cells.length===17&&String(PGD.source.AA_759||'').includes('AA_759_peishan_misc2.json@'+S759)&&!/早餐店|蛋餅|四點半/.test(J(cells)),J(PGD.source.AA_759));
     check('11. 放榜那天、出發前電話（註解以外）沒有早餐店、蛋餅、煎、四點半、鍋子',!/早餐店|蛋餅|四點半/.test(read('src/psresults3d.js').replace(/\/\*[\s\S]*?\*\//g,''))&&(()=>{ const s=read('src/aa667_3d.js'), a=s.indexOf('    jps:{call:'), b=s.indexOf('    ups:{ask:'), c=s.indexOf('xmasPre:',b); return a>0&&b>a&&c>b&&!/早餐店|蛋餅|四點半|鍋子|開店/.test(s.slice(a,s.indexOf('\n',a))+s.slice(b,c)); })());
     if(!A){ console.log('（這份 checkout 讀不到 AA_759@'+S759+'：不比稿）'); return; }
-    for(const f of ['src/aa667_3d.js','src/psresults3d.js']){ const rows=A.files[f], L=lit(read(f)), n=t=>L.filter(x=>x===t).length, bad=rows.filter(x=>n(x.new)!==1||n(x.old)!==0);
+    for(const f of ['src/aa667_3d.js','src/psresults3d.js']){ const rows=A.files[f], L=lit(read(f)).map(x=>M959.unmap(x,path.basename(f))), n=t=>L.filter(x=>x===t).length, bad=rows.filter(x=>n(x.new)!==1||n(x.old)!==0);
       check('11. '+f+'：'+rows.length+' 列的 new 各剛好一處、old 不在了',rows.length===(f==='src/aa667_3d.js'?9:3)&&bad.length===0,J(bad.map(x=>x.where)));
       const ob=show(BASE,f); if(ob){ const O=lit(ob).filter(t=>!(f==='src/psresults3d.js'&&t==='econ')),   /* CANON-NO-ECON-1112：psresults3d.js 的 G.stage!=='econ' 拿掉了，BASE 多的那一個字串 'econ' 不算 */ d=O.map((t,i)=>[t,L[i]]).filter(([x,y])=>x!==y), set=new Set(rows.map(x=>x.old+'→'+x.new));
         check('11. '+f+'：字串和 BASE 逐個比一樣多，不一樣的剛好是稿上這 '+rows.length+' 列（選項的字、條件、別人的句子沒動）',O.length===L.length&&d.length===rows.length&&d.every(([x,y])=>set.has(x+'→'+y)),J(d.filter(([x,y])=>!set.has(x+'→'+y)).slice(0,4))); } }

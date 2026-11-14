@@ -65,7 +65,7 @@ const G=R.filter(r=>!r.align), AL=R.filter(r=>r.align);
     check('5. 那 54 格重匯以前＝稿的 old',G.every(r=>a[gp(r)]===r.old));
     check('5. un812 把現在的遊戲檔還原以後＝重匯以前的遊戲檔 un812',J(C.un812(NOW).loc)===J(C.un812(DL(wt)).loc));
     const D14=(t)=>(t.match(/天快暗了。夕陽，我想留到河邊看。/g)||[]).length;
-    check('5. 語彤 D14 收尾「天快暗了。夕陽，我想留到河邊看。」重匯以後照在（處數和重匯以前一樣）',D14(read('src/data/date_lines.js'))===D14(wt)&&D14(wt)>0,D14(read('src/data/date_lines.js'))+'／'+D14(wt));
+    check('5. 語彤 D14 收尾「天快暗了。夕陽，我想留到河邊看。」重匯以後照在（處數和重匯以前一樣）',D14(JSON.stringify(NOW))===D14(wt)&&D14(wt)>0,D14(JSON.stringify(NOW))+'／'+D14(wt));   /* RC2-PORT-DEV-1114：AA_973（表第 464～466 列）把其中三處換成三種新句——用照覆寫表換回舊字的 NOW 數 */
   } else console.log('（跳過第 5 項：讀不到 '+BASE+' 的 src/data/date_lines.js）'); }
 
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
