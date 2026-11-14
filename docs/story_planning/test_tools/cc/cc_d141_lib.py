@@ -342,3 +342,18 @@ async def user_shot(pg, cdp, name, cam, hide_player=True):
     await pg.evaluate(UNCAM); await pg.evaluate(HUD + '(true)'); await pg.evaluate("(()=>{ GAME.E.player.obj.visible=true; })()")
     R.note('[截圖] %s：鏡頭 %s、亮度 %s' % (name, J(c), J(m)))
     return c
+
+
+# 11-14 BB-C（BB_379，BG3D_GATE 黑半圓 TEST_SETUP）：拍照前等 ASSETS 載完——status 有、cache 沒有、也沒進 errors＝還在載（pending）。最多等 cap 秒，再多等 1 秒
+ASSET_PENDING_JS = r"""(()=>{ if(typeof ASSETS==='undefined'||!ASSETS.status) return {n:-1, keys:[]}; const err=new Set((ASSETS.errors||[]).map(e=>e&&(e.key||e.k||e.id)||String(e)));
+  const keys=Object.keys(ASSETS.status).filter(k=>!(ASSETS.cache&&ASSETS.cache[k])&&!err.has(k)); return {n:keys.length, keys:keys.slice(0,12)}; })()"""
+
+
+async def wait_assets(pg, cap=20.0, extra_ms=1000):
+    """回傳 {'waited_s': 等了幾秒, 'pending': 等完還剩幾個, 'keys': 剩下的前幾個}；沒有 ASSETS（舊版本）回 pending -1"""
+    import time as _t
+    t0 = _t.time(); r = await pg.evaluate(ASSET_PENDING_JS)
+    while r['n'] > 0 and _t.time() - t0 < cap:
+        await pg.wait_for_timeout(250); r = await pg.evaluate(ASSET_PENDING_JS)
+    await pg.wait_for_timeout(extra_ms)
+    return {'waited_s': round(_t.time() - t0, 2), 'pending': r['n'], 'keys': r['keys']}
