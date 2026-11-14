@@ -1,8 +1,8 @@
 {
- "objects": 210,
- "unique_meshes": 77,
- "tris": 40170,
- "tris_drawn": 59842,
+ "objects": 209,
+ "unique_meshes": 78,
+ "tris": 40370,
+ "tris_drawn": 59746,
  "materials": [
   "bk_alpha",
   "bk_concrete",
@@ -12,6 +12,9 @@
   "bk_goods",
   "bk_ph_CashRegister_01_0",
   "bk_ph_CashRegister_01_1",
+  "bk_ph_old_tyre",
+  "bk_ph_tire_pump",
+  "bk_pkg",
   "bk_plaster",
   "bk_sign",
   "bk_vc",
@@ -19,7 +22,7 @@
   "bk_wood"
  ],
  "out": "assets/models/env/second_ai/bb_support/bike.glb",
- "bytes": 3902064,
+ "bytes": 4114820,
  "texres": 1024,
  "v1b": {
   "repair_bike": {
@@ -44,7 +47,7 @@
     4.44
    ]
   },
-  "right_low_boxes": 12,
+  "right_low_boxes": 8,
   "right_low_tires": 4,
   "inner_tubes": 16,
   "pegboard_panels_added": 2,
@@ -52,7 +55,7 @@
  },
  "shop": "bike",
  "layout": 2,
- "drawn_tris": 59842,
+ "drawn_tris": 59746,
  "protos": {
   "wheel0": 4,
   "wheel1": 2,
@@ -62,14 +65,14 @@
   "wheel5": 4,
   "wheel6": 2,
   "wheel7": 1,
-  "helmet0": 3,
-  "helmet1": 3,
+  "helmet0": 5,
+  "helmet1": 5,
   "helmet2": 3,
-  "helmet3": 6,
+  "helmet3": 2,
   "lock_b": 3,
   "lock_r": 3,
   "pump_y": 1,
-  "pump_k": 2,
+  "pump_k": 1,
   "tire_a": 9,
   "tire_b": 8,
   "stand": 2,
@@ -87,8 +90,20 @@
    "Metal009"
   ],
   [
+   "ambientCG",
+   "Cardboard001"
+  ],
+  [
    "Poly Haven",
    "CashRegister_01"
+  ],
+  [
+   "Poly Haven",
+   "tire_pump"
+  ],
+  [
+   "Poly Haven",
+   "old_tyre"
   ]
  ]
 }
