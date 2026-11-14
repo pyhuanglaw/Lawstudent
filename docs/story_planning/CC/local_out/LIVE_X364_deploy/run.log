@@ -1,0 +1,43 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_LIVE_X364_deploy\tests\deploy_check.py https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.26
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入完成（載入畫面消失）
+PASS 標題畫面顯示
+PASS 標題畫面有版本字樣（預期含「v9.10.26」）  版本 v9.10.26（2026-11-14）
+PASS 454 個 script 都帶版本號 ?v=  []
+PASS ?v= 全部是同一個版號、和標題字樣一樣（標題 9.10.26）  ["9.10.26"]
+PASS 進入 campus  {"ok": true, "player": "vrm", "npc": {"vrm": 22, "proc": 3}}
+PASS 玩家是正式 VRM（不是 placeholder）  vrm
+PASS 進入 gongguan  {"ok": true, "player": "vrm", "npc": {"vrm": 15, "proc": 1}}
+PASS 進入 wenzhou  {"ok": true, "player": "vrm", "npc": {"vrm": 7}}
+PASS 進入 classroom  {"ok": true, "player": "vrm", "npc": {"vrm": 28}}
+PASS 進入 wancai  {"ok": true, "player": "vrm", "npc": {"vrm": 2}}
+PASS 進入 library_hall  {"ok": true, "player": "vrm", "npc": {"vrm": 10}}
+PASS 進入 library  {"ok": true, "player": "vrm", "npc": {"vrm": 7}}
+PASS 進入 cafe  {"ok": true, "player": "vrm", "npc": {"vrm": 6}}
+PASS 進入 cvs  {"ok": true, "player": "vrm", "npc": {"vrm": 4}}
+PASS 進入 noodle  {"ok": true, "player": "vrm", "npc": {"vrm": 1}}
+PASS 進入 bookstore  {"ok": true, "player": "vrm", "npc": {"vrm": 1}}
+PASS 進入 dorm  {"ok": true, "player": "vrm", "npc": {}}
+PASS 進入 lawlib  {"ok": true, "player": "vrm", "npc": {"vrm": 8}}
+PASS 進入 gongtong  {"ok": true, "player": "vrm", "npc": {}}
+PASS 進入 boya  {"ok": true, "player": "vrm", "npc": {}}
+PASS 進入 putong  {"ok": true, "player": "vrm", "npc": {}}
+PASS 進入 soclib  {"ok": true, "player": "vrm", "npc": {"vrm": 13}}
+PASS 進入 dorm_hall  {"ok": true, "player": "vrm", "npc": {"vrm": 3}}
+PASS 進入 linze  {"ok": true, "player": "vrm", "npc": {"vrm": 6}}
+PASS 進入 gym  {"ok": true, "player": "vrm", "npc": {"vrm": 6}}
+PASS 進入 gym_b1  {"ok": true, "player": "vrm", "npc": {"vrm": 9}}
+PASS 進入 lane118  {"ok": true, "player": "vrm", "npc": {"vrm": 5}}
+PASS 進入 airport_dep  {"ok": true, "player": "vrm", "npc": {}}
+PASS 進入 airport_arr  {"ok": true, "player": "vrm", "npc": {}}
+PASS 進入 us_apartment  {"ok": true, "player": "vrm", "npc": {}}
+PASS 進入 us_shared  {"ok": true, "player": "vrm", "npc": {}}
+PASS 進入 us_outside  {"ok": true, "player": "vrm", "npc": {}}
+PASS 進入 us_market  {"ok": true, "player": "vrm", "npc": {"vrm": 10}}
+PASS 進入 us_asian_market  {"ok": true, "player": "vrm", "npc": {"vrm": 3}}
+PASS 沒有退回 placeholder 的人物模型（CHAR.failures）  []
+FAIL 所有資源都載得到（共 3466 個網址）  
+      503 https://pyhuanglaw.github.io/Lawstudent/assets/models/env/second_ai/us_community.glb
+PASS 沒有 JS 例外  []
+console error（只列出，不算失敗）：["Failed to load resource: the server responded with a status of 503 ()"]
+FAILED: 所有資源都載得到（共 3466 個網址）
