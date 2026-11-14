@@ -19,6 +19,9 @@ const SH831=(function(){
   S.OUT_RE={noodle:/麵店|燒臘/,bookstore:/頁間書屋/};   /* 出遊的地點（文字）對到哪一間：只用來認，不顯示 */
   S.line=z=>{ const d=D()[z]; return d&&d.door?d.door:null; };
   S.LINE_X={};
+  /* 禮貌生財（AA_1024 第 5 節，LIMAO-DOOR-HOURS-TEXT-1114）：還沒開（開門時間以前）／已收攤（關門時間以後）各一句、寫營業時間；其他沒開的日子（公休、上師不在）＝「今日不看」那一句 */
+  S.LINE_X.tz_limao=G=>{ const L=typeof LIMAO_DOOR_AA1024!=='undefined'?LIMAO_DOOR_AA1024:null, d=D().tz_limao; if(!L||!d) return null; const h=hr(G);
+    const off=typeof PLACES!=='undefined'&&PLACES.dayOff&&PLACES.dayOff('tz_limao',G.day); if(off) return L.off; return h<d.open?L.notOpen:h>=d.close?L.closed:L.off; };
   S.has=z=>S.ZONES.includes(z)&&typeof PLACES!=='undefined'&&!!PLACES.hours&&!!PLACES.hours[z];
   S.isOpen=(z,G)=>!S.has(z)||!PLACES.isOpen||PLACES.isOpen(z,hr(G),G.day);
   const zoneOfPlace=p=>{ try{ const P=typeof INV!=='undefined'&&INV.place?INV.place(p):null; return (P&&P.zone)||p; }catch(e){ return p; } };
