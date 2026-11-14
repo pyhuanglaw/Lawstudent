@@ -1,0 +1,22 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_canon458_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ANNIV_Y2_rel_rc2e\out
+CC CANON BB_458：SHA 1404d5f2d4cb740d50df75741764be18ee746992；CASES ['ANNIV_Y2']；Playwright ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+  [前置／捷徑] [ANNIV_Y2] 最小存檔讀到 2028-05-01 12.00 dorm（Y3S2 第 11 週）
+  [前置／捷徑] 【捷徑】[ANNIV_Y2] 墊關係、旗標：{"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {"confessed": {"kexin": 246}, "KX_ANNIV": {"1": "done"}}}
+  [  43.5s] [ANNIV_Y2] 墊完 {"kexin": {"stage": "RELATIONSHIP", "dating": true}, "flags": {"confessed": {"kexin": 246}, "KX_ANNIV": {"1": "done"}}}；第二年週年 {"day": 977, "key": "2028-05-20", "early": false}
+PASS FAIL_SETUP 檢查：[ANNIV_Y2] 交往中、算得出第二年週年（2028-05-20 前後）  {"day": 977, "key": "2028-05-20", "early": false}
+  [前置／捷徑] [前置] 同一份進度跳到 2028-05-13（Y3S2 第 12 週）20.83 時 dorm；ANNIV_Y2
+PASS FAIL_SETUP 檢查：[ANNIV_Y2] 遊戲時間過了 21.10（現在 2028-05-13 21.11）
+  [  90.9s] [ANNIV_Y2_ask] 手機 p:kexin 打得開=True；這一串（G.msgs）[{"who": "kexin", "text": "下禮拜六週年。這次我選地方。", "d": 970, "h": 21, "tag": "kx_anniv_ask2", "ask": ["好，妳選。", "上次我選的不好嗎？", "週年快樂……先說。"], "ans": null}]
+  [  91.6s] [ANNIV_Y2] 前一週 2028-05-13 21:00 私訊 {"ok": true, "msgs": [{"who": "kexin", "text": "下禮拜六週年。這次我選地方。", "d": 970, "h": 21, "tag": "kx_anniv_ask2", "ask": ["好，妳選。", "上次我選的不好嗎？", "週年快樂……先說。"], "ans": null}], "asks": [{"t": "好，妳選。", "id": "r709:kexin:6:970|0", "dis": false}, {"t": "上次我選的不好嗎？", "id": "r709:kexin:6:970|1", "dis": false}, {"t": "週年快樂……先說。", "id": "r709:kexin:6:970|2", "dis": false}]}；KX_ANNIV_PLACE_2＝shop；OUT kx_anniv2＝{"day": "2028-05-20", "h": 18.5, "place": "學校後門・湯餃店", "title": "週年：後門那家湯餃", "state": "planned"}
+PASS [ANNIV_Y2] 前一週 21:00 她私訊「…週年。這次我選地方。」  {"ok": true, "msgs": [{"who": "kexin", "text": "下禮拜六週年。這次我選地方。", "d": 970, "h": 21, "tag": "kx_anniv_ask2", "ask": ["好，妳選。", "上次我選的不好嗎？", "週年快樂……先說。"], "ans": null}], "asks": [{"t": "好，妳選。", "id": "r709:kexin:6:970|0", "dis": false}, {"t": "上次我選的不好嗎？", "id": "r709:kexin:6:970|1", "dis": false}, {"t"
+PASS FAIL_SETUP 檢查：[ANNIV_Y2] 第二年週年出遊排上了（2028-05-20 18:30）  {"place": "shop", "out": {"day": "2028-05-20", "h": 18.5, "place": "學校後門・湯餃店", "title": "週年：後門那家湯餃", "state": "planned"}}
+  [前置／捷徑] [前置] 同一份進度跳到 2028-05-20（Y3S2 第 13 週）18.00 時 dorm；ANNIV_Y2
+  [ 107.7s] [ANNIV_Y2_day_a] 對話（事件 ev_k7_gift_prep_n）：選項 [["一副耳環", "什麼都沒準備"]]；選了 ["一副耳環"]；GAME.say [["", "今天是週年。你準備的東西："]]
+  [ 142.0s] [ANNIV_Y2_day_b] 對話（事件 ev_kexin_anniversary_yn）：選項 [["出發：週年：後門那家湯餃學校後門・湯餃店　18:30　走路", "晚一點（20 分鐘後再提醒）", "不去了"], ["「明年也是。」", "「時間好快。」", "（握住她的手）"], ["「想清楚了？」", "「都是什麼水果？」"]]；選了 ["出發：週年：後門那家湯餃學校後門・湯餃店　18:30　走路", "「明年也是。」", "「想清楚了？」"]；GAME.say [["", "（她當場把原本那一邊拆下來，換上去。）"], ["杜可昕", "好看嗎？不用回答，我知道。"], ["杜可昕", "（把卡片翻到第一頁）第二年。"], ["杜可昕", "你說的喔。"], ["", "後面幾頁，她說：『回去再看。』"], ["杜可昕", "寒假我開始念國考的書了。"], ["杜可昕", "在高雄念的。我媽每一個小時端一盤水果進來，我胖了。"], ["杜可昕", "想清楚了，我要考。考哪一種還沒決定，先念再說。"]]
+  [ 142.0s] [ANNIV_Y2] 之後 {"KX_ANNIV": {"1": "done", "2": "shop"}, "K7_GIFT": null}
+PASS [ANNIV_Y2] 第二年週年演完（KX_ANNIV[2] 有記）  {"KX_ANNIV": {"1": "done", "2": "shop"}, "K7_GIFT": null}
+PASS [ANNIV_Y2] D158 字表 0 處（台詞、選項、手機）  0
+PASS 沒有 JS 例外  []
+ALL PASS
