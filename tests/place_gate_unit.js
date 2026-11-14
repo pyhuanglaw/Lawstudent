@@ -332,6 +332,10 @@ async function checkStalls(){ const defs=[
    --coplanar：重算基準
    ==================================================================================================== */
 if(ARGV.includes('--coplanar')){ const o={}; for(const z of SHOPS){ try{ enter(z,WED,12.5); }catch(e){} for(const p of glbsOf(z)){ if(o[p]) continue; const r=copScan(p); if(!r){ out('FAIL 重算不了（要 python3＋numpy、tools/glb_coplanar.py）：'+p); process.exit(1); } o[p]=r; out('  '+p+'　牆的疊面 '+r.wall+' m²（全部 '+r.always+' m²）'); } }
+  /* 基準只准變少（2026-11-14 LAWWW-C：大口漢堡一樓的真疊面被「先 --coplanar --write」蓋掉，LAWWW2 驗收時沒抓到）：同一個模型的 wall／always 比原本的基準多 0.01 m² 以上＝不寫、印出來、結束碼 1；真的要放寬（例如換了新模型、整間重做）才加 --allow-grow，並在 commit 訊息寫為什麼 */
+  { let old={}; try{ old=JSON.parse(fs.readFileSync(COP_FILE,'utf8')); }catch(e){} const grow=[]; for(const k of Object.keys(o)){ const a0=old[k]; if(!a0) continue; for(const f of ['wall','always']){ if(typeof a0[f]==='number'&&typeof o[k][f]==='number'&&o[k][f]>a0[f]+0.01) grow.push(k.split('/').pop()+' '+f+' '+a0[f]+' → '+o[k][f]+'（'+(o[k].top||'')+'）'); } }
+    if(grow.length&&!ARGV.includes('--allow-grow')){ out('FAIL 疊面基準只准變少，這幾個變多了（沒有寫檔；要先修模型；確定要放寬才加 --allow-grow）：\n  '+grow.join('\n  ')); process.exit(1); }
+    if(grow.length) out('WARN --allow-grow：疊面基準放寬 '+grow.length+' 個：\n  '+grow.join('\n  ')); }
   const keys=Object.keys(o).sort(); const s={}; for(const k of keys) s[k]=o[k]; fs.writeFileSync(COP_FILE,JSON.stringify(s,null,1)+'\n'); out('寫好了 tests/place_gate_coplanar.json（'+keys.length+' 個模型）'); process.exit(0); }
 
 /* ====================================================================================================

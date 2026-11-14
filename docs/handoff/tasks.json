@@ -46327,7 +46327,8 @@
     "acceptance": "lampshade_flip ALL PASS、畫面不變（Blender 同鏡頭像素差 0）",
     "receiver": "LAWWW",
     "ack": "ACTIONED"
-   }
+   },
+   "note": "｜2026-11-14 00:2x LAWWW-C：舊的「lampshade_flip_unit.js FAIL」已過時——0c49bcf64e 起 ALL PASS（LAWWW2-C 核對五組吊燈燈罩沒有裡外相反；LAWWW 在 ccbd520b61 上重跑 ALL PASS）。"
   },
   {
    "id": "PE-IN-GYM-AA644-1103",
@@ -48266,7 +48267,8 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "src": "UA-LAWWW-1105-41"
+   "src": "UA-LAWWW-1105-41",
+   "note": "｜2026-11-14 00:3x LAWWW-C：公館第三批（安泰、汀州鮮果、榮恩典）LAWWW2 5be14598a1 已整合：6 張原位窗景（校門、照遊戲位置的樹、人行道地磚紋），tz_shops_layout 三間不再借 cvs／noodle／bookstore。窗景測試 6 支＋tz_shops 相關全 PASS、place_gate ALL PASS。剩 CC 進三間往窗外拍、BB 判。已知：14:00 南側店面影子罩人行道，窗外地面比遊戲暗。"
   },
   {
    "id": "TAP-SEAT-REACH-1105",
@@ -56541,7 +56543,7 @@
    "id": "L118-SEAT-FIX-1112",
    "title": "118 巷座位小問題（和鏡頭無關）：118牛排 #1 起身被推到 5.4 m 外（fb 備援）P2、辛亥韓食 #6 坐下偏 0.5 m P2、幾張點椅子停錯張 P3",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -56564,7 +56566,8 @@
     "spec": "BB_379",
     "acceptance": "起身落在椅子旁邊、坐下對準椅子、點哪張走哪張；CC ALLSEATS PASS",
     "ack": "DELIVERED"
-   }
+   },
+   "note": "2026-11-14 00:2x LAWWW-C：r4（LAWWW2 853e7e3d86）已在 d8d3a61b5e 整合；l118_seat_* 等 7 支 ALL PASS（LAWWW2 在 e0525231f6 跑）。待 CC 重跑 L118_CAM36_a／b（辛亥韓食 #6／#12、大學食堂 #5／#6／#8）。"
   },
   {
    "id": "RONG-SIGN-1112",
@@ -56750,7 +56753,7 @@
      "opened": "2026-11-13 19:4x",
      "branch": "claude/shop-cc0-g2",
      "handoff": "docs/art-rebuild/second_ai/shop_cc0_g2/HANDOFF.md",
-     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）"
+     "what": "D161 店面 CC0 三項（交 LAWWW2 驗收）｜11-14 00:2x 慢輪單車 CC0（c180ee1f75）LAWWW2 PASS、LAWWW 已整合（4fd3c0d98d patch）；層架商品 v2 g2 續做"
     },
     {
      "name": "幫手 g3",
@@ -56861,7 +56864,7 @@
    },
    "next": "LAWWW2 驗收空檔查",
    "xai": [],
-   "note": "2026-11-14 00:2x LAWWW-C：LAWWW2 ee53e06709 gg_street_trees_views.patch 已整合（afar、青木、頁間、Daybreak 四間窗景日夜 8 張 webp 照遊戲 103 棵樹重拍，程式不動；窗景測試 25 支 ALL PASS）。待 BB 看圖判、CC 第二層拍窗景。"
+   "note": "2026-11-14 00:2x LAWWW-C：LAWWW2 ee53e06709 gg_street_trees_views.patch 已整合（afar、青木、頁間、Daybreak 四間窗景日夜 8 張 webp 照遊戲 103 棵樹重拍，程式不動；窗景測試 25 支 ALL PASS）。待 BB 看圖判、CC 第二層拍窗景。｜00:2x 第二份：慢輪單車視差窗 views/bikeshop_{day,night}.webp 重拍（LAWWW2 b358759861）已整合；窗景／單車 5 支 ALL PASS。"
   },
   {
    "id": "RC2-PORT-DEV-1114",
@@ -56892,6 +56895,41 @@
    },
    "next": "【LAWWW-C 11-14 00:1x】heard_lines.js 加 10 句，說話的人照稿（pool_4／pool_10／pool_1／pool_13 都在同學池 pool3d／pool_more3d 的名單，不用換備案人）；國考 2029-08-04 → 第 10 列 until 2029-08-03；aa503_others（逐句對稿＋每句時間）、aa510_511 改期望，heard 相關 45 支 ALL PASS。待 BB／CC 瀏覽器看一句（例：大一上第 3 週郁婷）",
    "xai": []
+  },
+  {
+   "id": "FN-LOOK-REACH-1114",
+   "title": "「看門口的花」(44,20.8) 溫州街按不到（REL76_reach）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "source": "BB-C REL76_reach（76f8，2026-11-14）",
+   "note": "原因：season_stalls3d.js plainLook 用 zone.id 判斷是不是公館，但 zones3d 的 build 回傳的 z 沒有 id → 溫州街也放一顆在 (44,20.8)（溫州街那裡是房子，按不到）。改：S.hook 把區域 id 傳進 attach → plainLook，不知道哪一區就不放。測試 season3_lines_1112_unit.js 加 7b（改前 FAIL：溫州街 1 顆）。只在開發分支，下一版；rc2d 不動。待 CC 重跑 reachability_all（溫州街 0 FAIL、公館「看門口的花」站得到）。"
+  },
+  {
+   "id": "COPLANAR-CREEP-1114",
+   "title": "yizhan、yangyang 疊面比 4556c4be0c 多（0.04／0.12 m²）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "LAWWW2-C 2026-11-14 00:41 自查",
+   "note": "yizhan.glb always 2.03→2.07；yangyang_interior.glb always 2.13→2.25（Poly Haven 紙箱貼右牆）。最大一對和原本一樣、量小，不退回；下一版 g1、g4 修。工具已改成基準只准變少（8f1b338c22）。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
+  },
+  {
+   "id": "PLACEGATE-WALL-NAME-1114",
+   "title": "place_gate 的「牆」分類同時看材質名，和 shop_cc0 要求油漆牆材質叫 _wall 互相牽動",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "幫手 g3 2026-11-14 00:41（大口漢堡一樓）",
+   "note": "WALL_RE=/wall|shell|外殼|牆/i 比對 node 名或材質名（place_gate_unit.js 第 200 行）。材質改叫 dk_wall 以後，原本就有的隔牆／踢腳疊面被算進「牆」，wall 5.13→6.81，但 always 10.55→10.20 是變少。這次照 g3 建議真的修疊面（b）。之後再評估：wall 只看 node 名，或 wall 指標允許「always 變少時 wall 重新分類」。不急：always 已經涵蓋所有會閃的面。",
+   "first": {
+    "term": "Y1S1",
+    "confirmed": false
+   }
   }
  ]
 }
