@@ -1,0 +1,27 @@
+{
+  "rerun": "",
+  "id": "ART_SWEEP_A_gongguan_p_rc2e",
+  "sha": "1404d5f2d4cb740d50df75741764be18ee746992",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_closeup_probe.py",
+  "env": "TAG=art_sweep_a_gongguan_p;ZONE=gongguan;HOURS=14;VIEW=390x844;PLAIN_NAMES=1;CAMS=gate_gg_sidewalk@0,1.6,-34>0,2.6,-46@60/gate_gg_oblique@6,1.6,-33.5>0,2.4,-46@55/mrt_front@-27,1.6,11>-38,1.8,11@50/gg_row_west@-76,1.6,11>-30,4,20@55/gg_row_mid@-20,1.6,11>25,4,20@55/gg_row_east@28,1.6,11>76,4,20@55/gg_signs_along@-70,1.6,15>-20,4.2,18.6@50/sign_G00@-62.4,1.6,13>-62.4,3.9,19@40/sign_G03@-28.8,1.6,13>-28.8,3.9,19@40/sign_G05@-9.4,1.6,13>-9.4,3.9,19@40/sign_G07@10.5,1.6,13>10.5,3.9,19@40/sign_G11@46.6,1.6,13>46.6,3.9,19@40/sign_G14@73.1,1.6,13>73.1,3.9,19@40/gg_scooter_row@30.2,1.6,14.6>32.6,0.6,18.2@45/bikeshop_front@0.3,1.6,10>0.3,2.4,20@55;SHA=1404d5f2d4cb740d50df75741764be18ee746992",
+  "machine": "MSI",
+  "start": "2026-11-14T18:00:58",
+  "end": "2026-11-14T18:02:13",
+  "seconds": 75,
+  "exit": 0,
+  "error": null,
+  "runner": "8e134a6389",
+  "rf_round": "21",
+  "url": "http://127.0.0.1:8802/index.html",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 16,
+    "mem": 45,
+    "used_gb": 14.3,
+    "chrome_testing": 4
+  },
+  "dev_branch": "claude/modest-rubin-2lyp7g",
+  "sha_on_dev_branch": false,
+  "webgl_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)"
+}

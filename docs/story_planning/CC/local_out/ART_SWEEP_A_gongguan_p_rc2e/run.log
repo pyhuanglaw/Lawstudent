@@ -1,0 +1,24 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_closeup_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_SWEEP_A_gongguan_p_rc2e\out
+CC 店內近照：TAG art_sweep_a_gongguan_p；SHA 1404d5f2d4cb740d50df75741764be18ee746992；ZONE gongguan；HOURS [14.0]；CAMS [{"name": "gate_gg_sidewalk", "from": [0.0, 1.6, -34.0], "at": [0.0, 2.6, -46.0], "fov": 60.0}, {"name": "gate_gg_oblique", "from": [6.0, 1.6, -33.5], "at": [0.0, 2.4, -46.0], "fov": 55.0}, {"name": "mrt_front", "from": [-27.0, 1.6, 11.0], "at": [-38.0, 1.8, 11.0], "fov": 50.0}, {"name": "gg_row_west", "from": [-76.0, 1.6, 11.0], "at": [-30.0, 4.0, 20.0], "fov": 55.0}, {"name": "gg_row_mid", "from": [-20.0, 1.6, 11.0], "at": [25.0, 4.0, 20.0], "fov": 55.0}, {"name": "gg_row_east", "from": [28.0, 1.6, 11.0], "at": [76.0, 4.0, 20.0], "fov": 55.0}, {"name": "gg_signs_along", "from": [-70.0, 1.6, 15.0], "at": [-20.0, 4.2, 18.6], "fov": 50.0}, {"name": "sign_G00", "from": [-62.4, 1.6, 13.0], "at": [-62.4, 3.9, 19.0], "fov": 40.0}, {"name": "sign_G03", "from": [-28.8, 1.6, 13.0], "at": [-28.8, 3.9, 19.0], "fov": 40.0}, {"name": "sign_G05", "from": [-9.4, 1.6, 13.0], "at": [-9.4, 3.9, 19.0], "fov": 40.0}, {"name": "sign_G07", "from": [10.5, 1.6, 13.0], "at": [10.5, 3.9, 19.0], "fov": 40.0}, {"name": "sign_G11", "from": [46.6, 1.6, 13.0], "at": [46.6, 3.9, 19.0], "fov": 40.0}, {"name": "sign_G14", "from": [73.1, 1.6, 13.0], "at": [73.1, 3.9, 19.0], "fov": 40.0}, {"name": "gg_scooter_row", "from": [30.2, 1.6, 14.6], "at": [32.6, 0.6, 18.2], "fov": 45.0}, {"name": "bikeshop_front", "from": [0.3, 1.6, 10.0], "at": [0.3, 2.4, 20.0], "fov": 55.0}]；Windows＋GPU ≠ iPhone
+[gpu_wrap] WEBGL_RENDERER: ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11) | Google Inc. (AMD)
+PASS 遊戲載入
+PASS FAIL_SETUP 檢查：CAMS 解析得出來（15 組）  gate_gg_sidewalk@0,1.6,-34>0,2.6,-46@60/gate_gg_oblique@6,1.6,-33.5>0,2.4,-46@55/mrt_front@-27,1.6,11>-38,1.8,11@50/gg_row_west@-76,1.6,11>-30,4,20@55/gg_row_mid@-20,1.6,11>25,4,20@55/gg_row_east@28,1.6,11>76,4,20@55/gg_signs_along@-70,1.6,15>-20,4.2,18.6@50/sign_G00@-62.4,1.6,13>-62.4,3.9,19@40/sign_G03@-28.8,1.6,13>-28.8,3.9,19@40/sign_G05@-9.4,1.6,13>-9.4,3.9,19@40/sign_G07@10.5,1.6,13>10.5,3.9,19@40/sign_G11@46.6,1.6,13>46.6,3.9,19@40/sign_G14@73.1,1.6,13>73.1,3.9,19@40/gg_scooter_row@30.2,1.6,14.6>32.6,0.6,18.2@45/bikeshop_front@0.3,1.6,10>0.3,2.4,20@55
+  [前置／捷徑] [gongguan 1400] 【前置／捷徑】讀檔進 gongguan 2025-10-22 14.00 時（出生點）
+PASS FAIL_SETUP 檢查：[gongguan 1400] 讀檔以後真的在 gongguan  gongguan
+  [  40.5s] [gongguan 1400] 近照「gate_gg_sidewalk」相機 [0.0, 1.6, -34.0] → [0.0, 2.6, -46.0]（fov 60.0）：{"magenta_pct": 0, "center_mean": 86.4, "center_sd": 53.7}
+  [  40.6s] [gongguan 1400] 近照「gate_gg_oblique」相機 [6.0, 1.6, -33.5] → [0.0, 2.4, -46.0]（fov 55.0）：{"magenta_pct": 0, "center_mean": 102.3, "center_sd": 57.5}
+  [  40.8s] [gongguan 1400] 近照「mrt_front」相機 [-27.0, 1.6, 11.0] → [-38.0, 1.8, 11.0]（fov 50.0）：{"magenta_pct": 0, "center_mean": 122.8, "center_sd": 60.7}
+  [  40.9s] [gongguan 1400] 近照「gg_row_west」相機 [-76.0, 1.6, 11.0] → [-30.0, 4.0, 20.0]（fov 55.0）：{"magenta_pct": 0, "center_mean": 115.2, "center_sd": 63.8}
+  [  41.1s] [gongguan 1400] 近照「gg_row_mid」相機 [-20.0, 1.6, 11.0] → [25.0, 4.0, 20.0]（fov 55.0）：{"magenta_pct": 0, "center_mean": 117.5, "center_sd": 62.1}
+  [  41.2s] [gongguan 1400] 近照「gg_row_east」相機 [28.0, 1.6, 11.0] → [76.0, 4.0, 20.0]（fov 55.0）：{"magenta_pct": 0, "center_mean": 76.7, "center_sd": 62.6}
+  [  41.3s] [gongguan 1400] 近照「gg_signs_along」相機 [-70.0, 1.6, 15.0] → [-20.0, 4.2, 18.6]（fov 50.0）：{"magenta_pct": 0, "center_mean": 130.8, "center_sd": 67.2}
+  [  41.5s] [gongguan 1400] 近照「sign_G00」相機 [-62.4, 1.6, 13.0] → [-62.4, 3.9, 19.0]（fov 40.0）：{"magenta_pct": 0, "center_mean": 75.2, "center_sd": 33.3}
+  [  41.6s] [gongguan 1400] 近照「sign_G03」相機 [-28.8, 1.6, 13.0] → [-28.8, 3.9, 19.0]（fov 40.0）：{"magenta_pct": 0, "center_mean": 135.5, "center_sd": 76.9}
+  [  41.7s] [gongguan 1400] 近照「sign_G05」相機 [-9.4, 1.6, 13.0] → [-9.4, 3.9, 19.0]（fov 40.0）：{"magenta_pct": 0, "center_mean": 55.6, "center_sd": 39.1}
+  [  41.8s] [gongguan 1400] 近照「sign_G07」相機 [10.5, 1.6, 13.0] → [10.5, 3.9, 19.0]（fov 40.0）：{"magenta_pct": 0, "center_mean": 58.1, "center_sd": 27.6}
+  [  42.0s] [gongguan 1400] 近照「sign_G11」相機 [46.6, 1.6, 13.0] → [46.6, 3.9, 19.0]（fov 40.0）：{"magenta_pct": 0, "center_mean": 119.3, "center_sd": 34}
+  [  42.1s] [gongguan 1400] 近照「sign_G14」相機 [73.1, 1.6, 13.0] → [73.1, 3.9, 19.0]（fov 40.0）：{"magenta_pct": 0, "center_mean": 95.6, "center_sd": 29.2}
+  [  42.2s] [gongguan 1400] 近照「gg_scooter_row」相機 [30.2, 1.6, 14.6] → [32.6, 0.6, 18.2]（fov 45.0）：{"magenta_pct": 0, "center_mean": 88.1, "center_sd": 60.1}
+  [  42.4s] [gongguan 1400] 近照「bikeshop_front」相機 [0.3, 1.6, 10.0] → [0.3, 2.4, 20.0]（fov 55.0）：{"magenta_pct": 0, "center_mean": 84.7, "center_sd": 48.9}
+PASS 沒有 JS 例外  []
+ALL PASS
