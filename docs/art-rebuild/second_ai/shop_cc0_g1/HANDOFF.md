@@ -10,7 +10,7 @@
 | 小路 komichi | 已整合（v3 在開發分支 e687f2f3b6） | 58a50cc2cb | `docs/art-rebuild/second_ai/wip/shop_cc0_g1_1113/komichi_v3_cc0.patch` | 無 |
 | SUNNY SIDE sunnyside | 已整合（v3 在開發分支） | 58a50cc2cb | `…/sunnyside_v3_cc0.patch` | 無 |
 | 一盞 yizhan | 已整合（開發分支） | 58a50cc2cb | `…/yizhan_cc0.patch` | 無 |
-| 木曜日 mokuyobi | v2 已整合；**v2.1 已交 LAWWW2 驗收** | 見 git log（11-14 交件 commit） | `…/mokuyobi_v21_cc0.patch`（底 e687f2f3b6，11 個檔） | 無（P2 兩項做完） |
+| 木曜日 mokuyobi | v2 已整合；v2.1 LAWWW2 PASS（併進 LAWWW2 給 LAWWW 的合成包，底 a40672644e）；**v2.2 烘焙中**（P2：矮櫃上方層板那盆 → Poly Haven planter_pot_clay＋fern_02，腳本 085ab6ce9e） | 085ab6ce9e | v2.2 烘完以開發分支最新為底出增量 patch | 烘焙、截圖、出 patch（附狀態表）、交 LAWWW2。另外問了 LAWWW2：東牆高書櫃頂上兩盆（v2_fill 第 141、142 行）同樣是葉片卡，要不要一起換 |
 | 日常失速 daily_offbeat | v2 已整合；**v2.1 已交 LAWWW2 驗收** | 見 git log（11-14 交件 commit） | `…/daily_offbeat_v21_cc0.patch`（底 e687f2f3b6，11 個檔） | 無（P2 做完：天花板 13 吊盆 → fern_02） |
 
 （11-13 23:2x 更正過一次：之前用 `git log --find-object` 判斷整合狀態是錯的，要直接比 blob。11-14 00:xx 再比一次：只差木曜日、日常失速的 v2.1。）
