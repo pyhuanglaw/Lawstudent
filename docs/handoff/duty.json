@@ -37,7 +37,7 @@
     "sha": "84d21836"
    },
    "handedOffAt": "2026-11-14T11:53Z",
-   "handoffSnapshot": "2026-11-14T1153Z_C_LAWWW.json"
+   "handoffSnapshot": "2026-11-14T1157Z_C_LAWWW.json"
   },
   "LAWWW2": {
    "account": "C",
@@ -94,7 +94,7 @@
   "at": "2026-11-14T11:53Z",
   "kind": "handoff",
   "snapshots": {
-   "LAWWW": "2026-11-14T1153Z_C_LAWWW.json"
+   "LAWWW": "2026-11-14T1157Z_C_LAWWW.json"
   },
   "closed": true
  },
