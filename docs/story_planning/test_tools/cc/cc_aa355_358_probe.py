@@ -15,7 +15,7 @@ PARTS（逗號分隔，預設 NOODLE,CAFE,JP,SPORTS）：
     「訂同一班飛機」：jp3d.js 只有註解、找不到對應的程式，只記 G.flags 裡含 FLIGHT／SAME 的鍵，交 BB。
   SPORTS（AA_355 6，classes3d.js dayLabel、calendar.js MARK）：Y2 2026-11-20（五）08:00 宿舍 → 手機「今天」那行要有「全校運動會」、今天有課（CLS.dayItems）、一鍵「到下一堂課」上得了（出席有記）；
     對照 Y1 2025-11-21（五）08:00 → 那行是「運動會（停課）」、今天沒課。基底存檔照 cc_study_play_probe 的 FIX（使用者存檔）。
-CC-B 11-14：SPORTS 一鍵前先關手機；CAFE ② 讀書區第一次點頭後再說一次；JP_CTRL 的 romance 'none' 算沒有；CAFE 補 SOCIAL.meet 捷徑、① 改找劇情的 an（椰影大道 18:30）。
+CC-B 11-14：NATURAL（AA358_24_natural，BB_462：A 去咖啡廳／B 拒絕／C 沒遇到，不用 split 記憶捷徑；只有 A 走到 Café 那段用【前置】跳過去）；SPORTS 一鍵前先關手機；CAFE ② 讀書區第一次點頭後再說一次；JP_CTRL 的 romance 'none' 算沒有；CAFE 補 SOCIAL.meet 捷徑、① 改找劇情的 an（椰影大道 18:30）。
 CC_02 清單 2026-11-14：1✓（日期照 BB_462 與 src：mainDay 用 STORY.mainDay 驗；阿哲的時段照 characters.js；小安的時段用 STORY.schedEnt 掃；6/9 21:00 照 jp3d.js） 2✓（字、旗標、座位、互動點都從遊戲讀：eat==='noodle'、GAME.npc.zhe、PHONE.sent、CLS） 3✓（座位挑離阿哲最近、不是他坐的那張、2.5 m 內） 4✓（按之前確認互動鍵的字；選項照字比對） 5✓（走路用 go_to／use_exit 到站得住的點） 6✓（每句對話等 650 ms；手機等遊戲時間過 21:06；上課最多等 6 分鐘） 7✓（lint、canon） 8✓（只記不判；對話用 MutationObserver＋GAME.say 兩份） 9✓（每一路、每一步截圖） 10✓（每一路先演完插進來的劇情再往下；B2 讓遊戲自己的 tick 記 anMissed） 11✓（佇列 probe、SHA 40 碼） 12✓（FAIL_SETUP：每一路先驗日期、區域、旗標真的成立，阿哲在場、小安在場才往下） 13✓（走路途中有對話就先點完）
 用法：LW_TESTS=<wt>/tests SHA=<sha> [PARTS=NOODLE,CAFE,JP,SPORTS] [ROUTES=A,B1,B2] [FIX=tests/fixtures/user_save_day51b_1110.json] python3 cc_aa355_358_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
@@ -294,6 +294,69 @@ CLS_JS = r"""(()=>{ const G=GAME.G; let lab=null, line=null, its=[], rec=null; t
   return {key:CALENDAR.dateOf(G.day).key, h:+(+G.hour).toFixed(2), zone:G.zone, label:lab, todayLine:line, items:its, hol:CALENDAR.holiday(G.day)||null, mark:CALENDAR.mark?CALENDAR.mark(G.day):null, rec}; })()"""
 
 
+async def lib_talks(pg, cdp, tag, n=3):
+    """總圖找以安：最多說 n 次（讀書區第一次只點頭；anMissed 的第一次是自我介紹）；followup 演了就停"""
+    talks = []
+    for k in range(n):
+        t = await talk_an(pg, cdp, '%s_t%d' % (tag, k + 1)); f = await pg.evaluate(FLAGS_JS)
+        talks.append({'t': t, 'f': f})
+        if not t or f['followup']: break
+    return talks
+
+
+async def part_natural(pg, cdp):
+    """BB_462「條件改好以後的重跑規格」AA358_24_natural：不用 split／記憶捷徑，照第二天的玩法自然記 REPORT_PARTNER（或不記）"""
+    out = {}
+    for rt in (ROUTES or ['A', 'B', 'C']):
+        tag = 'NAT_' + rt; res = {'route': rt}
+        if rt in ('A', 'B'):
+            s = await mini(pg, '2025-09-02', 15.4, 'campus', {})
+            await P.init(pg); await dlg_mark(pg); await P.load(pg, cdp, s, True); await P.events_on(pg)
+            R.setup('[%s]【前置】最小存檔讀到 2025-09-02（mainDay 2）15:24 校園（classDone＝上過民法總則）；等遊戲的 S.tick 演 meetAn（小安追上來）' % tag)
+            f0 = await pg.evaluate(FLAGS_JS); res['f0'] = f0
+            if not R.check('FAIL_SETUP 檢查：[%s] mainDay 2、在校園、還沒遇到小安、沒有 REPORT_PARTNER' % tag, f0['mainDay'] == 2 and f0['zone'] == 'campus' and not f0['metAn'] and not f0['reportPartner'], J(f0)): out[rt] = res; continue
+            m = await play(pg, cdp, tag + '_meet', 0, start_s=60, prefer=(('好啊，去咖啡廳',) if rt == 'A' else ('今天有點累',)))
+            f1 = await pg.evaluate(FLAGS_JS); res['meet'] = m; res['f1'] = f1
+            R.note('[%s] meetAn 之後 %s' % (tag, J(f1)))
+            if not R.check('FAIL_SETUP 檢查：[%s] meetAn 演了、遊戲自己記了 REPORT_PARTNER（%s）' % (tag, '選去咖啡廳' if rt == 'A' else '選今天有點累'), f1['metAn'] and f1['reportPartner'] and ((f1['plan'] == 'cafe') if rt == 'A' else f1['anSkipped']), J(f1)): out[rt] = res; continue
+            if rt == 'A':
+                await P.jump(pg, cdp, R, '2025-09-02', 15.75, 'cafe', None, True, note='[%s] 跟小安走到溫州街的 Café（只省走路）' % tag); await P.events_on(pg)
+                res['cafe'] = await play(pg, cdp, tag + '_cafe', 0, start_s=30)
+                f2 = await pg.evaluate(FLAGS_JS); res['f2'] = f2
+                if not R.check('FAIL_SETUP 檢查：[%s] cafeScene 演了（cafeView A）' % tag, f2['cafeView'] == 'A' and f2['afternoonDone'], J(f2)): out[rt] = res; continue
+        else:
+            s = await mini(pg, '2025-09-03', 8.5, 'dorm', {})
+            await P.init(pg); await dlg_mark(pg); await P.load(pg, cdp, s, True); await P.events_on(pg)
+            R.setup('[%s]【前置】最小存檔讀到 2025-09-03（mainDay 3）08:30 宿舍，第二天沒遇到小安；等 S.tick 記 anMissed' % tag)
+            for _ in range(20):
+                if (await pg.evaluate(FLAGS_JS))['anMissed']: break
+                await pg.wait_for_timeout(1000)
+            f1 = await pg.evaluate(FLAGS_JS); res['f1'] = f1
+            if not R.check('FAIL_SETUP 檢查：[%s] anMissed、沒有 REPORT_PARTNER、split 沒演' % tag, f1['anMissed'] and not f1['reportPartner'] and not f1['split'], J(f1)): out[rt] = res; continue
+        cur = await P.clock(pg); key = cur['key'] if cur['key'] > '2025-09-02' else '2025-09-03'
+        sl = await an_slot(pg, key, 'library'); res['slot'] = sl; R.note('[%s] 小安在總圖的時段 %s' % (tag, J(sl)))
+        if not R.check('FAIL_SETUP 檢查：[%s] 掃得到小安在總圖的時段' % tag, bool(sl), ''): out[rt] = res; continue
+        await P.jump(pg, cdp, R, sl['key'], sl['h'], 'library', None, True, note='[%s] 小安在總圖' % tag); await P.events_on(pg)
+        f3 = await pg.evaluate(FLAGS_JS); res['f3'] = f3
+        if not R.check('FAIL_SETUP 檢查：[%s] 在總圖、followup 還沒演、REPORT_PARTNER=%s' % (tag, rt != 'C'), f3['zone'] == 'library' and not f3['followup'] and bool(f3['reportPartner']) == (rt != 'C'), J(f3)): out[rt] = res; continue
+        talks = await lib_talks(pg, cdp, tag, 3); res['talks'] = talks
+        f4 = talks[-1]['f'] if talks else await pg.evaluate(FLAGS_JS); res['f4'] = f4
+        tx = ' '.join(text_of(x['t']) for x in talks if x['t']); ops = sum([sum(x['t'].get('opts') or [], []) for x in talks if x['t']], [])
+        R.note('[%s] 總圖說了 %d 次；全文 %s；選項 %s；REPORT_PARTNER=%s cafeView=%s followup=%s' % (tag, len(talks), tx[:600], J(ops), f4['reportPartner'], f4['cafeView'], f4['followup']))
+        if rt == 'C':
+            R.check('[%s] 沒當報告搭檔：followup 不演（evDone 沒有）' % tag, not f4['followup'], J(f4))
+        else:
+            R.check('[%s] 有報告搭檔：followup 演了（進 evDone）' % tag, f4['followup'], J(f4))
+            if rt == 'A': R.check('[%s] cafeView A：有「不能讓人因為一個手誤賠十倍」' % tag, '一個手誤賠十倍' in tx, tx[:400])
+            else:
+                R.check('[%s] 拒絕咖啡廳：有「（小聲）你先看。哪裡不通直接講。」、不提「那天」「賠十倍」' % tag, '你先看。哪裡不通直接講。' in tx and '那天' not in tx and '賠十倍' not in tx, tx[:400])
+                R.check('[%s] 拒絕咖啡廳：選項是「妳寫得出來的。」／「改天請妳喝咖啡。」' % tag, any('妳寫得出來的。' in o for o in ops) and any('改天請妳喝咖啡' in o for o in ops), J(ops))
+        out[rt] = res
+        open(os.path.join(OUT, 'aa358_natural.json'), 'w', encoding='utf-8').write(J({'sha': SHA, 'NATURAL': out}))
+        await pg.goto(URL); await L.wait_loaded(pg, 600)
+    return out
+
+
 async def onetap_cls(pg, cdp):
     await L.close_panels(pg, cdp); await pg.wait_for_timeout(500)   # CC-B 11-14（AA355_6_sports 第一次跑：goPop 是空的）：前一步讀手機首頁字、手機還開著，點 #btnGo 點到手機上；先關面板
     await L.tap(pg, cdp, '#btnGo'); await pg.wait_for_timeout(900)
@@ -349,7 +412,7 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         if not R.check('遊戲載入', await L.wait_loaded(pg, 600), ''): await b.close(); sys.exit(1)
-        for part, fn in (('NOODLE', part_noodle), ('CAFE', part_cafe), ('JP', part_jp), ('SPORTS', part_sports)):
+        for part, fn in (('NOODLE', part_noodle), ('CAFE', part_cafe), ('NATURAL', part_natural), ('JP', part_jp), ('SPORTS', part_sports)):
             if part not in PARTS: continue
             try: res[part] = await fn(pg, cdp)
             except Exception as e:
