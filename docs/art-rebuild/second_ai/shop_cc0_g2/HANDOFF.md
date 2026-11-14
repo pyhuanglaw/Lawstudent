@@ -5,7 +5,7 @@
 | 店 | 狀態 | 最後 SHA | patch | 還沒做的（P2／P3） |
 |---|---|---|---|---|
 | 青木茶室 aoki | **LAWWW2 PASS**（v2）→ 已轉 LAWWW | 077485f27e | `docs/art-rebuild/second_ai/cc0_g2/aoki_cc0.patch`（底 4556c4be0，不帶 cc0_kit.py） | 等 LAWWW 整合 |
-| Daybreak | **LAWWW2 PASS**（v2.1b；已轉 LAWWW-C，patch 2f4ccad37a） | 58ce364c6e | `docs/art-rebuild/second_ai/cc0_g2/daybreak_cc0.patch`（底 ed792633a） | 等 LAWWW 整合；門框底部自疊 0.139 m² 先不改（LAWWW2 記著） |
+| Daybreak | **LAWWW2 PASS、已進開發分支 07f59ecae8**（v2.1b） | 58ce364c6e | `docs/art-rebuild/second_ai/cc0_g2/daybreak_cc0.patch`（底 ed792633a） | 已整合；門框底部自疊 0.139 m² 先不改（LAWWW2 記著） |
 | 頁間書屋 yejian | **LAWWW2 PASS**（v4；LAWWW2 重出 patch 交 LAWWW-C b57169085b） | 389adca8c0 | `docs/art-rebuild/second_ai/cc0_g2/yejian_cc0.patch` | P3：小盆栽可試 potted_plant_02 縮小重用或低面數 CC0 小盆栽 |
 | 山嵐書店 shanlan | **LAWWW2 PASS（v3，已轉 LAWWW-C，底 6fe2265f29）**；shop_cc0 待做名單整合後清空 | fbb14ee0ef | `docs/art-rebuild/second_ai/cc0_g2/shanlan_cc0.patch`（底 07bf3613b） | 等 LAWWW 整合 |
 | 慢輪單車 bike | **LAWWW2 PASS**（v1，已在開發分支）；**v2.1 已交 LAWWW2 驗收**（11-14；層架印刷包裝盒、tire_pump、old_tyre；零件盒互插已修，疊面和開發分支一樣） | d8ee8b27c2 | `docs/art-rebuild/second_ai/cc0_g2/bike_cc0.patch`（底 4cc26d4b8） | 等 LAWWW2 判 |
