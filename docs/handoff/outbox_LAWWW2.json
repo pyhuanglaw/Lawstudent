@@ -10632,6 +10632,24 @@
    "tests": "shanlan／xs_lm 34 支、shop_cc0、place_gate ALL PASS",
    "notDone": "LAWWW 整合；CC 拍；BB 判",
    "next": "LAWWW 套 patch"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "1d158d4026",
+   "receiver": "LAWWW-C",
+   "ack": "SENT",
+   "state": "已交付",
+   "noDirectIntegrate": false,
+   "base": "6fe2265f29",
+   "at": "2026-11-14T11:05Z",
+   "task": "LAUNDRY-SEAT-PRIO-1114",
+   "title": "洗樂長椅互動鍵被搶：兌幣機、使用說明 prio −0.3（tz_shops3d 傳 prio）",
+   "files": [
+    "docs/art-rebuild/second_ai/wip/laundry_seat_prio_1114/"
+   ],
+   "tests": "laundry_seat_prio_1114 修改前 FAILED 2→ALL PASS；回歸 22 支 ALL PASS",
+   "notDone": "LAWWW 整合；CC 瀏覽器確認",
+   "next": "LAWWW 套 patch"
   }
  ]
 }
