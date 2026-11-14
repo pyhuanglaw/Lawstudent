@@ -24661,6 +24661,12 @@
       "by": "LAWWW-C",
       "result": "沒問",
       "why": "X94：有人物的圖再緩緩；使用者這一班在等舊序章拿掉的版本上線，不插要圖的問題；BB 在使用者說「給我提示詞」時給"
+     },
+     {
+      "at": "2026-11-14T14:0xZ",
+      "by": "LAWWW-B",
+      "result": "問了",
+      "why": "BB-B 11-14 跟使用者要到第 128 組：語彤情人節三張（yt_home、xinsheng_vday_night、yt_building_gate_cny）已整合 13a8f14edb／4c64fffccc（BG-128-INTEG-1114）；同組校園三張使用者說和遊戲不像、不採用，BB 請 CC 拍 3D 截圖附給使用者重生（UA-BB-1114-06）"
      }
     ]
    }
@@ -49320,6 +49326,12 @@
       "by": "LAWWW-C",
       "result": "沒問",
       "why": "BB 的要圖項目；BB-C 11-12 03:14 已接班，由 BB 自己問"
+     },
+     {
+      "at": "2026-11-14T14:0xZ",
+      "by": "LAWWW-B",
+      "result": "沒問",
+      "why": "BB-B 11-14 回報：今天沒問（使用者今天在處理接班規則、校園背景重生；電影畫面十張排在校園那三張之後）；下次檢查照舊 11-20"
      }
     ]
    },
@@ -50111,6 +50123,12 @@
       "by": "LAWWW-C",
       "result": "沒問",
       "why": "BB 的要圖項目；BB-C 11-12 03:14 已接班，由 BB 自己問"
+     },
+     {
+      "at": "2026-11-14T14:0xZ",
+      "by": "LAWWW-B",
+      "result": "沒問",
+      "why": "BB-B 11-14 回報：今天沒問（同上；AA_720 六張等校園三張的做法（附 3D 截圖）定下來再一起給提示詞）；下次檢查照舊 11-20"
      }
     ]
    },
@@ -57437,7 +57455,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-14 12:4x】duty sync 收 LAWWW2-B、AA-B、BB-B、CC-B（五職位帳號 B 值班）。｜【11-14 12:2x LAWWW-B】fetch（清掉 7.8 GB 中斷的 tmp_pack）、duty find＝claude/adoring-meitner-mqzst8（seq 155）、ff 合併 c109767aae、rules_sync、duty register。對帳：check 302（多數「等使用者」沒寫原因，上一班同）、duty verify 8（舊帳號分支歷史）、roles 7（表外：LAWWW2 L118-SEAT、LAUNDRY-SEAT-PRIO、WINVIEW-TREE-BLOB、第 39 行；AA K-D3、X5-L2；BB NO-GO——要補 offList／reconcileIgnore）、asks OK、userwork 上一班交代 19 項沒動、loose 22。還沒做：incr、branch_audit --write、check_orphans、place_gate、FACTS.md 讀完、roles 7 項補登。磁碟只剩約 2 GB（.git 很大，不要開 worktree）。下一步照上一班快照：RC2-PORT-DEV-1114 → CI-RED-AA553-CANON4-1114 → CANON-REPO-CLEAN-1114。",
+   "next": "【11-14 14:0x】補做：USER_WANTS C25、X221 改好；三筆 waitUser.log 記了；asks 剩 2 項異常（LAWWW2 UA-LAWWW2-1114-05 的 task 欄要改 GATE-REF-1114、AA UA-AA-1114-06 和 X150 狀態不一樣）已通知兩位。還欠：incr、check_orphans 各跑一次。｜【11-14 12:4x】duty sync 收 LAWWW2-B、AA-B、BB-B、CC-B（五職位帳號 B 值班）。｜【11-14 12:2x LAWWW-B】fetch（清掉 7.8 GB 中斷的 tmp_pack）、duty find＝claude/adoring-meitner-mqzst8（seq 155）、ff 合併 c109767aae、rules_sync、duty register。對帳：check 302（多數「等使用者」沒寫原因，上一班同）、duty verify 8（舊帳號分支歷史）、roles 7（表外：LAWWW2 L118-SEAT、LAUNDRY-SEAT-PRIO、WINVIEW-TREE-BLOB、第 39 行；AA K-D3、X5-L2；BB NO-GO——要補 offList／reconcileIgnore）、asks OK、userwork 上一班交代 19 項沒動、loose 22。還沒做：incr、branch_audit --write、check_orphans、place_gate、FACTS.md 讀完、roles 7 項補登。磁碟只剩約 2 GB（.git 很大，不要開 worktree）。下一步照上一班快照：RC2-PORT-DEV-1114 → CI-RED-AA553-CANON4-1114 → CANON-REPO-CLEAN-1114。",
    "evidence": "duty.json register",
    "sha": null
   },
